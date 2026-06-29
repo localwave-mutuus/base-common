@@ -111,6 +111,6 @@ mvn -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
 ## 향후 확장(TODO)
 
 - ~~Maven Wrapper(`mvnw`) 추가~~ 완료 — Maven 3.9.9 고정
-- ~~자동구성 슬라이스 테스트(`ApplicationContextRunner`)~~ 완료 — 실연동(Redis/PostgreSQL) Testcontainers는 미정
+- ~~자동구성 슬라이스 테스트(`ApplicationContextRunner`)~~ 완료. PostgreSQL 실연동(Testcontainers, Docker 없으면 자동 skip)도 추가 — Redis는 세션 기능 구현 시 함께
 - ~~`persistence` 패키지(JPA 공통 베이스 엔티티·감사컬럼)~~ 완료 — `BaseEntity`(생성/수정 시각·주체 자동), 주체는 `TraceContext` 인증 사용자에서 채움
 - ~~가상스레드/비동기 컨텍스트 전파 유틸(`TraceContext` ↔ `@Async`)~~ 완료 — `async` 패키지(`TraceContextPropagation`/`TraceContextTaskDecorator`)
