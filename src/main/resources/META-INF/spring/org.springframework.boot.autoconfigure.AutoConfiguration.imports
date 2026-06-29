@@ -1,4 +1,5 @@
 ai.mutuus.common.config.CommonConfigAutoConfiguration
+ai.mutuus.common.logging.CommonLoggingAutoConfiguration
 ai.mutuus.common.i18n.CommonI18nAutoConfiguration
 ai.mutuus.common.exception.CommonExceptionAutoConfiguration
 ai.mutuus.common.observability.CommonObservabilityAutoConfiguration

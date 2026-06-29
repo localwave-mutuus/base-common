@@ -3,6 +3,8 @@ package ai.mutuus.common.security;
 import java.util.Collection;
 import java.util.List;
 
+import ai.mutuus.common.logging.AccessLogger;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,6 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -30,12 +34,20 @@ public class CommonSecurityAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SecurityFilterChain commonSecurityFilterChain(HttpSecurity http,
-                                                         CommonSecurityProperties props) throws Exception {
+                                                         CommonSecurityProperties props,
+                                                         ObjectProvider<AccessLogger> accessLogger) throws Exception {
+        // 액세스 로깅이 비활성(빈 없음)이면 무동작 로거로 폴백
+        AccessLogger logger = accessLogger.getIfAvailable(AccessLogger::new);
+        var entryPoint = new LoggingAuthenticationEntryPoint(new BearerTokenAuthenticationEntryPoint(), logger);
+        var deniedHandler = new LoggingAccessDeniedHandler(new BearerTokenAccessDeniedHandler(), logger);
+
         http
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(props.getPermitAll().toArray(String[]::new)).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth
+                        .authenticationEntryPoint(entryPoint)
+                        .accessDeniedHandler(deniedHandler)
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(props))));
         return http.build();
     }

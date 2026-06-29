@@ -5,18 +5,21 @@ import java.util.Locale;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.i18n.MessageResolver;
+import ai.mutuus.common.logging.AccessLogger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GlobalExceptionHandlerTest {
 
-    private final GlobalExceptionHandler handler = new GlobalExceptionHandler(new MessageResolver(messageSource()));
+    private final GlobalExceptionHandler handler =
+            new GlobalExceptionHandler(new MessageResolver(messageSource()), new AccessLogger());
 
     @AfterEach
     void tearDown() {
@@ -30,7 +33,8 @@ class GlobalExceptionHandlerTest {
         TraceContext.put(HeaderNames.TRACE_ID, "t-1");
         TraceContext.put(HeaderNames.SCREEN_ID, "SCR-001");
 
-        ProblemDetail pd = handler.handleBusiness(new BusinessException(ErrorCode.NOT_FOUND), null);
+        ProblemDetail pd = handler.handleBusiness(new BusinessException(ErrorCode.NOT_FOUND),
+                new MockHttpServletRequest("GET", "/api/orders/9"));
 
         assertThat(pd.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(pd.getTitle()).isEqualTo("NOT_FOUND");
@@ -46,7 +50,8 @@ class GlobalExceptionHandlerTest {
     void 예상치_못한_예외는_500_INTERNAL_ERROR로_변환된다() {
         LocaleContextHolder.setLocale(Locale.ENGLISH);
 
-        ProblemDetail pd = handler.handleUnexpected(new RuntimeException("boom"), null);
+        ProblemDetail pd = handler.handleUnexpected(new RuntimeException("boom"),
+                new MockHttpServletRequest("GET", "/api/orders/9"));
 
         assertThat(pd.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
         assertThat(pd.getTitle()).isEqualTo("INTERNAL_ERROR");

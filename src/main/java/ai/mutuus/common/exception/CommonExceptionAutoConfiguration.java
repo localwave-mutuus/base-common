@@ -1,6 +1,8 @@
 package ai.mutuus.common.exception;
 
 import ai.mutuus.common.i18n.MessageResolver;
+import ai.mutuus.common.logging.AccessLogger;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -16,7 +18,8 @@ public class CommonExceptionAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GlobalExceptionHandler globalExceptionHandler(MessageResolver messageResolver) {
-        return new GlobalExceptionHandler(messageResolver);
+    public GlobalExceptionHandler globalExceptionHandler(MessageResolver messageResolver,
+                                                         ObjectProvider<AccessLogger> accessLogger) {
+        return new GlobalExceptionHandler(messageResolver, accessLogger.getIfAvailable(AccessLogger::new));
     }
 }
