@@ -39,7 +39,7 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 **소비 서비스의 classpath 에 해당 starter 가 있을 때만** 활성화된다.
 
 - 웹 API 서비스(대부분) → `spring-boot-starter-web`/`security` 를 이미 보유 → 추적·헤더전파·예외·인증 자동 활성
-- 비(非)웹 배치 서비스 → web/security 자동구성은 비활성, `core`/`config`/`i18n` 유틸만 사용
+- 비(非)웹 배치 서비스 → web/security 자동구성은 비활성, `core`/`config`/`i18n` 유틸만 사용 (검증: `samples/sample-batch`)
 
 ## 소비 측(각 API) 사용법
 
@@ -110,8 +110,9 @@ management:
 테스트는 라이브러리 모듈이 아니라 **소비 서비스 `samples/sample-api` 에서 수행**한다(라이브러리는 소비자에 흡수되는 산출물이라, 단위 테스트까지 소비자 관점에서 검증). 라이브러리를 고쳤으면 먼저 재설치한다.
 
 ```bash
-./mvnw clean install                              # 1) 라이브러리 설치(선행 필수)
-cd samples/sample-api && ../../mvnw clean test    # 2) 전체 테스트
+./mvnw clean install                                # 1) 라이브러리 설치(선행 필수)
+cd samples/sample-api   && ../../mvnw clean test    # 2a) 웹 소비자 테스트(대부분)
+cd samples/sample-batch && ../../mvnw clean test    # 2b) 비웹 소비자 테스트(web/security 비전이 검증)
 ```
 
 ## 배포(사내 저장소)

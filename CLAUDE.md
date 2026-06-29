@@ -22,7 +22,8 @@ Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrap
 
 ```bash
 ./mvnw clean install                                   # 1) 라이브러리 재설치 (선행 필수)
-cd samples/sample-api && ../../mvnw clean test         # 2) 전체 테스트 (라이브러리+소비자)
+cd samples/sample-api   && ../../mvnw clean test       # 2a) 웹 소비자 테스트(대부분)
+cd samples/sample-batch && ../../mvnw clean test       # 2b) 비웹 소비자 테스트(비전이 검증)
 cd samples/sample-api && ../../mvnw -Dtest=ClassName test            # 단일 클래스
 cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 메서드
 ```
@@ -98,8 +99,9 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 ## 작업 시 규칙
 
-- **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 `samples/sample-api`에서 수행**한다. `common-platform` 라이브러리 모듈에는 `src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다. 새 기능의 단위/슬라이스/통합 테스트는 모두 sample-api의 `src/test`에 추가한다.
-  - 라이브러리 내부 클래스의 단위/슬라이스 테스트는 라이브러리와 **같은 패키지명**(`ai.mutuus.common.*`)으로 sample-api에 둔다(package-private 멤버 접근은 classpath split-package로 동작 — 이 프로젝트는 JPMS 모듈이 아니다). 소비자 시나리오 통합 테스트는 `ai.mutuus.sample.*`에 둔다.
+- **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `common-platform` 라이브러리 모듈에는 `src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.
+  - **`samples/sample-api`**(웹 소비자): 대부분의 테스트. 라이브러리 내부 클래스의 단위/슬라이스 테스트는 라이브러리와 **같은 패키지명**(`ai.mutuus.common.*`)으로 둔다(package-private 멤버 접근은 classpath split-package로 동작 — 이 프로젝트는 JPMS 모듈이 아니다). 소비자 시나리오 통합 테스트는 `ai.mutuus.sample.*`에 둔다.
+  - **`samples/sample-batch`**(비웹 소비자): web/security starter 미의존. optional 자동구성이 **비웹 서비스로 전이/활성화되지 않음**을 실제 컨텍스트로 검증한다. 비웹에선 spring-web/security 클래스가 classpath에 없어 타입 참조조차 불가하므로 web 빈 부재는 **빈 이름**으로 확인한다.
   - Docker가 필요한 실연동 테스트(Testcontainers)는 `@Testcontainers(disabledWithoutDocker = true)`로 가드해 무도커 환경에서 자동 skip되게 한다.
 - **국제화**: 사용자에게 노출되는 메시지는 하드코딩하지 말고 `messages/messages*.properties`(기본/`_ko`/`_en`) + `MessageResolver`를 거친다. 키는 `ErrorCode.messageKey()` 컨벤션(`error.*`)을 따른다.
 - **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`/`async`/`persistence`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다. `async`/`persistence`는 `core`(TraceContext)에만 의존하는 optional 통합 패키지다.
