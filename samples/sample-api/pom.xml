@@ -52,6 +52,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <!-- 아웃바운드 RestClient 자동구성(헤더 전파 Customizer 활성화 데모) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+        </dependency>
         <!-- 영속성(BaseEntity 감사 데모): JPA + H2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

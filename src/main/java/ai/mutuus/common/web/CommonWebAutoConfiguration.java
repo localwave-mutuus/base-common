@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.restclient.RestClientCustomizer;
+import org.springframework.boot.restclient.RestTemplateCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -56,5 +59,35 @@ public class CommonWebAutoConfiguration {
                 return super.resolveLocale(request);
             }
         };
+    }
+
+    /**
+     * 아웃바운드 추적 헤더 전파를 Boot가 자동구성한 {@code RestClient.Builder}에 자동 적용한다.
+     * <p>Boot의 {@code RestClientAutoConfiguration}이 단일/다수 {@link RestClientCustomizer} 빈을
+     * 빌더에 자동 적용하므로, 소비 서비스가 주입받는 {@code RestClient.Builder}로 만든 클라이언트는
+     * 별도 설정 없이 {@link HeaderPropagationInterceptor}를 갖는다. (RestClient 자동구성 모듈
+     * {@code spring-boot-restclient}가 classpath에 있을 때만 활성화)
+     */
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestClientCustomizer.class)
+    static class RestClientPropagationConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "headerPropagationRestClientCustomizer")
+        RestClientCustomizer headerPropagationRestClientCustomizer(HeaderPropagationInterceptor interceptor) {
+            return builder -> builder.requestInterceptor(interceptor);
+        }
+    }
+
+    /** 위와 동일한 전파를 {@code RestTemplateBuilder} 기반 {@code RestTemplate}에도 적용한다. */
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestTemplateCustomizer.class)
+    static class RestTemplatePropagationConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "headerPropagationRestTemplateCustomizer")
+        RestTemplateCustomizer headerPropagationRestTemplateCustomizer(HeaderPropagationInterceptor interceptor) {
+            return restTemplate -> restTemplate.getInterceptors().add(interceptor);
+        }
     }
 }

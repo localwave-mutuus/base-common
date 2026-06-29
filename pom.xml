@@ -56,6 +56,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- 아웃바운드 추적 헤더 전파 자동등록(RestClient/RestTemplate Customizer).
+             Boot 4에서 RestClient 자동구성이 별도 모듈로 분리됨 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- security: OAuth2 Resource Server (JWT) auth integration -->
         <dependency>

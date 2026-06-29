@@ -3,8 +3,10 @@ package ai.mutuus.sample.web;
 import java.util.Map;
 
 import ai.mutuus.common.api.ApiResponse;
+import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.exception.BusinessException;
 import ai.mutuus.common.exception.ErrorCode;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,6 +40,15 @@ public class DemoController {
     @PostMapping("/public/echo")
     public ApiResponse<EchoResponse> echo(@Valid @RequestBody EchoRequest request) {
         return ApiResponse.ok(new EchoResponse(request.message()));
+    }
+
+    /** 인입 요청이 수신한 추적 헤더를 그대로 반영 — 아웃바운드 전파 검증용(다운스트림 역할). */
+    @GetMapping("/public/echo-headers")
+    public ApiResponse<Map<String, Object>> echoHeaders(HttpServletRequest request) {
+        return ApiResponse.ok(Map.of(
+                "traceId", String.valueOf(request.getHeader(HeaderNames.TRACE_ID)),
+                "spanId", String.valueOf(request.getHeader(HeaderNames.SPAN_ID)),
+                "userId", String.valueOf(request.getHeader(HeaderNames.USER_ID))));
     }
 
     /** 인증된 사용자만 접근 — JWT 자원 서버 자동구성 확인. */

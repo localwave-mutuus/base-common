@@ -2,6 +2,8 @@ package ai.mutuus.common.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.restclient.RestClientCustomizer;
+import org.springframework.boot.restclient.RestTemplateCustomizer;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.web.servlet.LocaleResolver;
 
@@ -30,5 +32,16 @@ class CommonWebAutoConfigurationTest {
     void tracing_enabled가_false면_웹_자동구성이_비활성화된다() {
         runner.withPropertyValues("mutuus.common.tracing-enabled=false")
                 .run(ctx -> assertThat(ctx).doesNotHaveBean(HeaderPropagationInterceptor.class));
+    }
+
+    @Test
+    void RestClient_RestTemplate가_classpath에_있으면_전파_커스터마이저가_등록된다() {
+        // spring-boot-restclient 가 테스트 classpath 에 있으므로 @ConditionalOnClass 통과
+        runner.run(ctx -> {
+            assertThat(ctx).hasBean("headerPropagationRestClientCustomizer");
+            assertThat(ctx).hasSingleBean(RestClientCustomizer.class);
+            assertThat(ctx).hasBean("headerPropagationRestTemplateCustomizer");
+            assertThat(ctx).hasSingleBean(RestTemplateCustomizer.class);
+        });
     }
 }
