@@ -100,10 +100,19 @@ management:
 `TraceFilter` 가 인입 시 추출→MDC/TraceContext 적재, `HeaderPropagationInterceptor` 가
 아웃바운드 호출(RestClient)에 자동 부착 → API 간 추적 체인 연결.
 
+## 테스트
+
+테스트는 라이브러리 모듈이 아니라 **소비 서비스 `samples/sample-api` 에서 수행**한다(라이브러리는 소비자에 흡수되는 산출물이라, 단위 테스트까지 소비자 관점에서 검증). 라이브러리를 고쳤으면 먼저 재설치한다.
+
+```bash
+./mvnw clean install                              # 1) 라이브러리 설치(선행 필수)
+cd samples/sample-api && ../../mvnw clean test    # 2) 전체 테스트
+```
+
 ## 배포(사내 저장소)
 
 ```bash
-mvn -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
+./mvnw -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
 ```
 
 > JDK 21 필요. Maven Wrapper(`./mvnw`)가 Maven 3.9.9 로 고정돼 있어 로컬 Maven 설치는 불필요하다.
