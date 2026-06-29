@@ -92,6 +92,10 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - 자동구성은 둘로 나뉜다: `CommonPersistenceAutoConfiguration`(주체 제공자 `AuditorAware` 빈) + `JpaAuditingAutoConfiguration`(`@EnableJpaAuditing`, `HibernateJpaAutoConfiguration` 이후 정렬, `jpaAuditingHandler` 부재 시에만 활성화). 슬라이스 테스트가 실제 JPA 없이도 깨지지 않도록 **감사 활성화(@EnableJpaAuditing)는 주체 빈 등록과 분리**돼 있다.
 - 토글: `mutuus.common.persistence.auditing-enabled=false`. 회귀 가드: `samples/sample-api/PersistenceAuditingIntegrationTest`(H2).
 
+### 9. 분산 세션 컨벤션 (session 패키지, optional)
+
+`spring-session-data-redis`가 classpath에 있을 때만 활성화되는 optional 통합이다. **세션 저장소·Redis 연결 자체는 Boot 자동구성에 위임**하고, 라이브러리는 그 위에 **컨벤션만** 얹는다: `CommonSessionAutoConfiguration`이 `SessionRepositoryCustomizer<RedisSessionRepository>`를 등록해 키 네임스페이스를 `<service-name>:session`(또는 `mutuus.common.session.namespace`)으로, 기본 타임아웃을 `mutuus.common.session.timeout`(기본 30m)으로 잡는다 — 여러 서비스가 같은 Redis를 공유해도 키가 충돌하지 않게 하기 위함. 토글: `mutuus.common.session.enabled=false`, 사용자 커스터마이저 우선(`@ConditionalOnMissingBean(name="commonRedisSessionCustomizer")`). 회귀 가드: `samples/sample-api/RedisSessionIntegrationTest`(Redis Testcontainers, Docker 없으면 skip).
+
 ## 작업 시 규칙
 
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 `samples/sample-api`에서 수행**한다. `common-platform` 라이브러리 모듈에는 `src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다. 새 기능의 단위/슬라이스/통합 테스트는 모두 sample-api의 `src/test`에 추가한다.

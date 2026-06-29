@@ -79,6 +79,19 @@
             <artifactId>spring-boot-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- 분산 세션(Redis) 컨벤션 데모: Spring Session + Redis 클라이언트(lettuce).
+             Spring Session이 classpath에 있으면 Boot가 세션 저장소를 요구하므로 클라이언트도 함께 둔다 -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- 실연동(PostgreSQL) 감사 검증: Testcontainers. Docker 없으면 테스트가 자동 skip된다 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
