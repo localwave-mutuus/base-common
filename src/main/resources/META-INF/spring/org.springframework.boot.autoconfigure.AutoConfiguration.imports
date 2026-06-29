@@ -1,0 +1,6 @@
+ai.mutuus.common.config.CommonConfigAutoConfiguration
+ai.mutuus.common.i18n.CommonI18nAutoConfiguration
+ai.mutuus.common.exception.CommonExceptionAutoConfiguration
+ai.mutuus.common.observability.CommonObservabilityAutoConfiguration
+ai.mutuus.common.web.CommonWebAutoConfiguration
+ai.mutuus.common.security.CommonSecurityAutoConfiguration

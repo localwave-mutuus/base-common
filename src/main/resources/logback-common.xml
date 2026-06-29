@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  공통 JSON 로깅 설정. 소비 측 애플리케이션의 logback-spring.xml 에서 include 하여 사용한다.
+  예) <include resource="logback-common.xml"/>
+  MDC 의 추적/화면/단말 헤더가 로그에 자동 포함된다.
+-->
+<included>
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>X-Trace-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Span-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Screen-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Event-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Device-Level</includeMdcKeyName>
+            <includeMdcKeyName>X-User-Id</includeMdcKeyName>
+            <customFields>{"service":"${SERVICE_NAME:-unknown-service}"}</customFields>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON_CONSOLE"/>
+    </root>
+</included>
