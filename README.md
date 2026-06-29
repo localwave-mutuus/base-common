@@ -111,6 +111,6 @@ mvn -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
 ## 향후 확장(TODO)
 
 - Maven Wrapper(`mvnw`) 추가
-- 자동구성 슬라이스 테스트(`ApplicationContextRunner`) + Testcontainers
+- ~~자동구성 슬라이스 테스트(`ApplicationContextRunner`)~~ 완료 — 실연동(Redis/PostgreSQL) Testcontainers는 미정
 - `persistence` 패키지(PostgreSQL/JPA 공통 베이스 엔티티·감사컬럼)
 - 가상스레드/비동기 컨텍스트 전파 유틸(`TraceContext` ↔ `@Async`)
