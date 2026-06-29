@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: sample-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # 실제 인증 MSA의 JWK 엔드포인트. 샘플 실행용 placeholder(키 fetch는 lazy).
+          # 통합 테스트는 이 값을 무시하고 mock JwtDecoder 빈으로 대체한다.
+          jwk-set-uri: https://auth.mutuus.ai/realms/mutuus/protocol/openid-connect/certs
+
+mutuus:
+  common:
+    service-name: sample-api
+    default-locale: ko-KR
+    security:
+      permit-all:
+        - /actuator/health/**
+        - /api/public/**
