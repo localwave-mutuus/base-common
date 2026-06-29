@@ -21,11 +21,16 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 |--------|------|----------|
 | `core` | 공통 상수(헤더), 추적 컨텍스트, ID 생성기, 기본 유틸 | 글로벌 UUID, 기본 유틸 |
 | `config` | 부팅 전 설정 주입(`EnvironmentPostProcessor`), 프로퍼티 | 프로퍼티 로딩, Boot 로딩 전 설정 주입 |
-| `exception` | RFC7807 ProblemDetail 전역 예외 처리 | 응답 표준화 |
+| `api` | 표준 응답 봉투 `ApiResponse`/`ApiError` | 응답 표준화 → [API_RESPONSE.md](docs/API_RESPONSE.md) |
+| `exception` | 표준 `ApiResponse` 봉투 전역 예외 처리(+ i18n·추적ID) | 응답/오류 표준화 |
 | `i18n` | MessageSource 기반 다국어 | 다국어 |
-| `observability` | Micrometer/OTel 추적, JSON 로깅, Modulith 관측 | telemetry, logging |
+| `logging` | API 생명주기 구조화 JSON 로깅(`AccessLogger`) | logging → [LOG_FORMAT.md](docs/LOG_FORMAT.md) |
+| `observability` | Micrometer/OTel 추적, 공통 `service.name` 태그, Modulith 관측 | telemetry |
 | `web` | e2e 추적 필터, MDC 적재, API 간 헤더 자동 전파, 로케일 | e2e 정보계층, 헤더 자동추가 |
-| `security` | OAuth2 Resource Server(JWT), 인증/인가 MSA 연계, 세션 | 인증/인가 연계, 세션 |
+| `security` | OAuth2 Resource Server(JWT), 인증/인가 MSA 연계, 인증 주체 추적 | 인증/인가 연계 |
+| `async` | `@Async`/가상스레드 추적 컨텍스트 전파 | 비동기 추적 연속성 |
+| `persistence` | JPA 공통 베이스 엔티티 + 감사(생성/수정 시각·주체) | 감사 컬럼 자동화 |
+| `session` | 분산 세션(Redis) 컨벤션(네임스페이스·타임아웃) | 세션 |
 
 ## 설계 원칙: optional 의존성 + 조건부 자동구성
 

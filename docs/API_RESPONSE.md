@@ -1,0 +1,109 @@
+# 표준 API 응답 봉투 (ApiResponse)
+
+common-platform 은 모든 API 통신을 **성공/오류 통합 봉투** `ApiResponse<T>` 로 감싼다.
+성공이든 오류든 본문 구조가 **항상 동일**하며, 클라이언트는 `code` 로 분기한다(성공은 `"OK"`).
+HTTP 상태코드는 별도로 정확히 설정되고(예: 404), 본문 형태는 바뀌지 않는다.
+
+## 1. 구조
+
+```jsonc
+{
+  "code":      "OK",            // 안정적 코드. 성공="OK", 오류=ErrorCode 이름(예: "NOT_FOUND")
+  "message":   "리소스를 찾을 수 없습니다.",  // 사람이 읽는 메시지(i18n 적용 결과)
+  "data":      { /* ... */ },   // 성공 페이로드(오류 시 null)
+  "error":     null,            // 오류 상세(성공 시 null) — 아래 ApiError
+  "traceId":   "ab12cd34",      // 응답 자체의 추적 ID(TraceContext)
+  "timestamp": "2026-06-29T16:00:00.123+09:00"
+}
+```
+
+`error`(ApiError):
+
+```jsonc
+{
+  "code":        "VALIDATION_ERROR",   // 클라이언트 분기용 안정적 코드
+  "detail":      "요청 값 검증에 실패했습니다.",
+  "fieldErrors": [                       // 검증 실패 시 필드별 사유(없으면 빈 배열)
+    { "field": "message", "reason": "must not be blank" }
+  ],
+  "exception":   "java.lang.IllegalStateException"  // 서버 오류 진단용(노출 정책에 따라 null)
+}
+```
+
+## 2. 성공 응답
+
+컨트롤러는 `ApiResponse.ok(data)` 로 감싼다.
+
+```java
+@GetMapping("/api/orders/{id}")
+public ApiResponse<OrderDto> get(@PathVariable Long id) {
+    return ApiResponse.ok(orderService.find(id));
+}
+```
+
+```jsonc
+// 200 OK
+{ "code":"OK", "message":"OK", "data":{ "id":9, "status":"PAID" },
+  "error":null, "traceId":"ab12cd34", "timestamp":"..." }
+```
+
+## 3. 오류 응답
+
+오류는 컨트롤러가 직접 만들지 않는다. `BusinessException(ErrorCode)` 를 던지면
+`GlobalExceptionHandler` 가 표준 봉투로 변환하고, 상태코드·메시지(i18n)·`fieldErrors` 를 채운다.
+
+```java
+throw new BusinessException(ErrorCode.NOT_FOUND);
+```
+
+```jsonc
+// 404 Not Found
+{ "code":"NOT_FOUND", "message":"리소스를 찾을 수 없습니다.",
+  "data":null,
+  "error":{ "code":"NOT_FOUND", "detail":"리소스를 찾을 수 없습니다.", "fieldErrors":[], "exception":null },
+  "traceId":"ab12cd34", "timestamp":"..." }
+```
+
+프레임워크 예외도 자동 매핑된다(별도 코드 불필요):
+
+| 예외 | code | HTTP |
+|------|------|------|
+| `@Valid` 검증 실패(`MethodArgumentNotValidException`) | `VALIDATION_ERROR` | 400 (+ `fieldErrors`) |
+| `HttpRequestMethodNotSupportedException` | `METHOD_NOT_ALLOWED` | 405 |
+| `HttpMediaTypeNotSupportedException` | `UNSUPPORTED_MEDIA_TYPE` | 415 |
+| `NoResourceFoundException` | `NOT_FOUND` | 404 |
+| 그 외 처리되지 않은 모든 예외 | `INTERNAL_ERROR` | 500 (스택 ERROR 로깅 + `error.exception`) |
+
+## 4. ErrorCode 카탈로그
+
+`code` 는 `ErrorCode` enum 이름과 동일하다(`ErrorCode.code()`). 메시지는
+`messages/messages*.properties` 의 `messageKey` 로 로케일별 변환된다(`X-Locale` 헤더).
+
+| code | HTTP | messageKey |
+|------|------|-----------|
+| `INVALID_REQUEST` | 400 | `error.invalid.request` |
+| `VALIDATION_ERROR` | 400 | `error.validation` |
+| `MALFORMED_REQUEST` | 400 | `error.malformed` |
+| `UNAUTHORIZED` | 401 | `error.unauthorized` |
+| `FORBIDDEN` | 403 | `error.forbidden` |
+| `NOT_FOUND` | 404 | `error.not.found` |
+| `METHOD_NOT_ALLOWED` | 405 | `error.method.not.allowed` |
+| `CONFLICT` | 409 | `error.conflict` |
+| `UNSUPPORTED_MEDIA_TYPE` | 415 | `error.unsupported.media.type` |
+| `TOO_MANY_REQUESTS` | 429 | `error.too.many.requests` |
+| `INTERNAL_ERROR` | 500 | `error.internal` |
+| `EXTERNAL_API_ERROR` | 502 | `error.external.api` |
+| `SERVICE_UNAVAILABLE` | 503 | `error.service.unavailable` |
+| `GATEWAY_TIMEOUT` | 504 | `error.gateway.timeout` |
+
+> **새 도메인 에러를 추가할 때**: `ErrorCode` enum 항목 추가 + `messages*.properties`(기본/`_ko`/`_en`)에
+> 해당 `messageKey` 추가가 한 세트다.
+
+## 5. 추적/로깅 연계
+
+- `traceId` 는 `TraceContext` 의 `X-Trace-Id` 로, 응답 본문과 로그가 동일 ID 로 묶인다.
+- 오류는 동시에 구조화 로그로 기록된다: 4xx → `error.business`(WARN), 5xx → `error.server`(ERROR, 스택 포함).
+  자세한 로그 스키마는 [LOG_FORMAT.md](LOG_FORMAT.md) 참고.
+- `message`/`detail` 은 절대 하드코딩하지 않고 i18n 메시지 번들을 거친다.
+
+회귀 가드: `samples/sample-api/CommonPlatformIntegrationTest`(봉투/상태코드/i18n/`fieldErrors`).
