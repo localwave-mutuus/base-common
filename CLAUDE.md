@@ -53,7 +53,7 @@ mvn clean deploy         # 사내 Nexus/Artifactory에 라이브러리 jar 게�
 1. **인입**: `TraceFilter`(`@Order(HIGHEST_PRECEDENCE)`, `/*`)가 헤더를 추출해 `TraceContext`(ThreadLocal) + SLF4J `MDC`에 적재. `X-Trace-Id`가 없으면 신규 UUID 생성. 응답에 `X-Trace-Id` 회신. **요청 종료 시 `finally`에서 반드시 `MDC.clear()` + `TraceContext.clear()`** (ThreadLocal 누수 방지 — 이 정리를 빠뜨리지 말 것).
 2. **아웃바운드**: `HeaderPropagationInterceptor`(`ClientHttpRequestInterceptor`)가 `TraceContext`의 헤더를 하위 호출에 자동 부착. 단 `X-Span-Id`는 전파하지 않고 호출 구간마다 **새로 발급**한다.
 
-`TraceContext`는 ThreadLocal 기반이므로 **가상 스레드/`@Async` 경계를 넘으면 전파되지 않는다**(컨텍스트 전파 유틸은 TODO 상태).
+`TraceContext`는 ThreadLocal 기반이라 스레드 경계를 자동으로 넘지 못한다. 이를 위해 `async` 패키지가 전파 수단을 제공한다: `TraceContextPropagation.wrap(Runnable/Callable)`로 직접 만든 스레드 풀에 적용하고, `@Async` 기본 실행기에는 `CommonAsyncAutoConfiguration`이 등록하는 `TraceContextTaskDecorator`(Boot의 task executor 자동구성이 단일 `TaskDecorator` 빈을 자동 적용)로 추적ID/사용자/MDC가 유지된다. `mutuus.common.tracing-enabled=false`면 전파도 비활성화된다.
 
 ### 5. 표준 예외 응답
 
