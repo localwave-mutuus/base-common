@@ -106,11 +106,11 @@ management:
 mvn -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
 ```
 
-> 로컬에 Maven 3.9+ 및 JDK 21 필요. (Maven Wrapper 는 미포함 — TODO)
+> JDK 21 필요. Maven Wrapper(`./mvnw`)가 Maven 3.9.9 로 고정돼 있어 로컬 Maven 설치는 불필요하다.
 
 ## 향후 확장(TODO)
 
-- Maven Wrapper(`mvnw`) 추가
+- ~~Maven Wrapper(`mvnw`) 추가~~ 완료 — Maven 3.9.9 고정
 - ~~자동구성 슬라이스 테스트(`ApplicationContextRunner`)~~ 완료 — 실연동(Redis/PostgreSQL) Testcontainers는 미정
 - `persistence` 패키지(PostgreSQL/JPA 공통 베이스 엔티티·감사컬럼)
 - ~~가상스레드/비동기 컨텍스트 전파 유틸(`TraceContext` ↔ `@Async`)~~ 완료 — `async` 패키지(`TraceContextPropagation`/`TraceContextTaskDecorator`)

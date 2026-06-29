@@ -11,14 +11,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 빌드 / 테스트 명령
 
-Maven Wrapper는 **아직 없다**(README의 TODO). 로컬에 Maven 3.9+, JDK 21 필요.
+Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능).
 
 ```bash
-mvn clean install        # 컴파일 + 테스트 + 로컬 .m2 설치
-mvn test                 # 전체 테스트
-mvn -Dtest=ClassName test                     # 단일 테스트 클래스
-mvn -Dtest=ClassName#methodName test          # 단일 테스트 메서드
-mvn clean deploy         # 사내 Nexus/Artifactory에 라이브러리 jar 게시
+./mvnw clean install     # 컴파일 + 테스트 + 로컬 .m2 설치
+./mvnw test              # 전체 테스트
+./mvnw -Dtest=ClassName test                  # 단일 테스트 클래스
+./mvnw -Dtest=ClassName#methodName test       # 단일 테스트 메서드
+./mvnw clean deploy      # 사내 Nexus/Artifactory에 라이브러리 jar 게시
 ```
 
 `spring-boot-maven-plugin`은 `<skip>true</skip>`로 설정돼 있다 — 라이브러리이므로 **실행 가능 jar로 repackage하지 않는다**. 이 설정을 건드리지 말 것.
