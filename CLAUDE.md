@@ -75,8 +75,17 @@ Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrap
 
 `AccessLogger` 빈은 항상 제공(보안/예외 모듈이 `ObjectProvider`로 주입, 없으면 무동작 폴백)하고, 요청/응답 필터는 웹 환경에서만 등록한다. 토글·튜닝은 `mutuus.common.logging.*`(`enabled`, `include-query-string`, `exclude-path-prefixes`(기본 `/actuator`), `slow-request-threshold-millis`). 본문(body) 로깅은 PII·비용 문제로 기본 미포함. 회귀 가드: `samples/sample-api/AccessLoggingIntegrationTest`.
 
+### 8. 영속성 감사 (persistence 패키지, optional)
+
+`spring-data-jpa`가 classpath에 있을 때만 활성화되는 optional 통합이다. `BaseEntity`(`@MappedSuperclass`)를 상속하면 `created_at`/`updated_at`(`Instant`)·`created_by`/`updated_by`가 JPA Auditing으로 자동 기록된다. **감사 주체(created_by 등)는 `TraceContextAuditorAware`가 `TraceContext`의 인증 사용자(`X-User-Id`)에서 가져온다** — 즉 보안 체인이 확정한 신뢰 사용자가 그대로 감사 컬럼에 박힌다(별도 코드 불필요).
+
+- 식별자(@Id) 전략은 도메인마다 달라 `BaseEntity`가 **강제하지 않는다**(엔티티가 직접 정의).
+- 감사 시각 필드는 `Instant`다 — Spring Data Auditing 기본 `DateTimeProvider`가 `OffsetDateTime`을 변환하지 못하므로 `Instant`(UTC)를 쓴다. **이 타입을 `OffsetDateTime` 등으로 바꾸지 말 것**(런타임 변환 예외).
+- 자동구성은 둘로 나뉜다: `CommonPersistenceAutoConfiguration`(주체 제공자 `AuditorAware` 빈) + `JpaAuditingAutoConfiguration`(`@EnableJpaAuditing`, `HibernateJpaAutoConfiguration` 이후 정렬, `jpaAuditingHandler` 부재 시에만 활성화). 슬라이스 테스트가 실제 JPA 없이도 깨지지 않도록 **감사 활성화(@EnableJpaAuditing)는 주체 빈 등록과 분리**돼 있다.
+- 토글: `mutuus.common.persistence.auditing-enabled=false`. 회귀 가드: `samples/sample-api/PersistenceAuditingIntegrationTest`(H2).
+
 ## 작업 시 규칙
 
 - **국제화**: 사용자에게 노출되는 메시지는 하드코딩하지 말고 `messages/messages*.properties`(기본/`_ko`/`_en`) + `MessageResolver`를 거친다. 키는 `ErrorCode.messageKey()` 컨벤션(`error.*`)을 따른다.
-- **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다.
+- **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`/`async`/`persistence`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다. `async`/`persistence`는 `core`(TraceContext)에만 의존하는 optional 통합 패키지다.
 - 주석·문서는 한국어로 작성돼 있다. 일관성을 위해 새 주석/문서도 한국어를 따른다.
