@@ -63,6 +63,8 @@ mvn clean deploy         # 사내 Nexus/Artifactory에 라이브러리 jar 게�
 
 이 라이브러리는 인증을 **수행하지 않는다**. 별도 인증/인가 MSA가 발급한 JWT를 검증하는 OAuth2 Resource Server 기본 설정만 제공한다(`CommonSecurityAutoConfiguration`). `SecurityFilterChain`/`JwtAuthenticationConverter`는 `@ConditionalOnMissingBean`이라, **소비 서비스가 자체 빈을 정의하면 즉시 대체**된다. permit-all 경로·roles claim·authority prefix는 `mutuus.common.security.*`로 설정.
 
+인증 확정 후 `AuthenticatedUserContextFilter`(`AuthorizationFilter` 뒤)가 **검증된 인증 주체**(JWT subject)를 `TraceContext`/MDC `X-User-Id`에 반영한다 — 인입 헤더 위장값보다 우선하므로 이후 모든 로그가 신뢰 가능한 사용자 식별자를 갖는다.
+
 ### 7. API 생명주기 자동 로깅 (logging 패키지)
 
 소비 서비스는 **별도 코드 없이** 라이브러리가 지정한 컴포넌트를 거치며 4개 지점에서 자동 로깅된다. 중심은 `AccessLogger`(단일 진입점, 로거 이름 `ai.mutuus.common.access`) — SLF4J 2 fluent API(`addKeyValue`)로 구조화 필드를 남기고 logstash 인코더가 JSON으로 렌더한다(추적ID/사용자는 MDC 경유 자동 포함).

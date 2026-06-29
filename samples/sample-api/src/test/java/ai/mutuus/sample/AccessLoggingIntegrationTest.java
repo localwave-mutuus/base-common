@@ -76,6 +76,20 @@ class AccessLoggingIntegrationTest {
         assertThat(eventStatusTuples()).contains(tuple("request.completed", 404));
     }
 
+    @Test
+    void 인증된_요청은_헤더가_아닌_JWT주체를_userId로_남긴다() throws Exception {
+        // X-User-Id 헤더로 위장값을 보내도, 검증된 JWT subject(user-1)가 우선해야 한다
+        mockMvc.perform(get("/api/secure/me")
+                        .header("Authorization", "Bearer valid-token")
+                        .header("X-User-Id", "spoofed"))
+                .andExpect(status().isOk());
+
+        ILoggingEvent completed = appender.list.stream()
+                .filter(e -> "request.completed".equals(kv(e).get("event")))
+                .findFirst().orElseThrow();
+        assertThat(kv(completed)).containsEntry("userId", "user-1");
+    }
+
     private List<String> events() {
         return appender.list.stream().map(e -> String.valueOf(kv(e).get("event"))).toList();
     }

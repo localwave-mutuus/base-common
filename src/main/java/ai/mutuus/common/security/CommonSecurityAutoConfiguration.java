@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 /**
  * 공통 보안 자동 구성.
@@ -48,7 +49,9 @@ public class CommonSecurityAutoConfiguration {
                 .oauth2ResourceServer(oauth -> oauth
                         .authenticationEntryPoint(entryPoint)
                         .accessDeniedHandler(deniedHandler)
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(props))));
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(props))))
+                // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영
+                .addFilterAfter(new AuthenticatedUserContextFilter(), AuthorizationFilter.class);
         return http.build();
     }
 
