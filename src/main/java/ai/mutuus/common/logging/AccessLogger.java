@@ -1,5 +1,6 @@
 package ai.mutuus.common.logging;
 
+import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class AccessLogger {
 
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
 
-    /** 요청 수신(핸들러 진입 전). */
+    /** 요청 수신(핸들러 진입 전). 호출 시스템/단말 정보(where)를 함께 남긴다. */
     public void requestReceived(String method, String path, String query, String clientIp) {
         LoggingEventBuilder ev = log.atInfo()
                 .addKeyValue("event", "request.received")
@@ -30,7 +31,7 @@ public class AccessLogger {
         if (clientIp != null) {
             ev.addKeyValue("clientIp", clientIp);
         }
-        addUser(ev).log("API request received");
+        addDevice(addUser(ev)).log("API request received");
     }
 
     /** 응답 완료(상태/소요시간). 5xx 또는 느린 요청은 WARN. */
@@ -90,6 +91,13 @@ public class AccessLogger {
         if (user != null) {
             ev.addKeyValue("userId", user);
         }
+        return ev;
+    }
+
+    /** 호출 시스템/단말 식별(where) — 어느 시스템에서 접근했는지. */
+    private LoggingEventBuilder addDevice(LoggingEventBuilder ev) {
+        TraceContext.get(HeaderNames.DEVICE_LEVEL).ifPresent(v -> ev.addKeyValue("deviceLevel", v));
+        TraceContext.get(HeaderNames.DEVICE_ID).ifPresent(v -> ev.addKeyValue("deviceId", v));
         return ev;
     }
 }

@@ -1,21 +1,25 @@
 package ai.mutuus.common.exception;
 
-import java.net.URI;
+import java.util.List;
 
-import ai.mutuus.common.core.HeaderNames;
-import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.api.ApiError;
+import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.common.logging.AccessLogger;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
- * RFC7807 ProblemDetail 기반 전역 예외 처리.
- * <p>다국어 메시지(common-i18n)와 추적ID(common-core)를 응답에 함께 담고,
- * 오류 발생 시점을 {@link AccessLogger}로 자동 로깅한다(비즈니스=WARN, 서버=ERROR).
+ * 전역 예외 처리. 모든 예외를 표준 {@link ApiResponse} 봉투(통합 형식)로 변환하고,
+ * 발생 시점을 {@link AccessLogger}로 자동 로깅한다(비즈니스/검증=WARN, 서버=ERROR).
+ * <p>다국어 메시지(common-i18n)와 추적ID(common-core)를 함께 담는다. HTTP 상태코드는
+ * {@link ErrorCode}에서 정확히 설정되며, 본문 구조는 성공/오류가 동일하다.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,29 +32,65 @@ public class GlobalExceptionHandler {
         this.accessLogger = accessLogger;
     }
 
+    /** 애플리케이션이 던진 비즈니스 예외. */
     @ExceptionHandler(BusinessException.class)
-    public ProblemDetail handleBusiness(BusinessException ex, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<Void>> handleBusiness(BusinessException ex, HttpServletRequest request) {
         ErrorCode code = ex.getErrorCode();
         String detail = messages.get(code.messageKey(), ex.getArgs());
-        accessLogger.businessError(code.name(), request.getRequestURI(), detail);
-        return build(code.status(), code.name(), detail);
+        return clientError(code, detail, List.of(), request);
     }
 
+    /** 요청 본문 검증 실패(@Valid). 필드별 사유를 함께 반환한다. */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidation(MethodArgumentNotValidException ex,
+                                                              HttpServletRequest request) {
+        List<ApiError.FieldError> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
+                .map(fe -> new ApiError.FieldError(fe.getField(), fe.getDefaultMessage()))
+                .toList();
+        return clientError(ErrorCode.VALIDATION_ERROR,
+                messages.get(ErrorCode.VALIDATION_ERROR.messageKey()), fieldErrors, request);
+    }
+
+    /** 허용되지 않은 HTTP 메서드. */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex,
+                                                                    HttpServletRequest request) {
+        return clientError(ErrorCode.METHOD_NOT_ALLOWED,
+                messages.get(ErrorCode.METHOD_NOT_ALLOWED.messageKey()), List.of(), request);
+    }
+
+    /** 지원하지 않는 미디어 타입. */
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMediaType(HttpMediaTypeNotSupportedException ex,
+                                                             HttpServletRequest request) {
+        return clientError(ErrorCode.UNSUPPORTED_MEDIA_TYPE,
+                messages.get(ErrorCode.UNSUPPORTED_MEDIA_TYPE.messageKey()), List.of(), request);
+    }
+
+    /** 매핑되지 않은 경로/정적 리소스 없음. */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNotFound(NoResourceFoundException ex,
+                                                            HttpServletRequest request) {
+        return clientError(ErrorCode.NOT_FOUND,
+                messages.get(ErrorCode.NOT_FOUND.messageKey()), List.of(), request);
+    }
+
+    /** 그 외 처리되지 않은 모든 예외 → 500. 스택을 포함해 ERROR 로깅. */
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleUnexpected(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex, HttpServletRequest request) {
         ErrorCode code = ErrorCode.INTERNAL_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
-        return build(code.status(), code.name(),
-                messages.get(code.messageKey()));
+        String detail = messages.get(code.messageKey());
+        ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
+        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, error));
     }
 
-    private ProblemDetail build(HttpStatus status, String code, String detail) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, detail);
-        pd.setType(URI.create("urn:mutuus:error:" + code.toLowerCase()));
-        pd.setTitle(code);
-        pd.setProperty("traceId", TraceContext.traceId());
-        pd.setProperty("screenId", TraceContext.get(HeaderNames.SCREEN_ID).orElse(null));
-        pd.setProperty("timestamp", java.time.OffsetDateTime.now().toString());
-        return pd;
+    /** 4xx 공통 처리: WARN 로깅 + 표준 봉투 반환. */
+    private ResponseEntity<ApiResponse<Void>> clientError(ErrorCode code, String detail,
+                                                          List<ApiError.FieldError> fieldErrors,
+                                                          HttpServletRequest request) {
+        accessLogger.businessError(code.code(), request.getRequestURI(), detail);
+        ApiResponse<Void> body = ApiResponse.error(code.code(), detail, ApiError.of(code.code(), detail, fieldErrors));
+        return ResponseEntity.status(code.status()).body(body);
     }
 }
