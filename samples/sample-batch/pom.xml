@@ -19,7 +19,7 @@
     <description>common-platform 비(非)웹 소비 검증용 샘플 — web/security 자동구성 비전이 증명</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
     </properties>
 
     <dependencies>

@@ -12,7 +12,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,7 +46,7 @@ public class CommonSecurityAutoConfiguration {
         http
                 // 무상태 OAuth2 리소스 서버: 세션을 만들지 않고, 토큰 기반이라 CSRF 보호 불필요.
                 // (이 설정이 없으면 permit-all 경로라도 POST 등 변경 요청이 CSRF로 403 처리됨)
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(props.getPermitAll().toArray(String[]::new)).permitAll()

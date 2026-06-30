@@ -6,12 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `common-platform`은 **단일 산출물(jar) 공통 라이브러리**다. 타 API 서비스가 Maven 의존성 **하나**(`ai.mutuus.common:common-platform`)로 추적/로깅/예외/i18n/인증/세션 기능을 재사용한다. 실행 가능한 애플리케이션이 아니라 **소비 서비스에 흡수되는 라이브러리**라는 점이 모든 설계 결정의 근간이다.
 
-- Java 21 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
+- Java 25 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
 - 기능은 `ai.mutuus.common` 아래 **패키지로만** 구분된다(별도 Maven 모듈 아님). README 등에서 `common-web`, `common-core`로 부르는 것은 모듈이 아니라 패키지를 가리킨다.
 
 ## 빌드 / 테스트 명령
 
-Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능).
+Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 25만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능).
 
 ```bash
 ./mvnw clean install     # 라이브러리 컴파일 + 로컬 .m2 설치 (모듈 자체엔 테스트 없음)

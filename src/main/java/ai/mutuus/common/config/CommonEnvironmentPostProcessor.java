@@ -3,8 +3,8 @@ package ai.mutuus.common.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
@@ -14,7 +14,7 @@ import org.springframework.core.env.MapPropertySource;
  * <p>auto-configuration 보다 먼저 동작하여 "convention over configuration" 기본값을
  * Environment 최하위 우선순위로 추가한다. 애플리케이션이 동일 키를 정의하면 그 값이 우선한다.
  * <p>등록: {@code META-INF/spring.factories} 의
- * {@code org.springframework.boot.env.EnvironmentPostProcessor}.
+ * {@code org.springframework.boot.EnvironmentPostProcessor}.
  */
 public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 

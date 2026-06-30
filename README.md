@@ -9,7 +9,7 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 
 ## 기술스택
 
-- Java 21 (LTS)
+- Java 25 (LTS)
 - Spring Boot 4.1.0 / Spring Framework 7
 - Spring Modulith 2.1.0 (관측)
 - Micrometer + OpenTelemetry, Logback(JSON), Spring Security OAuth2 Resource Server
