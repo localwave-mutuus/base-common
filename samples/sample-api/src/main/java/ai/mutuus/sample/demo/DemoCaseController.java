@@ -80,55 +80,55 @@ public class DemoCaseController {
         return List.of(
                 new DemoCase("trace", "e2e 추적/MDC", "GET", "/demo/trace", null,
                         "TraceFilter 가 적재한 TraceContext 스냅샷. 응답 헤더 X-Trace-Id 와 서버 로그의 traceId 를 함께 확인.",
-                        "ai.mutuus.common.web.TraceFilter#doFilterInternal"),
+                        "ai.mutuus.common.web.TraceFilter#doFilterInternal", 200, null),
                 new DemoCase("outbound", "아웃바운드 헤더 전파", "GET", "/demo/outbound", null,
-                        "RestClient 로 자기 자신(/api/public/echo-headers)을 호출. 다운스트림이 본 traceId 는 동일, spanId 는 새로 발급됨.",
-                        "ai.mutuus.common.web.HeaderPropagationInterceptor#intercept"),
+                        "RestClient 로 자기 자신(/api/public/echo-headers)을 호출. 다운스트림이 본 traceId·appCode·instanceCode 는 동일, spanId 는 새로 발급됨.",
+                        "ai.mutuus.common.web.HeaderPropagationInterceptor#intercept", 200, null),
                 new DemoCase("error-business", "표준 예외 - 비즈니스(404)", "GET", "/demo/error/business", null,
-                        "BusinessException → RFC7807/ApiResponse 오류 봉투. status·messageKey·traceId 부가속성 확인.",
-                        "ai.mutuus.common.exception.GlobalExceptionHandler"),
+                        "BusinessException → RFC7807/ApiResponse 오류 봉투. status·messageKey·traceId 부가속성 확인. (기대 404)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler", 404, null),
                 new DemoCase("error-server", "표준 예외 - 서버(500)", "GET", "/demo/error/server", null,
-                        "처리되지 않은 RuntimeException → 500 INTERNAL_ERROR + error.server 로그(스택 포함).",
-                        "ai.mutuus.common.exception.GlobalExceptionHandler"),
+                        "처리되지 않은 RuntimeException → 500 INTERNAL_ERROR + error.server 로그(스택 포함). (기대 500)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler", 500, null),
                 new DemoCase("error-validation", "표준 예외 - 검증(400)", "POST", "/demo/error/validation",
                         "{\"name\":\"\"}",
-                        "@Valid 실패 → VALIDATION_ERROR + fieldErrors. 본문 name 을 비워 호출.",
-                        "ai.mutuus.common.exception.GlobalExceptionHandler"),
+                        "@Valid 실패 → VALIDATION_ERROR + fieldErrors. 본문 name 을 비워 호출. (기대 400)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler", 400, null),
                 new DemoCase("i18n", "i18n 메시지", "GET", "/demo/i18n", null,
                         "MessageResolver 로 현재 로케일/ko/en 메시지를 함께 반환. 요청 헤더 X-Locale: en 으로 바꿔 비교.",
-                        "ai.mutuus.common.i18n.MessageResolver#get"),
+                        "ai.mutuus.common.i18n.MessageResolver#get", 200, null),
                 new DemoCase("logging-slow", "API 생명주기 로깅(느린 요청 WARN)", "GET", "/demo/logging/slow", null,
                         "임계치 이상 지연시켜 request.completed 가 WARN 으로 남는지 확인(AccessLogFilter).",
-                        "ai.mutuus.common.logging.AccessLogFilter"),
+                        "ai.mutuus.common.logging.AccessLogFilter", 200, null),
                 new DemoCase("persistence-audit", "영속성 감사(BaseEntity)", "POST", "/demo/audit",
                         "{\"text\":\"hello\"}",
                         "SampleNote 저장 → created_at/by·updated_at/by 자동 기록. created_by 는 TraceContext 사용자(상단 X-User-Id)에서.",
-                        "ai.mutuus.common.persistence.TraceContextAuditorAware#getCurrentAuditor"),
+                        "ai.mutuus.common.persistence.TraceContextAuditorAware#getCurrentAuditor", 200, null),
                 new DemoCase("security-401", "보안 - 미인증 401(auth.failure)", "GET", "/api/secure/me", null,
-                        "Bearer 를 비우고 호출 → 401 + auth.failure 로그 + WWW-Authenticate(permit-all 아님).",
-                        "ai.mutuus.common.security.LoggingAuthenticationEntryPoint"),
+                        "이 케이스는 인증을 보내지 않고 호출 → 401 + auth.failure 로그 + WWW-Authenticate(permit-all 아님). (기대 401)",
+                        "ai.mutuus.common.security.LoggingAuthenticationEntryPoint", 401, "none"),
                 new DemoCase("security-200", "보안 - 인증 성공(sub=토큰)", "GET", "/api/secure/me", null,
-                        "상단 Bearer 에 이름(예: alice) 입력 후 호출 → 200, sub=그 이름, 이후 로그의 X-User-Id 반영(데모 JwtDecoder).",
-                        "ai.mutuus.common.security.AuthenticatedUserContextFilter"),
+                        "데모 토큰으로 호출(상단 Bearer 입력 시 그 값, 없으면 demo-user) → 200, sub=토큰, 이후 로그 X-User-Id 반영(데모 JwtDecoder).",
+                        "ai.mutuus.common.security.AuthenticatedUserContextFilter", 200, "fixed"),
                 new DemoCase("session", "분산 세션 컨벤션(Redis)", "GET", "/demo/session", null,
                         "세션 생성 → Redis 에 <namespace>:* 키로 저장. namespace/timeout 컨벤션 확인(로컬 Redis 16010 필요, 키는 두 번째 호출에서 보임).",
-                        "ai.mutuus.common.session.CommonSessionAutoConfiguration"),
+                        "ai.mutuus.common.session.CommonSessionAutoConfiguration", 200, null),
                 new DemoCase("observe", "관측 - 서비스 태그/추적", "GET", "/demo/observe", null,
                         "service.name 태그 + 현재 추적 식별자. 전체 OTel export 는 collector 필요(여기선 컨벤션만 확인).",
-                        "ai.mutuus.common.observability.CommonObservabilityAutoConfiguration"),
+                        "ai.mutuus.common.observability.CommonObservabilityAutoConfiguration", 200, null),
                 new DemoCase("codes", "식별 코드/헤더(App·Instance)", "GET", "/demo/codes", null,
                         "어플리케이션코드(4)·인스턴스구분코드(6) 상수. 응답 헤더 X-App-Code/X-Instance-Id 로도 회신(상단에 표시됨).",
-                        "ai.mutuus.common.config.CommonEnvironmentPostProcessor#resolveCodes"),
+                        "ai.mutuus.common.config.CommonEnvironmentPostProcessor#resolveCodes", 200, null),
                 new DemoCase("error-malformed", "표준 예외 - 잘못된 포맷(400)", "POST", "/demo/error/validation",
                         "{bad json",
-                        "파싱 불가 본문 → HttpMessageNotReadable → 400 MALFORMED_REQUEST.",
-                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleMalformed"),
-                new DemoCase("error-network", "표준 예외 - 네트워크(502/504)", "GET", "/demo/error/network", null,
-                        "해석 불가 호스트로 아웃바운드 호출 → ResourceAccessException → 502 EXTERNAL_API_ERROR(타임아웃은 504).",
-                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork"),
+                        "파싱 불가 본문 → HttpMessageNotReadable → 400 MALFORMED_REQUEST. (기대 400)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleMalformed", 400, null),
+                new DemoCase("error-network", "표준 예외 - 네트워크(502)", "GET", "/demo/error/network", null,
+                        "해석 불가 호스트로 아웃바운드 호출 → ResourceAccessException → 502 EXTERNAL_API_ERROR(타임아웃은 504). (기대 502)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork", 502, null),
                 new DemoCase("logfile", "파일 로그 보기 (<앱>-<인스턴스>.log)", "GET", "/demo/logfile", null,
                         "현재 로그 파일 경로와 마지막 줄(JSON: appCode/instanceCode/traceId 포함). 다른 케이스 몇 번 호출 후 확인.",
-                        "lib/src/main/resources/logback-common.xml"));
+                        "lib/src/main/resources/logback-common.xml", 200, null));
     }
 
     // ---------------------------------------------------------------------
@@ -316,8 +316,13 @@ public class DemoCaseController {
 
     // ---------------------------------------------------------------------
 
+    /**
+     * @param expectStatus 이 케이스가 정상 동작 시 반환하는 HTTP 상태(에러 케이스 포함). UI 가 실제==기대면 PASS 로 표시.
+     * @param authMode      인증 처리: {@code "none"}=인증 미전송, {@code "fixed"}=데모 토큰(상단 Bearer 우선), {@code null}=상단 Bearer 입력만.
+     */
     public record DemoCase(String id, String title, String method, String path,
-                           String sampleBody, String observe, String breakpoint) {
+                           String sampleBody, String observe, String breakpoint,
+                           int expectStatus, String authMode) {
     }
 
     public record ValidationRequest(@NotBlank String name) {

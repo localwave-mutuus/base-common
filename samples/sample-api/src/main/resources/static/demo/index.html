@@ -20,6 +20,11 @@
     .observe { color: #aab2c5; font-size: 12px; margin: 6px 0; }
     .bp { color: #6b7280; font-size: 11px; }
     .bp code { color: #c39bf0; font-size: 11px; font-family: ui-monospace, monospace; }
+    .badge { font-size: 11px; font-weight: 700; margin-left: 6px; }
+    .pass { color: #6ee7a8; } .fail { color: #f06e6e; }
+    .exp { color: #6b7280; font-size: 11px; }
+    .runall { background: #1d3a2a; color: #6ee7a8; }
+    .runall:hover { background: #245036; }
     button { background: #2b6cf0; color: white; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 12px; }
     button:hover { background: #3a78ff; }
     .out { flex: 1; position: sticky; top: 16px; }
@@ -39,6 +44,7 @@
       <label style="margin-left:16px">X-Screen-Id</label><input id="screen" placeholder="(선택)" size="10">
       <label style="margin-left:16px">X-User-Id</label><input id="user" placeholder="(감사 주체)" size="10">
       <label style="margin-left:16px">Bearer</label><input id="bearer" placeholder="(예: alice)" size="10">
+      <button class="runall" style="margin-left:16px" onclick="runAll()">▶ 전체 실행 (16)</button>
     </p>
   </header>
   <div class="wrap">
@@ -50,8 +56,9 @@
 
   <script>
     const out = document.getElementById('output');
+    let CASES = [];
 
-    function headers() {
+    function headers(c) {
       const h = { 'Accept': 'application/json' };
       const loc = document.getElementById('locale').value.trim();
       const scr = document.getElementById('screen').value.trim();
@@ -60,52 +67,76 @@
       if (loc) h['X-Locale'] = loc;
       if (scr) h['X-Screen-Id'] = scr;
       if (usr) h['X-User-Id'] = usr;
-      if (bea) h['Authorization'] = 'Bearer ' + bea;
+      // 인증 모드: none=미전송, fixed=데모토큰(상단 입력 우선), 그 외=상단 입력값만
+      if (c && c.authMode === 'none') { /* 인증 미전송 */ }
+      else if (c && c.authMode === 'fixed') { h['Authorization'] = 'Bearer ' + (bea || 'demo-user'); }
+      else if (bea) { h['Authorization'] = 'Bearer ' + bea; }
       return h;
     }
 
-    async function run(c) {
-      out.textContent = `→ ${c.method} ${c.path} 호출 중…`;
-      const opt = { method: c.method, headers: headers() };
-      if (c.method === 'POST') {
-        opt.headers['Content-Type'] = 'application/json';
-        opt.body = c.sampleBody || '{}';
-      }
+    function setBadge(c, pass, status) {
+      const b = document.getElementById('badge-' + c.id);
+      if (b) { b.textContent = (pass ? '✅ ' : '❌ ') + status; b.className = 'badge ' + (pass ? 'pass' : 'fail'); }
+    }
+
+    async function run(c, silent) {
+      if (!silent) out.textContent = `→ ${c.method} ${c.path} 호출 중…`;
+      const opt = { method: c.method, headers: headers(c) };
+      if (c.method === 'POST') { opt.headers['Content-Type'] = 'application/json'; opt.body = c.sampleBody || '{}'; }
       try {
         const res = await fetch(c.path, opt);
-        const traceId = res.headers.get('X-Trace-Id');
-        const appCode = res.headers.get('X-App-Code');
-        const instId = res.headers.get('X-Instance-Id');
-        let body;
-        const txt = await res.text();
-        try { body = JSON.stringify(JSON.parse(txt), null, 2); } catch { body = txt; }
-        const cls = res.status >= 500 ? 's5' : res.status >= 400 ? 's4' : 's2';
-        out.innerHTML =
-          `<span class="status ${cls}">HTTP ${res.status}</span>   X-Trace-Id: ${traceId || '(없음)'}\n` +
-          `X-App-Code: ${appCode || '(없음)'}   X-Instance-Id: ${instId || '(없음)'}\n` +
-          `요청: ${c.method} ${c.path}\n\n${escapeHtml(body)}`;
+        const pass = res.status === c.expectStatus;
+        setBadge(c, pass, res.status);
+        if (!silent) {
+          const traceId = res.headers.get('X-Trace-Id');
+          const appCode = res.headers.get('X-App-Code');
+          const instId = res.headers.get('X-Instance-Id');
+          let body; const txt = await res.text();
+          try { body = JSON.stringify(JSON.parse(txt), null, 2); } catch { body = txt; }
+          out.innerHTML =
+            `<span class="status ${pass ? 's2' : 's5'}">${pass ? '✅ PASS' : '❌ FAIL'}  HTTP ${res.status}</span>  (기대 ${c.expectStatus})   X-Trace-Id: ${traceId || '(없음)'}\n` +
+            `X-App-Code: ${appCode || '(없음)'}   X-Instance-Id: ${instId || '(없음)'}\n` +
+            `요청: ${c.method} ${c.path}\n\n${escapeHtml(body)}`;
+        }
+        return { pass, status: res.status };
       } catch (e) {
-        out.textContent = '요청 실패: ' + e;
+        setBadge(c, false, 'ERR');
+        if (!silent) out.textContent = '요청 실패: ' + e;
+        return { pass: false, status: 'ERR' };
       }
     }
 
-    function escapeHtml(s) { return s.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+    async function runAll() {
+      out.textContent = '전체 실행 중…';
+      let passed = 0; const fails = [];
+      for (const c of CASES) {
+        const r = await run(c, true);
+        if (r.pass) passed++; else fails.push(`${c.id} → ${r.status} (기대 ${c.expectStatus})`);
+      }
+      const allPass = passed === CASES.length;
+      out.innerHTML =
+        `<span class="status ${allPass ? 's2' : 's5'}">${allPass ? '✅ 전체 통과' : '❌ 일부 실패'}  ${passed}/${CASES.length}</span>\n\n` +
+        (fails.length ? '실패:\n' + escapeHtml(fails.join('\n')) : '모든 케이스가 기대 상태로 응답했습니다.');
+    }
+
+    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
 
     fetch('/demo/cases', { headers: { 'Accept': 'application/json' } })
       .then(r => r.json())
       .then(cases => {
+        CASES = cases;
         const box = document.getElementById('cases');
         box.innerHTML = '';
         cases.forEach(c => {
           const el = document.createElement('div');
           el.className = 'case';
           el.innerHTML =
-            `<h3><span class="meth ${c.method}">${c.method}</span>${c.title}</h3>` +
-            `<div class="path">${c.path}${c.sampleBody ? '  body=' + escapeHtml(c.sampleBody) : ''}</div>` +
+            `<h3><span class="meth ${c.method}">${c.method}</span>${c.title} <span class="badge" id="badge-${c.id}"></span></h3>` +
+            `<div class="path">${c.path}${c.sampleBody ? '  body=' + escapeHtml(c.sampleBody) : ''}  <span class="exp">기대 ${c.expectStatus}</span></div>` +
             `<div class="observe">${c.observe}</div>` +
             `<div class="bp">brk: <code>${c.breakpoint}</code></div>` +
             `<div style="margin-top:8px"><button>실행</button></div>`;
-          el.querySelector('button').onclick = () => run(c);
+          el.querySelector('button').onclick = () => run(c, false);
           box.appendChild(el);
         });
       })
