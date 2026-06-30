@@ -74,12 +74,15 @@
       try {
         const res = await fetch(c.path, opt);
         const traceId = res.headers.get('X-Trace-Id');
+        const appCode = res.headers.get('X-App-Code');
+        const instId = res.headers.get('X-Instance-Id');
         let body;
         const txt = await res.text();
         try { body = JSON.stringify(JSON.parse(txt), null, 2); } catch { body = txt; }
         const cls = res.status >= 500 ? 's5' : res.status >= 400 ? 's4' : 's2';
         out.innerHTML =
           `<span class="status ${cls}">HTTP ${res.status}</span>   X-Trace-Id: ${traceId || '(없음)'}\n` +
+          `X-App-Code: ${appCode || '(없음)'}   X-Instance-Id: ${instId || '(없음)'}\n` +
           `요청: ${c.method} ${c.path}\n\n${escapeHtml(body)}`;
       } catch (e) {
         out.textContent = '요청 실패: ' + e;

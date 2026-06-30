@@ -29,8 +29,12 @@ UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·�
 | 8 | 보안 - 인증 성공 | `GET /api/secure/me` (Bearer `alice`) | 200, `sub=alice`, 이후 로그 `X-User-Id=alice` | `security.AuthenticatedUserContextFilter` | `CommonPlatformIntegrationTest` |
 | 9 | 분산 세션 컨벤션 | `GET /demo/session` (2회) | `demo:session:*` Redis 키, namespace/timeout 컨벤션 | `session.CommonSessionAutoConfiguration` | `RedisLiveSessionIntegrationTest` |
 | 10 | 관측 - 서비스 태그/추적 | `GET /demo/observe` | `service.name` 태그 + 추적 식별자 | `observability.CommonObservabilityAutoConfiguration` | `CommonObservabilityAutoConfigurationTest` |
+| 11 | 식별 코드/헤더(App·Instance) | `GET /demo/codes` | `appCode`(4)·`instanceCode`(6), 응답 헤더 `X-App-Code`/`X-Instance-Id`(UI 상단 표시) | `config.CommonEnvironmentPostProcessor#resolveCodes` | — |
+| 12 | 표준 예외 - 잘못된 포맷(400) | `POST /demo/error/validation` `{bad json` | 400 `MALFORMED_REQUEST` | `exception.GlobalExceptionHandler#handleMalformed` | — |
+| 13 | 표준 예외 - 네트워크(502/504) | `GET /demo/error/network` | 해석 불가 호스트 호출 → 502 `EXTERNAL_API_ERROR`(타임아웃 504) | `exception.GlobalExceptionHandler#handleNetwork` | — |
+| 14 | 파일 로그 보기 | `GET /demo/logfile` | `<앱코드>-<인스턴스코드>.log` 경로 + 마지막 줄(JSON: appCode/instanceCode/traceId) | `logback-common.xml` | — |
 
-> UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id`/`Bearer` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰한다.
+> UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id`/`Bearer` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰한다. 응답의 `X-App-Code`/`X-Instance-Id` 도 상단에 표시된다.
 > - 감사(6)의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
 > - 보안 인증성공(8)은 데모 전용 `JwtDecoder`(토큰 문자열 = subject, `@Profile("demo")`)로 실 IdP 없이 인증 경로를 재현한다.
 > - 세션(9)은 로컬 실 Redis(`16010`, `default/eva`)가 떠 있어야 한다. 키는 세션이 응답 커밋 시 저장되므로 **두 번째 호출**에서 보인다. Redis 없는 프로파일은 `application.yml` 에서 redis health 를 꺼 영향이 없다.

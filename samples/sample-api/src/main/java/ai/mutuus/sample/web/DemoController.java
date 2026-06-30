@@ -48,7 +48,9 @@ public class DemoController {
         return ApiResponse.ok(Map.of(
                 "traceId", String.valueOf(request.getHeader(HeaderNames.TRACE_ID)),
                 "spanId", String.valueOf(request.getHeader(HeaderNames.SPAN_ID)),
-                "userId", String.valueOf(request.getHeader(HeaderNames.USER_ID))));
+                "userId", String.valueOf(request.getHeader(HeaderNames.USER_ID)),
+                "appCode", String.valueOf(request.getHeader(HeaderNames.APP_CODE)),
+                "instanceCode", String.valueOf(request.getHeader(HeaderNames.INSTANCE_ID))));
     }
 
     /** 인증된 사용자만 접근 — JWT 자원 서버 자동구성 확인. */

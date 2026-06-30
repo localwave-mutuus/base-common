@@ -1,5 +1,8 @@
 package ai.mutuus.sample.demo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,17 +51,23 @@ public class DemoCaseController {
     private final ObjectProvider<StringRedisTemplate> redisProvider;
     private final String sessionNamespace;
     private final String serviceName;
+    private final String appCode;
+    private final String instanceCode;
 
     public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages,
                               SampleNoteRepository notes, ObjectProvider<StringRedisTemplate> redisProvider,
                               @Value("${mutuus.common.session.namespace:demo:session}") String sessionNamespace,
-                              @Value("${mutuus.common.service-name:sample-api}") String serviceName) {
+                              @Value("${mutuus.common.service-name:sample-api}") String serviceName,
+                              @Value("${mutuus.common.app-code:}") String appCode,
+                              @Value("${mutuus.common.instance-code:}") String instanceCode) {
         this.restClientBuilder = restClientBuilder;
         this.messages = messages;
         this.notes = notes;
         this.redisProvider = redisProvider;
         this.sessionNamespace = sessionNamespace;
         this.serviceName = serviceName;
+        this.appCode = appCode;
+        this.instanceCode = instanceCode;
     }
 
     // ---------------------------------------------------------------------
@@ -106,7 +115,20 @@ public class DemoCaseController {
                         "ai.mutuus.common.session.CommonSessionAutoConfiguration"),
                 new DemoCase("observe", "관측 - 서비스 태그/추적", "GET", "/demo/observe", null,
                         "service.name 태그 + 현재 추적 식별자. 전체 OTel export 는 collector 필요(여기선 컨벤션만 확인).",
-                        "ai.mutuus.common.observability.CommonObservabilityAutoConfiguration"));
+                        "ai.mutuus.common.observability.CommonObservabilityAutoConfiguration"),
+                new DemoCase("codes", "식별 코드/헤더(App·Instance)", "GET", "/demo/codes", null,
+                        "어플리케이션코드(4)·인스턴스구분코드(6) 상수. 응답 헤더 X-App-Code/X-Instance-Id 로도 회신(상단에 표시됨).",
+                        "ai.mutuus.common.config.CommonEnvironmentPostProcessor#resolveCodes"),
+                new DemoCase("error-malformed", "표준 예외 - 잘못된 포맷(400)", "POST", "/demo/error/validation",
+                        "{bad json",
+                        "파싱 불가 본문 → HttpMessageNotReadable → 400 MALFORMED_REQUEST.",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleMalformed"),
+                new DemoCase("error-network", "표준 예외 - 네트워크(502/504)", "GET", "/demo/error/network", null,
+                        "해석 불가 호스트로 아웃바운드 호출 → ResourceAccessException → 502 EXTERNAL_API_ERROR(타임아웃은 504).",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork"),
+                new DemoCase("logfile", "파일 로그 보기 (<앱>-<인스턴스>.log)", "GET", "/demo/logfile", null,
+                        "현재 로그 파일 경로와 마지막 줄(JSON: appCode/instanceCode/traceId 포함). 다른 케이스 몇 번 호출 후 확인.",
+                        "lib/src/main/resources/logback-common.xml"));
     }
 
     // ---------------------------------------------------------------------
@@ -239,6 +261,57 @@ public class DemoCaseController {
                 "traceId", TraceContext.traceId(),
                 "context", TraceContext.snapshot(),
                 "note", "모든 추적/로그에 service.name 태그가 붙는다. 전체 OTel export(span 전송)는 collector 가 필요하다."));
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 10: 식별 코드/헤더 — 어플리케이션코드(4)/인스턴스구분코드(6)
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/codes")
+    public ApiResponse<Map<String, Object>> codes() {
+        return ApiResponse.ok(Map.of(
+                "appCode", appCode,
+                "instanceCode", instanceCode,
+                "traceId", TraceContext.traceId(),
+                "note", "응답 헤더 X-App-Code/X-Instance-Id 로도 회신(상단 표시). 아웃바운드 호출·로그 파일명/필드에도 쓰인다."));
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 11: 네트워크 에러 — 해석 불가 호스트로 아웃바운드 → ResourceAccessException
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/error/network")
+    public ApiResponse<Void> errorNetwork() {
+        // 존재하지 않는 호스트(.invalid TLD)로 호출 → UnknownHost → ResourceAccessException
+        // → GlobalExceptionHandler#handleNetwork 가 502/504 로 변환(여기로 반환되지 않음).
+        restClientBuilder.build().get()
+                .uri("http://demo-nonexistent.invalid/api")
+                .retrieve()
+                .body(String.class);
+        return ApiResponse.ok(null);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 12: 파일 로그 보기 — <앱코드>-<인스턴스코드>.log 의 마지막 줄
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/logfile")
+    public ApiResponse<Map<String, Object>> logfile() throws IOException {
+        Path path = Path.of("target", "logs", appCode + "-" + instanceCode + ".log");
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("appCode", appCode);
+        result.put("instanceCode", instanceCode);
+        result.put("file", path.toAbsolutePath().toString());
+        if (Files.exists(path)) {
+            List<String> all = Files.readAllLines(path);
+            int from = Math.max(0, all.size() - 12);
+            result.put("lineCount", all.size());
+            result.put("tail", all.subList(from, all.size()));
+        } else {
+            result.put("exists", false);
+            result.put("hint", "아직 파일이 없음 — 다른 케이스를 몇 번 호출한 뒤 다시 확인(LOG_DIR=target/logs).");
+        }
+        return ApiResponse.ok(result);
     }
 
     // ---------------------------------------------------------------------
