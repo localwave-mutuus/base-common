@@ -9,6 +9,8 @@ import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.exception.BusinessException;
 import ai.mutuus.common.exception.ErrorCode;
 import ai.mutuus.common.i18n.MessageResolver;
+import ai.mutuus.sample.persistence.SampleNote;
+import ai.mutuus.sample.persistence.SampleNoteRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -35,10 +37,13 @@ public class DemoCaseController {
 
     private final RestClient.Builder restClientBuilder;
     private final MessageResolver messages;
+    private final SampleNoteRepository notes;
 
-    public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages) {
+    public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages,
+                              SampleNoteRepository notes) {
         this.restClientBuilder = restClientBuilder;
         this.messages = messages;
+        this.notes = notes;
     }
 
     // ---------------------------------------------------------------------
@@ -70,7 +75,14 @@ public class DemoCaseController {
                         "ai.mutuus.common.i18n.MessageResolver#get"),
                 new DemoCase("logging-slow", "API 생명주기 로깅(느린 요청 WARN)", "GET", "/demo/logging/slow", null,
                         "임계치 이상 지연시켜 request.completed 가 WARN 으로 남는지 확인(AccessLogFilter).",
-                        "ai.mutuus.common.logging.AccessLogFilter"));
+                        "ai.mutuus.common.logging.AccessLogFilter"),
+                new DemoCase("persistence-audit", "영속성 감사(BaseEntity)", "POST", "/demo/audit",
+                        "{\"text\":\"hello\"}",
+                        "SampleNote 저장 → created_at/by·updated_at/by 자동 기록. created_by 는 TraceContext 사용자(상단 X-User-Id)에서.",
+                        "ai.mutuus.common.persistence.TraceContextAuditorAware#getCurrentAuditor"),
+                new DemoCase("security-401", "보안 - 미인증 401(auth.failure)", "GET", "/api/secure/me", null,
+                        "토큰 없이 보호 자원 호출 → 401 + auth.failure 로그 + WWW-Authenticate(permit-all 아님).",
+                        "ai.mutuus.common.security.LoggingAuthenticationEntryPoint"));
     }
 
     // ---------------------------------------------------------------------
@@ -147,6 +159,23 @@ public class DemoCaseController {
         Thread.sleep(millis);
         return ApiResponse.ok(Map.of("sleptMillis", millis,
                 "hint", "서버 로그의 request.completed 가 WARN 인지 확인"));
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 6: 영속성 감사 — BaseEntity 상속 엔티티 저장 시 감사 컬럼 자동 기록
+    // ---------------------------------------------------------------------
+
+    @PostMapping("/audit")
+    public ApiResponse<Map<String, Object>> audit(@RequestBody(required = false) Map<String, Object> body) {
+        String text = (body != null && body.get("text") != null) ? body.get("text").toString() : "demo-note";
+        SampleNote saved = notes.save(new SampleNote(text));
+        return ApiResponse.ok(Map.of(
+                "id", saved.getId(),
+                "text", saved.getText(),
+                "createdAt", String.valueOf(saved.getCreatedAt()),
+                "createdBy", String.valueOf(saved.getCreatedBy()),
+                "updatedAt", String.valueOf(saved.getUpdatedAt()),
+                "updatedBy", String.valueOf(saved.getUpdatedBy())));
     }
 
     // ---------------------------------------------------------------------

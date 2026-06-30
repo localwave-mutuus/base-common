@@ -37,6 +37,7 @@
     <p style="margin-top:8px">
       <label>X-Locale</label><input id="locale" placeholder="(빈값=기본)" size="8">
       <label style="margin-left:16px">X-Screen-Id</label><input id="screen" placeholder="(선택)" size="10">
+      <label style="margin-left:16px">X-User-Id</label><input id="user" placeholder="(감사 주체)" size="10">
     </p>
   </header>
   <div class="wrap">
@@ -53,8 +54,10 @@
       const h = { 'Accept': 'application/json' };
       const loc = document.getElementById('locale').value.trim();
       const scr = document.getElementById('screen').value.trim();
+      const usr = document.getElementById('user').value.trim();
       if (loc) h['X-Locale'] = loc;
       if (scr) h['X-Screen-Id'] = scr;
+      if (usr) h['X-User-Id'] = usr;
       return h;
     }
 

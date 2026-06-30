@@ -24,15 +24,16 @@ UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·�
 | 3c | 표준 예외 - 검증(400) | `POST /demo/error/validation` `{"name":""}` | VALIDATION_ERROR + fieldErrors | `exception.GlobalExceptionHandler` | — |
 | 4 | i18n 메시지 | `GET /demo/i18n` (+`X-Locale: en`) | 현재/ko/en 메시지 비교 | `i18n.MessageResolver#get` | `MessageResolverTest` |
 | 5 | API 생명주기 로깅 | `GET /demo/logging/slow` | `request.completed` 가 WARN(느린 요청) | `logging.AccessLogFilter` | `AccessLoggingIntegrationTest` |
+| 6 | 영속성 감사(BaseEntity) | `POST /demo/audit` `{"text":"hello"}` | `created_at/by`·`updated_at/by` 자동 기록 | `persistence.TraceContextAuditorAware#getCurrentAuditor` | `PersistenceAuditingIntegrationTest` |
+| 7 | 보안 - 미인증 401 | `GET /api/secure/me` | 401 + `auth.failure` 로그 + `WWW-Authenticate` | `security.LoggingAuthenticationEntryPoint` | `CommonPlatformIntegrationTest` |
 
-> UI 상단의 `X-Locale`/`X-Screen-Id` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰할 수 있다.
+> UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰할 수 있다. 감사 케이스의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
 
-## 향후 케이스(인프라/보안 필요 — 다음 단계)
+## 향후 케이스(추가 인프라/설정 필요)
 
 | 케이스 | 필요 | 비고 |
 |--------|------|------|
-| 보안(JWT)·인증주체 `X-User-Id` | mock JwtDecoder 또는 실 토큰 | `demo` 에 mock 디코더 추가 예정 |
-| persistence 감사(BaseEntity) | H2(가능) | `POST /demo/audit` 추가 예정 |
+| 보안(JWT) 인증 성공 경로·`X-User-Id` 반영 | mock JwtDecoder 또는 실 토큰 | `demo` 에 mock 디코더 추가 예정(Phase 3b) |
 | 분산 세션 컨벤션 | 로컬 Redis(16010) | 게이트 통과 시만 |
 | 관측(OTel 태그) | OTel collector | 로그/metrics 로 대체 관찰 |
 
