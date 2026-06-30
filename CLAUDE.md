@@ -91,11 +91,18 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - 식별자(@Id) 전략은 도메인마다 달라 `BaseEntity`가 **강제하지 않는다**(엔티티가 직접 정의).
 - 감사 시각 필드는 `Instant`다 — Spring Data Auditing 기본 `DateTimeProvider`가 `OffsetDateTime`을 변환하지 못하므로 `Instant`(UTC)를 쓴다. **이 타입을 `OffsetDateTime` 등으로 바꾸지 말 것**(런타임 변환 예외).
 - 자동구성은 둘로 나뉜다: `CommonPersistenceAutoConfiguration`(주체 제공자 `AuditorAware` 빈) + `JpaAuditingAutoConfiguration`(`@EnableJpaAuditing`, `HibernateJpaAutoConfiguration` 이후 정렬, `jpaAuditingHandler` 부재 시에만 활성화). 슬라이스 테스트가 실제 JPA 없이도 깨지지 않도록 **감사 활성화(@EnableJpaAuditing)는 주체 빈 등록과 분리**돼 있다.
-- 토글: `mutuus.common.persistence.auditing-enabled=false`. 회귀 가드: `samples/sample-api/PersistenceAuditingIntegrationTest`(H2).
+- 토글: `mutuus.common.persistence.auditing-enabled=false`. 회귀 가드 셋: `PersistenceAuditingIntegrationTest`(H2, 항상 실행) + `PostgresAuditingIntegrationTest`(Testcontainers, Docker 없으면 skip) + `PostgresLiveAuditingIntegrationTest`(이미 떠 있는 로컬 실 PostgreSQL 대상, 접속·인증 가능할 때만 실행 — `support/LiveInfra#postgresReachable`). 후자는 생성에 더해 **수정 경로**(`updated_*` 갱신 + `created_*` 불변)까지 본다.
+  - **시각 정밀도 주의**: Postgres `timestamptz` 는 마이크로초로 반올림하므로 JVM `Instant`(nanos)와 `isEqualTo` 로 비교하면 실 DB 왕복 후 깨진다 — 실 DB 테스트는 `isCloseTo(..., within(1, MILLIS))` 로 비교한다.
+
+> **로컬 실 인프라 live 테스트 패턴**: Testcontainers 가드는 Docker 없는 환경에서 항상 skip 되므로, 이미 떠 있는 로컬 실 DB/Redis 를 대상으로 도는 `*LiveIntegrationTest` 를 별도로 둔다. 게이트(`samples/sample-api/.../support/LiveInfra`)는 포트 개방만이 아니라 **자격증명 인증까지** 성공해야 `@EnabledIf` 가 통과시킨다 → 인프라가 없거나 계정이 사라진 환경에선 에러가 아니라 **skip**. 좌표/자격은 `LiveInfra` 상수(기본값은 로컬 인프라, `-Dlive.*` 로 override)를 `@DynamicPropertySource` 로 컨텍스트에 주입해 단일 출처를 유지한다.
 
 ### 9. 분산 세션 컨벤션 (session 패키지, optional)
 
-`spring-session-data-redis`가 classpath에 있을 때만 활성화되는 optional 통합이다. **세션 저장소·Redis 연결 자체는 Boot 자동구성에 위임**하고, 라이브러리는 그 위에 **컨벤션만** 얹는다: `CommonSessionAutoConfiguration`이 `SessionRepositoryCustomizer<RedisSessionRepository>`를 등록해 키 네임스페이스를 `<service-name>:session`(또는 `mutuus.common.session.namespace`)으로, 기본 타임아웃을 `mutuus.common.session.timeout`(기본 30m)으로 잡는다 — 여러 서비스가 같은 Redis를 공유해도 키가 충돌하지 않게 하기 위함. 토글: `mutuus.common.session.enabled=false`, 사용자 커스터마이저 우선(`@ConditionalOnMissingBean(name="commonRedisSessionCustomizer")`). 회귀 가드: `samples/sample-api/RedisSessionIntegrationTest`(Redis Testcontainers, Docker 없으면 skip).
+`spring-session-data-redis`가 classpath에 있을 때만 활성화되는 optional 통합이다. `CommonSessionAutoConfiguration`이 두 가지를 한다: (1) **저장소 활성화** — Redis 연결(`RedisConnectionFactory`) 자체는 Boot 의 redis 자동구성에 위임하되, **세션 저장소(`RedisSessionRepository`)는 라이브러리가 직접 켠다**(중첩 `RedisHttpSessionEnablement`가 `@Import(RedisHttpSessionConfiguration)`). (2) **컨벤션** — `SessionRepositoryCustomizer<RedisSessionRepository>`로 키 네임스페이스를 `<service-name>:session`(또는 `mutuus.common.session.namespace`), 기본 타임아웃을 `mutuus.common.session.timeout`(기본 30m)으로 잡아 여러 서비스가 같은 Redis 를 공유해도 키 충돌이 없게 한다.
+
+> **Boot 4 주의(중요)**: Boot 4 는 스토어별 세션 자동구성을 **제거**했다(Boot 3 의 `RedisSessionConfiguration` 삭제, Spring Session 도 Boot 자동구성 미제공). 그래서 의존성만 얹어선 `RedisSessionRepository` 가 자동 생성되지 않는다 — **저장소 활성화를 라이브러리가 떠안는 이유**다(소비 서비스는 redis 세션 스타터만 추가하면 됨, 별도 `@EnableRedisHttpSession` 불필요). 소비 서비스가 자체 `SessionRepository` 를 정의하면 `@ConditionalOnMissingBean(SessionRepository.class)` 로 라이브러리 활성화가 비켜선다.
+
+토글: `mutuus.common.session.enabled=false`, 사용자 커스터마이저 우선(`@ConditionalOnMissingBean(name="commonRedisSessionCustomizer")`). 회귀 가드 둘: `RedisSessionIntegrationTest`(Testcontainers, Docker 없으면 skip) + `RedisLiveSessionIntegrationTest`(이미 떠 있는 로컬 실 Redis 대상, 접속·인증 가능할 때만 실행 — `support/LiveInfra#redisReachable`). 후자는 네임스페이스에 더해 **타임아웃 컨벤션**까지 검증한다.
 
 ## 작업 시 규칙
 

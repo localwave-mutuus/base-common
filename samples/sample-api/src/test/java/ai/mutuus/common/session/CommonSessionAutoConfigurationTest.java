@@ -1,9 +1,11 @@
 package ai.mutuus.common.session;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.session.config.SessionRepositoryCustomizer;
 import org.springframework.session.data.redis.RedisSessionRepository;
 
@@ -12,12 +14,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * 분산 세션 자동구성의 조건부 동작 검증(실제 Redis 없이).
  * <p>세션 컨벤션 커스터마이저가 Spring Session Redis 존재/스위치/사용자 빈 조건에 따라
- * 의도대로 켜고 꺼지는지 확인한다. 실제 Redis 저장 검증은 sample-api 의 Redis Testcontainers
- * 통합 테스트에서 수행한다.
+ * 의도대로 켜고 꺼지는지 확인한다. 실제 Redis 저장 검증은 sample-api 의 Redis 통합 테스트
+ * (Testcontainers / 실 Redis live)에서 수행한다.
+ * <p>라이브러리가 Redis HTTP 세션 저장소를 직접 활성화하므로(Boot 4 는 스토어별 세션 자동구성을
+ * 제거함), 슬라이스에도 가짜 {@link RedisConnectionFactory} 를 제공해 저장소 설정이 기동되게 한다
+ * (연결은 lazy 라 실제 Redis 없이도 컨텍스트는 뜬다).
  */
 class CommonSessionAutoConfigurationTest {
 
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
+            .withBean(RedisConnectionFactory.class, () -> Mockito.mock(RedisConnectionFactory.class))
             .withConfiguration(AutoConfigurations.of(CommonSessionAutoConfiguration.class));
 
     @Test

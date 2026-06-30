@@ -8,8 +8,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.session.SessionRepository;
 import org.springframework.session.config.SessionRepositoryCustomizer;
 import org.springframework.session.data.redis.RedisSessionRepository;
+import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 import org.springframework.util.StringUtils;
 
 /**
@@ -38,5 +42,19 @@ public class CommonSessionAutoConfiguration {
             repository.setRedisKeyNamespace(namespace);
             repository.setDefaultMaxInactiveInterval(props.getTimeout());
         };
+    }
+
+    /**
+     * Redis HTTP 세션 저장소 활성화. Boot 4 는 스토어별 세션 자동구성을 제거했으므로(Boot 3 의
+     * {@code RedisSessionConfiguration} 삭제), spring-session-data-redis 가 classpath 에 있어도
+     * {@link RedisSessionRepository} 가 자동 생성되지 않는다 → 위 컨벤션 커스터마이저가 적용될
+     * 대상이 사라진다. 라이브러리가 직접 저장소를 활성화해 "의존성 하나로 동작"을 보전한다.
+     * <p>소비 서비스가 자체 {@link SessionRepository}(예: {@code @EnableRedisHttpSession})를 정의하면
+     * {@link ConditionalOnMissingBean} 으로 즉시 비활성화돼 소비자 설정이 우선한다.
+     */
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnMissingBean(SessionRepository.class)
+    @Import(RedisHttpSessionConfiguration.class)
+    static class RedisHttpSessionEnablement {
     }
 }
