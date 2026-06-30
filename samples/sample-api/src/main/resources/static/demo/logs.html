@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>common-platform 로그 뷰어 (tail)</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { font-family: -apple-system, "Segoe UI", sans-serif; margin: 0; background: #0f1115; color: #e6e6e6; }
+    header { padding: 12px 20px; background: #161a22; border-bottom: 1px solid #2a2f3a; position: sticky; top: 0; z-index: 5; }
+    header h1 { margin: 0 0 6px; font-size: 16px; }
+    .meta { font-size: 12px; color: #8b94a7; font-family: ui-monospace, monospace; }
+    .ctrl { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    button { background: #2b6cf0; color: #fff; border: 0; border-radius: 6px; padding: 5px 12px; cursor: pointer; font-size: 12px; }
+    button:hover { filter: brightness(1.12); }
+    button.off { background: #3a2f1d; color: #f0b06e; }
+    input[type=text] { background: #11141b; border: 1px solid #2a2f3a; color: #e6e6e6; border-radius: 6px; padding: 4px 8px; font-size: 12px; }
+    label { font-size: 12px; color: #8b94a7; }
+    a { color: #6ea8ff; }
+    #log { padding: 8px 12px 40vh; font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12px; line-height: 1.5; }
+    .row { border-bottom: 1px solid #1b1f28; padding: 3px 6px; white-space: pre-wrap; word-break: break-word; }
+    .row:hover { background: #141821; }
+    .ts { color: #6b7280; }
+    .lvl { font-weight: 700; padding: 0 5px; border-radius: 3px; margin: 0 6px; }
+    .INFO { color: #6ee7a8; } .WARN { color: #f0b06e; } .ERROR { color: #f06e6e; } .DEBUG { color: #8b94a7; }
+    .ev { color: #c39bf0; }
+    .http { color: #79c0ff; }
+    .st2 { color: #6ee7a8; } .st4 { color: #f0b06e; } .st5 { color: #f06e6e; }
+    .msg { color: #d6dceb; }
+    .ids { color: #5b6473; font-size: 11px; }
+    .tag { color: #4b5365; }
+    details { margin-top: 3px; }
+    summary { cursor: pointer; color: #6b7280; font-size: 11px; }
+    pre.json { margin: 4px 0 2px; padding: 8px; background: #0b0e14; border: 1px solid #20242e; border-radius: 6px; overflow: auto; color: #cdd6e6; }
+    pre.stack { color: #f0a0a0; }
+    .hint { color: #8b94a7; padding: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📜 common-platform 로그 뷰어 <span class="meta" id="file">(최신 파일 탐색 중…)</span></h1>
+    <div class="meta" id="dir"></div>
+    <div class="ctrl">
+      <button id="toggle" onclick="togglePause()">⏸ 일시정지</button>
+      <button onclick="clearLog()">🗑 지우기</button>
+      <button onclick="scrollBottom(true)">⬇ 맨 아래로</button>
+      <label><input type="checkbox" id="autoscroll" checked> 자동 스크롤</label>
+      <label style="margin-left:8px">필터 <input type="text" id="filter" placeholder="문자열/레벨" size="16" oninput="applyFilter()"></label>
+      <span class="meta" id="status"></span>
+      <a href="/demo/index.html" style="margin-left:auto">← 케이스 화면</a>
+    </div>
+  </header>
+  <div id="log"><div class="hint">로그를 불러오는 중…</div></div>
+
+  <script>
+    const logEl = document.getElementById('log');
+    let lastFile = null, lastTotal = 0, paused = false, busy = false, filterText = '';
+
+    function esc(s) { return String(s).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+    function shortTs(t) { if (!t) return ''; const m = String(t).match(/T(\d\d:\d\d:\d\d\.\d{1,3})/); return m ? m[1] : t; }
+    function shortId(id) { return id ? String(id).slice(0, 8) : ''; }
+    function stClass(s) { return s >= 500 ? 'st5' : s >= 400 ? 'st4' : 'st2'; }
+
+    function nearBottom() { return window.innerHeight + window.scrollY >= document.body.scrollHeight - 120; }
+    function scrollBottom(force) { if (force || document.getElementById('autoscroll').checked) window.scrollTo(0, document.body.scrollHeight); }
+
+    function rowHtml(raw) {
+      let e;
+      try { e = JSON.parse(raw); } catch { return `<div class="row">${esc(raw)}</div>`; }
+      const lvl = e.level || 'INFO';
+      const ts = shortTs(e['@timestamp']);
+      const ev = e.event ? `<span class="ev">${esc(e.event)}</span> ` : '';
+      let http = '';
+      if (e.httpMethod || e.httpPath) {
+        const st = (e.httpStatus != null) ? `<span class="${stClass(e.httpStatus)}">${e.httpStatus}</span> ` : '';
+        const dur = (e.durationMs != null) ? `<span class="tag">${e.durationMs}ms</span> ` : '';
+        http = `<span class="http">${esc(e.httpMethod || '')} ${esc(e.httpPath || '')}</span> ${st}${dur}`;
+      }
+      const msg = e.message ? `<span class="msg">${esc(e.message)}</span> ` : '';
+      const extra = e.errorCode ? `<span class="tag">[${esc(e.errorCode)}]</span> ` : '';
+      const trace = e['X-Trace-Id'] ? `<span class="ids">trace=${esc(shortId(e['X-Trace-Id']))}</span> ` : '';
+      const codes = (e.appCode || e.instanceCode)
+        ? `<span class="ids">${esc(e.appCode || '')}/${esc(e.instanceCode || '')}</span> ` : '';
+      const detailsBlocks = [];
+      if (e.stack_trace) detailsBlocks.push(`<details><summary>stack_trace</summary><pre class="json stack">${esc(e.stack_trace)}</pre></details>`);
+      detailsBlocks.push(`<details><summary>raw JSON</summary><pre class="json">${esc(JSON.stringify(e, null, 2))}</pre></details>`);
+      const head =
+        `<span class="ts">${esc(ts)}</span>` +
+        `<span class="lvl ${lvl}">${esc(lvl)}</span>` +
+        ev + http + extra + msg + trace + codes +
+        (e.logger_name ? `<span class="tag">${esc(e.logger_name.replace('ai.mutuus.common.', 'a.m.c.'))}</span>` : '');
+      return `<div class="row" data-text="${esc((raw || '').toLowerCase())}">${head}${detailsBlocks.join('')}</div>`;
+    }
+
+    function appendLines(lines) {
+      if (!lines || !lines.length) return;
+      const atBottom = nearBottom();
+      const frag = document.createElement('div');
+      frag.innerHTML = lines.map(rowHtml).join('');
+      while (frag.firstChild) logEl.appendChild(frag.firstChild);
+      applyFilter();
+      if (atBottom) scrollBottom(false);
+    }
+
+    function clearLog() { logEl.innerHTML = ''; }
+    function applyFilter() {
+      filterText = document.getElementById('filter').value.trim().toLowerCase();
+      logEl.querySelectorAll('.row').forEach(r => {
+        r.style.display = (!filterText || (r.getAttribute('data-text') || '').includes(filterText)) ? '' : 'none';
+      });
+    }
+    function togglePause() {
+      paused = !paused;
+      const b = document.getElementById('toggle');
+      b.textContent = paused ? '▶ 재개' : '⏸ 일시정지';
+      b.className = paused ? 'off' : '';
+    }
+    function setStatus(s) { document.getElementById('status').textContent = s; }
+
+    async function poll() {
+      if (paused || busy) return;
+      busy = true;
+      try {
+        const after = (lastFile === null) ? -1 : lastTotal;
+        let data = (await (await fetch('/demo/logs/tail?after=' + after)).json()).data;
+        document.getElementById('dir').textContent = data.dir || '';
+        if (!data.file) { setStatus(data.hint || '로그 파일 없음'); document.getElementById('file').textContent = '(파일 없음)'; return; }
+        if (data.file !== lastFile) {
+          // 최초 로드 or 재기동(새 인스턴스 → 새 파일) → 화면 초기화 후 새 파일 tail
+          clearLog(); lastFile = data.file; lastTotal = 0;
+          if (after !== -1) data = (await (await fetch('/demo/logs/tail?after=-1')).json()).data;
+          document.getElementById('file').textContent = data.file;
+          appendLines(data.lines); lastTotal = data.total;
+        } else if (data.lines.length) {
+          appendLines(data.lines); lastTotal = data.total;
+        }
+        setStatus(`${lastTotal} 줄 · ${new Date().toLocaleTimeString()}`);
+      } catch (e) {
+        setStatus('폴링 오류: ' + e);
+      } finally { busy = false; }
+    }
+
+    poll();
+    setInterval(poll, 1500);
+  </script>
+</body>
+</html>

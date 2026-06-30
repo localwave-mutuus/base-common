@@ -7,7 +7,8 @@
 
 - IDE: 실행/디버그 구성 **`sample-api [demo] (공통기능 케이스, H2)`** 선택 → **F5**(디버그) 또는 ▶.
   - 프로파일 `demo,stage`(임베디드 H2, 무인프라), 포트 `8081`, `/demo/**` permit-all.
-- UI(케이스 선택·실행): <http://localhost:8081/demo/index.html>
+- UI(케이스 선택·실행): <http://localhost:8081/demo/index.html> — 케이스별 ✅PASS/❌FAIL 배지 + "▶ 전체 실행"
+- 로그 뷰어(최신 로그 파일 자동 tail·JSON beautify): <http://localhost:8081/demo/logs.html> (`GET /demo/logs/tail?after=N`)
 - 케이스 목록(JSON): `GET http://localhost:8081/demo/cases`
 
 UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·본문을 보여준다. 동시에 **서버 콘솔 로그**(구조화 JSON: `request.received`/`request.completed`/`error.*`)를 함께 본다.
