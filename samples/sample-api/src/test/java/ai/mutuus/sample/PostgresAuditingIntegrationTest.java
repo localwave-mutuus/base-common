@@ -1,6 +1,7 @@
 package ai.mutuus.sample;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import ai.mutuus.common.core.HeaderNames;
@@ -25,6 +26,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 /**
  * H2 가 아닌 <b>실제 PostgreSQL</b>(Testcontainers)에서도 BaseEntity 감사가 동작하는지 검증한다.
@@ -65,7 +67,8 @@ class PostgresAuditingIntegrationTest {
         // 재조회해도 동일하게 영속되어 있어야 한다(실 DB 왕복).
         SampleNote reloaded = repository.findById(saved.getId()).orElseThrow();
         assertThat(reloaded.getCreatedBy()).isEqualTo("u-pg");
-        assertThat(reloaded.getCreatedAt()).isEqualTo(createdAt);
+        // Postgres timestamptz 는 마이크로초로 반올림하므로 JVM nanos 와 정확히 같지 않다(밀리초 허용).
+        assertThat(reloaded.getCreatedAt()).isCloseTo(createdAt, within(1, ChronoUnit.MILLIS));
     }
 
     @TestConfiguration

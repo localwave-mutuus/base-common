@@ -33,4 +33,9 @@ public class SampleNote extends BaseEntity {
     public String getText() {
         return text;
     }
+
+    /** 수정 감사(@LastModified*) 검증용 — 필드를 바꿔 JPA UPDATE 를 유발한다. */
+    public void setText(String text) {
+        this.text = text;
+    }
 }
