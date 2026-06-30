@@ -146,4 +146,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--
+      게시 대상(GitHub Packages). <id>는 ~/.m2/settings.xml 의 <server><id>와
+      이름으로 매칭된다 → 여기 'localwave'가 settings.xml 의 localwave 계정(PAT)과 연결.
+      게시: ./mvnw -pl lib clean deploy   (현재 0.1.0-SNAPSHOT → SNAPSHOT 으로 업로드)
+    -->
+    <distributionManagement>
+        <repository>
+            <id>localwave</id>
+            <name>GitHub Packages - base-common</name>
+            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+        </repository>
+    </distributionManagement>
 </project>
