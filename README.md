@@ -9,11 +9,11 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 
 ## 기술스택
 
-- Java 25 (LTS)
+- Java 21 (LTS)
 - Spring Boot 4.1.0 / Spring Framework 7
 - Spring Modulith 2.1.0 (관측)
 - Micrometer + OpenTelemetry, Logback(JSON), Spring Security OAuth2 Resource Server
-- 빌드: Maven (단일 모듈, 라이브러리 jar)
+- 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `lib/`(산출물 라이브러리 jar) + `samples/*`(소비 검증). 게시 산출물은 `lib/`의 `ai.mutuus.common:common-platform` 하나.
 
 ## 내부 패키지 구성
 
@@ -107,18 +107,20 @@ management:
 
 ## 테스트
 
-테스트는 라이브러리 모듈이 아니라 **소비 서비스 `samples/sample-api` 에서 수행**한다(라이브러리는 소비자에 흡수되는 산출물이라, 단위 테스트까지 소비자 관점에서 검증). 라이브러리를 고쳤으면 먼저 재설치한다.
+테스트는 라이브러리 모듈이 아니라 **소비 서비스 `samples/*` 에서 수행**한다(라이브러리는 소비자에 흡수되는 산출물이라, 단위 테스트까지 소비자 관점에서 검증). 루트에서 reactor 로 돌리면 `lib` 를 먼저 빌드한 뒤 샘플이 그 모듈을 해석하므로 별도 재설치가 필요 없다.
 
 ```bash
-./mvnw clean install                                # 1) 라이브러리 설치(선행 필수)
-cd samples/sample-api   && ../../mvnw clean test    # 2a) 웹 소비자 테스트(대부분)
-cd samples/sample-batch && ../../mvnw clean test    # 2b) 비웹 소비자 테스트(web/security 비전이 검증)
+./mvnw clean test                                   # reactor 전체: lib 빌드 후 두 샘플 테스트 일괄
+cd samples/sample-api   && ../../mvnw clean test    # 웹 소비자만 (대부분)
+cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/security 비전이 검증)
 ```
+
+> 샘플을 **단독**으로 돌릴 때는 라이브러리를 .m2 설치 jar 로 해석하므로, 라이브러리를 고쳤으면 먼저 `./mvnw -pl lib install` 로 재설치한다.
 
 ## 배포(사내 저장소)
 
 ```bash
-./mvnw -q clean deploy   # Nexus/Artifactory 에 라이브러리 jar 게시
+./mvnw -q -pl lib clean deploy   # lib 만 Nexus/Artifactory 에 게시 (samples·aggregator 는 deploy.skip)
 ```
 
 > JDK 21 필요. Maven Wrapper(`./mvnw`)가 Maven 3.9.9 로 고정돼 있어 로컬 Maven 설치는 불필요하다.

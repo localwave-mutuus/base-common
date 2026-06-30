@@ -4,151 +4,39 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
-        <relativePath/>
-    </parent>
-
+    <!--
+      집계(aggregator) pom — 게시 대상이 아니다.
+      실제 산출물 라이브러리는 lib/ 모듈(ai.mutuus.common:common-platform)이고,
+      samples/* 는 그 라이브러리를 의존성 하나로 끌어쓰는 소비 검증용 샘플이다.
+      이 reactor 의 목적:
+        1) IDE(특히 VS Code/Eclipse jdt.ls)가 라이브러리와 샘플을 한 창에서
+           모두 별도 프로젝트로 임포트하게 한다. (라이브러리를 lib/ 하위로 내려
+           samples 와 형제로 만들어, Eclipse 의 '프로젝트 위치 중첩 금지' 위반을 피한다.)
+        2) reactor 빌드 시 samples 가 lib 를 .m2 의 stale jar 가 아니라 방금 빌드한
+           모듈에서 해석하도록 한다(라이브러리 수정 후 재설치 없이 샘플 테스트 가능).
+      라이브러리만 설치/게시하려면: ./mvnw -pl lib install  /  ./mvnw -pl lib deploy
+      (samples 와 이 aggregator 는 maven.deploy.skip=true 로 게시에서 제외된다.)
+    -->
     <groupId>ai.mutuus.common</groupId>
-    <artifactId>common-platform</artifactId>
+    <artifactId>common-platform-aggregator</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>common-platform</name>
-    <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>
+    <packaging>pom</packaging>
+    <name>common-platform-aggregator</name>
+    <description>common-platform 라이브러리(lib) + 소비 검증 샘플(samples)을 묶는 reactor (게시 대상 아님)</description>
 
     <properties>
-        <java.version>25</java.version>
-        <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-modulith.version>2.1.0</spring-modulith.version>
-        <logstash-encoder.version>8.0</logstash-encoder.version>
+        <!-- 집계 pom 자체는 사내 저장소에 게시하지 않는다 -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.modulith</groupId>
-                <artifactId>spring-modulith-bom</artifactId>
-                <version>${spring-modulith.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <!-- core: always required -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- web: trace filter, header propagation, exception handling, locale -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- 아웃바운드 추적 헤더 전파 자동등록(RestClient/RestTemplate Customizer).
-             Boot 4에서 RestClient 자동구성이 별도 모듈로 분리됨 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-restclient</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- security: OAuth2 Resource Server (JWT) auth integration -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- observability: actuator + Micrometer Tracing (OTel) + Prometheus -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- structured logging (JSON) -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-encoder.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Spring Modulith observability (2.x: 단일 jar이 -api/-core로 분리됨; -core가 -api를 전이로 포함) -->
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-observability-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- distributed session (optional): Redis -->
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-data-redis</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- persistence (optional): JPA 공통 베이스 엔티티 + 감사 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <!--
+      reactor 모듈. Maven 이 의존관계로 빌드 순서를 정렬한다:
+      samples 가 ai.mutuus.common:common-platform 을 의존하므로 lib 가 먼저 빌드된다.
+    -->
+    <modules>
+        <module>lib</module>
+        <module>samples/sample-api</module>
+        <module>samples/sample-batch</module>
+    </modules>
 </project>

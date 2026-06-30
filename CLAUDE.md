@@ -4,39 +4,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-`common-platform`은 **단일 산출물(jar) 공통 라이브러리**다. 타 API 서비스가 Maven 의존성 **하나**(`ai.mutuus.common:common-platform`)로 추적/로깅/예외/i18n/인증/세션 기능을 재사용한다. 실행 가능한 애플리케이션이 아니라 **소비 서비스에 흡수되는 라이브러리**라는 점이 모든 설계 결정의 근간이다.
+`common-platform`이 게시하는 **산출물은 단일 jar 공통 라이브러리**(`ai.mutuus.common:common-platform`) 하나다. 타 API 서비스가 Maven 의존성 **하나**로 추적/로깅/예외/i18n/인증/세션 기능을 재사용한다. 실행 가능한 애플리케이션이 아니라 **소비 서비스에 흡수되는 라이브러리**라는 점이 모든 설계 결정의 근간이다.
 
-- Java 25 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
-- 기능은 `ai.mutuus.common` 아래 **패키지로만** 구분된다(별도 Maven 모듈 아님). README 등에서 `common-web`, `common-core`로 부르는 것은 모듈이 아니라 패키지를 가리킨다.
+- **레포 레이아웃은 Maven reactor**다(루트 `pom.xml`은 `packaging=pom` aggregator, 게시 대상 아님). 모듈 셋:
+  - `lib/` — **산출물 라이브러리**(`ai.mutuus.common:common-platform`). 라이브러리 소스/리소스는 전부 `lib/src/...`에 있다.
+  - `samples/sample-api`, `samples/sample-batch` — 라이브러리를 의존성 하나로 끌어쓰는 **소비 검증용 샘플**(아래 "테스트 위치" 규칙).
+  - 이 reactor 구조의 이유: IDE(jdt.ls)가 라이브러리와 샘플을 한 창에서 각각 별도 프로젝트로 임포트하려면, 라이브러리를 `lib/` 하위로 내려 samples 와 형제로 둬 Eclipse 의 '프로젝트 위치 중첩 금지'를 피해야 한다. 또한 reactor 빌드 시 samples 가 lib 를 .m2 stale jar 가 아니라 방금 빌드한 모듈에서 해석한다. 단, **`samples` 가 reactor 모듈이 됐어도 "독립 소비자" 충실도는 유지**된다 — 샘플 pom 은 여전히 `spring-boot-starter-parent` 를 상속하고 라이브러리를 GAV 의존으로만 참조한다(라이브러리 내부에 결합하지 않음).
+- Java 21 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
+  - 베이스라인은 **JDK 21 고정**이다(`lib/pom.xml`의 `java.version`/`maven.compiler.release`). 브랜치명·일부 커밋에 "Java 25"가 보여도 작업 트리는 안정성·소비 서비스 강제 회피를 이유로 21로 되돌려져 있다 — 산출물 타깃은 21이다.
+- 라이브러리 기능은 `ai.mutuus.common` 아래 **패키지로만** 구분된다(라이브러리 내부엔 별도 Maven 모듈 없음). README 등에서 `common-web`, `common-core`로 부르는 것은 모듈이 아니라 패키지를 가리킨다.
 
 ## 빌드 / 테스트 명령
 
-Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 25만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능).
+Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능). 루트에서의 `./mvnw`는 **reactor 전체**(lib + samples)를 대상으로 한다.
 
 ```bash
-./mvnw clean install     # 라이브러리 컴파일 + 로컬 .m2 설치 (모듈 자체엔 테스트 없음)
-./mvnw clean deploy      # 사내 Nexus/Artifactory에 라이브러리 jar 게시
+# 라이브러리만 (대부분의 라이브러리 작업은 이걸로 충분)
+./mvnw -pl lib clean install     # lib 만 컴파일 + 로컬 .m2 설치 (라이브러리 모듈엔 테스트 없음)
+./mvnw -pl lib clean deploy      # 사내 Nexus/Artifactory에 라이브러리 jar 게시 (samples·aggregator는 deploy.skip)
+
+# reactor 전체 (lib → samples 순서로 빌드, 샘플 테스트까지 실행)
+./mvnw clean install             # lib 설치 후 samples 빌드/테스트 — 라이브러리+소비검증 일괄
 ```
 
-**테스트는 라이브러리 모듈이 아니라 소비 서비스(`samples/sample-api`)에서 수행한다(아래 "테스트 위치" 규칙 참조).** sample-api 는 설치된 라이브러리 jar 를 의존하므로, 라이브러리를 고쳤으면 **먼저 `./mvnw install` 로 재설치**한 뒤 sample-api 를 테스트한다.
+**테스트는 라이브러리 모듈이 아니라 소비 서비스(`samples/*`)에서 수행한다(아래 "테스트 위치" 규칙 참조).** reactor 빌드(`./mvnw clean install`/`test` 를 루트에서)는 samples 가 라이브러리를 **방금 빌드한 lib 모듈**에서 해석하므로, 라이브러리를 고친 뒤에도 별도 재설치 없이 한 번에 검증된다.
 
 ```bash
-./mvnw clean install                                   # 1) 라이브러리 재설치 (선행 필수)
-cd samples/sample-api   && ../../mvnw clean test       # 2a) 웹 소비자 테스트(대부분)
-cd samples/sample-batch && ../../mvnw clean test       # 2b) 비웹 소비자 테스트(비전이 검증)
+./mvnw clean test                                      # 0) reactor 전체: lib 빌드 후 두 샘플 테스트 일괄
+cd samples/sample-api   && ../../mvnw clean test       # 2a) 웹 소비자만 테스트
+cd samples/sample-batch && ../../mvnw clean test       # 2b) 비웹 소비자만 테스트 (비전이 검증)
 cd samples/sample-api && ../../mvnw -Dtest=ClassName test            # 단일 클래스
 cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 메서드
 ```
 
-> 라이브러리 API(시그니처/타입)를 바꾼 뒤에는 sample-api 에서 **반드시 `clean`** 한다 — 소스가 안 바뀐 테스트는 Maven 이 재컴파일을 건너뛰어 옛 jar 기준의 stale `.class` 를 재사용, `NoSuchMethodError` 가 날 수 있다.
+> **샘플만 단독으로** 돌릴 때(`cd samples/sample-api && ../../mvnw test`)는 라이브러리를 reactor 가 아니라 **.m2 에 설치된 jar** 로 해석한다. 따라서 라이브러리 API(시그니처/타입)를 바꾼 뒤 샘플을 단독 실행하려면 **먼저 `./mvnw -pl lib install` 로 재설치**하고, 샘플에서 **반드시 `clean`** 한다(소스가 안 바뀐 테스트는 Maven 이 재컴파일을 건너뛰어 stale `.class` 재사용 → `NoSuchMethodError`). 루트에서 reactor 로 돌리면 이 함정이 없다.
 
-`spring-boot-maven-plugin`은 `<skip>true</skip>`로 설정돼 있다 — 라이브러리이므로 **실행 가능 jar로 repackage하지 않는다**. 이 설정을 건드리지 말 것.
+`lib/pom.xml`의 `spring-boot-maven-plugin`은 `<skip>true</skip>`로 설정돼 있다 — 라이브러리이므로 **실행 가능 jar로 repackage하지 않는다**. 이 설정을 건드리지 말 것.
 
 ## 핵심 아키텍처
 
 ### 1. optional 의존성 + 조건부 자동구성 (가장 중요한 원칙)
 
-라이브러리 jar에는 **모든 기능 코드가 포함**되지만, 통합 의존성(web/security/actuator/otel/redis 등)은 `pom.xml`에서 전부 `<optional>true</optional>`이다. 따라서 소비 서비스로 **강제 전이되지 않는다**.
+라이브러리 jar에는 **모든 기능 코드가 포함**되지만, 통합 의존성(web/security/actuator/otel/redis 등)은 `lib/pom.xml`에서 전부 `<optional>true</optional>`이다. 따라서 소비 서비스로 **강제 전이되지 않는다**.
 
 각 자동구성은 `@ConditionalOnClass`로 보호되어, **소비 서비스의 classpath에 해당 starter가 있을 때만** 활성화된다. 예:
 - `CommonWebAutoConfiguration` → `@ConditionalOnClass(DispatcherServlet.class)`
@@ -46,7 +55,7 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 ### 2. 자동구성 등록 (Spring Boot 3+ 방식)
 
-자동구성 클래스는 `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`에 한 줄씩 등록한다. **새 `@AutoConfiguration` 클래스를 만들면 이 파일에도 추가해야** 활성화된다.
+자동구성 클래스는 `lib/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`에 한 줄씩 등록한다. **새 `@AutoConfiguration` 클래스를 만들면 이 파일에도 추가해야** 활성화된다.
 
 별도로 `META-INF/spring.factories`에는 `EnvironmentPostProcessor`만 등록돼 있다(컨텍스트 초기화 *이전*에 동작해야 해서 이 메커니즘이 별도로 필요).
 
@@ -106,10 +115,11 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 ## 작업 시 규칙
 
-- **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `common-platform` 라이브러리 모듈에는 `src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.
+- **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.
   - **`samples/sample-api`**(웹 소비자): 대부분의 테스트. 라이브러리 내부 클래스의 단위/슬라이스 테스트는 라이브러리와 **같은 패키지명**(`ai.mutuus.common.*`)으로 둔다(package-private 멤버 접근은 classpath split-package로 동작 — 이 프로젝트는 JPMS 모듈이 아니다). 소비자 시나리오 통합 테스트는 `ai.mutuus.sample.*`에 둔다.
   - **`samples/sample-batch`**(비웹 소비자): web/security starter 미의존. optional 자동구성이 **비웹 서비스로 전이/활성화되지 않음**을 실제 컨텍스트로 검증한다. 비웹에선 spring-web/security 클래스가 classpath에 없어 타입 참조조차 불가하므로 web 빈 부재는 **빈 이름**으로 확인한다.
   - Docker가 필요한 실연동 테스트(Testcontainers)는 `@Testcontainers(disabledWithoutDocker = true)`로 가드해 무도커 환경에서 자동 skip되게 한다.
 - **국제화**: 사용자에게 노출되는 메시지는 하드코딩하지 말고 `messages/messages*.properties`(기본/`_ko`/`_en`) + `MessageResolver`를 거친다. 키는 `ErrorCode.messageKey()` 컨벤션(`error.*`)을 따른다.
 - **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`/`async`/`persistence`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다. `async`/`persistence`는 `core`(TraceContext)에만 의존하는 optional 통합 패키지다.
 - 주석·문서는 한국어로 작성돼 있다. 일관성을 위해 새 주석/문서도 한국어를 따른다.
+- **기본 응답 언어는 한국어다.** 사용자에게 보고·설명·요약하는 모든 응답은 별도 요청이 없는 한 한국어로 작성한다.

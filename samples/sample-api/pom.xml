@@ -19,7 +19,9 @@
     <description>common-platform 소비 검증용 샘플 API (통합 테스트)</description>
 
     <properties>
-        <java.version>25</java.version>
+        <java.version>21</java.version>
+        <!-- 샘플은 사내 저장소에 게시하지 않는다 (reactor 의 ./mvnw deploy 시 제외) -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -108,10 +110,14 @@
             <artifactId>testcontainers-postgresql</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- PostgreSQL JDBC 드라이버: runtime 스코프.
+             local 프로파일(application-local.yml)이 실 PostgreSQL 에 붙어 앱으로
+             기동되므로 런타임 classpath 에 있어야 한다(F5 [local]). runtime 은
+             테스트 classpath 에도 포함되므로 Testcontainers/live 테스트도 그대로 동작. -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -120,6 +126,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- 포크된 테스트 JVM 출력을 UTF-8로 고정 — 한글 테스트명/로그가
+                 Windows cp949 콘솔에서 깨지지 않도록(빌드 동작엔 영향 없음) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -Dfile.encoding=UTF-8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

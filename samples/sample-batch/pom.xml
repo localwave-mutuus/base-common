@@ -19,7 +19,9 @@
     <description>common-platform 비(非)웹 소비 검증용 샘플 — web/security 자동구성 비전이 증명</description>
 
     <properties>
-        <java.version>25</java.version>
+        <java.version>21</java.version>
+        <!-- 샘플은 사내 저장소에 게시하지 않는다 (reactor 의 ./mvnw deploy 시 제외) -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -44,6 +46,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- 포크된 테스트 JVM 출력을 UTF-8로 고정 — 한글 테스트명/로그가
+                 Windows cp949 콘솔에서 깨지지 않도록(빌드 동작엔 영향 없음) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -Dfile.encoding=UTF-8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

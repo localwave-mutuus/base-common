@@ -5,4 +5,5 @@ target/
 .idea/
 *.iml
 .vscode/
+*.code-workspace
 .DS_Store
