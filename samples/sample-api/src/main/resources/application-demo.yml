@@ -1,0 +1,19 @@
+# demo 프로파일: 공통기능 케이스 데모/디버깅용.
+# 활성화 예) --spring.profiles.active=demo,stage  (stage = 임베디드 H2, 무인프라)
+# UI: http://localhost:8081/demo/index.html   (케이스 목록 GET /demo/cases)
+# 보안 permit-all 에 /demo/** 를 포함해 토큰 없이 호출 가능하게 한다(런치 args 참고).
+demo:
+  environment: demo
+
+logging:
+  level:
+    # 라이브러리 내부 동작을 따라가기 쉽게 상세 로깅
+    ai.mutuus.common: DEBUG
+    # 구조화 접근 로그(request.received/completed, error.* 등)
+    ai.mutuus.common.access: DEBUG
+
+mutuus:
+  common:
+    # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
+    logging:
+      slow-request-threshold-millis: 1000

@@ -7,3 +7,5 @@ target/
 .vscode/
 *.code-workspace
 .DS_Store
+# Claude Code 로컬 개인 설정(권한 등) — 커밋/게시 금지
+.claude/settings.local.json
