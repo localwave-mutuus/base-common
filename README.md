@@ -89,6 +89,20 @@ management:
 </configuration>
 ```
 
+`logback-common.xml` 은 **JSON 콘솔 + 파일** appender 를 제공한다.
+- 파일명: `<어플리케이션코드>-<인스턴스구분코드>.log` (크기 100MB + 일자 롤링, `${LOG_DIR:-logs}` 디렉터리).
+- 모든 로그에 추적키(`X-Trace-Id`)·`appCode`·`instanceCode`·`service` 필드가 포함된다.
+- **JSON 인코더는 optional** 이라 소비자가 직접 추가한다:
+  ```xml
+  <dependency>
+    <groupId>net.logstash.logback</groupId><artifactId>logstash-logback-encoder</artifactId>
+    <version>8.0</version><scope>runtime</scope>
+  </dependency>
+  ```
+
+어플리케이션코드(4자리)·인스턴스구분코드(6자리)는 `mutuus.common.app-code`/`instance-code` 로 지정하며,
+미지정 시 각각 서비스명에서 도출/구동 시 자동 생성된다. 두 코드는 응답·아웃바운드 헤더(`X-App-Code`/`X-Instance-Id`)와 로그 파일명에 쓰인다.
+
 ## 커스텀 헤더(e2e 정보 계층)
 
 | 헤더 | 의미 |
@@ -101,6 +115,8 @@ management:
 | `X-Device-Id` | 단말 고유 식별자 |
 | `X-User-Id` | 인증 사용자 ID |
 | `X-Locale` | 사용자 로케일(다국어) |
+| `X-App-Code` | 어플리케이션코드(숫자/영문 4자리) — 호출 주체 앱 식별 |
+| `X-Instance-Id` | 인스턴스구분코드(숫자/영문 6자리) — 호출 주체 인스턴스 식별 |
 
 `TraceFilter` 가 인입 시 추출→MDC/TraceContext 적재, `HeaderPropagationInterceptor` 가
 아웃바운드 호출(RestClient)에 자동 부착 → API 간 추적 체인 연결.

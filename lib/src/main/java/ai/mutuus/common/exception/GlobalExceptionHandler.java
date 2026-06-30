@@ -6,13 +6,17 @@ import ai.mutuus.common.api.ApiError;
 import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.common.logging.AccessLogger;
+import java.net.SocketTimeoutException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
@@ -73,6 +77,30 @@ public class GlobalExceptionHandler {
                                                             HttpServletRequest request) {
         return clientError(ErrorCode.NOT_FOUND,
                 messages.get(ErrorCode.NOT_FOUND.messageKey()), List.of(), request);
+    }
+
+    /** 잘못된 포맷으로 들어온 요청 본문(파싱 불가 JSON 등) → 400 MALFORMED. */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMalformed(HttpMessageNotReadableException ex,
+                                                             HttpServletRequest request) {
+        return clientError(ErrorCode.MALFORMED_REQUEST,
+                messages.get(ErrorCode.MALFORMED_REQUEST.messageKey()), List.of(), request);
+    }
+
+    /**
+     * 아웃바운드 호출의 네트워크 에러(연결 실패/타임아웃 등). RestClient/RestTemplate I/O 실패는
+     * {@link ResourceAccessException} 로 래핑된다. 타임아웃은 504, 그 외 연결 오류는 502 로 매핑하고
+     * 스택을 포함해 ERROR 로깅한다.
+     */
+    @ExceptionHandler(ResourceAccessException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNetwork(ResourceAccessException ex,
+                                                           HttpServletRequest request) {
+        ErrorCode code = (ex.getCause() instanceof SocketTimeoutException)
+                ? ErrorCode.GATEWAY_TIMEOUT : ErrorCode.EXTERNAL_API_ERROR;
+        accessLogger.serverError(request.getRequestURI(), ex);
+        String detail = messages.get(code.messageKey());
+        ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
+        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, error));
     }
 
     /** 그 외 처리되지 않은 모든 예외 → 500. 스택을 포함해 ERROR 로깅. */

@@ -65,7 +65,9 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 ### 4. e2e 추적 정보 계층 (web 패키지의 핵심)
 
-`X-Trace-Id`, `X-Span-Id`, `X-Screen-Id`, `X-Event-Id`, `X-Device-Level`, `X-Device-Id`, `X-User-Id`, `X-Locale` 8개 커스텀 헤더로 화면→이벤트→API 체인을 추적한다. 헤더 상수와 전파 목록은 `core/HeaderNames.java` 한 곳에 정의 — **헤더를 추가/변경하면 여기부터 수정**한다.
+`X-Trace-Id`, `X-Span-Id`, `X-Screen-Id`, `X-Event-Id`, `X-Device-Level`, `X-Device-Id`, `X-User-Id`, `X-Locale` 8개 + 인스턴스 식별 `X-App-Code`(4자리)·`X-Instance-Id`(6자리) 커스텀 헤더로 화면→이벤트→API 체인을 추적한다. 헤더 상수와 전파 목록은 `core/HeaderNames.java` 한 곳에 정의 — **헤더를 추가/변경하면 여기부터 수정**한다.
+
+- **어플리케이션코드(`app-code`, 4 alnum)·인스턴스구분코드(`instance-code`, 6 alnum)**: `mutuus.common.*` 프로퍼티. **구동 전 `CommonEnvironmentPostProcessor`가 해석**(미지정 시 app-code는 service-name에서 결정적 도출, instance-code는 자동 생성)하고 포맷 검증 후 **시스템 프로퍼티**(`mutuus.appCode`/`mutuus.instanceCode`/`mutuus.logFileBase`)로 노출한다 — logback이 로그 파일명/필드에서 `${...}`로 읽기 위함(컨텍스트·로깅 초기화 *이전* 시점이라 시스템 프로퍼티가 필요). 두 코드는 `TraceFilter`가 응답 헤더 + MDC/TraceContext에 싣고(→ 로그 포함 + 아웃바운드 전파), 로그 파일명 `<app>-<instance>.log`에 쓰인다.
 
 흐름:
 1. **인입**: `TraceFilter`(`@Order(HIGHEST_PRECEDENCE)`, `/*`)가 헤더를 추출해 `TraceContext`(ThreadLocal) + SLF4J `MDC`에 적재. `X-Trace-Id`가 없으면 신규 UUID 생성. 응답에 `X-Trace-Id` 회신. **요청 종료 시 `finally`에서 반드시 `MDC.clear()` + `TraceContext.clear()`** (ThreadLocal 누수 방지 — 이 정리를 빠뜨리지 말 것).
@@ -86,6 +88,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 ### 7. API 생명주기 자동 로깅 (logging 패키지)
 
 소비 서비스는 **별도 코드 없이** 라이브러리가 지정한 컴포넌트를 거치며 4개 지점에서 자동 로깅된다. 중심은 `AccessLogger`(단일 진입점, 로거 이름 `ai.mutuus.common.access`) — SLF4J 2 fluent API(`addKeyValue`)로 구조화 필드를 남기고 logstash 인코더가 JSON으로 렌더한다(추적ID/사용자는 MDC 경유 자동 포함).
+
+`lib/src/main/resources/logback-common.xml`은 **JSON 콘솔 + 롤링 파일** appender를 제공한다(파일명 `<app-code>-<instance-code>.log`, 크기 100MB+일자 롤링, `${LOG_DIR:-logs}`). 소비자가 `logback-spring.xml`에서 `<include resource="logback-common.xml"/>`하면 활성화되며, **logstash 인코더는 optional이라 소비자가 `net.logstash.logback:logstash-logback-encoder`를 직접 추가**해야 한다(미추가 시 `ClassNotFoundException`으로 컨텍스트 기동 실패). 5개 시나리오는 `AccessLogFilter`(정상 유입/응답) + `GlobalExceptionHandler`(잘못된 포맷→`MALFORMED_REQUEST` 400, 비즈니스→`error.business`, 런타임→`error.server` 500, 네트워크/아웃바운드 실패 `ResourceAccessException`→502/504)에서 모두 추적키와 함께 남는다.
 
 - **요청 수신/응답**: `AccessLogFilter`(order `HIGHEST_PRECEDENCE + 10`, 즉 `TraceFilter` 바로 뒤). 보안 체인을 **감싸므로** 응답 로그가 401/403을 포함한 최종 상태코드를 본다. → `request.received` / `request.completed`(5xx·느린 요청은 WARN)
 - **인증 체크(실패)**: `CommonSecurityAutoConfiguration`이 `LoggingAuthenticationEntryPoint`(401)/`LoggingAccessDeniedHandler`(403)를 자원 서버 DSL에 주입. 둘 다 **기본 Bearer 핸들러에 위임**하여 `WWW-Authenticate` 등 표준 응답을 보존한다. → `auth.failure` / `auth.denied`

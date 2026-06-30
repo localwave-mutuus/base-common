@@ -34,8 +34,15 @@ public final class HeaderNames {
     /** 사용자 로케일 (다국어 처리용, 예: ko-KR). */
     public static final String LOCALE = "X-Locale";
 
+    /** 어플리케이션코드 (숫자/영문 4자리) — 호출 주체 애플리케이션 식별. */
+    public static final String APP_CODE = "X-App-Code";
+
+    /** 인스턴스구분코드 (숫자/영문 6자리) — 호출 주체 인스턴스 식별. */
+    public static final String INSTANCE_ID = "X-Instance-Id";
+
     /** 전파 대상 헤더 전체 목록 (인터셉터에서 순회). */
     public static final String[] PROPAGATED = {
-            TRACE_ID, SPAN_ID, SCREEN_ID, EVENT_ID, DEVICE_LEVEL, DEVICE_ID, USER_ID, LOCALE
+            TRACE_ID, SPAN_ID, SCREEN_ID, EVENT_ID, DEVICE_LEVEL, DEVICE_ID, USER_ID, LOCALE,
+            APP_CODE, INSTANCE_ID
     };
 }

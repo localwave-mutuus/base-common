@@ -24,6 +24,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TraceFilter extends OncePerRequestFilter {
 
+    private final String appCode;
+    private final String instanceCode;
+
+    /** 어플리케이션코드/인스턴스구분코드는 구동 시 확정된 상수다(CommonEnvironmentPostProcessor 해석). */
+    public TraceFilter(String appCode, String instanceCode) {
+        this.appCode = appCode;
+        this.instanceCode = instanceCode;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -40,8 +49,13 @@ public class TraceFilter extends OncePerRequestFilter {
             populate(HeaderNames.DEVICE_ID, request.getHeader(HeaderNames.DEVICE_ID));
             populate(HeaderNames.USER_ID, request.getHeader(HeaderNames.USER_ID));
             populate(HeaderNames.LOCALE, request.getHeader(HeaderNames.LOCALE));
+            // 애플리케이션/인스턴스 식별 코드(상수) — MDC/TraceContext 적재 → 로그 포함 + 아웃바운드 전파
+            populate(HeaderNames.APP_CODE, appCode);
+            populate(HeaderNames.INSTANCE_ID, instanceCode);
 
             response.setHeader(HeaderNames.TRACE_ID, traceId);
+            response.setHeader(HeaderNames.APP_CODE, appCode);
+            response.setHeader(HeaderNames.INSTANCE_ID, instanceCode);
             filterChain.doFilter(request, response);
         } finally {
             MDC.clear();

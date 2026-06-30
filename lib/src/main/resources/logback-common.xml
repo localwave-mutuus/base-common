@@ -2,9 +2,18 @@
 <!--
   공통 JSON 로깅 설정. 소비 측 애플리케이션의 logback-spring.xml 에서 include 하여 사용한다.
   예) <include resource="logback-common.xml"/>
-  MDC 의 추적/화면/단말 헤더가 로그에 자동 포함된다.
+  MDC 의 추적/화면/단말 헤더와 service/appCode/instanceCode 가 로그에 자동 포함된다.
+
+  파일 적재: <어플리케이션코드>-<인스턴스구분코드>.log (크기+일자 롤링).
+  코드/경로는 CommonEnvironmentPostProcessor 가 구동 시 시스템 프로퍼티로 노출한다:
+    mutuus.logFileBase = <appCode>-<instanceCode>,  mutuus.appCode, mutuus.instanceCode, SERVICE_NAME
+  로그 디렉터리는 ${LOG_DIR:-logs} (소비 측이 LOG_DIR 로 override 가능).
 -->
 <included>
+    <property name="LOG_DIR" value="${LOG_DIR:-logs}"/>
+    <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-APP0-INST000}"/>
+
+    <!-- 모든 로그에 공통 식별 필드(service/appCode/instanceCode)를 부여하는 인코더 정의(중복 제거) -->
     <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeMdcKeyName>X-Trace-Id</includeMdcKeyName>
@@ -13,11 +22,32 @@
             <includeMdcKeyName>X-Event-Id</includeMdcKeyName>
             <includeMdcKeyName>X-Device-Level</includeMdcKeyName>
             <includeMdcKeyName>X-User-Id</includeMdcKeyName>
-            <customFields>{"service":"${SERVICE_NAME:-unknown-service}"}</customFields>
+            <customFields>{"service":"${SERVICE_NAME:-unknown-service}","appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- HTTP 유입/응답/에러 로그 파일 적재. 파일명 = <앱코드>-<인스턴스코드>.log, 크기+일자 롤링 -->
+    <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>X-Trace-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Span-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Screen-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Event-Id</includeMdcKeyName>
+            <includeMdcKeyName>X-Device-Level</includeMdcKeyName>
+            <includeMdcKeyName>X-User-Id</includeMdcKeyName>
+            <customFields>{"service":"${SERVICE_NAME:-unknown-service}","appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}</customFields>
         </encoder>
     </appender>
 
     <root level="INFO">
         <appender-ref ref="JSON_CONSOLE"/>
+        <appender-ref ref="JSON_FILE"/>
     </root>
 </included>

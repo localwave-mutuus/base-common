@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  소비 서비스(sample-api)의 로깅 설정 — 라이브러리 공통 JSON 로깅을 그대로 활성화한다.
+  logback-common.xml 이 JSON 콘솔 + 파일(<앱코드>-<인스턴스코드>.log, 크기+일자 롤링) appender 를
+  제공한다. 로그 파일은 빌드 산출물 디렉터리(target/logs) 아래에 둬 워크스페이스를 더럽히지 않는다.
+-->
+<configuration>
+    <property name="LOG_DIR" value="target/logs"/>
+    <include resource="logback-common.xml"/>
+</configuration>

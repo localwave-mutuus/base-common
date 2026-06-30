@@ -70,6 +70,15 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- 구조화 JSON 로깅: 라이브러리의 logback-common.xml 이 LogstashEncoder 를 쓴다.
+             라이브러리에선 optional 이라 전이되지 않으므로, JSON 로깅을 쓰는 소비자는 직접 추가한다. -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>8.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

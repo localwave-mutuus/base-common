@@ -27,6 +27,8 @@ mutuus:
   common:
     service-name: sample-api
     default-locale: ko-KR
+    # 어플리케이션코드(숫자/영문 4자리). 인스턴스구분코드(6자리)는 미지정 → 구동 시 자동 생성.
+    app-code: SMPL
     security:
       permit-all:
         - /actuator/health/**

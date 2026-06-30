@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import ai.mutuus.common.core.HeaderNames;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,8 +33,11 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 public class CommonWebAutoConfiguration {
 
     @Bean
-    public FilterRegistrationBean<TraceFilter> traceFilterRegistration() {
-        FilterRegistrationBean<TraceFilter> reg = new FilterRegistrationBean<>(new TraceFilter());
+    public FilterRegistrationBean<TraceFilter> traceFilterRegistration(
+            @Value("${mutuus.common.app-code:}") String appCode,
+            @Value("${mutuus.common.instance-code:}") String instanceCode) {
+        FilterRegistrationBean<TraceFilter> reg =
+                new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode));
         reg.setOrder(Ordered.HIGHEST_PRECEDENCE);
         reg.addUrlPatterns("/*");
         return reg;

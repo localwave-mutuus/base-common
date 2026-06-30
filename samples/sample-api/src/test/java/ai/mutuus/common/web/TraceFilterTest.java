@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TraceFilterTest {
 
-    private final TraceFilter filter = new TraceFilter();
+    private final TraceFilter filter = new TraceFilter("TEST", "INST01");
 
     @AfterEach
     void tearDown() {
