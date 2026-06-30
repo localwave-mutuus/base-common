@@ -8,6 +8,20 @@ spring:
           # 실제 인증 MSA의 JWK 엔드포인트. 샘플 실행용 placeholder(키 fetch는 lazy).
           # 통합 테스트는 이 값을 무시하고 mock JwtDecoder 빈으로 대체한다.
           jwk-set-uri: https://auth.mutuus.ai/realms/mutuus/protocol/openid-connect/certs
+  data:
+    redis:
+      # Redis 는 세션 저장용으로만 쓴다(데모) — Redis 리포지토리 스캔을 꺼
+      # JPA 리포지토리와의 store 판별 경고를 없앤다.
+      repositories:
+        enabled: false
+
+# Redis 클라이언트가 classpath 에 있어도(세션 데모용), Redis 가 없는 프로파일
+# (local/stage/production)에서 actuator health 가 DOWN 으로 뜨지 않게 health 기여자를 끈다.
+# 실제 Redis 연결은 demo 프로파일(application-demo.yml)에서만 구성한다.
+management:
+  health:
+    redis:
+      enabled: false
 
 mutuus:
   common:

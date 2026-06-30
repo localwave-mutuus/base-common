@@ -25,16 +25,15 @@ UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·�
 | 4 | i18n 메시지 | `GET /demo/i18n` (+`X-Locale: en`) | 현재/ko/en 메시지 비교 | `i18n.MessageResolver#get` | `MessageResolverTest` |
 | 5 | API 생명주기 로깅 | `GET /demo/logging/slow` | `request.completed` 가 WARN(느린 요청) | `logging.AccessLogFilter` | `AccessLoggingIntegrationTest` |
 | 6 | 영속성 감사(BaseEntity) | `POST /demo/audit` `{"text":"hello"}` | `created_at/by`·`updated_at/by` 자동 기록 | `persistence.TraceContextAuditorAware#getCurrentAuditor` | `PersistenceAuditingIntegrationTest` |
-| 7 | 보안 - 미인증 401 | `GET /api/secure/me` | 401 + `auth.failure` 로그 + `WWW-Authenticate` | `security.LoggingAuthenticationEntryPoint` | `CommonPlatformIntegrationTest` |
+| 7 | 보안 - 미인증 401 | `GET /api/secure/me` (Bearer 없음) | 401 + `auth.failure` 로그 + `WWW-Authenticate` | `security.LoggingAuthenticationEntryPoint` | `CommonPlatformIntegrationTest` |
+| 8 | 보안 - 인증 성공 | `GET /api/secure/me` (Bearer `alice`) | 200, `sub=alice`, 이후 로그 `X-User-Id=alice` | `security.AuthenticatedUserContextFilter` | `CommonPlatformIntegrationTest` |
+| 9 | 분산 세션 컨벤션 | `GET /demo/session` (2회) | `demo:session:*` Redis 키, namespace/timeout 컨벤션 | `session.CommonSessionAutoConfiguration` | `RedisLiveSessionIntegrationTest` |
+| 10 | 관측 - 서비스 태그/추적 | `GET /demo/observe` | `service.name` 태그 + 추적 식별자 | `observability.CommonObservabilityAutoConfiguration` | `CommonObservabilityAutoConfigurationTest` |
 
-> UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰할 수 있다. 감사 케이스의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
-
-## 향후 케이스(추가 인프라/설정 필요)
-
-| 케이스 | 필요 | 비고 |
-|--------|------|------|
-| 보안(JWT) 인증 성공 경로·`X-User-Id` 반영 | mock JwtDecoder 또는 실 토큰 | `demo` 에 mock 디코더 추가 예정(Phase 3b) |
-| 분산 세션 컨벤션 | 로컬 Redis(16010) | 게이트 통과 시만 |
-| 관측(OTel 태그) | OTel collector | 로그/metrics 로 대체 관찰 |
+> UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id`/`Bearer` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰한다.
+> - 감사(6)의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
+> - 보안 인증성공(8)은 데모 전용 `JwtDecoder`(토큰 문자열 = subject, `@Profile("demo")`)로 실 IdP 없이 인증 경로를 재현한다.
+> - 세션(9)은 로컬 실 Redis(`16010`, `default/eva`)가 떠 있어야 한다. 키는 세션이 응답 커밋 시 저장되므로 **두 번째 호출**에서 보인다. Redis 없는 프로파일은 `application.yml` 에서 redis health 를 꺼 영향이 없다.
+> - 관측(10)은 `service.name` 태그·추적 식별자(컨벤션)만 확인한다. 전체 OTel span export 는 collector 가 필요하다.
 
 > springdoc(Swagger UI)은 Spring Boot 4(Spring Framework 7) 호환이 확인되면 도입을 검토한다. 현재는 의존성 없는 정적 UI(`/demo/index.html`) + `GET /demo/cases` 카탈로그로 동일 UX를 제공한다.

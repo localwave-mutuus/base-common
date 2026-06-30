@@ -38,6 +38,7 @@
       <label>X-Locale</label><input id="locale" placeholder="(빈값=기본)" size="8">
       <label style="margin-left:16px">X-Screen-Id</label><input id="screen" placeholder="(선택)" size="10">
       <label style="margin-left:16px">X-User-Id</label><input id="user" placeholder="(감사 주체)" size="10">
+      <label style="margin-left:16px">Bearer</label><input id="bearer" placeholder="(예: alice)" size="10">
     </p>
   </header>
   <div class="wrap">
@@ -55,9 +56,11 @@
       const loc = document.getElementById('locale').value.trim();
       const scr = document.getElementById('screen').value.trim();
       const usr = document.getElementById('user').value.trim();
+      const bea = document.getElementById('bearer').value.trim();
       if (loc) h['X-Locale'] = loc;
       if (scr) h['X-Screen-Id'] = scr;
       if (usr) h['X-User-Id'] = usr;
+      if (bea) h['Authorization'] = 'Bearer ' + bea;
       return h;
     }
 

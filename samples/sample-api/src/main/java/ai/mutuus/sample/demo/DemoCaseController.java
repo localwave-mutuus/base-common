@@ -1,8 +1,11 @@
 package ai.mutuus.sample.demo;
 
+import java.time.Instant;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.core.TraceContext;
@@ -12,10 +15,14 @@ import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.sample.persistence.SampleNote;
 import ai.mutuus.sample.persistence.SampleNoteRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,12 +45,20 @@ public class DemoCaseController {
     private final RestClient.Builder restClientBuilder;
     private final MessageResolver messages;
     private final SampleNoteRepository notes;
+    private final ObjectProvider<StringRedisTemplate> redisProvider;
+    private final String sessionNamespace;
+    private final String serviceName;
 
     public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages,
-                              SampleNoteRepository notes) {
+                              SampleNoteRepository notes, ObjectProvider<StringRedisTemplate> redisProvider,
+                              @Value("${mutuus.common.session.namespace:demo:session}") String sessionNamespace,
+                              @Value("${mutuus.common.service-name:sample-api}") String serviceName) {
         this.restClientBuilder = restClientBuilder;
         this.messages = messages;
         this.notes = notes;
+        this.redisProvider = redisProvider;
+        this.sessionNamespace = sessionNamespace;
+        this.serviceName = serviceName;
     }
 
     // ---------------------------------------------------------------------
@@ -81,8 +96,17 @@ public class DemoCaseController {
                         "SampleNote 저장 → created_at/by·updated_at/by 자동 기록. created_by 는 TraceContext 사용자(상단 X-User-Id)에서.",
                         "ai.mutuus.common.persistence.TraceContextAuditorAware#getCurrentAuditor"),
                 new DemoCase("security-401", "보안 - 미인증 401(auth.failure)", "GET", "/api/secure/me", null,
-                        "토큰 없이 보호 자원 호출 → 401 + auth.failure 로그 + WWW-Authenticate(permit-all 아님).",
-                        "ai.mutuus.common.security.LoggingAuthenticationEntryPoint"));
+                        "Bearer 를 비우고 호출 → 401 + auth.failure 로그 + WWW-Authenticate(permit-all 아님).",
+                        "ai.mutuus.common.security.LoggingAuthenticationEntryPoint"),
+                new DemoCase("security-200", "보안 - 인증 성공(sub=토큰)", "GET", "/api/secure/me", null,
+                        "상단 Bearer 에 이름(예: alice) 입력 후 호출 → 200, sub=그 이름, 이후 로그의 X-User-Id 반영(데모 JwtDecoder).",
+                        "ai.mutuus.common.security.AuthenticatedUserContextFilter"),
+                new DemoCase("session", "분산 세션 컨벤션(Redis)", "GET", "/demo/session", null,
+                        "세션 생성 → Redis 에 <namespace>:* 키로 저장. namespace/timeout 컨벤션 확인(로컬 Redis 16010 필요, 키는 두 번째 호출에서 보임).",
+                        "ai.mutuus.common.session.CommonSessionAutoConfiguration"),
+                new DemoCase("observe", "관측 - 서비스 태그/추적", "GET", "/demo/observe", null,
+                        "service.name 태그 + 현재 추적 식별자. 전체 OTel export 는 collector 필요(여기선 컨벤션만 확인).",
+                        "ai.mutuus.common.observability.CommonObservabilityAutoConfiguration"));
     }
 
     // ---------------------------------------------------------------------
@@ -176,6 +200,45 @@ public class DemoCaseController {
                 "createdBy", String.valueOf(saved.getCreatedBy()),
                 "updatedAt", String.valueOf(saved.getUpdatedAt()),
                 "updatedBy", String.valueOf(saved.getUpdatedBy())));
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 8: 분산 세션 컨벤션 — 세션 생성 → Redis 에 <namespace>:* 키로 저장
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/session")
+    public ApiResponse<Map<String, Object>> session(HttpServletRequest request) {
+        HttpSession s = request.getSession(true);
+        s.setAttribute("demoTouchedAt", Instant.now().toString());
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("sessionId", s.getId());
+        result.put("namespace", sessionNamespace);
+        result.put("note", "세션은 응답 커밋 시 Redis 에 저장된다 — redisKeys 는 이전 호출분이 보일 수 있음(두 번 호출 권장).");
+        StringRedisTemplate redis = redisProvider.getIfAvailable();
+        if (redis != null) {
+            try {
+                Set<String> keys = redis.keys(sessionNamespace + ":*");
+                result.put("redisKeys", keys);
+            } catch (RuntimeException e) {
+                result.put("redisError", e.getClass().getSimpleName() + ": " + e.getMessage());
+            }
+        } else {
+            result.put("redisKeys", "(StringRedisTemplate 없음 — redis 미구성)");
+        }
+        return ApiResponse.ok(result);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스 9: 관측 — service.name 태그 + 현재 추적 식별자
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/observe")
+    public ApiResponse<Map<String, Object>> observe() {
+        return ApiResponse.ok(Map.of(
+                "serviceName", serviceName,
+                "traceId", TraceContext.traceId(),
+                "context", TraceContext.snapshot(),
+                "note", "모든 추적/로그에 service.name 태그가 붙는다. 전체 OTel export(span 전송)는 collector 가 필요하다."));
     }
 
     // ---------------------------------------------------------------------

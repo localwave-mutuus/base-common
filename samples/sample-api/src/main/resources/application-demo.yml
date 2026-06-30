@@ -12,8 +12,30 @@ logging:
     # 구조화 접근 로그(request.received/completed, error.* 등)
     ai.mutuus.common.access: DEBUG
 
+# 세션 케이스용 로컬 실 Redis. 비밀번호는 커밋 파일에 두지 않는다(외부화):
+#   런치 구성(.vscode/launch.json, gitignore)나 환경변수 DEMO_REDIS_PASSWORD 로 주입.
+#   예) --spring.data.redis.password=...  또는  set DEMO_REDIS_PASSWORD=...
+# 좌표/계정 기본값은 로컬 인프라 기준(메모리 local-infra-db-redis: 16010, default).
+spring:
+  data:
+    redis:
+      host: ${DEMO_REDIS_HOST:localhost}
+      port: ${DEMO_REDIS_PORT:16010}
+      username: ${DEMO_REDIS_USERNAME:default}
+      password: ${DEMO_REDIS_PASSWORD:}
+
+management:
+  health:
+    redis:
+      enabled: true   # demo 에서는 redis 가 떠 있으므로 health 를 다시 켠다
+
 mutuus:
   common:
     # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
     logging:
       slow-request-threshold-millis: 1000
+    # 분산 세션 컨벤션 데모: 네임스페이스/타임아웃
+    session:
+      enabled: true
+      namespace: demo:session
+      timeout: 15m

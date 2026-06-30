@@ -83,15 +83,16 @@
         </dependency>
         <!-- 분산 세션(Redis) 컨벤션 데모: Spring Session + Redis 클라이언트(lettuce).
              Spring Session이 classpath에 있으면 Boot가 세션 저장소를 요구하므로 클라이언트도 함께 둔다 -->
+        <!-- compile 스코프로 둬서 (1) demo 프로파일의 세션 케이스가 실제 Redis 에 붙고
+             (2) 데모 코드가 StringRedisTemplate 으로 세션 키를 조회할 수 있게 한다.
+             비-demo 프로파일은 application.yml 에서 redis health 를 꺼 영향이 없다. -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- 실연동(PostgreSQL) 감사 검증: Testcontainers. Docker 없으면 테스트가 자동 skip된다 -->
