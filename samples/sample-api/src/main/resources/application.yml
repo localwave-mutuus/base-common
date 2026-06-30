@@ -17,3 +17,8 @@ mutuus:
       permit-all:
         - /actuator/health/**
         - /api/public/**
+
+# 환경 식별 마커. 프로파일별 application-<profile>.yml 이 이 값을 덮어쓴다.
+# (Spring Boot 표준 프로파일 로딩 데모/검증용 — 라이브러리 기능 아님)
+demo:
+  environment: unknown

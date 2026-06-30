@@ -1,0 +1,18 @@
+# production 프로파일: 모든 접속값/비밀은 환경변수·시크릿으로만 주입(파일에 비밀 미기재).
+# 활성화:  --spring.profiles.active=production
+demo:
+  environment: production
+
+# 예시) 운영 DB/Redis 는 시크릿 매니저/환경변수로 주입:
+# spring:
+#   datasource:
+#     url: ${DB_URL}
+#     username: ${DB_USERNAME}
+#     password: ${DB_PASSWORD}
+#   data:
+#     redis:
+#       url: ${REDIS_URL}
+# management:
+#   tracing:
+#     sampling:
+#       probability: 0.1   # 운영은 샘플링 낮춤(라이브러리 기본 1.0 을 덮어씀)

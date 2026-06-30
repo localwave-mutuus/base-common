@@ -1,0 +1,14 @@
+# local 프로파일: 개발자 PC의 로컬 실 인프라(Traefik TCP 경유)에 연결.
+# 활성화:  --spring.profiles.active=local  (또는 SPRING_PROFILES_ACTIVE=local)
+demo:
+  environment: local
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15010/local.test.common
+    username: cain
+    password: eva
+  jpa:
+    hibernate:
+      # 로컬 검증용이라 매번 스키마 생성/정리(운영에선 절대 사용 금지).
+      ddl-auto: create-drop
