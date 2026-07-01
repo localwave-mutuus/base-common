@@ -63,6 +63,13 @@
             <artifactId>spring-boot-restclient</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- aop: 컨트롤러 메서드 인자/리턴 로깅 Aspect(@Around). optional — 소비자가 켤 때만.
+             Boot 4 에서 spring-boot-starter-aop → spring-boot-starter-aspectj 로 아티팩트명이 바뀌었다. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- security: OAuth2 Resource Server (JWT) auth integration -->
         <dependency>

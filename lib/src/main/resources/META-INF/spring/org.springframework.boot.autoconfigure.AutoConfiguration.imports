@@ -3,6 +3,7 @@ ai.mutuus.common.async.CommonAsyncAutoConfiguration
 ai.mutuus.common.logging.CommonLoggingAutoConfiguration
 ai.mutuus.common.payload.CommonPayloadLoggingAutoConfiguration
 ai.mutuus.common.intercept.CommonControllerEntryAutoConfiguration
+ai.mutuus.common.aop.CommonMethodLoggingAutoConfiguration
 ai.mutuus.common.i18n.CommonI18nAutoConfiguration
 ai.mutuus.common.exception.CommonExceptionAutoConfiguration
 ai.mutuus.common.observability.CommonObservabilityAutoConfiguration
