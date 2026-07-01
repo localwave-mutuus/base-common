@@ -90,6 +90,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 **공통 OpenAPI 문서(opt-in, `openapi` 패키지)**: 소비자가 springdoc 를 classpath 에 추가하면 `CommonOpenApiAutoConfiguration`(`@ConditionalOnClass(OpenAPI)`)이 공통 `OpenAPI` 빈(info + **Bearer JWT 보안 스킴**, 자원 서버 JWT 와 정합 → Swagger UI 의 Authorize)을 제공하고 springdoc 이 이를 베이스로 경로/스키마를 채운다. `@ConditionalOnMissingBean` 이라 소비자가 자체 `OpenAPI` 빈을 정의하면 비켜선다. springdoc 은 lib 에서 optional(`springdoc-openapi-starter-common`), 버전은 `common-platform-parent`/BOM 의 `springdoc.version`. 회귀 가드 `samples/sample-api/OpenApiCommonConfigIntegrationTest`.
 
+**표준 페이징 응답(`api/PageResponse<T>`)**: 목록 API 가 페이지 메타(`content`/`page`/`size`/`totalElements`/`totalPages`/`first`/`last`/`numberOfElements`)를 일관 형태로 반환하는 **순수 DTO**(spring-data 비의존이라 어디서나 사용). 수동 페이징은 `PageResponse.of(content, page, size, totalElements)`, Spring Data `Page` 는 `persistence/PageResponses.from(page)`(optional 유틸, 호출 시점에만 로드되어 순수성 유지)로 변환. 보통 `ApiResponse` 의 `data` 로 실린다(성공 응답 자동 래핑과 결합). 회귀 가드 `PageResponseTest`·`PageResponsesTest`·`PageResponseIntegrationTest`.
+
 ### 6. 보안 (인증 위임 모델)
 
 이 라이브러리는 인증을 **수행하지 않는다**. 별도 인증/인가 MSA가 발급한 JWT를 검증하는 OAuth2 Resource Server 기본 설정만 제공한다(`CommonSecurityAutoConfiguration`). `SecurityFilterChain`/`JwtAuthenticationConverter`는 `@ConditionalOnMissingBean`이라, **소비 서비스가 자체 빈을 정의하면 즉시 대체**된다. permit-all 경로·roles claim·authority prefix는 `mutuus.common.security.*`로 설정.

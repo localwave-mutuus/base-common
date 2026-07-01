@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ai.mutuus.common.api.ApiResponse;
+import ai.mutuus.common.api.PageResponse;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.exception.BusinessException;
 import ai.mutuus.common.exception.CommonErrorCode;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 
@@ -133,6 +135,9 @@ public class DemoCaseController {
                 new DemoCase("openapi", "OpenAPI 공통 설정(info + Bearer JWT)", "GET", "/v3/api-docs", null,
                         "라이브러리 CommonOpenApiAutoConfiguration 이 공통 info + Bearer JWT 보안스킴을 주입 → 응답의 info.title·components.securitySchemes.bearerAuth 확인. Swagger UI 우상단 Authorize 로도 확인(상단 🧭 링크). (기대 200)",
                         "ai.mutuus.common.openapi.CommonOpenApiAutoConfiguration", 200, null),
+                new DemoCase("page", "표준 페이징 응답(PageResponse)", "GET", "/demo/page?page=0&size=2", null,
+                        "목록 API 가 PageResponse(content/page/size/totalElements/totalPages/first/last)로 페이지 메타를 일관 반환. response-wrapper 와 결합돼 {code:OK, data:PageResponse{...}}. page/size 바꿔 확인. (기대 200)",
+                        "ai.mutuus.common.api.PageResponse", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -330,6 +335,28 @@ public class DemoCaseController {
                 "wrapped", true,
                 "value", 42,
                 "note", "컨트롤러는 평범한 객체를 반환 — ApiResponseWrapperAdvice 가 표준 봉투로 감쌌다");
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 표준 페이징 응답(PageResponse) — 목록 API 가 페이지 메타를 일관 형태로 반환.
+    // 여기선 데모용 in-memory 목록을 페이징한다(수동 페이징 → PageResponse.of).
+    // response-wrapper 와 결합되어 {"code":"OK","data": PageResponse{...}} 로 나간다.
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/page")
+    public PageResponse<Map<String, Object>> page(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "2") int size) {
+        List<Map<String, Object>> all = List.of(
+                Map.of("id", 1, "name", "apple"),
+                Map.of("id", 2, "name", "banana"),
+                Map.of("id", 3, "name", "cherry"),
+                Map.of("id", 4, "name", "date"),
+                Map.of("id", 5, "name", "elderberry"));
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.max(size, 1);
+        int from = Math.min(safePage * safeSize, all.size());
+        int to = Math.min(from + safeSize, all.size());
+        return PageResponse.of(all.subList(from, to), safePage, safeSize, all.size());
     }
 
     // ---------------------------------------------------------------------
