@@ -1,0 +1,35 @@
+# ai 프로파일 — Claude(자동화)의 백그라운드 테스트 구동 전용.
+#
+# 실행 모드 분리(포트/인프라 충돌 방지):
+#   - 사람(VS Code F5)      → local 프로파일, 포트 8081, 실 PostgreSQL
+#   - Claude(백그라운드 테스트) → ai 프로파일,  포트 8091, 임베디드 H2 (이 파일)
+# 테스트 화면(/demo)은 sample-api 에 항상 포함되고 permit-all 도 application.yml 기본값이라
+# 별도 인자 없이 어느 모드로 띄워도 http://localhost:<port>/demo/index.html 가 동작한다.
+#
+# 실행 예) ./mvnw -pl samples/sample-api spring-boot:run -Dspring-boot.run.profiles=ai \
+#            -Dspring-boot.run.arguments="--spring.data.redis.password=eva"
+
+server:
+  port: 8091            # local(8081) 과 분리
+
+demo:
+  environment: ai
+
+spring:
+  # datasource 미지정 → JPA + H2(runtime) 로 임베디드 H2 자동 구성(무인프라, local 의 실 PostgreSQL 과 독립)
+  data:
+    redis:
+      # 세션 케이스용(선택). 비밀번호는 커밋 파일에 두지 않는다(외부화) — 실행 시 주입.
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:16010}
+      username: ${REDIS_USERNAME:default}
+      password: ${REDIS_PASSWORD:}
+
+mutuus:
+  common:
+    # local 과 Redis 세션 키가 겹치지 않게 네임스페이스 분리
+    session:
+      namespace: sample-api-ai:session
+  sample:
+    # 보안 인증성공 케이스용 mock JwtDecoder 활성(자동화 검증 편의)
+    mock-jwt: true
