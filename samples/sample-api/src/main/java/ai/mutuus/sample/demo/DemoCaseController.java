@@ -147,6 +147,9 @@ public class DemoCaseController {
                         "{\"card\":\"9876543210123456\",\"rrn\":\"990101-1234567\",\"name\":\"홍길동\"}",
                         "본문의 카드/주민번호가 payload·method 로그(requestBody/responseBody/args/return)에서 마스킹됨(응답 자체는 원문 — 마스킹은 로깅 한정). 📜 로그뷰어에서 확인. (기대 200)",
                         "ai.mutuus.common.core.SensitiveDataMasker", 200, null),
+                new DemoCase("idem", "멱등성(Idempotency-Key) - 중복 POST 재방", "GET", "/demo/idem", null,
+                        "같은 Idempotency-Key 로 대상 POST(/demo/idem/echo, 호출마다 새 UUID)를 두 번 호출 → 2차는 재처리 없이 1차 응답 재방(value 동일, Idempotent-Replayed=true). sameResponse=true 기대(mutuus.common.idempotency.enabled). (기대 200)",
+                        "ai.mutuus.common.idempotency.IdempotencyFilter", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -394,6 +397,46 @@ public class DemoCaseController {
         int from = Math.min(safePage * safeSize, all.size());
         int to = Math.min(from + safeSize, all.size());
         return PageResponse.of(all.subList(from, to), safePage, safeSize, all.size());
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 멱등성(Idempotency-Key) — 같은 키의 중복 POST 는 재처리 없이 첫 응답을 재방한다.
+    // 데모는 자기 자신(/demo/idem/echo, 호출마다 새 UUID 반환)을 "같은 키"로 두 번 호출한다.
+    // 멱등 필터가 켜져 있으면 두 응답의 value 가 동일하고, 2번째 응답에 Idempotent-Replayed 헤더가 붙는다.
+    // ---------------------------------------------------------------------
+
+    /** 호출마다 새 값을 반환하는 대상 엔드포인트(멱등 필터가 첫 응답을 캡처·재방하는지 관찰용). */
+    @PostMapping("/idem/echo")
+    public ApiResponse<Map<String, Object>> idemEcho() {
+        return ApiResponse.ok(Map.of(
+                "value", java.util.UUID.randomUUID().toString(),
+                "nano", System.nanoTime()));
+    }
+
+    @GetMapping("/idem")
+    public ApiResponse<Map<String, Object>> idem(HttpServletRequest request) {
+        String base = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String key = java.util.UUID.randomUUID().toString(); // 두 호출이 공유하는 멱등 키
+        RestClient client = restClientBuilder.build();
+
+        // 1차: 실제 처리 → 새 value. 2차: 같은 키 → 재처리 없이 1차 응답 재방(Idempotent-Replayed).
+        var first = client.post().uri(base + "/demo/idem/echo")
+                .header("Idempotency-Key", key)
+                .retrieve().toEntity(Map.class);
+        var second = client.post().uri(base + "/demo/idem/echo")
+                .header("Idempotency-Key", key)
+                .retrieve().toEntity(Map.class);
+
+        Object firstBody = first.getBody();
+        Object secondBody = second.getBody();
+        String replayed = second.getHeaders().getFirst("Idempotent-Replayed");
+        return ApiResponse.ok(Map.of(
+                "idempotencyKey", key,
+                "first", firstBody,
+                "second", secondBody,
+                "replayedHeader", String.valueOf(replayed),
+                "sameResponse", java.util.Objects.equals(firstBody, secondBody),
+                "note", "같은 Idempotency-Key 의 2차 POST 는 재처리 없이 1차 응답을 재방 → value 동일 + Idempotent-Replayed=true"));
     }
 
     // ---------------------------------------------------------------------

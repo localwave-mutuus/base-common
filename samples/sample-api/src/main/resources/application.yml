@@ -87,6 +87,10 @@ mutuus:
         - /v3/api-docs
         - /swagger-ui
         - /demo/cases
+    # 멱등성(Idempotency-Key) — 데모: 같은 키의 중복 POST 를 재처리 없이 첫 응답 재방.
+    # 라이브러리 기본 OFF(opt-in). 헤더가 있는 대상 메서드(POST/PUT/PATCH) 요청에만 동작.
+    idempotency:
+      enabled: true
     # 분산 세션 컨벤션(세션 케이스): 네임스페이스/타임아웃
     session:
       namespace: sample-api:session

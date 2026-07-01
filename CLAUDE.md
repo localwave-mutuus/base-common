@@ -141,6 +141,15 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 토글: `mutuus.common.session.enabled=false`, 사용자 커스터마이저 우선(`@ConditionalOnMissingBean(name="commonRedisSessionCustomizer")`). 회귀 가드 둘: `RedisSessionIntegrationTest`(Testcontainers, Docker 없으면 skip) + `RedisLiveSessionIntegrationTest`(이미 떠 있는 로컬 실 Redis 대상, 접속·인증 가능할 때만 실행 — `support/LiveInfra#redisReachable`). 후자는 네임스페이스에 더해 **타임아웃 컨벤션**까지 검증한다.
 
+### 10. 멱등성 (idempotency 패키지, optional·opt-in)
+
+같은 요청이 재시도로 중복 도착해도 서버 상태를 한 번만 바꾸게 하는 `Idempotency-Key` 컨벤션이다. `CommonIdempotencyAutoConfiguration`(`@ConditionalOnClass(DispatcherServlet)` + `@ConditionalOnProperty(mutuus.common.idempotency.enabled=true)`, **기본 OFF**)이 `IdempotencyFilter`를 `HIGHEST_PRECEDENCE + 15`(= `AccessLogFilter`(+10) 뒤, payload 필터(+20) 앞)에 등록한다.
+
+- **동작 조건**: 요청 메서드가 대상 목록(`mutuus.common.idempotency.methods`, 기본 POST/PUT/PATCH)에 있고 **`Idempotency-Key` 헤더가 있을 때만** 개입한다 — 그 외에는 무개입 통과(GET·헤더 없는 요청은 영향 없음).
+- **흐름**: 첫 요청은 `store.reserve`로 in-progress 마커를 원자 등록 후 처리하고, 응답을 `ContentCachingResponseWrapper`로 캡처해 `store.complete`로 저장. 같은 키의 이후 요청은 저장된 첫 응답을 **재처리 없이 재방**(상태/Content-Type/본문 그대로 + `Idempotent-Replayed: true` 헤더). 아직 처리 중인 같은 키의 동시 중복은 **409**(`Idempotent-Replayed: in-progress`).
+- **저장소 추상화**: `IdempotencyStore` 인터페이스(`reserve`/`find`/`complete`) + 기본 `InMemoryIdempotencyStore`(단일 인스턴스, TTL 관리). **분산(다중 인스턴스) 환경에서는 소비 서비스가 Redis 등 공유 저장소 구현을 빈으로 제공**하면 `@ConditionalOnMissingBean`으로 대체된다(인메모리는 인스턴스 간 공유 안 됨).
+- 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용).
+
 ## 작업 시 규칙
 
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.
