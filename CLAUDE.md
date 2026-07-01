@@ -160,6 +160,15 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **Boot 4 주의**: 캐시 자동구성이 별도 모듈(`spring-boot-cache`, 패키지 `org.springframework.boot.cache.autoconfigure.*`)로 분리됐다(restclient처럼). 그래서 `@ConditionalOnClass`는 Boot 캐시 자동구성 클래스도 함께 요구해, 소비자가 캐시 스타터를 추가한 경우에만 활성화된다. `@EnableCaching`은 시작 시 Redis에 연결하지 않고(연결은 lazy), 실제 `@Cacheable` 호출 시에만 연결한다 — Redis 미가동이어도 컨텍스트 기동은 성공한다.
 - 소비자가 자체 `RedisCacheConfiguration` 또는 `CacheManager` 빈을 정의하면 그 값이 우선한다(`@ConditionalOnMissingBean`). 토글: `mutuus.common.cache.*`(`enabled`, `ttl`, `key-prefix`, `cache-null-values`). 회귀 가드: `CommonCacheConfigurationTest`(Redis 없이 컨벤션 조립 검증, 단위) + `RedisCacheIntegrationTest`(Testcontainers, Docker 없으면 skip) + `RedisCacheLiveIntegrationTest`(로컬 실 Redis, 접속 가능할 때만) + 데모 `samples/sample-api/.../CacheDemoService`(`/demo/cache`).
 
+### 12. 도메인 이벤트 (event 패키지, broker-agnostic 코어)
+
+프로세스 내부/외부로 도메인 이벤트를 발행하는 **브로커 비의존 컨벤션**이다. 통합 스타터 없이 항상 사용 가능하며(`core`(TraceContext)에만 의존), `CommonEventAutoConfiguration`(`@ConditionalOnProperty(mutuus.common.event.enabled, matchIfMissing=true)`, 즉 **기본 ON**)이 in-process 기본 발행자를 등록한다.
+
+- **봉투 `DomainEvent<T>`**(순수 record): `eventId`·`type`·`occurredAt`·`traceId`·`userId`·`payload`. `DomainEvent.of(type, payload)` 팩토리가 **발행 시점의 `TraceContext`(traceId/userId)를 봉투에 자동 주입**하고 eventId/occurredAt 을 발급한다 — 이벤트가 스레드·프로세스 경계를 넘어도 어느 요청에서 비롯됐는지 잃지 않는다(로그 상관·감사 일관성).
+- **발행자 `EventPublisher`**: `publish(DomainEvent<?>)` + 편의 `publish(type, payload)`(봉투 자동 생성). 기본 구현 `ApplicationEventPublisherAdapter`는 Spring `ApplicationEventPublisher`로 위임해 같은 컨텍스트의 `@EventListener`/`@TransactionalEventListener`에 전달(브로커 불필요).
+- **브로커 확장점**: 외부 브로커(Kafka/Rabbit 등)로 내보내려면 **소비 서비스가 `EventPublisher`를 구현한 빈으로 대체**한다(`@ConditionalOnMissingBean`) — 봉투 규약은 그대로 유지. 라이브러리는 코어(봉투+in-process 발행)만 제공하고, **브로커별 어댑터는 인프라 선택이 확정되면 얹는다**(현재 보류).
+- 토글: `mutuus.common.event.enabled=false`. 회귀 가드: `DomainEventTest`(봉투 TraceContext 자동주입, 단위) + `EventPublishingIntegrationTest`(발행→in-process 리스너 수신) + 데모 `samples/sample-api/.../DemoEventRecorder`(`/demo/event`).
+
 ## 작업 시 규칙
 
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.

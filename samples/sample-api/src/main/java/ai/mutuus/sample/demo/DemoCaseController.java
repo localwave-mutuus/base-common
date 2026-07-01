@@ -52,6 +52,8 @@ public class DemoCaseController {
     private final SampleNoteRepository notes;
     private final ObjectProvider<StringRedisTemplate> redisProvider;
     private final CacheDemoService cacheDemoService;
+    private final ai.mutuus.common.event.EventPublisher eventPublisher;
+    private final DemoEventRecorder eventRecorder;
     private final String sessionNamespace;
     private final String serviceName;
     private final String appCode;
@@ -60,6 +62,8 @@ public class DemoCaseController {
     public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages,
                               SampleNoteRepository notes, ObjectProvider<StringRedisTemplate> redisProvider,
                               CacheDemoService cacheDemoService,
+                              ai.mutuus.common.event.EventPublisher eventPublisher,
+                              DemoEventRecorder eventRecorder,
                               @Value("${mutuus.common.session.namespace:demo:session}") String sessionNamespace,
                               @Value("${mutuus.common.service-name:sample-api}") String serviceName,
                               @Value("${mutuus.common.app-code:}") String appCode,
@@ -69,6 +73,8 @@ public class DemoCaseController {
         this.notes = notes;
         this.redisProvider = redisProvider;
         this.cacheDemoService = cacheDemoService;
+        this.eventPublisher = eventPublisher;
+        this.eventRecorder = eventRecorder;
         this.sessionNamespace = sessionNamespace;
         this.serviceName = serviceName;
         this.appCode = appCode;
@@ -156,6 +162,9 @@ public class DemoCaseController {
                 new DemoCase("cache", "캐시 추상화(@Cacheable + Redis) - 재호출 캐시", "GET", "/demo/cache", null,
                         "CacheDemoService.compute(key)(호출마다 새 UUID)를 같은 키로 두 번 호출 → 캐시가 켜지고 Redis 연결 시 2차는 재계산 없이 1차 값 반환(sameValue=true). 키 프리픽스 <service>:cache:demo::. Redis 미가동 시 안내만(200 유지, mutuus.common.cache.enabled). (기대 200)",
                         "ai.mutuus.common.cache.CommonCacheAutoConfiguration", 200, null),
+                new DemoCase("event", "도메인 이벤트 발행(봉투 + in-process 전달)", "GET", "/demo/event", null,
+                        "EventPublisher.publish(\"demo.ping\", ...) → 봉투(eventId/type/occurredAt/traceId/userId/payload)에 현재 TraceContext 자동 주입 후 in-process @EventListener 전달. published.traceId 가 상단 X-Trace-Id 와 같고 sameEvent=true 확인. 브로커 불필요(브로커 발행은 EventPublisher 대체로 확장). (기대 200)",
+                        "ai.mutuus.common.event.EventPublisher", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -471,6 +480,28 @@ public class DemoCaseController {
             result.put("note", "캐시 조회 실패 — 로컬 Redis(16010) 미가동/인증 필요. "
                     + "REDIS_PASSWORD 주입 후 재구동하면 sameValue=true 로 실증된다.");
         }
+        return ApiResponse.ok(result);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 도메인 이벤트 발행(broker-agnostic 코어) — EventPublisher 로 봉투를 발행하면
+    // 발행 시점의 TraceContext(traceId/userId)가 봉투에 자동 주입되고, in-process 기본 발행자가
+    // 같은 컨텍스트의 @EventListener(DemoEventRecorder)에게 전달한다(브로커 불필요). 브로커로
+    // 내보내려면 소비 서비스가 EventPublisher 를 Kafka/Rabbit 구현으로 대체하면 봉투 규약은 그대로.
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/event")
+    public ApiResponse<Map<String, Object>> event() {
+        ai.mutuus.common.event.DomainEvent<?> published =
+                eventPublisher.publish("demo.ping", Map.of("hello", "world"));
+        ai.mutuus.common.event.DomainEvent<?> received = eventRecorder.last();
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("published", published);
+        result.put("listenerReceived", received != null);
+        result.put("receivedEventId", received != null ? received.eventId() : null);
+        result.put("sameEvent", received != null && received.eventId().equals(published.eventId()));
+        result.put("note", "EventPublisher.publish → 봉투에 traceId/userId 자동 주입 후 in-process 리스너 전달. "
+                + "브로커로 내보내려면 소비자가 EventPublisher 를 Kafka/Rabbit 구현으로 대체(봉투 규약 유지).");
         return ApiResponse.ok(result);
     }
 
