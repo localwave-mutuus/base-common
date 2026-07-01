@@ -123,6 +123,40 @@ class LoggingCaseMatrixIntegrationTest {
         run("C10 느린 요청 (200, request.completed WARN)", get("/demo/logging/slow"));
     }
 
+    @Test
+    void 쿼리_단일_배열_파라미터() throws Exception {
+        List<String> order = run("C11 쿼리 파라미터 (단일 q + 배열 ids)",
+                get("/demo/params/query?q=hello&ids=a&ids=b"));
+        // method.enter args 에 단일값(hello)과 배열([a, b])이 함께 남는다: args=[hello, [a, b]]
+        assertThat(order).contains("method.enter");
+        assertThat(kvOf("method.enter", "args")).contains("hello").contains("[a, b]");
+        // 쿼리스트링은 request.received 의 httpQuery 로 남는다
+        assertThat(kvOf("request.received", "httpQuery")).contains("q=hello").contains("ids=a");
+    }
+
+    @Test
+    void 본문_단일_배열_파라미터() throws Exception {
+        List<String> order = run("C12 본문 파라미터 (단일 tag + 배열 tags)",
+                post("/demo/params/body").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"tag\":\"primary\",\"tags\":[\"a\",\"b\",\"c\"]}"));
+        assertThat(order).containsSubsequence("request.payload", "method.enter", "method.exit", "response.payload");
+        // 요청 본문 payload 에 단일 필드 + 배열 필드가 남는다
+        assertThat(kvOf("request.payload", "requestBody"))
+                .contains("\"tag\":\"primary\"").contains("\"tags\":[\"a\",\"b\",\"c\"]");
+        // 역직렬화된 메서드 인자: args=[ParamsRequest[tag=primary, tags=[a, b, c]]]
+        assertThat(kvOf("method.enter", "args")).contains("tag=primary").contains("tags=[a, b, c]");
+    }
+
+    /** 마지막 실행에서 특정 event 의 필드값을 읽는다(케이스별 값 단언용). */
+    private String kvOf(String event, String key) {
+        return appender.list.stream()
+                .filter(e -> event.equals(kv(e, "event")))
+                .map(e -> kv(e, key))
+                .filter(v -> v != null)
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("이벤트/필드 없음: " + event + "." + key));
+    }
+
     /**
      * 요청을 수행하고, 부모 로거에 모인 이벤트를 실제 순서대로 콘솔에 표로 출력한다.
      * @return 발생 순서대로의 event 이름 목록(케이스별 추가 단언용).

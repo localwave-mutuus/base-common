@@ -59,6 +59,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-restclient</artifactId>
         </dependency>
+        <!-- OpenAPI 3.x(3.1) 스펙 자동 생성 + Swagger UI. v3.0.x 가 Spring Boot 4/Framework 7 지원. -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.0.3</version>
+        </dependency>
         <!-- 영속성(BaseEntity 감사 데모): JPA + H2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

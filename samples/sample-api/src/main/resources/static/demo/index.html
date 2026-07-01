@@ -44,8 +44,9 @@
       <label style="margin-left:16px">X-Screen-Id</label><input id="screen" placeholder="(선택)" size="10">
       <label style="margin-left:16px">X-User-Id</label><input id="user" placeholder="(감사 주체)" size="10">
       <label style="margin-left:16px">Bearer</label><input id="bearer" placeholder="(예: alice)" size="10">
-      <button class="runall" style="margin-left:16px" onclick="runAll()">▶ 전체 실행 (16)</button>
+      <button class="runall" style="margin-left:16px" onclick="runAll()">▶ 전체 실행</button>
       <a href="/demo/logs.html" style="margin-left:16px; color:#6ea8ff; font-size:13px">📜 로그 뷰어 →</a>
+      <a href="/swagger-ui.html" style="margin-left:12px; color:#6ea8ff; font-size:13px">🧭 OpenAPI(Swagger) →</a>
     </p>
   </header>
   <div class="wrap">
@@ -126,6 +127,7 @@
       .then(r => r.json())
       .then(cases => {
         CASES = cases;
+        document.querySelector('.runall').textContent = '▶ 전체 실행 (' + cases.length + ')';
         const box = document.getElementById('cases');
         box.innerHTML = '';
         cases.forEach(c => {

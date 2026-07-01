@@ -40,6 +40,9 @@ mutuus:
         - /demo/**          # 테스트/데모 화면(항상 포함)
         - /api/public/**
         - /actuator/**
+        - /v3/api-docs/**   # OpenAPI 3.x 스펙(JSON)
+        - /swagger-ui/**    # Swagger UI 정적 리소스
+        - /swagger-ui.html
     logging:
       # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
       slow-request-threshold-millis: 1000
