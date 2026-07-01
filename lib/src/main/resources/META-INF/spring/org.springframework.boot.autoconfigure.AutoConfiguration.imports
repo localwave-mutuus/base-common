@@ -1,6 +1,7 @@
 ai.mutuus.common.config.CommonConfigAutoConfiguration
 ai.mutuus.common.async.CommonAsyncAutoConfiguration
 ai.mutuus.common.logging.CommonLoggingAutoConfiguration
+ai.mutuus.common.logging.CommonMaskingAutoConfiguration
 ai.mutuus.common.payload.CommonPayloadLoggingAutoConfiguration
 ai.mutuus.common.intercept.CommonControllerEntryAutoConfiguration
 ai.mutuus.common.aop.CommonMethodLoggingAutoConfiguration

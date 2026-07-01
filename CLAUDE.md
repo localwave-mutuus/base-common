@@ -119,6 +119,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 > 세 "진입" 관측의 깊이 차이가 핵심: 필터=바이트 본문 / 인터셉터=메서드 식별(인자 결정 전) / AOP=역직렬화된 값(인자 결정 후). 그래서 @Valid·JSON 파싱 실패는 `controller.entry`까지만 남고 `method.enter`는 안 남는다. **요청 유입 시 전체 로깅 구간의 케이스별 실측 순서**는 [LOGGING_CASES.md](docs/LOGGING_CASES.md)(회귀 가드 `PayloadAndEntryLoggingIntegrationTest` + `LoggingCaseMatrixIntegrationTest`).
 
+**로그 민감정보 마스킹(opt-in, `mutuus.common.logging.masking.enabled=true`)**: `SensitiveDataMasker`(`core`, 정규식 매칭부를 마지막 4자만 남기고 마스킹)가 payload(`requestBody`/`responseBody`)·method(`args`/`return`) 로그에 남기 전에 카드번호·주민등록번호 등 PII 를 가린다. 기본 패턴(카드 13~16자리·주민번호)은 `CommonMaskingAutoConfiguration` 제공, 추가 패턴은 `mutuus.common.logging.masking.patterns`. **마스킹은 로깅 한정** — 실제 응답 본문은 원문 그대로다(마스킹 대상은 로그뿐). 기본 OFF, 소비자 자체 `SensitiveDataMasker` 빈으로 대체 가능. 회귀 가드 `SensitiveDataMaskerTest`·`MaskingIntegrationTest`.
+
 ### 8. 영속성 감사 (persistence 패키지, optional)
 
 `spring-data-jpa`가 classpath에 있을 때만 활성화되는 optional 통합이다. `BaseEntity`(`@MappedSuperclass`)를 상속하면 `created_at`/`updated_at`(`Instant`)·`created_by`/`updated_by`가 JPA Auditing으로 자동 기록된다. **감사 주체(created_by 등)는 `TraceContextAuditorAware`가 `TraceContext`의 인증 사용자(`X-User-Id`)에서 가져온다** — 즉 보안 체인이 확정한 신뢰 사용자가 그대로 감사 컬럼에 박힌다(별도 코드 불필요).

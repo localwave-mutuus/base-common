@@ -1,6 +1,8 @@
 package ai.mutuus.common.aop;
 
+import ai.mutuus.common.core.SensitiveDataMasker;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,8 +26,9 @@ public class CommonMethodLoggingAutoConfiguration {
     /** 인자/리턴 출력 함수(기본 구현). 소비자가 재정의하면 비활성. */
     @Bean
     @ConditionalOnMissingBean
-    public MethodLoggingWriter methodLoggingWriter(MethodLoggingProperties props) {
-        return new DefaultMethodLoggingWriter(props.getMaxLength());
+    public MethodLoggingWriter methodLoggingWriter(MethodLoggingProperties props,
+                                                   ObjectProvider<SensitiveDataMasker> masker) {
+        return new DefaultMethodLoggingWriter(props.getMaxLength(), masker.getIfAvailable());
     }
 
     @Bean

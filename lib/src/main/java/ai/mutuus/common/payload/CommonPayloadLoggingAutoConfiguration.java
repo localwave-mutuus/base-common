@@ -1,5 +1,7 @@
 package ai.mutuus.common.payload;
 
+import ai.mutuus.common.core.SensitiveDataMasker;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,15 +28,15 @@ public class CommonPayloadLoggingAutoConfiguration {
     /** 입력 파라미터 출력 함수(기본 구현). 소비자가 재정의하면 비활성. */
     @Bean
     @ConditionalOnMissingBean
-    public RequestPayloadLogger requestPayloadLogger() {
-        return new DefaultRequestPayloadLogger();
+    public RequestPayloadLogger requestPayloadLogger(ObjectProvider<SensitiveDataMasker> masker) {
+        return new DefaultRequestPayloadLogger(masker.getIfAvailable());
     }
 
     /** 리턴값 출력 함수(기본 구현). 소비자가 재정의하면 비활성. */
     @Bean
     @ConditionalOnMissingBean
-    public ResponsePayloadLogger responsePayloadLogger() {
-        return new DefaultResponsePayloadLogger();
+    public ResponsePayloadLogger responsePayloadLogger(ObjectProvider<SensitiveDataMasker> masker) {
+        return new DefaultResponsePayloadLogger(masker.getIfAvailable());
     }
 
     /** 모든 인입 요청을 감싸는 입출력 로깅 필터. AccessLogFilter(+10) 바로 안쪽(+20). */

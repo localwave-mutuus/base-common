@@ -42,7 +42,7 @@
 ## Phase 3 — 선택 (조직 요구 기반)
 | 항목 | 접근 | 규모 |
 |---|---|---|
-| #18 자동 로그 마스킹 | `StringUtils.mask` + 필드/정규식 마스커를 payload/method 로깅에 조건부 연동 | M |
+| #18 자동 로그 마스킹 | ✅ **완료** — `SensitiveDataMasker`(정규식, 마지막 4자 유지) opt-in, payload/method 로그의 본문·인자·리턴에서 카드/주민번호 마스킹(응답은 원문). `SensitiveDataMaskerTest`·`MaskingIntegrationTest` + 데모 화면 24/24 PASS(`/demo/mask`). | M |
 | #17 멱등성 | Idempotency-Key 필터 + Redis 저장 | M~L |
 | #13 Rate Limiting | Bucket4j 공통 필터 | M |
 | #14 캐시 추상화 | `@EnableCaching` + Redis CacheManager 기본값 | S~M |

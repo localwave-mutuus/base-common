@@ -2,6 +2,7 @@ package ai.mutuus.common.aop;
 
 import java.util.Arrays;
 
+import ai.mutuus.common.core.SensitiveDataMasker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * <p>로거 이름 {@code ai.mutuus.common.method}. 추적ID/appCode 등은 MDC 로 자동 포함된다.
  * 값이 길면 {@code maxLength} 로 절단한다. 출력 형식을 바꾸려면 이 클래스를 갱신하거나
  * 소비 측에서 {@link MethodLoggingWriter} 빈을 재정의한다.
+ * <p>{@link SensitiveDataMasker}(masking on 시 주입)가 있으면 인자/리턴을 남기기 전에 PII 를 마스킹한다.
  */
 public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
 
@@ -18,9 +20,15 @@ public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
 
     private final int maxLength;
+    private final SensitiveDataMasker masker;
 
     public DefaultMethodLoggingWriter(int maxLength) {
+        this(maxLength, null);
+    }
+
+    public DefaultMethodLoggingWriter(int maxLength, SensitiveDataMasker masker) {
         this.maxLength = maxLength;
+        this.masker = masker;
     }
 
     @Override
@@ -30,7 +38,7 @@ public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
                 .addKeyValue("event", "method.enter")
                 .addKeyValue("class", type)
                 .addKeyValue("method", method)
-                .addKeyValue("args", truncate(Arrays.deepToString(args)))
+                .addKeyValue("args", render(Arrays.deepToString(args)))
                 .log("controller method enter");
     }
 
@@ -41,8 +49,13 @@ public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
                 .addKeyValue("event", "method.exit")
                 .addKeyValue("class", type)
                 .addKeyValue("method", method)
-                .addKeyValue("return", truncate(String.valueOf(result)))
+                .addKeyValue("return", render(String.valueOf(result)))
                 .log("controller method exit");
+    }
+
+    /** 마스킹(masker 있으면) 후 절단. */
+    private String render(String value) {
+        return truncate(masker != null ? masker.mask(value) : value);
     }
 
     private String truncate(String value) {

@@ -143,6 +143,10 @@ public class DemoCaseController {
                 new DemoCase("page", "표준 페이징 응답(PageResponse)", "GET", "/demo/page?page=0&size=2", null,
                         "목록 API 가 PageResponse(content/page/size/totalElements/totalPages/first/last)로 페이지 메타를 일관 반환. response-wrapper 와 결합돼 {code:OK, data:PageResponse{...}}. page/size 바꿔 확인. (기대 200)",
                         "ai.mutuus.common.api.PageResponse", 200, null),
+                new DemoCase("mask", "로그 민감정보 마스킹(카드/주민번호)", "POST", "/demo/mask",
+                        "{\"card\":\"9876543210123456\",\"rrn\":\"990101-1234567\",\"name\":\"홍길동\"}",
+                        "본문의 카드/주민번호가 payload·method 로그(requestBody/responseBody/args/return)에서 마스킹됨(응답 자체는 원문 — 마스킹은 로깅 한정). 📜 로그뷰어에서 확인. (기대 200)",
+                        "ai.mutuus.common.core.SensitiveDataMasker", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -332,6 +336,16 @@ public class DemoCaseController {
                 .retrieve()
                 .body(String.class);
         return ApiResponse.ok(null);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 로그 민감정보 마스킹 — 본문의 카드/주민번호가 payload·method 로그에서 가려진다.
+    // (응답 자체는 원문 — 마스킹은 "로깅" 한정. mutuus.common.logging.masking.enabled=true)
+    // ---------------------------------------------------------------------
+
+    @PostMapping("/mask")
+    public ApiResponse<Map<String, Object>> mask(@RequestBody Map<String, Object> body) {
+        return ApiResponse.ok(body);
     }
 
     // ---------------------------------------------------------------------
