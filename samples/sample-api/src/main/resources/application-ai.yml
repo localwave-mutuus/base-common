@@ -7,7 +7,7 @@
 # 별도 인자 없이 어느 모드로 띄워도 http://localhost:<port>/demo/index.html 가 동작한다.
 #
 # 실행 예) ./mvnw -pl samples/sample-api spring-boot:run -Dspring-boot.run.profiles=ai \
-#            -Dspring-boot.run.arguments="--spring.data.redis.password=eva"
+#            -Dspring-boot.run.arguments="--spring.data.redis.password=<REDIS_PASSWORD>"
 
 server:
   port: 8091            # local(8081) 과 분리
