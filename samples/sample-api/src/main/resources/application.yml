@@ -15,13 +15,19 @@ spring:
       repositories:
         enabled: false
 
-# Redis 클라이언트가 classpath 에 있어도(세션 데모용), Redis 가 없는 프로파일
-# (local/stage/production)에서 actuator health 가 DOWN 으로 뜨지 않게 health 기여자를 끈다.
-# 실제 Redis 연결은 demo 프로파일(application-demo.yml)에서만 구성한다.
+# Redis 클라이언트가 classpath 에 있어도(세션 케이스용), Redis 가 없는 프로파일에서
+# actuator health 가 DOWN 으로 뜨지 않게 health 기여자를 끈다. 실 Redis 연결은
+# application-local.yml(로컬 인프라가 있는 환경)에서만 구성한다.
 management:
   health:
     redis:
       enabled: false
+
+# 테스트/데모 화면(/demo)은 sample-api 에 항상 포함된다 — 상세 로깅으로 라이브러리 동작을 관찰.
+logging:
+  level:
+    ai.mutuus.common: DEBUG
+    ai.mutuus.common.access: DEBUG
 
 mutuus:
   common:
@@ -31,10 +37,17 @@ mutuus:
     app-code: SMPL
     security:
       permit-all:
-        - /actuator/health/**
+        - /demo/**          # 테스트/데모 화면(항상 포함)
         - /api/public/**
+        - /actuator/**
+    logging:
+      # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
+      slow-request-threshold-millis: 1000
+    # 분산 세션 컨벤션(세션 케이스): 네임스페이스/타임아웃
+    session:
+      namespace: sample-api:session
+      timeout: 15m
 
 # 환경 식별 마커. 프로파일별 application-<profile>.yml 이 이 값을 덮어쓴다.
-# (Spring Boot 표준 프로파일 로딩 데모/검증용 — 라이브러리 기능 아님)
 demo:
-  environment: unknown
+  environment: local

@@ -25,7 +25,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,15 +36,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 
 /**
- * 공통기능 케이스 데모 — {@code demo} 프로파일에서만 활성화된다(@Profile("demo")).
+ * 공통기능 케이스 데모 — sample-api(소비 검증용 샘플)에 <b>항상 포함</b>되어 API 와 함께 구동된다.
  * <p>각 엔드포인트가 라이브러리의 한 기능을 단독으로 트리거하므로, 정적 UI(/demo/index.html)에서
  * 케이스를 골라 호출하고 응답·헤더·로그를 관찰하며 라이브러리 코드에 브레이크포인트를 걸어
  * 단계별로 디버깅할 수 있다. 케이스 목록은 {@link #cases()}({@code GET /demo/cases})가 제공한다.
- * <p>운영 소비 서비스에는 영향이 없다(프로파일 미활성 시 빈으로 등록되지 않음).
+ * <p>{@code /demo/**} 는 application.yml 의 permit-all 기본값에 포함돼 토큰 없이 호출된다.
  */
 @RestController
 @RequestMapping("/demo")
-@Profile("demo")
 public class DemoCaseController {
 
     private final RestClient.Builder restClientBuilder;
