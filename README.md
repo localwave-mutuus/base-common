@@ -1,10 +1,13 @@
 # common-platform
 
-AI 백엔드 **공통 라이브러리(단일 jar)**. 타 API 서비스가 Maven 의존성 **하나**로 재사용한다.
+AI 백엔드 **공통 라이브러리(단일 jar)**. 타 API 서비스가 Maven 의존성으로 재사용한다.
 기능은 내부 패키지로만 구분되며, 자동 구성(Auto-Configuration)으로 무설정 활성화된다.
+소비 편의를 위해 **BOM + 큐레이션 스타터**(web/batch)를 함께 발행한다.
 
 ```
-ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
+ai.mutuus.common:common-platform                              ← 산출물 라이브러리(핵심)
+ai.mutuus.common:common-platform-bom                          ← 버전 관리 BOM
+ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 스타터(온보딩 1줄)
 ```
 
 ## 기술스택
@@ -13,7 +16,7 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 - Spring Boot 4.1.0 / Spring Framework 7
 - Spring Modulith 2.1.0 (관측)
 - Micrometer + OpenTelemetry, Logback(JSON), Spring Security OAuth2 Resource Server
-- 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `lib/`(산출물 라이브러리 jar) + `samples/*`(소비 검증). 게시 산출물은 `lib/`의 `ai.mutuus.common:common-platform` 하나.
+- 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `bom/`(common-platform-bom) + `lib/`(산출물 라이브러리 jar) + `starters/*`(큐레이션 스타터 web/batch) + `samples/*`(소비 검증). 게시 대상은 BOM·라이브러리·스타터.
 
 ## 내부 패키지 구성
 
@@ -43,7 +46,40 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 
 ## 소비 측(각 API) 사용법
 
-### 1) 의존성 추가 (단 하나)
+### 1) 의존성 추가 — 권장: BOM + 큐레이션 스타터
+
+버전은 **BOM** 으로 관리하고, 표준 스택은 **스타터 하나**로 끌어온다.
+
+```xml
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>ai.mutuus.common</groupId>
+      <artifactId>common-platform-bom</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+      <type>pom</type><scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<!-- 웹 서비스: web/security/oauth2/actuator/validation/restclient/aspectj + JSON 로깅 포함 -->
+<dependency>
+  <groupId>ai.mutuus.common</groupId>
+  <artifactId>common-platform-starter-web</artifactId>   <!-- 버전 생략(BOM 관리) -->
+</dependency>
+
+<!-- 비웹(배치) 서비스: core + JSON 로깅 (web/security 없음)
+<dependency>
+  <groupId>ai.mutuus.common</groupId>
+  <artifactId>common-platform-starter-batch</artifactId>
+</dependency> -->
+```
+
+> 스타터를 쓰면 `logstash-logback-encoder`(JSON 로깅)·`aspectj`(메서드 로깅) 등 **라이브러리가 필요로 하는 의존성이 자동 포함**된다 — 빠뜨려서 기동 실패할 일이 없다.
+
+### (대안) 라이브러리만 직접 참조
+
+스타터 없이 라이브러리만 쓰고 필요한 Spring Boot starter 는 소비자가 직접 조립할 수도 있다.
 
 ```xml
 <dependency>
@@ -53,8 +89,8 @@ ai.mutuus.common:common-platform:0.1.0-SNAPSHOT   ← 산출물 1개
 </dependency>
 ```
 
-> 소비 서비스가 web/security 기능을 쓰려면 해당 Spring Boot starter 가 classpath 에 있어야 한다
-> (일반 API 서비스는 이미 `spring-boot-starter-web`, `-security` 를 사용하므로 별도 작업 불필요).
+> 이 경우 web/security 기능을 쓰려면 `spring-boot-starter-web`/`-security` 등을 직접 넣어야 하고
+> (일반 API 서비스는 이미 보유), JSON 로깅을 쓰면 `logstash-logback-encoder` 도 직접 추가한다.
 
 ### 2) 설정 (application.yml)
 
@@ -92,7 +128,7 @@ management:
 `logback-common.xml` 은 **JSON 콘솔 + 파일** appender 를 제공한다.
 - 파일명: `<어플리케이션코드>-<인스턴스구분코드>.log` (크기 100MB + 일자 롤링, `${LOG_DIR:-logs}` 디렉터리).
 - 모든 로그에 추적키(`X-Trace-Id`)·`appCode`·`instanceCode`·`service` 필드가 포함된다.
-- **JSON 인코더는 optional** 이라 소비자가 직접 추가한다:
+- **JSON 인코더는 optional**. 스타터(`common-platform-starter-web`/`-batch`)를 쓰면 자동 포함되고, 라이브러리만 직접 참조하는 경우에만 추가한다:
   ```xml
   <dependency>
     <groupId>net.logstash.logback</groupId><artifactId>logstash-logback-encoder</artifactId>
@@ -136,7 +172,8 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 ## 배포(사내 저장소)
 
 ```bash
-./mvnw -q -pl lib clean deploy   # lib 만 Nexus/Artifactory 에 게시 (samples·aggregator 는 deploy.skip)
+# BOM·라이브러리·스타터 게시 (samples·aggregator 는 deploy.skip)
+./mvnw -q -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
 ```
 
 > JDK 21 필요. Maven Wrapper(`./mvnw`)가 Maven 3.9.9 로 고정돼 있어 로컬 Maven 설치는 불필요하다.

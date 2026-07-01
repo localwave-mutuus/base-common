@@ -4,11 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-`common-platform`이 게시하는 **산출물은 단일 jar 공통 라이브러리**(`ai.mutuus.common:common-platform`) 하나다. 타 API 서비스가 Maven 의존성 **하나**로 추적/로깅/예외/i18n/인증/세션 기능을 재사용한다. 실행 가능한 애플리케이션이 아니라 **소비 서비스에 흡수되는 라이브러리**라는 점이 모든 설계 결정의 근간이다.
+`common-platform`의 **핵심 산출물은 단일 jar 공통 라이브러리**(`ai.mutuus.common:common-platform`)다. 타 API 서비스가 Maven 의존성으로 추적/로깅/예외/i18n/인증/세션 기능을 재사용한다. 실행 가능한 애플리케이션이 아니라 **소비 서비스에 흡수되는 라이브러리**라는 점이 모든 설계 결정의 근간이다. 소비 편의를 위해 **BOM(`common-platform-bom`)과 큐레이션 스타터(`common-platform-starter-web`/`-batch`)를 함께 발행**한다 — 소비자는 스타터 1개로 표준 스택을, BOM 으로 버전을 관리한다.
 
 - **레포 레이아웃은 Maven reactor**다(루트 `pom.xml`은 `packaging=pom` aggregator, 게시 대상 아님). 모듈 셋:
   - `lib/` — **산출물 라이브러리**(`ai.mutuus.common:common-platform`). 라이브러리 소스/리소스는 전부 `lib/src/...`에 있다.
-  - `samples/sample-api`, `samples/sample-batch` — 라이브러리를 의존성 하나로 끌어쓰는 **소비 검증용 샘플**(아래 "테스트 위치" 규칙).
+  - `bom/` — **`common-platform-bom`**(`packaging=pom`). 자사 아티팩트(lib·스타터들) + 라이브러리가 노출하는 optional 3rd-party(logstash·springdoc) 버전을 한 곳에서 고정 → 소비자는 버전 없이 추가, CVE/상향은 BOM 한 곳만 올리면 일괄 롤아웃.
+  - `starters/starter-web`, `starters/starter-batch` — **큐레이션 스타터**(코드 없는 의존성 취합 jar, `spring-boot-maven-plugin skip`). web = lib + 표준 웹 스택(web/security/oauth2/actuator/validation/restclient/aspectj) + JSON 로깅(logstash); batch = lib + JSON 로깅(web/security 제외 → 비전이 유지). 소비자 온보딩 1줄.
+  - `samples/sample-api`, `samples/sample-batch` — 라이브러리를 끌어쓰는 **소비 검증용 샘플**(아래 "테스트 위치" 규칙). 현재 샘플은 **스타터+BOM 경유**로 소비한다(sample-api→`starter-web`, sample-batch→`starter-batch`, 둘 다 `common-platform-bom` import).
   - 이 reactor 구조의 이유: IDE(jdt.ls)가 라이브러리와 샘플을 한 창에서 각각 별도 프로젝트로 임포트하려면, 라이브러리를 `lib/` 하위로 내려 samples 와 형제로 둬 Eclipse 의 '프로젝트 위치 중첩 금지'를 피해야 한다. 또한 reactor 빌드 시 samples 가 lib 를 .m2 stale jar 가 아니라 방금 빌드한 모듈에서 해석한다. 단, **`samples` 가 reactor 모듈이 됐어도 "독립 소비자" 충실도는 유지**된다 — 샘플 pom 은 여전히 `spring-boot-starter-parent` 를 상속하고 라이브러리를 GAV 의존으로만 참조한다(라이브러리 내부에 결합하지 않음).
 - Java 21 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
   - 베이스라인은 **JDK 21 고정**이다(`lib/pom.xml`의 `java.version`/`maven.compiler.release`). 브랜치명·일부 커밋에 "Java 25"가 보여도 작업 트리는 안정성·소비 서비스 강제 회피를 이유로 21로 되돌려져 있다 — 산출물 타깃은 21이다.
@@ -16,15 +18,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 빌드 / 테스트 명령
 
-Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능). 루트에서의 `./mvnw`는 **reactor 전체**(lib + samples)를 대상으로 한다.
+Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능). 루트에서의 `./mvnw`는 **reactor 전체**(bom → lib → starters → samples)를 대상으로 한다.
 
 ```bash
 # 라이브러리만 (대부분의 라이브러리 작업은 이걸로 충분)
 ./mvnw -pl lib clean install     # lib 만 컴파일 + 로컬 .m2 설치 (라이브러리 모듈엔 테스트 없음)
-./mvnw -pl lib clean deploy      # 사내 Nexus/Artifactory에 라이브러리 jar 게시 (samples·aggregator는 deploy.skip)
 
-# reactor 전체 (lib → samples 순서로 빌드, 샘플 테스트까지 실행)
-./mvnw clean install             # lib 설치 후 samples 빌드/테스트 — 라이브러리+소비검증 일괄
+# 게시 대상(BOM·라이브러리·스타터) 일괄 게시 (samples·aggregator는 deploy.skip)
+./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
+
+# reactor 전체 (bom → lib → starters → samples 순서로 빌드, 샘플 테스트까지 실행)
+./mvnw clean install             # 전 모듈 설치 후 samples 빌드/테스트 — 라이브러리+소비검증 일괄
 ```
 
 **테스트는 라이브러리 모듈이 아니라 소비 서비스(`samples/*`)에서 수행한다(아래 "테스트 위치" 규칙 참조).** reactor 빌드(`./mvnw clean install`/`test` 를 루트에서)는 samples 가 라이브러리를 **방금 빌드한 lib 모듈**에서 해석하므로, 라이브러리를 고친 뒤에도 별도 재설치 없이 한 번에 검증된다.

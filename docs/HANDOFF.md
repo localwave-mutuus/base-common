@@ -4,7 +4,7 @@
 
 ## 1. 프로젝트 한 줄 요약
 - 게시 산출물 = **단일 jar 공통 라이브러리** `ai.mutuus.common:common-platform`(레포의 `lib/` 모듈).
-- 레포 = **Maven reactor**: 루트 aggregator(`pom.xml`) + `lib/`(라이브러리) + `samples/sample-api`·`samples/sample-batch`(소비 검증 샘플).
+- 레포 = **Maven reactor**: 루트 aggregator(`pom.xml`) + `bom/`(common-platform-bom) + `lib/`(라이브러리) + `starters/starter-web`·`starter-batch`(큐레이션 스타터) + `samples/*`(소비 검증 샘플). 샘플은 스타터+BOM 경유로 소비.
 - Java 21 / Spring Boot 4.1.0. 자세한 아키텍처는 [CLAUDE.md](../CLAUDE.md) · [README.md](../README.md).
 
 ## 2. 현재 상태
@@ -30,7 +30,8 @@
 
 ## 5. 게시(재배포) 방법
 ```bash
-./mvnw -pl lib clean deploy    # GitHub Packages 로 lib 만 게시(samples/aggregator 는 deploy.skip)
+# BOM·라이브러리·스타터 일괄 게시 (samples/aggregator 는 deploy.skip)
+./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
 ```
 - 자격: `~/.m2/settings.xml` 의 `<server><id>localwave</id>` PAT(write:packages). pom 의 `distributionManagement <id>localwave>` 와 이름 매칭. 상세: 메모리 `base-common-publishing`.
 
