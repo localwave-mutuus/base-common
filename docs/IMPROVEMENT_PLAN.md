@@ -72,7 +72,8 @@
 ## 진행 현황
 - [x] **1-B. ErrorCode 인터페이스화** — **완료**: `interface ErrorCode` + `CommonErrorCode` enum, 소비자 `SampleErrorCode` 실증. 검증 `CustomErrorCodeIntegrationTest`(S1-S4) + 데모 화면 ▶전체실행 **19/19 PASS**.
 - [x] **1-A. 성공 응답 자동 래핑** — **완료**: `ApiResponseWrapperAdvice`(`ResponseBodyAdvice`, 기본 OFF). 이중래핑/`String`·`byte[]`·`Resource`/비JSON/제외경로(springdoc `/v3/api-docs`·actuator·swagger + 소비자 지정 `/demo/cases`)는 통과. 검증 `ResponseWrapperIntegrationTest`(W1~W5) + 데모 화면 ▶전체실행 **20/20 PASS**(신규 `/demo/wrap`).
-- [ ] Phase 2 이후 순차.
+- [x] **2-B. OpenAPI 공통 설정 승격** — **완료**: `CommonOpenApiAutoConfiguration`(`@ConditionalOnClass(OpenAPI)`, springdoc lib optional). 공통 info + Bearer JWT 보안스킴 주입 → springdoc 이 베이스로 스펙 생성. 검증 `OpenApiCommonConfigIntegrationTest` + 데모 화면 ▶전체실행 **21/21 PASS**(신규 `openapi`), /v3/api-docs 에 info.title·bearerAuth 실앱 확인.
+- [ ] Phase 2 계속: 2-C PageResponse → 2-A HTTP 타임아웃/재시도. Phase 3 이후.
 
 ## 테스트 검증 시나리오 (1-B)
 | # | 시나리오 | 기대 |

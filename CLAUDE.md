@@ -88,6 +88,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 **성공 응답 자동 래핑(opt-in, `response` 패키지)**: `mutuus.common.response-wrapper.enabled=true`면 `ApiResponseWrapperAdvice`(`ResponseBodyAdvice`)가 컨트롤러가 반환한 **평범한 객체를 표준 `ApiResponse.ok(...)` 봉투로 자동 래핑**한다(컨트롤러는 `return dto;`만으로 봉투 응답). **이미 `ApiResponse`/`ProblemDetail`, `String`/`byte[]`/`Resource`, 비(非)JSON, 제외 경로**(`exclude-path-prefixes` 기본 `/actuator`·`/v3/api-docs`·`/swagger-ui`)는 손대지 않는다(이중 래핑·직렬화 파손 방지 — springdoc OpenAPI 스펙이 깨지지 않는 이유). **기본 OFF**(응답 규약을 바꾸는 오지랖이라 명시적 opt-in). 회귀 가드 `samples/sample-api/ResponseWrapperIntegrationTest`.
 
+**공통 OpenAPI 문서(opt-in, `openapi` 패키지)**: 소비자가 springdoc 를 classpath 에 추가하면 `CommonOpenApiAutoConfiguration`(`@ConditionalOnClass(OpenAPI)`)이 공통 `OpenAPI` 빈(info + **Bearer JWT 보안 스킴**, 자원 서버 JWT 와 정합 → Swagger UI 의 Authorize)을 제공하고 springdoc 이 이를 베이스로 경로/스키마를 채운다. `@ConditionalOnMissingBean` 이라 소비자가 자체 `OpenAPI` 빈을 정의하면 비켜선다. springdoc 은 lib 에서 optional(`springdoc-openapi-starter-common`), 버전은 `common-platform-parent`/BOM 의 `springdoc.version`. 회귀 가드 `samples/sample-api/OpenApiCommonConfigIntegrationTest`.
+
 ### 6. 보안 (인증 위임 모델)
 
 이 라이브러리는 인증을 **수행하지 않는다**. 별도 인증/인가 MSA가 발급한 JWT를 검증하는 OAuth2 Resource Server 기본 설정만 제공한다(`CommonSecurityAutoConfiguration`). `SecurityFilterChain`/`JwtAuthenticationConverter`는 `@ConditionalOnMissingBean`이라, **소비 서비스가 자체 빈을 정의하면 즉시 대체**된다. permit-all 경로·roles claim·authority prefix는 `mutuus.common.security.*`로 설정.

@@ -68,6 +68,15 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- openapi: 공통 OpenAPI(springdoc) 설정 — info + Bearer JWT 보안스킴. optional(소비자가
+             springdoc 를 추가할 때만 자동구성이 활성). 버전은 common-platform-parent 의 springdoc.version. -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-common</artifactId>
+            <version>${springdoc.version}</version>
+            <optional>true</optional>
+        </dependency>
+
         <!-- security: OAuth2 Resource Server (JWT) auth integration -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
