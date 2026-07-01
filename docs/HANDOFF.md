@@ -28,12 +28,19 @@
 - **controller-entry 인터셉트**(opt-in, `lib/.../intercept`): 명칭/패키지/URL 로 타게팅한 메서드 진입 시 동작. 문서 [CONTROLLER_ENTRY.md](CONTROLLER_ENTRY.md).
 - 회귀 가드: `PayloadAndEntryLoggingIntegrationTest`(실제 켜서 검증).
 
-## 5. 게시(재배포) 방법
+## 5. 게시(재배포) 방법 — 사내 Nexus (Sonatype Nexus 3)
+게시 대상은 **Nexus**(`distributionManagement` = maven-releases/maven-snapshots). 버전이 `-SNAPSHOT` 이면 snapshots, 정식이면 releases 로 Maven 이 자동 라우팅. 상세 좌표/자격: 메모리 `nexus-publishing`.
+
 ```bash
-# BOM·라이브러리·스타터 일괄 게시 (samples/aggregator 는 deploy.skip)
-./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
+# 테스트 후 배포(권장, 2단계) — 샘플 테스트 통과 후에만 게시
+./mvnw clean install                                                       # 전체 빌드 + 샘플 테스트(117+4)
+./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch deploy       # 게시 모듈만(samples/aggregator deploy.skip)
 ```
-- 자격: `~/.m2/settings.xml` 의 `<server><id>localwave</id>` PAT(write:packages). pom 의 `distributionManagement <id>localwave>` 와 이름 매칭. 상세: 메모리 `base-common-publishing`.
+
+- **자격**: `~/.m2/settings.xml` 의 `<server><id>nexus-releases</id>`·`<id>nexus-snapshots</id>`(deployer 계정) — pom 의 repository id 와 이름 매칭. 비번은 pom/git 미포함.
+- **인증서(중요)**: Nexus 가 self-signed(`CN=*.local`)라 JVM 이 신뢰 안 하면 `PKIX path building failed`. 시스템 JDK 를 안 건드리려면 커스텀 truststore(cacerts 복사 + nexus 인증서 추가) 만들어
+  `MAVEN_OPTS="-Djavax.net.ssl.trustStore=<경로> -Djavax.net.ssl.trustStorePassword=changeit"` 로 배포.
+- 검증(2026-07-01): 0.1.0-SNAPSHOT 4개 아티팩트 maven-snapshots 배포 성공(REST 조회 200).
 
 ## 6. 이어받을 때 주의 / 컨벤션
 - **라이브러리(lib)는 optional 의존성 + `@ConditionalOnClass/Property`** 원칙 유지(비웹 소비자로 web/security 비전이). 신규 통합도 이 패턴.
