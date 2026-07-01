@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
-        <relativePath/>
+        <groupId>ai.mutuus.common</groupId>
+        <artifactId>common-platform-parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>ai.mutuus.common</groupId>
@@ -19,11 +19,8 @@
     <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- java.version·maven.compiler.release·sourceEncoding·logstash-encoder.version 은 common-platform-parent 상속 -->
         <spring-modulith.version>2.1.0</spring-modulith.version>
-        <logstash-encoder.version>8.0</logstash-encoder.version>
     </properties>
 
     <dependencyManagement>
@@ -154,21 +151,5 @@
         </plugins>
     </build>
 
-    <!--
-      게시 대상: 사내 Nexus (Sonatype Nexus 3). <id> 는 ~/.m2/settings.xml 의 <server><id> 와 매칭
-      (deployer 계정). 버전이 -SNAPSHOT 이면 maven-snapshots, 아니면 maven-releases 로 Maven 이 자동 라우팅.
-      게시: ./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
-    -->
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Releases</name>
-            <url>https://nexusrepo.local/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Nexus Snapshots</name>
-            <url>https://nexusrepo.local/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!-- 게시 좌표(distributionManagement)·배포 정책(deployAtEnd)은 common-platform-parent 에서 상속한다. -->
 </project>

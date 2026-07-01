@@ -4,6 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>ai.mutuus.common</groupId>
+        <artifactId>common-platform-parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+
     <!--
       common-platform BOM — 자사 아티팩트(라이브러리 + 스타터들)와, 라이브러리가 노출하지만
       Spring Boot BOM 이 관리하지 않는 optional 의존성(logstash·springdoc)의 버전을 한 곳에서 고정한다.
@@ -25,12 +32,7 @@
     <name>common-platform-bom</name>
     <description>common-platform 아티팩트 + 소비자가 흔히 추가하는 optional 의존성의 버전을 한 곳에서 관리하는 BOM</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- 라이브러리가 노출하는 optional 의존성(Boot BOM 미관리분) -->
-        <logstash-encoder.version>8.0</logstash-encoder.version>
-        <springdoc.version>3.0.3</springdoc.version>
-    </properties>
+    <!-- 공통 버전(logstash-encoder.version·springdoc.version)·게시 좌표는 common-platform-parent 에서 상속 -->
 
     <dependencyManagement>
         <dependencies>
@@ -65,17 +67,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- 게시 대상: 사내 Nexus(lib 과 동일). -SNAPSHOT → maven-snapshots, 정식 → maven-releases 자동 라우팅. -->
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Releases</name>
-            <url>https://nexusrepo.local/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Nexus Snapshots</name>
-            <url>https://nexusrepo.local/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
