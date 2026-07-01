@@ -21,6 +21,9 @@ class CommonEnvironmentPostProcessorTest {
         assertThat(env.getProperty("mutuus.common.default-locale")).isEqualTo("ko-KR");
         assertThat(env.getProperty("mutuus.common.tracing-enabled")).isEqualTo("true");
         assertThat(env.getProperty("spring.messages.basename")).isEqualTo("messages/messages");
+        // HTTP 클라이언트 기본 타임아웃(무한 대기 방지) 컨벤션
+        assertThat(env.getProperty("spring.http.client.connect-timeout")).isEqualTo("2s");
+        assertThat(env.getProperty("spring.http.client.read-timeout")).isEqualTo("10s");
     }
 
     @Test

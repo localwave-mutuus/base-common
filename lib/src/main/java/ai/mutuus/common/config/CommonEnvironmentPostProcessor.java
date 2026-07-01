@@ -30,6 +30,10 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         // 다국어 기본값
         defaults.put("spring.messages.basename", "messages/messages");
         defaults.put("spring.messages.fallback-to-system-locale", "false");
+        // HTTP 클라이언트 기본 타임아웃(아웃바운드 호출 무한 대기 방지) — Boot 가 자동구성한
+        // RestClient/RestTemplate 빌더에 적용된다. 소비자는 spring.http.client.* 로 재정의.
+        defaults.put("spring.http.client.connect-timeout", "2s");
+        defaults.put("spring.http.client.read-timeout", "10s");
         // 공통 모듈 기본값
         defaults.put("mutuus.common.tracing-enabled", "true");
         defaults.put("mutuus.common.default-locale", "ko-KR");

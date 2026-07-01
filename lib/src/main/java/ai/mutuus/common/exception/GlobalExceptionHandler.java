@@ -95,12 +95,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceAccessException.class)
     public ResponseEntity<ApiResponse<Void>> handleNetwork(ResourceAccessException ex,
                                                            HttpServletRequest request) {
-        ErrorCode code = (ex.getCause() instanceof SocketTimeoutException)
+        ErrorCode code = isTimeout(ex.getCause())
                 ? CommonErrorCode.GATEWAY_TIMEOUT : CommonErrorCode.EXTERNAL_API_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
         String detail = messages.get(code.messageKey());
         ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
         return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, error));
+    }
+
+    /** 타임아웃 판별 — HttpURLConnection 계열(SocketTimeout)·JDK HttpClient 계열(HttpTimeout) 모두 커버. */
+    private static boolean isTimeout(Throwable cause) {
+        return cause instanceof SocketTimeoutException
+                || cause instanceof java.net.http.HttpTimeoutException;
     }
 
     /** 그 외 처리되지 않은 모든 예외 → 500. 스택을 포함해 ERROR 로깅. */

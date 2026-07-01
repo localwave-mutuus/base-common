@@ -3,6 +3,7 @@ package ai.mutuus.sample.demo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
 /**
@@ -126,6 +128,9 @@ public class DemoCaseController {
                 new DemoCase("error-network", "표준 예외 - 네트워크(502)", "GET", "/demo/error/network", null,
                         "해석 불가 호스트로 아웃바운드 호출 → ResourceAccessException → 502 EXTERNAL_API_ERROR(타임아웃은 504). (기대 502)",
                         "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork", 502, null),
+                new DemoCase("error-timeout", "표준 예외 - 타임아웃(504)", "GET", "/demo/error/timeout", null,
+                        "짧은 read timeout(300ms)으로 느린 다운스트림(/demo/logging/slow, 1.2s)을 호출 → 타임아웃 → 504 GATEWAY_TIMEOUT. 라이브러리 기본 타임아웃은 spring.http.client.*(EPP 컨벤션 2s/10s). (기대 504)",
+                        "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork", 504, null),
                 new DemoCase("error-custom", "표준 예외 - 소비자 커스텀 코드(409)", "GET", "/demo/error/custom", null,
                         "소비자가 ErrorCode 인터페이스를 구현한 SampleErrorCode.ORDER_ALREADY_SHIPPED 를 던짐 → 라이브러리가 CommonErrorCode 와 동일 봉투로 409 처리(code=ORDER_ALREADY_SHIPPED, i18n 메시지는 소비자 번들). X-Locale: en 으로 바꿔 비교. (기대 409)",
                         "ai.mutuus.sample.demo.SampleErrorCode", 409, null),
@@ -306,6 +311,24 @@ public class DemoCaseController {
         // → GlobalExceptionHandler#handleNetwork 가 502/504 로 변환(여기로 반환되지 않음).
         restClientBuilder.build().get()
                 .uri("http://demo-nonexistent.invalid/api")
+                .retrieve()
+                .body(String.class);
+        return ApiResponse.ok(null);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 아웃바운드 타임아웃 → 504. 짧은 read timeout 으로 느린 다운스트림을 호출해
+    // 타임아웃을 유도한다(SocketTimeout → ResourceAccessException → GlobalExceptionHandler 504).
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/error/timeout")
+    public ApiResponse<Void> errorTimeout(HttpServletRequest request) {
+        String base = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(Duration.ofMillis(300)); // 느린 다운스트림(1.2s)보다 짧게 → 타임아웃 유도
+        // 느린 엔드포인트(/demo/logging/slow, 1.2s sleep)를 호출 → read timeout → 여기로 반환되지 않고 504 변환.
+        RestClient.builder().requestFactory(factory).build().get()
+                .uri(base + "/demo/logging/slow")
                 .retrieve()
                 .body(String.class);
         return ApiResponse.ok(null);

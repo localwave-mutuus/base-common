@@ -74,7 +74,9 @@
 - [x] **1-A. 성공 응답 자동 래핑** — **완료**: `ApiResponseWrapperAdvice`(`ResponseBodyAdvice`, 기본 OFF). 이중래핑/`String`·`byte[]`·`Resource`/비JSON/제외경로(springdoc `/v3/api-docs`·actuator·swagger + 소비자 지정 `/demo/cases`)는 통과. 검증 `ResponseWrapperIntegrationTest`(W1~W5) + 데모 화면 ▶전체실행 **20/20 PASS**(신규 `/demo/wrap`).
 - [x] **2-B. OpenAPI 공통 설정 승격** — **완료**: `CommonOpenApiAutoConfiguration`(`@ConditionalOnClass(OpenAPI)`, springdoc lib optional). 공통 info + Bearer JWT 보안스킴 주입 → springdoc 이 베이스로 스펙 생성. 검증 `OpenApiCommonConfigIntegrationTest` + 데모 화면 ▶전체실행 **21/21 PASS**(신규 `openapi`), /v3/api-docs 에 info.title·bearerAuth 실앱 확인.
 - [x] **2-C. 표준 페이징 응답(PageResponse)** — **완료**: `api/PageResponse<T>`(순수 DTO) + `persistence/PageResponses.from(Page)`(optional 어댑터). 검증 `PageResponseTest`·`PageResponsesTest`·`PageResponseIntegrationTest` + 데모 화면 ▶전체실행 **22/22 PASS**(신규 `/demo/page`, 래퍼 결합). (ObjectMapper 공통설정은 오지랖이라 제외.)
-- [ ] Phase 2 계속: 2-A HTTP 타임아웃/재시도. Phase 3 이후.
+- [x] **2-A. HTTP 클라 타임아웃/재시도/에러디코딩** — **완료**: 타임아웃 컨벤션 기본값(EPP `spring.http.client.connect-timeout`2s/`read-timeout`10s), `HttpRetryInterceptor`(멱등·IOException, opt-in `mutuus.common.http.retry.*`), 타임아웃→504 에러디코딩(SocketTimeout+HttpTimeout). 검증 `HttpRetryInterceptorTest`·`HttpTimeoutIntegrationTest`(RANDOM_PORT) + 데모 화면 ▶전체실행 **23/23 PASS**(신규 `/demo/error/timeout`→504).
+
+**→ Phase 1·2 전부 완료.** 이후 Phase 3(선택: #18 마스킹, #17 멱등성, #13 rate limit, #14 캐시, #15 메시징)은 조직 요구 확인 후.
 
 ## 테스트 검증 시나리오 (1-B)
 | # | 시나리오 | 기대 |

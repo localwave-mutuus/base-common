@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.boot.restclient.RestTemplateCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @AutoConfiguration(beforeName = "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration")
 @ConditionalOnClass(DispatcherServlet.class)
 @ConditionalOnProperty(prefix = "mutuus.common", name = "tracing-enabled", matchIfMissing = true)
+@EnableConfigurationProperties(CommonHttpProperties.class)
 public class CommonWebAutoConfiguration {
 
     @Bean
@@ -90,6 +92,46 @@ public class CommonWebAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean(name = "headerPropagationRestTemplateCustomizer")
         RestTemplateCustomizer headerPropagationRestTemplateCustomizer(HeaderPropagationInterceptor interceptor) {
+            return restTemplate -> restTemplate.getInterceptors().add(interceptor);
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // 아웃바운드 재시도(opt-in) — 멱등 요청 IOException(연결/타임아웃) 재시도.
+    // mutuus.common.http.retry.enabled=true 일 때만 클라이언트 빌더에 인터셉터를 얹는다.
+    // ---------------------------------------------------------------------
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
+    static class HttpRetryConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        HttpRetryInterceptor httpRetryInterceptor(CommonHttpProperties props) {
+            return new HttpRetryInterceptor(props.getRetry().getMaxAttempts());
+        }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestClientCustomizer.class)
+    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
+    static class HttpRetryRestClientConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "httpRetryRestClientCustomizer")
+        RestClientCustomizer httpRetryRestClientCustomizer(HttpRetryInterceptor interceptor) {
+            return builder -> builder.requestInterceptor(interceptor);
+        }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestTemplateCustomizer.class)
+    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
+    static class HttpRetryRestTemplateConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "httpRetryRestTemplateCustomizer")
+        RestTemplateCustomizer httpRetryRestTemplateCustomizer(HttpRetryInterceptor interceptor) {
             return restTemplate -> restTemplate.getInterceptors().add(interceptor);
         }
     }
