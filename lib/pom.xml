@@ -155,15 +155,20 @@
     </build>
 
     <!--
-      게시 대상(GitHub Packages). <id>는 ~/.m2/settings.xml 의 <server><id>와
-      이름으로 매칭된다 → 여기 'localwave'가 settings.xml 의 localwave 계정(PAT)과 연결.
-      게시: ./mvnw -pl lib clean deploy   (현재 0.1.0-SNAPSHOT → SNAPSHOT 으로 업로드)
+      게시 대상: 사내 Nexus (Sonatype Nexus 3). <id> 는 ~/.m2/settings.xml 의 <server><id> 와 매칭
+      (deployer 계정). 버전이 -SNAPSHOT 이면 maven-snapshots, 아니면 maven-releases 로 Maven 이 자동 라우팅.
+      게시: ./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
     -->
     <distributionManagement>
         <repository>
-            <id>localwave</id>
-            <name>GitHub Packages - base-common</name>
-            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+            <id>nexus-releases</id>
+            <name>Nexus Releases</name>
+            <url>https://nexusrepo.local/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshots</name>
+            <url>https://nexusrepo.local/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>

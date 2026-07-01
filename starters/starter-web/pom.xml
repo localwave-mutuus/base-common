@@ -94,9 +94,14 @@
 
     <distributionManagement>
         <repository>
-            <id>localwave</id>
-            <name>GitHub Packages - base-common</name>
-            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+            <id>nexus-releases</id>
+            <name>Nexus Releases</name>
+            <url>https://nexusrepo.local/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshots</name>
+            <url>https://nexusrepo.local/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>
