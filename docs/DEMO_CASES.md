@@ -5,40 +5,62 @@
 
 ## 실행
 
-- IDE: 실행/디버그 구성 **`sample-api [demo] (공통기능 케이스, H2)`** 선택 → **F5**(디버그) 또는 ▶.
-  - 프로파일 `demo,stage`(임베디드 H2, 무인프라), 포트 `8081`, `/demo/**` permit-all.
+데모 화면은 **`sample-api` 에 항상 포함**된다(별도 demo 프로파일 없음). 어느 프로파일로 띄워도 `/demo/index.html` 이 동작한다. 실행 모드는 포트/인프라 충돌 방지를 위해 분리한다:
+
+- **사람(VS Code F5)** → `local` 프로파일, 포트 **8081**, 로컬 실 인프라(PostgreSQL `15010`·Redis `16010`).
+- **자동화(백그라운드 테스트)** → `ai` 프로파일, 포트 **8091**, 임베디드 H2(무인프라).
+
+아래 URL은 사람 기준(8081). `/demo/**` 는 permit-all 이라 토큰 없이 호출된다.
+
 - UI(케이스 선택·실행): <http://localhost:8081/demo/index.html> — 케이스별 ✅PASS/❌FAIL 배지 + "▶ 전체 실행"
 - 로그 뷰어(최신 로그 파일 자동 tail·JSON beautify): <http://localhost:8081/demo/logs.html> (`GET /demo/logs/tail?after=N`)
-- 케이스 목록(JSON): `GET http://localhost:8081/demo/cases`
+- 케이스 목록(JSON): `GET http://localhost:8081/demo/cases` — UI 가 이 목록으로 선택지를 렌더한다.
+- OpenAPI 스펙/Swagger UI: `GET /v3/api-docs` · `/swagger-ui.html`
 
-UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·본문을 보여준다. 동시에 **서버 콘솔 로그**(구조화 JSON: `request.received`/`request.completed`/`error.*`)를 함께 본다.
+UI에서 케이스의 **[실행]** 을 누르면 응답 상태·`X-Trace-Id`·본문을 보여주고, 케이스의 `expectStatus` 와 실제 상태가 같으면 PASS 로 표시한다. 동시에 **서버 콘솔 로그**(구조화 JSON: `request.received`/`request.completed`/`error.*` 등)를 함께 본다.
 디버깅은 아래 "브레이크포인트" 위치에 중단점을 걸고 [실행]하면 라이브러리 내부에서 멈춘다.
 
-## 케이스 카탈로그
+## 케이스 카탈로그 (27)
 
-| # | 케이스 | 호출 | 관찰 포인트 | 브레이크포인트 | 자동검증 테스트 |
-|---|--------|------|------------|---------------|----------------|
-| 1 | e2e 추적/MDC | `GET /demo/trace` | 응답 `X-Trace-Id`, 본문 TraceContext 스냅샷, 로그 traceId | `web.TraceFilter#doFilterInternal` | `CommonPlatformIntegrationTest` |
-| 2 | 아웃바운드 헤더 전파 | `GET /demo/outbound` | 다운스트림이 본 traceId(동일)·spanId(신규) | `web.HeaderPropagationInterceptor#intercept` | `OutboundPropagationIntegrationTest` |
-| 3a | 표준 예외 - 비즈니스(404) | `GET /demo/error/business` | RFC7807/ApiResponse 오류 봉투, messageKey, traceId | `exception.GlobalExceptionHandler` | `CommonPlatformIntegrationTest` |
-| 3b | 표준 예외 - 서버(500) | `GET /demo/error/server` | 500 INTERNAL_ERROR + `error.server` 로그(스택) | `exception.GlobalExceptionHandler` | — |
-| 3c | 표준 예외 - 검증(400) | `POST /demo/error/validation` `{"name":""}` | VALIDATION_ERROR + fieldErrors | `exception.GlobalExceptionHandler` | — |
-| 4 | i18n 메시지 | `GET /demo/i18n` (+`X-Locale: en`) | 현재/ko/en 메시지 비교 | `i18n.MessageResolver#get` | `MessageResolverTest` |
-| 5 | API 생명주기 로깅 | `GET /demo/logging/slow` | `request.completed` 가 WARN(느린 요청) | `logging.AccessLogFilter` | `AccessLoggingIntegrationTest` |
-| 6 | 영속성 감사(BaseEntity) | `POST /demo/audit` `{"text":"hello"}` | `created_at/by`·`updated_at/by` 자동 기록 | `persistence.TraceContextAuditorAware#getCurrentAuditor` | `PersistenceAuditingIntegrationTest` |
-| 7 | 보안 - 미인증 401 | `GET /api/secure/me` (Bearer 없음) | 401 + `auth.failure` 로그 + `WWW-Authenticate` | `security.LoggingAuthenticationEntryPoint` | `CommonPlatformIntegrationTest` |
-| 8 | 보안 - 인증 성공 | `GET /api/secure/me` (Bearer `alice`) | 200, `sub=alice`, 이후 로그 `X-User-Id=alice` | `security.AuthenticatedUserContextFilter` | `CommonPlatformIntegrationTest` |
-| 9 | 분산 세션 컨벤션 | `GET /demo/session` (2회) | `demo:session:*` Redis 키, namespace/timeout 컨벤션 | `session.CommonSessionAutoConfiguration` | `RedisLiveSessionIntegrationTest` |
-| 10 | 관측 - 서비스 태그/추적 | `GET /demo/observe` | `service.name` 태그 + 추적 식별자 | `observability.CommonObservabilityAutoConfiguration` | `CommonObservabilityAutoConfigurationTest` |
-| 11 | 식별 코드/헤더(App·Instance) | `GET /demo/codes` | `appCode`(4)·`instanceCode`(6), 응답 헤더 `X-App-Code`/`X-Instance-Id`(UI 상단 표시) | `config.CommonEnvironmentPostProcessor#resolveCodes` | — |
-| 12 | 표준 예외 - 잘못된 포맷(400) | `POST /demo/error/validation` `{bad json` | 400 `MALFORMED_REQUEST` | `exception.GlobalExceptionHandler#handleMalformed` | — |
-| 13 | 표준 예외 - 네트워크(502/504) | `GET /demo/error/network` | 해석 불가 호스트 호출 → 502 `EXTERNAL_API_ERROR`(타임아웃 504) | `exception.GlobalExceptionHandler#handleNetwork` | — |
-| 14 | 파일 로그 보기 | `GET /demo/logfile` | `<앱코드>-<인스턴스코드>.log` 경로 + 마지막 줄(JSON: appCode/instanceCode/traceId) | `logback-common.xml` | — |
+케이스 순서·정의는 `sample-api` 의 `DemoCaseController#cases()` 가 단일 출처다. `기대` 열은 정상 동작 시 HTTP 상태(오류 케이스 포함).
+
+| # | id | 케이스 | 호출 | 기대 | 브레이크포인트/핵심 클래스 | 자동검증 테스트 |
+|---|----|--------|------|:----:|---------------------------|----------------|
+| 1 | `trace` | e2e 추적/MDC | `GET /demo/trace` | 200 | `web.TraceFilter#doFilterInternal` | `CommonPlatformIntegrationTest` |
+| 2 | `outbound` | 아웃바운드 헤더 전파 | `GET /demo/outbound` | 200 | `web.HeaderPropagationInterceptor#intercept` | `OutboundPropagationIntegrationTest` |
+| 3 | `error-business` | 표준 예외 - 비즈니스 | `GET /demo/error/business` | 404 | `exception.GlobalExceptionHandler` | `CommonPlatformIntegrationTest` |
+| 4 | `error-server` | 표준 예외 - 서버 | `GET /demo/error/server` | 500 | `exception.GlobalExceptionHandler` | — |
+| 5 | `error-validation` | 표준 예외 - 검증 | `POST /demo/error/validation` `{"name":""}` | 400 | `exception.GlobalExceptionHandler` | — |
+| 6 | `i18n` | i18n 메시지 | `GET /demo/i18n` (+`X-Locale: en`) | 200 | `i18n.MessageResolver#get` | `MessageResolverTest` |
+| 7 | `logging-slow` | API 생명주기 로깅(느린 요청 WARN) | `GET /demo/logging/slow` | 200 | `logging.AccessLogFilter` | `AccessLoggingIntegrationTest` |
+| 8 | `persistence-audit` | 영속성 감사(BaseEntity) | `POST /demo/audit` `{"text":"hello"}` | 200 | `persistence.TraceContextAuditorAware#getCurrentAuditor` | `PersistenceAuditingIntegrationTest` |
+| 9 | `security-401` | 보안 - 미인증 401 | `GET /api/secure/me` (인증 미전송) | 401 | `security.LoggingAuthenticationEntryPoint` | `CommonPlatformIntegrationTest` |
+| 10 | `security-200` | 보안 - 인증 성공 | `GET /api/secure/me` (데모 토큰) | 200 | `security.AuthenticatedUserContextFilter` | `CommonPlatformIntegrationTest` |
+| 11 | `session` | 분산 세션 컨벤션 | `GET /demo/session` (2회) | 200 | `session.CommonSessionAutoConfiguration` | `RedisLiveSessionIntegrationTest` |
+| 12 | `observe` | 관측 - 서비스 태그/추적 | `GET /demo/observe` | 200 | `observability.CommonObservabilityAutoConfiguration` | `CommonObservabilityAutoConfigurationTest` |
+| 13 | `codes` | 식별 코드/헤더(App·Instance) | `GET /demo/codes` | 200 | `config.CommonEnvironmentPostProcessor#resolveCodes` | — |
+| 14 | `error-malformed` | 표준 예외 - 잘못된 포맷 | `POST /demo/error/validation` `{bad json` | 400 | `exception.GlobalExceptionHandler#handleMalformed` | — |
+| 15 | `error-network` | 표준 예외 - 네트워크 | `GET /demo/error/network` | 502 | `exception.GlobalExceptionHandler#handleNetwork` | — |
+| 16 | `error-timeout` | 표준 예외 - 타임아웃 | `GET /demo/error/timeout` | 504 | `exception.GlobalExceptionHandler#handleNetwork` | `HttpTimeoutIntegrationTest` |
+| 17 | `error-custom` | 표준 예외 - 소비자 커스텀 코드 | `GET /demo/error/custom` | 409 | `sample.demo.SampleErrorCode`(`ErrorCode` 구현) | `CustomErrorCodeIntegrationTest` |
+| 18 | `wrap` | 성공 응답 자동 래핑 | `GET /demo/wrap` | 200 | `response.ApiResponseWrapperAdvice` | `ResponseWrapperIntegrationTest` |
+| 19 | `openapi` | OpenAPI 공통 설정(info + Bearer JWT) | `GET /v3/api-docs` | 200 | `openapi.CommonOpenApiAutoConfiguration` | `OpenApiCommonConfigIntegrationTest` |
+| 20 | `page` | 표준 페이징 응답 | `GET /demo/page?page=0&size=2` | 200 | `api.PageResponse` | `PageResponseIntegrationTest` |
+| 21 | `mask` | 로그 민감정보 마스킹(카드/주민번호) | `POST /demo/mask` `{"card":"...","rrn":"..."}` | 200 | `core.SensitiveDataMasker` | `MaskingIntegrationTest` |
+| 22 | `idem` | 멱등성(`Idempotency-Key`) 중복 POST 재방 | `GET /demo/idem` | 200 | `idempotency.IdempotencyFilter` | `IdempotencyIntegrationTest` |
+| 23 | `cache` | 캐시 추상화(`@Cacheable` + Redis) 재호출 캐시 | `GET /demo/cache` | 200 | `cache.CommonCacheAutoConfiguration` | `RedisCacheLiveIntegrationTest`·`RedisCacheIntegrationTest` |
+| 24 | `event` | 도메인 이벤트 발행(봉투 + in-process 전달) | `GET /demo/event` | 200 | `event.EventPublisher` | `EventPublishingIntegrationTest` |
+| 25 | `params-query` | 입력 파라미터 - 쿼리(단일 + 배열) | `GET /demo/params/query?q=hello&ids=a&ids=b` | 200 | `sample.demo.ParamsDemoController#query` | `PayloadAndEntryLoggingIntegrationTest` |
+| 26 | `params-body` | 입력 파라미터 - 본문(단일 + 배열) | `POST /demo/params/body` `{"tag":"...","tags":[...]}` | 200 | `sample.demo.ParamsDemoController#body` | `PayloadAndEntryLoggingIntegrationTest` |
+| 27 | `logfile` | 파일 로그 보기 | `GET /demo/logfile` | 200 | `logback-common.xml` | — |
 
 > UI 상단의 `X-Locale`/`X-Screen-Id`/`X-User-Id`/`Bearer` 입력란으로 요청 헤더를 바꿔 케이스 동작 차이를 관찰한다. 응답의 `X-App-Code`/`X-Instance-Id` 도 상단에 표시된다.
-> - 감사(6)의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
-> - 보안 인증성공(8)은 데모 전용 `JwtDecoder`(토큰 문자열 = subject, `@Profile("demo")`)로 실 IdP 없이 인증 경로를 재현한다.
-> - 세션(9)은 로컬 실 Redis(`16010`, `default/eva`)가 떠 있어야 한다. 키는 세션이 응답 커밋 시 저장되므로 **두 번째 호출**에서 보인다. Redis 없는 프로파일은 `application.yml` 에서 redis health 를 꺼 영향이 없다.
-> - 관측(10)은 `service.name` 태그·추적 식별자(컨벤션)만 확인한다. 전체 OTel span export 는 collector 가 필요하다.
+> - **감사**(8)의 `created_by` 는 `X-User-Id`(TraceContext 사용자)에서 채워진다.
+> - **보안 인증성공**(10)은 데모 전용 mock `JwtDecoder`(`ai` 프로파일 `mutuus.sample.mock-jwt=true`, 토큰 문자열=subject)로 실 IdP 없이 인증 경로를 재현한다. 상단 Bearer 미입력 시 `demo-user`.
+> - **세션**(11)·**캐시**(23)는 로컬 실 Redis(`16010`, `default/eva`)가 떠 있어야 실제 저장/캐싱이 보인다(없으면 안내만, 상태는 200 유지). 세션 키는 응답 커밋 시 저장되므로 **두 번째 호출**에서 보인다.
+> - **관측**(12)은 `service.name` 태그·추적 식별자(컨벤션)만 확인한다. 전체 OTel span export 는 collector 가 필요하다.
+> - **멱등성**(22)·**캐시**(23)·**이벤트**(24)는 라이브러리 기본 OFF/컨벤션 기능으로, `sample-api` `application.yml` 에서 opt-in 으로 켜 둔 상태다(멱등·캐시는 `enabled=true`, 이벤트는 기본 ON).
 
-> springdoc(Swagger UI)은 Spring Boot 4(Spring Framework 7) 호환이 확인되면 도입을 검토한다. 현재는 의존성 없는 정적 UI(`/demo/index.html`) + `GET /demo/cases` 카탈로그로 동일 UX를 제공한다.
+## 로깅 관측 계층 참고
+
+한 요청이 유입될 때 남는 전체 로깅 구간(access/payload/controller.entry/method)의 케이스별 실측 순서는 [LOGGING_CASES.md](LOGGING_CASES.md) 참조. 계층별 상세: [PAYLOAD_LOGGING.md](PAYLOAD_LOGGING.md)(본문) · [CONTROLLER_ENTRY.md](CONTROLLER_ENTRY.md)(진입) · [METHOD_LOGGING.md](METHOD_LOGGING.md)(메서드 인자/리턴).

@@ -22,18 +22,26 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 
 | 패키지 | 역할 | 충족 요건 |
 |--------|------|----------|
-| `core` | 공통 상수(헤더), 추적 컨텍스트, ID 생성기, 기본 유틸 | 글로벌 UUID, 기본 유틸 |
+| `core` | 공통 상수(헤더), 추적 컨텍스트, ID 생성기, 기본 유틸, 민감정보 마스킹(`SensitiveDataMasker`) | 글로벌 UUID, 기본 유틸, 로그 PII 마스킹 |
 | `config` | 부팅 전 설정 주입(`EnvironmentPostProcessor`), 프로퍼티 | 프로퍼티 로딩, Boot 로딩 전 설정 주입 |
-| `api` | 표준 응답 봉투 `ApiResponse`/`ApiError` | 응답 표준화 → [API_RESPONSE.md](docs/API_RESPONSE.md) |
-| `exception` | 표준 `ApiResponse` 봉투 전역 예외 처리(+ i18n·추적ID) | 응답/오류 표준화 |
+| `api` | 표준 응답 봉투 `ApiResponse`/`ApiError`, 페이징 응답 `PageResponse` | 응답 표준화 → [API_RESPONSE.md](docs/API_RESPONSE.md) |
+| `exception` | 표준 `ApiResponse` 봉투 전역 예외 처리(+ i18n·추적ID), `ErrorCode` 인터페이스(소비자 확장) | 응답/오류 표준화 |
+| `response` | 성공 응답 자동 래핑(`ResponseBodyAdvice`, opt-in) — 평범한 반환을 표준 봉투로 | 응답 표준화(무코드) |
 | `i18n` | MessageSource 기반 다국어 | 다국어 |
 | `logging` | API 생명주기 구조화 JSON 로깅(`AccessLogger`) | logging → [LOG_FORMAT.md](docs/LOG_FORMAT.md) |
+| `payload` | 요청/응답 **본문** 로깅(opt-in) | 본문 관측 → [PAYLOAD_LOGGING.md](docs/PAYLOAD_LOGGING.md) |
+| `intercept` | 컨트롤러 **진입** 인터셉트 로깅(opt-in, 인자 역직렬화 전) | 진입 관측 → [CONTROLLER_ENTRY.md](docs/CONTROLLER_ENTRY.md) |
+| `aop` | 컨트롤러 메서드 **인자/리턴** 로깅(AOP, opt-in, 역직렬화 후) | 메서드 관측 → [METHOD_LOGGING.md](docs/METHOD_LOGGING.md) |
 | `observability` | Micrometer/OTel 추적, 공통 `service.name` 태그, Modulith 관측 | telemetry |
-| `web` | e2e 추적 필터, MDC 적재, API 간 헤더 자동 전파, 로케일 | e2e 정보계층, 헤더 자동추가 |
+| `openapi` | 공통 OpenAPI 설정(springdoc, opt-in) — info + Bearer JWT 보안스킴 | API 문서 표준화 |
+| `web` | e2e 추적 필터, MDC 적재, API 간 헤더 자동 전파, 로케일, HTTP 클라 타임아웃/재시도 | e2e 정보계층, 헤더 자동추가 |
 | `security` | OAuth2 Resource Server(JWT), 인증/인가 MSA 연계, 인증 주체 추적 | 인증/인가 연계 |
 | `async` | `@Async`/가상스레드 추적 컨텍스트 전파 | 비동기 추적 연속성 |
 | `persistence` | JPA 공통 베이스 엔티티 + 감사(생성/수정 시각·주체) | 감사 컬럼 자동화 |
 | `session` | 분산 세션(Redis) 컨벤션(네임스페이스·타임아웃) | 세션 |
+| `idempotency` | 멱등성(`Idempotency-Key`) 필터(opt-in) — 중복 요청 첫 응답 재방 | 멱등 처리 |
+| `cache` | 캐시 추상화(`@EnableCaching` + Redis `CacheManager` 컨벤션, opt-in) | 캐시 표준화 |
+| `event` | 도메인 이벤트 봉투(`DomainEvent`) + 발행자 컨벤션(broker-agnostic) | 이벤트/메시징 |
 
 ## 설계 원칙: optional 의존성 + 조건부 자동구성
 
@@ -187,3 +195,10 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - ~~분산 세션(Redis) 컨벤션~~ 완료 — `session` 패키지(`<service-name>:session` 네임스페이스·타임아웃 자동 적용)
 - ~~`persistence` 패키지(JPA 공통 베이스 엔티티·감사컬럼)~~ 완료 — `BaseEntity`(생성/수정 시각·주체 자동), 주체는 `TraceContext` 인증 사용자에서 채움
 - ~~가상스레드/비동기 컨텍스트 전파 유틸(`TraceContext` ↔ `@Async`)~~ 완료 — `async` 패키지(`TraceContextPropagation`/`TraceContextTaskDecorator`)
+- ~~응답 표준화 심화~~ 완료 — `ErrorCode` 인터페이스화(소비자 도메인 코드 확장), 성공 응답 자동 래핑(`response`, opt-in), 페이징 응답 `PageResponse`
+- ~~공통 OpenAPI(springdoc) 설정~~ 완료 — `openapi` 패키지(info + Bearer JWT 보안스킴, opt-in). Spring Boot 4 호환 springdoc 도입 완료
+- ~~HTTP 클라이언트 하드닝~~ 완료 — 타임아웃 컨벤션 기본값 + 재시도(`HttpRetryInterceptor`, opt-in) + 타임아웃→504 에러디코딩
+- ~~관측 심화(본문/진입/메서드 로깅)~~ 완료 — `payload`/`intercept`/`aop` 3계층(opt-in) + 로그 민감정보 마스킹(`SensitiveDataMasker`, opt-in)
+- ~~멱등성(`Idempotency-Key`)~~ 완료 — `idempotency` 패키지(opt-in, 중복 요청 첫 응답 재방)
+- ~~캐시 추상화~~ 완료 — `cache` 패키지(`@EnableCaching` + Redis `CacheManager` 컨벤션, opt-in)
+- ~~도메인 이벤트/메시징 코어~~ 완료 — `event` 패키지(broker-agnostic 봉투 + in-process 발행자). 브로커별 어댑터(Kafka/Rabbit)는 인프라 선택 시 별도 진행
