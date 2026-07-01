@@ -44,9 +44,9 @@
 |---|---|---|
 | #18 자동 로그 마스킹 | ✅ **완료** — `SensitiveDataMasker`(정규식, 마지막 4자 유지) opt-in, payload/method 로그의 본문·인자·리턴에서 카드/주민번호 마스킹(응답은 원문). `SensitiveDataMaskerTest`·`MaskingIntegrationTest` + 데모 화면 24/24 PASS(`/demo/mask`). | M |
 | #17 멱등성 | ✅ **완료** — `IdempotencyFilter`(opt-in `mutuus.common.idempotency.enabled`, 대상 메서드+`Idempotency-Key` 헤더 있을 때만). 같은 키의 중복 POST/PUT/PATCH 는 재처리 없이 첫 응답 재방(`Idempotent-Replayed: true`), 처리 중 동시 중복은 409. 저장소는 `IdempotencyStore` 인터페이스 + `InMemoryIdempotencyStore` 기본(분산은 소비자가 Redis 구현으로 `@ConditionalOnMissingBean` 대체). `InMemoryIdempotencyStoreTest`·`IdempotencyIntegrationTest`(RANDOM_PORT) + 데모 화면 25/25 PASS(`/demo/idem`). | M~L |
-| #13 Rate Limiting | Bucket4j 공통 필터 | M |
+| #13 Rate Limiting | ⛔ **작업 대상 제외**(사용자 결정) — 필요 시 Bucket4j 공통 필터로 별도 진행 | M |
 | #14 캐시 추상화 | ✅ **완료** — `CommonCacheAutoConfiguration`(opt-in `mutuus.common.cache.enabled`, `@ConditionalOnClass` Redis 캐시+Boot 캐시 자동구성). `@EnableCaching` + 사용자 `RedisCacheConfiguration` 빈으로 컨벤션(TTL·키 프리픽스 `<service>:cache:`·JSON 직렬화·null 캐싱 비활성) 주입 → Boot 가 `cacheDefaults` 로 채택. 소비자 자체 config/CacheManager 우선(`@ConditionalOnMissingBean`). `CommonCacheConfigurationTest`(단위)·`RedisCacheIntegrationTest`(Testcontainers)·`RedisCacheLiveIntegrationTest`(실 Redis) + 데모 화면 26/26 PASS(`/demo/cache`, 실 Redis 캐싱 실증). | S~M |
-| #15 이벤트/메시징 | 🟡 **코어 완료** — broker-agnostic 이벤트 봉투(`DomainEvent<T>`, `of()`가 TraceContext traceId/userId 자동주입) + `EventPublisher` 컨벤션 + `ApplicationEventPublisherAdapter`(in-process 기본). 브로커로 내보내려면 소비자가 `EventPublisher` 대체(`@ConditionalOnMissingBean`, 봉투 규약 유지). `DomainEventTest`·`EventPublishingIntegrationTest` + 데모 화면 27/27 PASS(`/demo/event`). **브로커별 어댑터(Kafka/Rabbit)는 인프라 선택 선행이라 보류.** | L |
+| #15 이벤트/메시징 | 🟡 **코어 완료** — broker-agnostic 이벤트 봉투(`DomainEvent<T>`, `of()`가 TraceContext traceId/userId 자동주입) + `EventPublisher` 컨벤션 + `ApplicationEventPublisherAdapter`(in-process 기본). 브로커로 내보내려면 소비자가 `EventPublisher` 대체(`@ConditionalOnMissingBean`, 봉투 규약 유지). `DomainEventTest`·`EventPublishingIntegrationTest` + 데모 화면 27/27 PASS(`/demo/event`). **브로커별 어댑터(Kafka/Rabbit)는 최종 작업 대상에서 제외**(사용자 결정, 인프라/브로커 선택 선행 필요). | L |
 
 ---
 
@@ -83,7 +83,9 @@
 
 - [x] **3-#15. 이벤트/메시징 코어(broker-agnostic)** — **완료**: `event` 패키지 — 봉투 `DomainEvent<T>`(eventId·type·occurredAt·traceId·userId·payload, `of()`가 TraceContext 자동주입) + `EventPublisher` 인터페이스(+편의 `publish(type,payload)`) + `ApplicationEventPublisherAdapter`(in-process 기본, Spring `ApplicationEventPublisher` 위임) + `CommonEventAutoConfiguration`(기본 ON, `@ConditionalOnMissingBean` → 소비자 브로커 발행자로 대체 가능). 검증 `DomainEventTest`(단위)·`EventPublishingIntegrationTest`(발행→in-process 수신) + 데모 화면 ▶전체실행 **27/27 PASS**(신규 `/demo/event`, 인입 X-Trace-Id 가 봉투 traceId 로 자동주입 실증). **브로커별 어댑터(Kafka/Rabbit)는 인프라 선택 선행이라 보류.**
 
-**→ Phase 1·2 전부 완료, Phase 3 중 #18·#17·#14 완료 + #15 코어 완료.** 남은 것: #13 rate limit(사용자 제외 지시), #15 브로커 어댑터(브로커 선택 선행 필요).
+**→ Phase 1·2 전부 완료, Phase 3 중 #18·#17·#14·#15(코어) 완료.**
+
+**개선 계획 종료.** 남은 후보(#13 Rate Limiting, #15 브로커별 어댑터)는 **사용자 결정으로 최종 작업 대상에서 제외**한다 — 추후 조직 요구/브로커 선택이 확정되면 별도 건으로 재개. 현 시점 라이브러리는 이 계획서 범위를 완료한 상태다.
 
 ## 테스트 검증 시나리오 (1-B)
 | # | 시나리오 | 기대 |
