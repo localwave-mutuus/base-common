@@ -85,12 +85,11 @@
             <scope>test</scope>
         </dependency>
         <!-- 메서드 인자/리턴 로깅(method-logging, AOP)은 라이브러리에선 optional 이라 전이되지 않는다.
-             전체 로깅 구간 검증 테스트(LoggingCaseMatrixIntegrationTest)에서만 켜므로 test 스코프로 둔다.
-             Boot 4: spring-boot-starter-aop → spring-boot-starter-aspectj. -->
+             소비자가 켜려면 직접 추가해야 한다. 데모 앱(F5 local·ai) 구동 시에도 method.enter/exit 가
+             보이도록 compile 스코프로 둔다(테스트 classpath 에도 포함). Boot 4: -aop → -aspectj 개명. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aspectj</artifactId>
-            <scope>test</scope>
         </dependency>
         <!-- Boot 4: MockMvc 슬라이스 지원이 별도 모듈로 분리됨 (@AutoConfigureMockMvc 제공) -->
         <dependency>

@@ -43,6 +43,30 @@ mutuus:
     logging:
       # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
       slow-request-threshold-millis: 1000
+      # 로그 뷰어(logs.html)가 1.5초마다 폴링하는 tail 경로는 로깅에서 제외(뷰어가 자기 폴링으로 도배 방지)
+      exclude-path-prefixes:
+        - /actuator
+        - /demo/logs/
+    # --- 아래 3개는 라이브러리 기본 OFF. 데모에서 "요청 유입 시 전체 로깅 구간"을 눈으로 보려고 켠다.
+    #     (docs/LOGGING_CASES.md). 실제 소비 서비스는 PII·비용을 고려해 선택적으로만 켠다. ---
+    # 컨트롤러 입출력 본문 로깅(payload)
+    payload-logging:
+      enabled: true
+      exclude-path-prefixes:
+        - /actuator
+        - /demo/logs/          # 뷰어 폴링 tail 은 본문 로깅도 제외
+    # 컨트롤러 진입 인터셉트(controller.entry) — 뷰어 tail 컨트롤러(ai.mutuus.sample.logs)는 패키지 지정으로 자연 제외
+    controller-entry:
+      enabled: true
+      packages:
+        - ai.mutuus.sample.web
+        - ai.mutuus.sample.demo
+    # 메서드 인자/리턴 로깅(method.enter/exit, AOP) — 동일 패키지 타게팅(뷰어 제외). aspectj 필요.
+    method-logging:
+      enabled: true
+      packages:
+        - ai.mutuus.sample.web
+        - ai.mutuus.sample.demo
     # 분산 세션 컨벤션(세션 케이스): 네임스페이스/타임아웃
     session:
       namespace: sample-api:session
