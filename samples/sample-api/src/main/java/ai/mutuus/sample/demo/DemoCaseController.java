@@ -51,6 +51,7 @@ public class DemoCaseController {
     private final MessageResolver messages;
     private final SampleNoteRepository notes;
     private final ObjectProvider<StringRedisTemplate> redisProvider;
+    private final CacheDemoService cacheDemoService;
     private final String sessionNamespace;
     private final String serviceName;
     private final String appCode;
@@ -58,6 +59,7 @@ public class DemoCaseController {
 
     public DemoCaseController(RestClient.Builder restClientBuilder, MessageResolver messages,
                               SampleNoteRepository notes, ObjectProvider<StringRedisTemplate> redisProvider,
+                              CacheDemoService cacheDemoService,
                               @Value("${mutuus.common.session.namespace:demo:session}") String sessionNamespace,
                               @Value("${mutuus.common.service-name:sample-api}") String serviceName,
                               @Value("${mutuus.common.app-code:}") String appCode,
@@ -66,6 +68,7 @@ public class DemoCaseController {
         this.messages = messages;
         this.notes = notes;
         this.redisProvider = redisProvider;
+        this.cacheDemoService = cacheDemoService;
         this.sessionNamespace = sessionNamespace;
         this.serviceName = serviceName;
         this.appCode = appCode;
@@ -150,6 +153,9 @@ public class DemoCaseController {
                 new DemoCase("idem", "멱등성(Idempotency-Key) - 중복 POST 재방", "GET", "/demo/idem", null,
                         "같은 Idempotency-Key 로 대상 POST(/demo/idem/echo, 호출마다 새 UUID)를 두 번 호출 → 2차는 재처리 없이 1차 응답 재방(value 동일, Idempotent-Replayed=true). sameResponse=true 기대(mutuus.common.idempotency.enabled). (기대 200)",
                         "ai.mutuus.common.idempotency.IdempotencyFilter", 200, null),
+                new DemoCase("cache", "캐시 추상화(@Cacheable + Redis) - 재호출 캐시", "GET", "/demo/cache", null,
+                        "CacheDemoService.compute(key)(호출마다 새 UUID)를 같은 키로 두 번 호출 → 캐시가 켜지고 Redis 연결 시 2차는 재계산 없이 1차 값 반환(sameValue=true). 키 프리픽스 <service>:cache:demo::. Redis 미가동 시 안내만(200 유지, mutuus.common.cache.enabled). (기대 200)",
+                        "ai.mutuus.common.cache.CommonCacheAutoConfiguration", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -437,6 +443,35 @@ public class DemoCaseController {
                 "replayedHeader", String.valueOf(replayed),
                 "sameResponse", java.util.Objects.equals(firstBody, secondBody),
                 "note", "같은 Idempotency-Key 의 2차 POST 는 재처리 없이 1차 응답을 재방 → value 동일 + Idempotent-Replayed=true"));
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 캐시 추상화(@Cacheable + Redis CacheManager 컨벤션) — 같은 키의 재호출은 캐시 반환.
+    // CacheDemoService.compute(key) 는 호출마다 새 UUID 를 만들지만, 캐시가 켜지고 Redis 가
+    // 연결되면 같은 키의 2차 호출이 1차 값 그대로 반환된다(sameValue=true). Redis 미가동/인증
+    // 실패 시엔 조회 예외를 잡아 안내만 반환한다(응답 자체는 200 유지).
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/cache")
+    public ApiResponse<Map<String, Object>> cache() {
+        String key = java.util.UUID.randomUUID().toString(); // 요청마다 새 키(1차 계산 → 2차 캐시)
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("cacheKey", key);
+        try {
+            Map<String, Object> first = cacheDemoService.compute(key);
+            Map<String, Object> second = cacheDemoService.compute(key);
+            result.put("first", first);
+            result.put("second", second);
+            result.put("sameValue", java.util.Objects.equals(first, second));
+            result.put("note", "같은 키 2회 호출 → 2차는 재계산 없이 캐시 반환(sameValue=true). "
+                    + "Redis 키 프리픽스 <service-name>:cache:demo::<key>. 실증엔 로컬 Redis(16010) 연결 필요.");
+        } catch (RuntimeException e) {
+            result.put("cacheError", e.getClass().getSimpleName() + ": " + e.getMessage());
+            result.put("sameValue", false);
+            result.put("note", "캐시 조회 실패 — 로컬 Redis(16010) 미가동/인증 필요. "
+                    + "REDIS_PASSWORD 주입 후 재구동하면 sameValue=true 로 실증된다.");
+        }
+        return ApiResponse.ok(result);
     }
 
     // ---------------------------------------------------------------------

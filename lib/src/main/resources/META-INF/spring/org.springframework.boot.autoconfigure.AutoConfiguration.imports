@@ -9,6 +9,7 @@ ai.mutuus.common.i18n.CommonI18nAutoConfiguration
 ai.mutuus.common.exception.CommonExceptionAutoConfiguration
 ai.mutuus.common.response.CommonResponseWrapperAutoConfiguration
 ai.mutuus.common.idempotency.CommonIdempotencyAutoConfiguration
+ai.mutuus.common.cache.CommonCacheAutoConfiguration
 ai.mutuus.common.observability.CommonObservabilityAutoConfiguration
 ai.mutuus.common.openapi.CommonOpenApiAutoConfiguration
 ai.mutuus.common.web.CommonWebAutoConfiguration

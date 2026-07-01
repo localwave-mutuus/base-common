@@ -91,6 +91,11 @@ mutuus:
     # 라이브러리 기본 OFF(opt-in). 헤더가 있는 대상 메서드(POST/PUT/PATCH) 요청에만 동작.
     idempotency:
       enabled: true
+    # 캐시 추상화 — 데모: @EnableCaching + Redis CacheManager 컨벤션(TTL/키 프리픽스/JSON 직렬화).
+    # 라이브러리 기본 OFF(opt-in). 실증엔 Redis 연결 필요(미가동 시 /demo/cache 는 안내만 반환).
+    cache:
+      enabled: true
+      ttl: 5m
     # 분산 세션 컨벤션(세션 케이스): 네임스페이스/타임아웃
     session:
       namespace: sample-api:session

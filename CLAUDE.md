@@ -150,6 +150,16 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **저장소 추상화**: `IdempotencyStore` 인터페이스(`reserve`/`find`/`complete`) + 기본 `InMemoryIdempotencyStore`(단일 인스턴스, TTL 관리). **분산(다중 인스턴스) 환경에서는 소비 서비스가 Redis 등 공유 저장소 구현을 빈으로 제공**하면 `@ConditionalOnMissingBean`으로 대체된다(인메모리는 인스턴스 간 공유 안 됨).
 - 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용).
 
+### 11. 캐시 추상화 (cache 패키지, optional·opt-in)
+
+`@Cacheable` 등 Spring Cache 추상화에 **Redis `CacheManager` 컨벤션**을 얹는 optional 통합이다. `CommonCacheAutoConfiguration`(`@ConditionalOnClass`로 spring-data-redis의 `RedisCacheManager` + Boot 캐시 자동구성 `org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration` + `@ConditionalOnProperty(mutuus.common.cache.enabled=true)`, **기본 OFF**)이 두 가지를 한다:
+
+- **캐싱 활성화** — `@EnableCaching`. Boot 4는 캐싱을 기본으로 켜지 않으므로(라이브러리가 대신 켠다), 소비 서비스는 `spring-boot-starter-cache` + `spring-boot-starter-data-redis`만 추가하고 프로퍼티로 켜면 된다(별도 `@EnableCaching` 불필요).
+- **컨벤션 주입** — 사용자 정의 `org.springframework.data.redis.cache.RedisCacheConfiguration` 빈으로 기본 TTL(`mutuus.common.cache.ttl`, 기본 10m)·**키 프리픽스 `<service-name>:cache:`**(서비스 간 키 충돌 방지)·JSON 값 직렬화(`RedisSerializer.json()`)·null 캐싱 비활성을 잡는다. Boot의 Redis 캐시 자동구성이 이 빈을 `ObjectProvider`로 받아 `cacheDefaults`로 채택해 `RedisCacheManager`를 만든다.
+
+- **Boot 4 주의**: 캐시 자동구성이 별도 모듈(`spring-boot-cache`, 패키지 `org.springframework.boot.cache.autoconfigure.*`)로 분리됐다(restclient처럼). 그래서 `@ConditionalOnClass`는 Boot 캐시 자동구성 클래스도 함께 요구해, 소비자가 캐시 스타터를 추가한 경우에만 활성화된다. `@EnableCaching`은 시작 시 Redis에 연결하지 않고(연결은 lazy), 실제 `@Cacheable` 호출 시에만 연결한다 — Redis 미가동이어도 컨텍스트 기동은 성공한다.
+- 소비자가 자체 `RedisCacheConfiguration` 또는 `CacheManager` 빈을 정의하면 그 값이 우선한다(`@ConditionalOnMissingBean`). 토글: `mutuus.common.cache.*`(`enabled`, `ttl`, `key-prefix`, `cache-null-values`). 회귀 가드: `CommonCacheConfigurationTest`(Redis 없이 컨벤션 조립 검증, 단위) + `RedisCacheIntegrationTest`(Testcontainers, Docker 없으면 skip) + `RedisCacheLiveIntegrationTest`(로컬 실 Redis, 접속 가능할 때만) + 데모 `samples/sample-api/.../CacheDemoService`(`/demo/cache`).
+
 ## 작업 시 규칙
 
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.

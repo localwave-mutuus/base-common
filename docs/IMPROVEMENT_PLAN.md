@@ -45,7 +45,7 @@
 | #18 자동 로그 마스킹 | ✅ **완료** — `SensitiveDataMasker`(정규식, 마지막 4자 유지) opt-in, payload/method 로그의 본문·인자·리턴에서 카드/주민번호 마스킹(응답은 원문). `SensitiveDataMaskerTest`·`MaskingIntegrationTest` + 데모 화면 24/24 PASS(`/demo/mask`). | M |
 | #17 멱등성 | ✅ **완료** — `IdempotencyFilter`(opt-in `mutuus.common.idempotency.enabled`, 대상 메서드+`Idempotency-Key` 헤더 있을 때만). 같은 키의 중복 POST/PUT/PATCH 는 재처리 없이 첫 응답 재방(`Idempotent-Replayed: true`), 처리 중 동시 중복은 409. 저장소는 `IdempotencyStore` 인터페이스 + `InMemoryIdempotencyStore` 기본(분산은 소비자가 Redis 구현으로 `@ConditionalOnMissingBean` 대체). `InMemoryIdempotencyStoreTest`·`IdempotencyIntegrationTest`(RANDOM_PORT) + 데모 화면 25/25 PASS(`/demo/idem`). | M~L |
 | #13 Rate Limiting | Bucket4j 공통 필터 | M |
-| #14 캐시 추상화 | `@EnableCaching` + Redis CacheManager 기본값 | S~M |
+| #14 캐시 추상화 | ✅ **완료** — `CommonCacheAutoConfiguration`(opt-in `mutuus.common.cache.enabled`, `@ConditionalOnClass` Redis 캐시+Boot 캐시 자동구성). `@EnableCaching` + 사용자 `RedisCacheConfiguration` 빈으로 컨벤션(TTL·키 프리픽스 `<service>:cache:`·JSON 직렬화·null 캐싱 비활성) 주입 → Boot 가 `cacheDefaults` 로 채택. 소비자 자체 config/CacheManager 우선(`@ConditionalOnMissingBean`). `CommonCacheConfigurationTest`(단위)·`RedisCacheIntegrationTest`(Testcontainers)·`RedisCacheLiveIntegrationTest`(실 Redis) + 데모 화면 26/26 PASS(`/demo/cache`, 실 Redis 캐싱 실증). | S~M |
 | #15 이벤트/메시징 | Kafka/Rabbit 봉투·공통 설정(인프라 선택 선행) | L |
 
 ---
@@ -79,7 +79,9 @@
 - [x] **3-#18. 자동 로그 마스킹** — **완료**: `SensitiveDataMasker`(정규식, 마지막 4자 유지, opt-in `mutuus.common.logging.masking.enabled`). payload/method 로그의 본문·인자·리턴에서 카드/주민번호 마스킹(응답 본문은 원문). 검증 `SensitiveDataMaskerTest`·`MaskingIntegrationTest` + 데모 화면 ▶전체실행 **24/24 PASS**(신규 `/demo/mask`).
 - [x] **3-#17. 멱등성(Idempotency-Key)** — **완료**: `IdempotencyFilter`(order `HIGHEST_PRECEDENCE+15`, opt-in `mutuus.common.idempotency.enabled`). 대상 메서드(기본 POST/PUT/PATCH)+`Idempotency-Key` 헤더 있을 때만 동작 — 같은 키 중복은 첫 응답 재방(`Idempotent-Replayed: true`), 처리 중 동시 중복은 409. `IdempotencyStore` 인터페이스 + `InMemoryIdempotencyStore` 기본(분산은 소비자 Redis 구현으로 `@ConditionalOnMissingBean` 대체). 검증 `InMemoryIdempotencyStoreTest`(단위)·`IdempotencyIntegrationTest`(RANDOM_PORT, 같은키→재방/다른키→새응답/키없음→미적용) + 데모 화면 ▶전체실행 **25/25 PASS**(신규 `/demo/idem`).
 
-**→ Phase 1·2 전부 완료, Phase 3 중 #18·#17 완료.** 남은 Phase 3(#13 rate limit, #14 캐시, #15 메시징)은 조직 요구 확인 후.
+- [x] **3-#14. 캐시 추상화** — **완료**: `CommonCacheAutoConfiguration`(opt-in `mutuus.common.cache.enabled`, `@ConditionalOnClass` Redis 캐시+Boot 캐시 자동구성). `@EnableCaching`(Boot 4는 캐싱 기본 OFF → 라이브러리가 켬) + 사용자 `RedisCacheConfiguration` 빈으로 컨벤션(TTL·키 프리픽스 `<service>:cache:`·JSON 직렬화·null 캐싱 비활성) 주입. 소비자 자체 config/CacheManager 우선(`@ConditionalOnMissingBean`). 검증 `CommonCacheConfigurationTest`(Redis 없이 단위)·`RedisCacheIntegrationTest`(Testcontainers)·`RedisCacheLiveIntegrationTest`(실 Redis, 로컬 가동 시 PASS) + 데모 화면 ▶전체실행 **26/26 PASS**(신규 `/demo/cache`, 실 Redis 캐싱 실증 sameValue=true).
+
+**→ Phase 1·2 전부 완료, Phase 3 중 #18·#17·#14 완료.** 남은 Phase 3(#13 rate limit, #15 메시징)은 조직 요구 확인 후(#13은 이번 진행에서 제외 지시, #15는 브로커 선택 선행 필요).
 
 ## 테스트 검증 시나리오 (1-B)
 | # | 시나리오 | 기대 |

@@ -92,6 +92,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!-- 캐시 추상화 컨벤션 데모: Boot 캐시 자동구성(@EnableCaching + RedisCacheManager).
+             라이브러리 CommonCacheAutoConfiguration 이 이 starter 가 있을 때만 활성(@ConditionalOnClass). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
 
         <!-- 실연동(PostgreSQL) 감사 검증: Testcontainers. Docker 없으면 테스트가 자동 skip된다 -->
         <dependency>

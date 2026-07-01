@@ -133,6 +133,15 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- cache (optional): Redis CacheManager 컨벤션. spring-data-redis 의 RedisCacheManager/
+             RedisCacheConfiguration/직렬화를 컴파일 참조하기 위해 둔다. 소비자는 Boot 캐시 자동구성을
+             위해 spring-boot-starter-cache 를 함께 추가해야 캐시가 실제 활성(@ConditionalOnClass 로 가드). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- persistence (optional): JPA 공통 베이스 엔티티 + 감사 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
