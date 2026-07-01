@@ -1,0 +1,149 @@
+# API/Web 요청 유입 시 전체 로깅 구간 — 케이스 매트릭스 (실측)
+
+api/web 소비 서비스에 요청이 들어올 때 common-platform 라이브러리가 **별도 코드 없이** 남기는
+**전체 로깅 구간**을, 케이스별로 실제 트리거해 **실제 호출 순서대로** 수집·검증한 자료다.
+바이브코딩(기능 확장/디버깅) 시 "어느 지점에서 무슨 로그가 어떤 순서로 남는가"의 단일 기준으로 쓴다.
+
+> 재현 테스트: [`LoggingCaseMatrixIntegrationTest`](../samples/sample-api/src/test/java/ai/mutuus/sample/LoggingCaseMatrixIntegrationTest.java) (10케이스, 항상 실행)
+> 관련: [LOG_FORMAT.md](LOG_FORMAT.md) · [PAYLOAD_LOGGING.md](PAYLOAD_LOGGING.md) · [CONTROLLER_ENTRY.md](CONTROLLER_ENTRY.md) · [METHOD_LOGGING.md](METHOD_LOGGING.md)
+
+---
+
+## 0. 온보딩 핵심 한 줄
+> "요청 하나가 들어오면 **4개 로거**(access/payload/controller/method)가 **최대 11종 이벤트**를 필터·인터셉터·AOP·예외핸들러 순서로 남긴다. 정상 경로는 7건, 401은 5건(컨트롤러 미도달)."
+
+측정 트릭: 네 로거가 모두 `ai.mutuus.common` 의 자식이므로 **부모 로거에 ListAppender 하나**만 붙이면 additivity 로
+네 로거 이벤트가 **한 리스트에 실제 발생 순서대로** 모인다.
+
+---
+
+## 1. 로거 4종 · 이벤트 11종 카탈로그
+
+| 로거 | 이벤트 | 레벨 | 적용 위치(로깅 함수) | 기본 |
+|------|--------|------|----------------------|------|
+| `…access` | `request.received` | INFO | `AccessLogFilter` → `AccessLogger#requestReceived` | 항상 |
+| `…access` | `request.completed` | INFO/WARN | `AccessLogFilter`(finally) → `AccessLogger#requestCompleted` | 항상 |
+| `…access` | `auth.failure` | WARN | `LoggingAuthenticationEntryPoint` → `AccessLogger#authFailure` | 보안시 |
+| `…access` | `auth.denied` | WARN | `LoggingAccessDeniedHandler` → `AccessLogger#accessDenied` | 보안시 |
+| `…access` | `error.business` | WARN | `GlobalExceptionHandler#clientError` → `AccessLogger#businessError` | 예외시 |
+| `…access` | `error.server` | ERROR | `GlobalExceptionHandler#handleNetwork/handleUnexpected` → `AccessLogger#serverError` | 예외시 |
+| `…payload` | `request.payload` | INFO | `PayloadLoggingFilter` → `DefaultRequestPayloadLogger` | OFF |
+| `…payload` | `response.payload` | INFO | `PayloadLoggingFilter`(finally) → `DefaultResponsePayloadLogger` | OFF |
+| `…controller` | `controller.entry` | INFO | `ControllerEntryInterceptor#preHandle` → `DefaultControllerEntryHandler` | OFF |
+| `…method` | `method.enter` | INFO | `ControllerMethodLoggingAspect`(@Around 진입) → `DefaultMethodLoggingWriter#onEnter` | OFF |
+| `…method` | `method.exit` | INFO | `ControllerMethodLoggingAspect`(@Around 정상종료) → `DefaultMethodLoggingWriter#onExit` | OFF |
+
+로거 풀네임: `ai.mutuus.common.access` / `.payload` / `.controller` / `.method`.
+
+> **TraceFilter**(order `HIGHEST_PRECEDENCE`)는 로그를 직접 남기지 않는다. traceId/spanId/userId/appCode/instanceCode 등을
+> MDC·TraceContext 에 적재해 **위 모든 이벤트에 자동 부가**한다(구조화 필드로 함께 렌더).
+
+---
+
+## 2. 계층·순서 지도 (요청 유입 → 응답)
+
+```text
+                  서블릿 필터 영역(바깥→안)                        DispatcherServlet 내부
+ ┌──────────────────────────────────────────────┐   ┌───────────────────────────────────────┐
+ │ TraceFilter            (HIGHEST_PRECEDENCE)    │   │ HandlerMapping → 컨트롤러 메서드 결정   │
+ │   └ MDC/TraceContext 적재(로그 없음)            │   │                                       │
+ │ AccessLogFilter        (HP + 10)               │   │ ④ ControllerEntryInterceptor.preHandle │
+ │   ① request.received                           │   │      → controller.entry               │
+ │ PayloadLoggingFilter   (HP + 20)               │   │ ⑤ ControllerMethodLoggingAspect @Around│
+ │   ② request.payload (본문 캐싱)                 │   │      → method.enter (역직렬화 인자)     │
+ │        ┌─────────────────────────────────────┐ │   │        └ 컨트롤러 메서드 본문 실행       │
+ │ [보안]  │ Spring Security FilterChain(-100)    │ │   │      → method.exit  (리턴 객체)        │
+ │   ③ auth.failure(401) / auth.denied(403)      │ │   │ ⑦ GlobalExceptionHandler(@Advice)     │
+ │        └─────────────────────────────────────┘ │   │      → error.business(4xx)/error.server│
+ │   ⑧ response.payload  (finally, 본문 복원)      │ ◀─┘ (예외는 여기서 봉투 변환 후 되돌아나감) │
+ │   ⑨ request.completed (finally, durationMs)    │
+ └──────────────────────────────────────────────┘
+```
+
+핵심 순서 규칙:
+- **필터 order**: `TraceFilter(MIN) < AccessLogFilter(MIN+10) < PayloadLoggingFilter(MIN+20) < Security(-100)` → payload 필터가 **보안보다 바깥**. 그래서 401 도 `response.payload` 는 남는다.
+- **controller.entry(인터셉터) ≠ method.enter(AOP)**: preHandle 은 **인자 역직렬화 전**, AOP `@Around` 는 **메서드 본문 직전**(인자 결정 후). 이 틈에서 @Valid·JSON 파싱 실패가 갈린다(§4 C4/C5).
+- **예외 로그(error.\*)는 응답 로그(response.payload/completed)보다 먼저**: 예외 변환은 DispatcherServlet 안에서 끝나고, 그 뒤 필터 finally 가 응답을 기록한다.
+
+---
+
+## 3. 표준 정상 경로 (C1/C2 — 총 7건)
+
+```text
+1 access      request.received      method/path
+2 payload      request.payload       requestBody(있으면)
+3 controller   controller.entry      Controller#method
+4 method       method.enter          args=[역직렬화된 인자]
+     └ 컨트롤러 메서드 실행
+5 method       method.exit           return=리턴객체
+6 payload      response.payload      httpStatus + responseBody
+7 access      request.completed     httpStatus + durationMs
+```
+
+---
+
+## 4. 케이스별 실측 매트릭스 (10케이스)
+
+각 행은 실제 로그에서 캡처한 **이벤트@레벨** 순서다. (○=발생, —=미발생)
+
+| 케이스 | 상태 | received | req.payload | controller.entry | method.enter | method.exit | auth.* | error.* | resp.payload | completed |
+|--------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **C1** 정상 GET(공개) | 200 | ○ | ○ | ○ | ○ | ○ | — | — | ○ | INFO |
+| **C2** 정상 POST(본문) | 200 | ○ | ○(body) | ○ | ○(DTO) | ○ | — | — | ○ | INFO |
+| **C3** 비즈니스 예외 | 404 | ○ | ○ | ○ | ○ | **—** | — | business·WARN | ○ | INFO |
+| **C4** @Valid 검증실패 | 400 | ○ | ○ | ○ | **—** | — | — | business·WARN | ○ | INFO |
+| **C5** 잘못된 JSON | 400 | ○ | ○ | ○ | **—** | — | — | business·WARN(MALFORMED) | ○ | INFO |
+| **C6** 서버 예외 | 500 | ○ | ○ | ○ | ○ | **—** | — | server·**ERROR** | ○ | **WARN** |
+| **C7** 네트워크 실패 | 502 | ○ | ○ | ○ | ○ | **—** | — | server·**ERROR** | ○ | **WARN** |
+| **C8** 미인증 | 401 | ○ | ○ | **—** | **—** | — | failure·WARN | — | ○(body=null) | INFO |
+| **C9** 인증 성공 | 200 | ○ | ○ | ○ | ○ | ○ | — | — | ○ | INFO(userId) |
+| **C10** 느린 요청 | 200 | ○ | ○ | ○ | ○ | ○ | — | — | ○ | **WARN(slow)** |
+
+### 실측 확인된 규칙
+- **`request.completed` 레벨**: 평소 INFO, **httpStatus≥500 또는 slow=true 일 때만 WARN**. (401/404/400 → INFO, 500/502/느린200 → WARN)
+- **`error.business`=WARN, `error.server`=ERROR(스택 포함), `auth.failure`=WARN.**
+- **method.exit 는 정상 종료에만**: 메서드 본문에서 예외를 던지면(C3/C6/C7) `method.enter` 는 남고 `method.exit` 는 누락 → 오류는 `error.*` 로 기록.
+- **검증/파싱 실패(C4/C5)는 method.enter 조차 없음**: @Valid·JSON 파싱은 preHandle 이후·메서드 본문 이전의 **인자 결정 단계**에서 터지므로 `controller.entry` 는 남지만 AOP 는 진입 못 함.
+- **401 최소 구간(C8)**: 보안이 DispatcherServlet 전에 차단 → controller/method 계층 전무. 단 payload 필터가 보안 바깥이라 `response.payload(401, body=null)` 는 남음.
+- **인증 성공(C9) userId**: `completed` 의 `userId` 는 인입 헤더가 아니라 **검증된 JWT 주체**(AuthenticatedUserContextFilter 반영)다 — 위장 `X-User-Id` 를 이긴다.
+
+### 실측 증적 예시 (발췌)
+```text
+C2 정상 POST:
+  4 method  method.enter  DemoController#echo args=[EchoRequest[message=hi]]
+  5 method  method.exit   DemoController#echo return=ApiResponse[...data=EchoResponse[echoed=hi]...]
+C6 서버 예외:
+  4 method  method.enter  DemoCaseController#errorServer args=[]
+  5 access  error.server  exception=java.lang.IllegalStateException          (method.exit 없음)
+  7 access  request.completed  status=500 durationMs=29                       (WARN)
+C8 미인증:
+  3 access  auth.failure  reason=Full authentication is required to access this resource
+  4 payload response.payload status=401 body=null                            (controller/method 없음)
+```
+
+---
+
+## 5. 토글 요약 (기본 상태)
+
+| 기능 | 프로퍼티 | 기본 | 추가 의존성 |
+|------|----------|:---:|------|
+| 액세스 로깅(received/completed/auth/error) | `mutuus.common.logging.enabled` | **ON** | — |
+| 느린요청 임계치 | `mutuus.common.logging.slow-request-threshold-millis` | 1000 | — |
+| 입출력 본문(payload) | `mutuus.common.payload-logging.enabled` | OFF | — |
+| 컨트롤러 진입(controller-entry) | `mutuus.common.controller-entry.enabled` | OFF | — |
+| 메서드 인자/리턴(method-logging, AOP) | `mutuus.common.method-logging.enabled` | OFF | `spring-boot-starter-aspectj` |
+
+> Boot 4 주의: AOP 스타터는 `spring-boot-starter-aop` 가 아니라 **`spring-boot-starter-aspectj`** 다(§METHOD_LOGGING).
+
+---
+
+## 6. 재현 방법
+
+```bash
+# lib 재설치(신규 aop 반영) 후 케이스 매트릭스 단독 실행
+./mvnw -pl lib install
+./mvnw -pl samples/sample-api -Dtest=LoggingCaseMatrixIntegrationTest test
+```
+
+테스트는 payload/controller-entry/method-logging 을 모두 켠 뒤(`@SpringBootTest properties`),
+부모 로거에 ListAppender 를 붙여 케이스별 순서를 콘솔에 표로 출력하고 최소 구간(received/completed/method.\*)을 단언한다.

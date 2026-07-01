@@ -1,0 +1,136 @@
+# 컨트롤러 메서드 인자/리턴 로깅 (method-logging, AOP)
+
+`@RestController` 메서드의 **역직렬화된 실제 인자**와 **정상 종료 시 리턴 객체**를 남기는 선택적(opt-in) 기능이다.
+필터([PAYLOAD_LOGGING](PAYLOAD_LOGGING.md))·인터셉터([CONTROLLER_ENTRY](CONTROLLER_ENTRY.md))가 못 보는
+**"메서드 레벨의 값"** 을 이 계층(AOP `@Around`)에서 관측한다.
+
+> 패키지: `ai.mutuus.common.aop` · 로거: `ai.mutuus.common.method` · 기본값: **OFF**
+> 추가 의존성: **`spring-boot-starter-aspectj`** (Boot 4에서 `spring-boot-starter-aop` 개명) — 소비자가 추가할 때만 활성.
+
+---
+
+## 0. 온보딩 핵심 한 줄
+> "컨트롤러 **메서드에 실제로 넘어온 인자(DTO)와 리턴 객체**를 로그로 보고 싶다 → 이 기능. 필터는 바이트 본문만, 인터셉터는 메서드 식별까지, **AOP 는 값까지** 본다."
+
+---
+
+## 1. 세 로깅 계층의 위치 (필터 → 인터셉터 → AOP)
+
+같은 요청을 세 계층이 **다른 깊이**에서 본다. 안쪽일수록 컨트롤러에 가깝고 더 구체적인 값을 본다.
+
+```text
+ 서블릿 필터                DispatcherServlet 내부
+ ┌──────────────┐   ┌────────────────────────────────────────────────┐
+ │ Payload      │ → │ ControllerEntryInterceptor.preHandle            │  ← controller.entry (식별)
+ │ LoggingFilter│   │   │ (인자 역직렬화)                              │
+ │ (본문 바이트) │   │   ▼                                            │
+ └──────────────┘   │ ControllerMethodLoggingAspect @Around           │  ← method.enter (인자 객체)
+                    │   │  pjp.proceed() → @RestController.echo(dto)   │
+                    │   ▼                                            │
+                    │ (정상 종료) ─────────────────────────────────── │  ← method.exit  (리턴 객체)
+                    └────────────────────────────────────────────────┘
+```
+
+| | 필터(payload) | 인터셉터(controller-entry) | **AOP(method-logging)** |
+|---|---|---|---|
+| 계층 | 서블릿 | MVC preHandle | **AOP `@Around`** |
+| 시점 | 요청 전체 바깥 | 메서드 직전(인자 결정 전) | **메서드 본문 직전/직후** |
+| 보는 것 | HTTP 본문(바이트) | 클래스/메서드/URL | **역직렬화된 인자 · 리턴 객체** |
+| 이벤트 | request/response.payload | controller.entry | **method.enter / method.exit** |
+
+> 중요: `controller.entry`(인터셉터)는 **인자 역직렬화 전**, `method.enter`(AOP)는 **역직렬화 후**다. 그래서
+> @Valid 검증 실패/JSON 파싱 실패는 `controller.entry` 까지만 남고 `method.enter` 는 남지 않는다(값이 만들어지기 전에 실패).
+
+---
+
+## 2. 클래스 구성 (역할 분리)
+
+```text
+[자동구성]  CommonMethodLoggingAutoConfiguration        (기본 OFF, @ConditionalOnClass(ProceedingJoinPoint))
+     │  Aspect 등록 / 기본 Writer 제공 / 설정 바인딩
+     ▼
+[Aspect]  ControllerMethodLoggingAspect
+           @Around("@within(@RestController)")
+     │       ├ matches(패키지/메서드명) 통과 시
+     │       ├ writer.onEnter(type, method, args)   ─ 진입
+     │       ├ result = pjp.proceed()               ─ 원 메서드
+     │       └ writer.onExit(type, method, result)  ─ 정상 종료
+     │
+     └── 출력 ──▶ MethodLoggingWriter   «인자/리턴 출력 (interface)»
+                     └ DefaultMethodLoggingWriter   event=method.enter / method.exit
+
+[설정] MethodLoggingProperties : enabled / maxLength / packages / methodNames
+[확장] 소비자가 MethodLoggingWriter 빈을 정의하면 자동 대체(@ConditionalOnMissingBean)
+```
+
+| 클래스 | 역할 | 지속 업데이트 포인트 |
+|--------|------|----------------------|
+| `ControllerMethodLoggingAspect` | @Around 로 진입/종료 감쌈, 대상 판별 | 거의 불변 |
+| **`MethodLoggingWriter`** (인터페이스) | **인자/리턴 출력 동작** | 빈 재정의로 교체 |
+| `DefaultMethodLoggingWriter` | 그 기본 구현(구조화 로그, maxLength 절단) | 출력 형식 수정 |
+| `MethodLoggingProperties` | 토글·타게팅·절단 길이 | 운영 튜닝 |
+| `CommonMethodLoggingAutoConfiguration` | 위를 자동 등록(`enabled=true` + aspectj) | — |
+
+---
+
+## 3. 요청 한 건의 처리 흐름
+
+```text
+@RestController.method 호출을 @Around 가 가로챔
+   │  matches(패키지/메서드명) ?
+   │     ├─ 비대상 ─▶ pjp.proceed() 만 (로그 없음)
+   │     └─ 대상
+   │          ├ writer.onEnter  ─▶ event=method.enter  (args=[역직렬화된 인자])
+   │          ├ result = pjp.proceed()   (원 메서드 실행)
+   │          └ writer.onExit   ─▶ event=method.exit   (return=리턴 객체)
+   ▼
+※ 메서드 본문에서 예외 → onExit 생략(리턴 없음), 예외는 GlobalExceptionHandler 가 error.* 로 기록
+```
+
+---
+
+## 4. 타게팅 규칙 (패키지 / 메서드명)
+
+```yaml
+mutuus:
+  common:
+    method-logging:
+      enabled: true
+      max-length: 1000                     # 인자/리턴 문자열 최대 길이(초과분 절단)
+      packages:     [ai.mutuus.sample.web] # 컨트롤러 클래스 패키지 접두사(비우면 제약 없음)
+      method-names: ["echo", "get*"]       # 메서드명(와일드카드 * 지원, 비우면 제약 없음)
+```
+
+**결합 규칙**: 지정한 축만 제약(빈 축은 무시), **축 간 AND · 축 내 OR**. 셋 다 비우면 모든 `@RestController` 메서드.
+
+---
+
+## 5. 확장 (지속 업데이트)
+- **출력 교체**: 소비 서비스가 `MethodLoggingWriter` 빈을 정의 → `@ConditionalOnMissingBean` 으로 기본 대체.
+  ```java
+  @Bean
+  MethodLoggingWriter maskingMethodLoggingWriter() {
+      return new MethodLoggingWriter() {
+          public void onEnter(String type, String method, Object[] args) { /* PII 마스킹 후 로깅 */ }
+          public void onExit(String type, String method, Object result)  { /* ... */ }
+      };
+  }
+  ```
+
+---
+
+## 6. 로그 예시 (JSON 한 줄)
+```json
+{"event":"method.enter","class":"DemoController","method":"echo","args":"[EchoRequest[message=hi]]",
+ "X-Trace-Id":"...","appCode":"SMPL","instanceCode":"4V0F2G","service":"sample-api"}
+{"event":"method.exit","class":"DemoController","method":"echo",
+ "return":"ApiResponse[code=OK, data=EchoResponse[echoed=hi], ...]"}
+```
+
+---
+
+## 7. 한계 / 주의
+- **인자/리턴을 `toString()`/`deepToString` 으로 문자열화**한다 — DTO 에 순환참조·거대 컬렉션·민감정보(PII)가 있으면 그대로 노출될 수 있다. `max-length` 절단 + 필요 시 Writer 재정의로 마스킹하라.
+- **정상 종료만 리턴을 남긴다**. 예외 경로는 `method.exit` 가 없고, 오류 자체는 `error.business`/`error.server` 로 남는다([LOGGING_CASES](LOGGING_CASES.md) §4).
+- **Boot 4 의존성명**: `spring-boot-starter-aop` → **`spring-boot-starter-aspectj`**. 잘못된 이름을 쓰면 BOM 에서 버전이 해석되지 않아 빌드가 깨진다.
+- 본문(바이트)·메서드 식별만 필요하면 각각 [PAYLOAD_LOGGING](PAYLOAD_LOGGING.md)·[CONTROLLER_ENTRY](CONTROLLER_ENTRY.md) 로 충분하다(AOP 의존성 불필요). 셋은 상호 보완이다.

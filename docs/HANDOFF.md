@@ -1,0 +1,49 @@
+# 핸드오프 (common-platform)
+
+이 세션에서 진행한 내용과 현재 상태, 이어받는 사람이 알아야 할 것 정리.
+
+## 1. 프로젝트 한 줄 요약
+- 게시 산출물 = **단일 jar 공통 라이브러리** `ai.mutuus.common:common-platform`(레포의 `lib/` 모듈).
+- 레포 = **Maven reactor**: 루트 aggregator(`pom.xml`) + `lib/`(라이브러리) + `samples/sample-api`·`samples/sample-batch`(소비 검증 샘플).
+- Java 21 / Spring Boot 4.1.0. 자세한 아키텍처는 [CLAUDE.md](../CLAUDE.md) · [README.md](../README.md).
+
+## 2. 현재 상태
+- 브랜치 `appmod/java-upgrade-20260629111524`, 원격 `origin = github.com/localwave-mutuus/base-common`, **main = `8d5d042`** 까지 push 됨.
+- 게시: GitHub Packages 에 `0.1.0-SNAPSHOT`(최신 타임스탬프 `...004006-3`, payload/intercept 포함) 업로드됨.
+- 테스트: `./mvnw clean test`(reactor) **BUILD SUCCESS**(99+3). live 테스트는 로컬 PostgreSQL/Redis 가 떠 있을 때만 실행(없으면 skip).
+
+## 3. 실행 방법 (중요 — 모드 분리)
+| 용도 | 프로파일 | 포트 | DB | 방법 |
+|------|----------|------|-----|------|
+| 사람 개발/디버그 | `local` | 8081 | 실 PostgreSQL(15010) | **VS Code F5 → `sample-api [local]`** |
+| 자동화 백그라운드 검증 | `ai` | 8091 | 임베디드 H2 | `./mvnw -pl samples/sample-api spring-boot:run -Dspring-boot.run.profiles=ai` |
+
+- 테스트/데모 화면은 **앱에 항상 포함**(`demo` 프로파일 제거됨) → 어느 모드든 `http://localhost:<port>/demo/index.html`.
+- 로컬 인프라 좌표/자격은 메모리 `local-infra-db-redis` 참고(PostgreSQL 15010, Redis 16010).
+
+## 4. 이 세션 산출물
+- **인스턴스 식별 + 파일 로깅**: `X-App-Code`(4)·`X-Instance-Id`(6) 헤더/로그, 로그파일 `<app>-<instance>.log`(크기+일자 롤링). `mutuus.common.app-code`/`instance-code`.
+- **테스트 화면**(`sample-api`, 항상 포함): `/demo/index.html`(16케이스, ▶전체 실행, PASS/FAIL), `/demo/logs.html`(최신 로그파일 tail·JSON beautify). 카탈로그 [DEMO_CASES.md](DEMO_CASES.md).
+- **payload 로깅**(opt-in, `lib/.../payload`): 컨트롤러 입력/리턴 본문을 각각 별도 로거로. 문서 [PAYLOAD_LOGGING.md](PAYLOAD_LOGGING.md).
+- **controller-entry 인터셉트**(opt-in, `lib/.../intercept`): 명칭/패키지/URL 로 타게팅한 메서드 진입 시 동작. 문서 [CONTROLLER_ENTRY.md](CONTROLLER_ENTRY.md).
+- 회귀 가드: `PayloadAndEntryLoggingIntegrationTest`(실제 켜서 검증).
+
+## 5. 게시(재배포) 방법
+```bash
+./mvnw -pl lib clean deploy    # GitHub Packages 로 lib 만 게시(samples/aggregator 는 deploy.skip)
+```
+- 자격: `~/.m2/settings.xml` 의 `<server><id>localwave</id>` PAT(write:packages). pom 의 `distributionManagement <id>localwave>` 와 이름 매칭. 상세: 메모리 `base-common-publishing`.
+
+## 6. 이어받을 때 주의 / 컨벤션
+- **라이브러리(lib)는 optional 의존성 + `@ConditionalOnClass/Property`** 원칙 유지(비웹 소비자로 web/security 비전이). 신규 통합도 이 패턴.
+- 테스트는 `lib` 가 아니라 **`samples/*`** 에 둔다.
+- 문서/주석/응답은 **한국어**.
+- 다이어그램은 **ASCII 코드블록** 사용(대상 VS Code 미리보기가 mermaid 미지원).
+- 앱 백그라운드 기동은 **ai(8091)만** — 사람 local(8081) 절대 침범 금지(메모리 `run-app-via-vscode`).
+
+## 7. 남은 일 / 후속 제안
+- [ ] `application-local.yml` 의 PostgreSQL 비번 `eva` 평문(이전부터 존재) → 외부화 + 필요 시 git 히스토리 정리.
+- [x] payload/intercept 의 **AOP `@Around` 변형**(역직렬화된 메서드 인자/리턴 객체까지) — **구현 완료**(`aop` 패키지, `method.enter`/`method.exit`). 의존성은 Boot 4 개명 반영해 `spring-boot-starter-aspectj`. 문서 [METHOD_LOGGING.md](METHOD_LOGGING.md) · 전체 로깅 구간 [LOGGING_CASES.md](LOGGING_CASES.md). 초기 커밋이 `AutoConfiguration.imports` 등록 누락 + 옛 스타터명(`-aop`)이라 미동작이던 것을 수정함.
+- [ ] CI 이중 경로: `mvnw test`(reactor) + `mvnw -pl lib install` 후 샘플을 설치된 jar 로 검증(게시 jar 회귀 가드).
+- [ ] 노출됐던 GitHub 토큰(`ghp_k8O4...`) revoke 확인.
+- [ ] Java 25 업그레이드는 브랜치명과 달리 **21로 되돌려진 상태**(안정성 — 메모리 `java-version-baseline`).

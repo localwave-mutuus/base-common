@@ -97,6 +97,13 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 `AccessLogger` 빈은 항상 제공(보안/예외 모듈이 `ObjectProvider`로 주입, 없으면 무동작 폴백)하고, 요청/응답 필터는 웹 환경에서만 등록한다. 토글·튜닝은 `mutuus.common.logging.*`(`enabled`, `include-query-string`, `exclude-path-prefixes`(기본 `/actuator`), `slow-request-threshold-millis`). 본문(body) 로깅은 PII·비용 문제로 기본 미포함. 회귀 가드: `samples/sample-api/AccessLoggingIntegrationTest`.
 
+**추가 3계층(모두 기본 OFF, opt-in)** — 액세스 로깅이 못 보는 "컨트롤러 안쪽"을 점점 더 깊이 관측한다. 계층별 위치·이벤트·의존성:
+- **입출력 본문(`payload` 패키지, 로거 `ai.mutuus.common.payload`)**: `PayloadLoggingFilter`(order `HIGHEST_PRECEDENCE+20`, AccessLogFilter 바로 안쪽)가 요청/응답 본문을 캐싱해 `request.payload`/`response.payload` 기록. 진입/종료 출력은 각각 `RequestPayloadLogger`/`ResponsePayloadLogger` 빈(교체 가능). 토글 `mutuus.common.payload-logging.*`. 문서 [PAYLOAD_LOGGING.md](docs/PAYLOAD_LOGGING.md).
+- **컨트롤러 진입(`intercept` 패키지, 로거 `ai.mutuus.common.controller`)**: `ControllerEntryInterceptor`(MVC `preHandle`, 인자 역직렬화 **전**)가 명칭/패키지/URL 로 타게팅한 메서드 진입 시 `controller.entry` 기록. 판별(`ControllerMethodMatcher`)·동작(`ControllerEntryHandler`) 분리. 토글 `mutuus.common.controller-entry.*`. 문서 [CONTROLLER_ENTRY.md](docs/CONTROLLER_ENTRY.md).
+- **메서드 인자/리턴(`aop` 패키지, 로거 `ai.mutuus.common.method`)**: `ControllerMethodLoggingAspect`(`@Around @within(@RestController)`, 인자 역직렬화 **후**)가 `method.enter`(인자 객체)/`method.exit`(리턴 객체) 기록. 출력은 `MethodLoggingWriter` 빈(교체 가능). **AOP라 소비자가 `spring-boot-starter-aspectj`(Boot 4에서 `-aop`→`-aspectj` 개명)를 추가해야만 활성**(`@ConditionalOnClass(ProceedingJoinPoint)`). 토글 `mutuus.common.method-logging.*`. 문서 [METHOD_LOGGING.md](docs/METHOD_LOGGING.md).
+
+> 세 "진입" 관측의 깊이 차이가 핵심: 필터=바이트 본문 / 인터셉터=메서드 식별(인자 결정 전) / AOP=역직렬화된 값(인자 결정 후). 그래서 @Valid·JSON 파싱 실패는 `controller.entry`까지만 남고 `method.enter`는 안 남는다. **요청 유입 시 전체 로깅 구간의 케이스별 실측 순서**는 [LOGGING_CASES.md](docs/LOGGING_CASES.md)(회귀 가드 `PayloadAndEntryLoggingIntegrationTest` + `LoggingCaseMatrixIntegrationTest`).
+
 ### 8. 영속성 감사 (persistence 패키지, optional)
 
 `spring-data-jpa`가 classpath에 있을 때만 활성화되는 optional 통합이다. `BaseEntity`(`@MappedSuperclass`)를 상속하면 `created_at`/`updated_at`(`Instant`)·`created_by`/`updated_by`가 JPA Auditing으로 자동 기록된다. **감사 주체(created_by 등)는 `TraceContextAuditorAware`가 `TraceContext`의 인증 사용자(`X-User-Id`)에서 가져온다** — 즉 보안 체인이 확정한 신뢰 사용자가 그대로 감사 컬럼에 박힌다(별도 코드 불필요).
