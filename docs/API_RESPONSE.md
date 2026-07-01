@@ -108,4 +108,21 @@ throw new BusinessException(CommonErrorCode.NOT_FOUND);   // 라이브러리 기
   자세한 로그 스키마는 [LOG_FORMAT.md](LOG_FORMAT.md) 참고.
 - `message`/`detail` 은 절대 하드코딩하지 않고 i18n 메시지 번들을 거친다.
 
+## 6. (옵션) 성공 응답 자동 래핑
+
+`mutuus.common.response-wrapper.enabled=true`(기본 OFF)면 컨트롤러가 **평범한 객체**를 반환해도
+라이브러리가 `ApiResponse.ok(...)` 봉투로 자동 래핑한다 — 수동 `ApiResponse.ok()` 없이도 표준 봉투를 얻는다.
+
+```java
+@GetMapping("/wrap")
+public Map<String,Object> wrap() { return Map.of("value", 42); }   // → {"code":"OK","data":{"value":42},...}
+```
+
+**손대지 않는 것**(이중 래핑·직렬화 파손 방지): 이미 `ApiResponse`/`ProblemDetail`, `String`/`byte[]`/`Resource`,
+비(非)JSON 응답, 제외 경로(`exclude-path-prefixes` 기본 `/actuator`·`/v3/api-docs`·`/swagger-ui`).
+자동 래핑을 켜면 raw 배열을 반환하는 자체 인프라 엔드포인트가 있을 수 있으니(예: 목록 API)
+필요 시 그 경로를 `exclude-path-prefixes` 에 추가한다. 회귀 가드 `ResponseWrapperIntegrationTest`.
+
+---
+
 회귀 가드: `samples/sample-api/CommonPlatformIntegrationTest`(봉투/상태코드/i18n/`fieldErrors`).

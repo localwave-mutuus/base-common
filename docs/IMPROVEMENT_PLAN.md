@@ -71,7 +71,8 @@
 
 ## 진행 현황
 - [x] **1-B. ErrorCode 인터페이스화** — **완료**: `interface ErrorCode` + `CommonErrorCode` enum, 소비자 `SampleErrorCode` 실증. 검증 `CustomErrorCodeIntegrationTest`(S1-S4) + 데모 화면 ▶전체실행 **19/19 PASS**.
-- [ ] 1-A 이후 순차.
+- [x] **1-A. 성공 응답 자동 래핑** — **완료**: `ApiResponseWrapperAdvice`(`ResponseBodyAdvice`, 기본 OFF). 이중래핑/`String`·`byte[]`·`Resource`/비JSON/제외경로(springdoc `/v3/api-docs`·actuator·swagger + 소비자 지정 `/demo/cases`)는 통과. 검증 `ResponseWrapperIntegrationTest`(W1~W5) + 데모 화면 ▶전체실행 **20/20 PASS**(신규 `/demo/wrap`).
+- [ ] Phase 2 이후 순차.
 
 ## 테스트 검증 시나리오 (1-B)
 | # | 시나리오 | 기대 |

@@ -74,6 +74,16 @@ mutuus:
       packages:
         - ai.mutuus.sample.web
         - ai.mutuus.sample.demo
+    # 성공 응답 자동 래핑(데모: /demo/wrap). 라이브러리 기본 OFF.
+    # exclude 를 명시하면 기본값을 대체하므로 springdoc/actuator/swagger 를 다시 나열하고,
+    # 데모 UI(index.html)가 raw 배열을 기대하는 /demo/cases 인프라 엔드포인트도 제외한다.
+    response-wrapper:
+      enabled: true
+      exclude-path-prefixes:
+        - /actuator
+        - /v3/api-docs
+        - /swagger-ui
+        - /demo/cases
     # 분산 세션 컨벤션(세션 케이스): 네임스페이스/타임아웃
     session:
       namespace: sample-api:session

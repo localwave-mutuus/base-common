@@ -127,6 +127,9 @@ public class DemoCaseController {
                 new DemoCase("error-custom", "표준 예외 - 소비자 커스텀 코드(409)", "GET", "/demo/error/custom", null,
                         "소비자가 ErrorCode 인터페이스를 구현한 SampleErrorCode.ORDER_ALREADY_SHIPPED 를 던짐 → 라이브러리가 CommonErrorCode 와 동일 봉투로 409 처리(code=ORDER_ALREADY_SHIPPED, i18n 메시지는 소비자 번들). X-Locale: en 으로 바꿔 비교. (기대 409)",
                         "ai.mutuus.sample.demo.SampleErrorCode", 409, null),
+                new DemoCase("wrap", "성공 응답 자동 래핑(ResponseBodyAdvice)", "GET", "/demo/wrap", null,
+                        "컨트롤러가 ApiResponse 가 아닌 평범한 Map 을 반환해도 라이브러리가 {code:OK,data:{...}} 표준 봉투로 자동 래핑(mutuus.common.response-wrapper). 이미 ApiResponse 인 다른 케이스는 이중 래핑 안 됨. (기대 200)",
+                        "ai.mutuus.common.response.ApiResponseWrapperAdvice", 200, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -309,6 +312,21 @@ public class DemoCaseController {
     public ApiResponse<Void> errorCustom() {
         // 라이브러리 CommonErrorCode 가 아니라 소비자가 정의한 도메인 코드를 던진다(409 CONFLICT).
         throw new BusinessException(SampleErrorCode.ORDER_ALREADY_SHIPPED);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 성공 응답 자동 래핑 — 컨트롤러가 "평범한 객체"를 반환해도
+    // ApiResponseWrapperAdvice(ResponseBodyAdvice) 가 표준 ApiResponse 봉투로 감싼다.
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/wrap")
+    public Map<String, Object> wrap() {
+        // 반환 타입이 ApiResponse 가 아니다(평범한 Map). response-wrapper 가 켜져 있으면
+        // 라이브러리가 {"code":"OK","data":{...}} 표준 봉투로 자동 래핑한다.
+        return Map.of(
+                "wrapped", true,
+                "value", 42,
+                "note", "컨트롤러는 평범한 객체를 반환 — ApiResponseWrapperAdvice 가 표준 봉투로 감쌌다");
     }
 
     // ---------------------------------------------------------------------
