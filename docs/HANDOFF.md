@@ -4,7 +4,7 @@
 
 ## 1. 프로젝트 한 줄 요약
 - 게시 산출물 = **단일 jar 공통 라이브러리** `ai.mutuus.common:common-platform`(레포의 `lib/` 모듈).
-- 레포 = **Maven reactor**: 루트 aggregator(`pom.xml`) + `bom/`(common-platform-bom) + `lib/`(라이브러리) + `starters/starter-web`·`starter-batch`(큐레이션 스타터) + `samples/*`(소비 검증 샘플). 샘플은 스타터+BOM 경유로 소비.
+- 레포 = **Maven reactor**: 루트 aggregator(`pom.xml`) + `parent/`(게시모듈 공용부모, distMgmt·deployAtEnd·공통버전) + `bom/`(common-platform-bom) + `lib/`(라이브러리) + `starters/starter-web`·`starter-batch`(큐레이션 스타터) + `samples/*`(소비 검증 샘플). 샘플은 스타터+BOM 경유로 소비.
 - Java 21 / Spring Boot 4.1.0. 자세한 아키텍처는 [CLAUDE.md](../CLAUDE.md) · [README.md](../README.md).
 
 ## 2. 현재 상태
@@ -32,12 +32,13 @@
 게시 대상은 **Nexus**(`distributionManagement` = maven-releases/maven-snapshots). 버전이 `-SNAPSHOT` 이면 snapshots, 정식이면 releases 로 Maven 이 자동 라우팅. 상세 좌표/자격: 메모리 `nexus-publishing`.
 
 ```bash
-# 테스트 후 배포(권장, 2단계) — 샘플 테스트 통과 후에만 게시
-./mvnw clean install                                                       # 전체 빌드 + 샘플 테스트(117+4)
-./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch deploy       # 게시 모듈만(samples/aggregator deploy.skip)
+# 테스트 후 배포(한 방) — common-platform-parent 의 deployAtEnd 라 리액터 전체(샘플 테스트 포함)가
+# 성공한 뒤에만 게시 모듈(parent·bom·lib·starters)을 일괄 업로드(부분 배포 없음). samples/aggregator deploy.skip.
+MAVEN_OPTS="-Djavax.net.ssl.trustStore=<truststore> -Djavax.net.ssl.trustStorePassword=changeit" \
+  ./mvnw clean deploy
 ```
 
-- **자격**: `~/.m2/settings.xml` 의 `<server><id>nexus-releases</id>`·`<id>nexus-snapshots</id>`(deployer 계정) — pom 의 repository id 와 이름 매칭. 비번은 pom/git 미포함.
+- **자격**: `~/.m2/settings.xml` 의 `<server><id>nexus-releases</id>`·`<id>nexus-snapshots</id>`(deployer 계정) — parent 의 distributionManagement repository id 와 이름 매칭. 비번은 pom/git 미포함.
 - **인증서(중요)**: Nexus 가 self-signed(`CN=*.local`)라 JVM 이 신뢰 안 하면 `PKIX path building failed`. 시스템 JDK 를 안 건드리려면 커스텀 truststore(cacerts 복사 + nexus 인증서 추가) 만들어
   `MAVEN_OPTS="-Djavax.net.ssl.trustStore=<경로> -Djavax.net.ssl.trustStorePassword=changeit"` 로 배포.
 - 검증(2026-07-01): 0.1.0-SNAPSHOT 4개 아티팩트 maven-snapshots 배포 성공(REST 조회 200).

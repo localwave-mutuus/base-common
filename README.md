@@ -16,7 +16,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 - Spring Boot 4.1.0 / Spring Framework 7
 - Spring Modulith 2.1.0 (관측)
 - Micrometer + OpenTelemetry, Logback(JSON), Spring Security OAuth2 Resource Server
-- 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `bom/`(common-platform-bom) + `lib/`(산출물 라이브러리 jar) + `starters/*`(큐레이션 스타터 web/batch) + `samples/*`(소비 검증). 게시 대상은 BOM·라이브러리·스타터.
+- 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `parent/`(게시모듈 공용부모) + `bom/`(common-platform-bom) + `lib/`(산출물 라이브러리 jar) + `starters/*`(큐레이션 스타터 web/batch) + `samples/*`(소비 검증). 게시 대상은 parent·BOM·라이브러리·스타터.
 
 ## 내부 패키지 구성
 
@@ -172,8 +172,10 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 ## 배포(사내 저장소)
 
 ```bash
-# BOM·라이브러리·스타터 게시 (samples·aggregator 는 deploy.skip)
-./mvnw -q -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
+# 테스트 후 배포(한 방): deployAtEnd 라 리액터 전체(샘플 테스트) 성공 후에만 게시 모듈
+# (parent·bom·lib·starters) 일괄 업로드. samples·aggregator 는 deploy.skip.
+# Nexus self-signed 라 MAVEN_OPTS 로 truststore 지정 필요(자세히: docs/HANDOFF.md).
+./mvnw -q clean deploy
 ```
 
 > JDK 21 필요. Maven Wrapper(`./mvnw`)가 Maven 3.9.9 로 고정돼 있어 로컬 Maven 설치는 불필요하다.

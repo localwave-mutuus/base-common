@@ -8,24 +8,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **레포 레이아웃은 Maven reactor**다(루트 `pom.xml`은 `packaging=pom` aggregator, 게시 대상 아님). 모듈 셋:
   - `lib/` — **산출물 라이브러리**(`ai.mutuus.common:common-platform`). 라이브러리 소스/리소스는 전부 `lib/src/...`에 있다.
+  - `parent/` — **`common-platform-parent`**(`packaging=pom`). 게시 모듈(bom·lib·starters)의 공용 부모 — **게시 좌표(Nexus distributionManagement)·배포 정책(`deployAtEnd`)·공통 버전(java/logstash/springdoc)을 한 곳에서** 관리(자식에 복붙되던 중복 제거). 소비자가 lib/starter pom 을 해석할 때 필요하므로 parent 도 게시 대상.
   - `bom/` — **`common-platform-bom`**(`packaging=pom`). 자사 아티팩트(lib·스타터들) + 라이브러리가 노출하는 optional 3rd-party(logstash·springdoc) 버전을 한 곳에서 고정 → 소비자는 버전 없이 추가, CVE/상향은 BOM 한 곳만 올리면 일괄 롤아웃.
   - `starters/starter-web`, `starters/starter-batch` — **큐레이션 스타터**(코드 없는 의존성 취합 jar, `spring-boot-maven-plugin skip`). web = lib + 표준 웹 스택(web/security/oauth2/actuator/validation/restclient/aspectj) + JSON 로깅(logstash); batch = lib + JSON 로깅(web/security 제외 → 비전이 유지). 소비자 온보딩 1줄.
   - `samples/sample-api`, `samples/sample-batch` — 라이브러리를 끌어쓰는 **소비 검증용 샘플**(아래 "테스트 위치" 규칙). 현재 샘플은 **스타터+BOM 경유**로 소비한다(sample-api→`starter-web`, sample-batch→`starter-batch`, 둘 다 `common-platform-bom` import).
   - 이 reactor 구조의 이유: IDE(jdt.ls)가 라이브러리와 샘플을 한 창에서 각각 별도 프로젝트로 임포트하려면, 라이브러리를 `lib/` 하위로 내려 samples 와 형제로 둬 Eclipse 의 '프로젝트 위치 중첩 금지'를 피해야 한다. 또한 reactor 빌드 시 samples 가 lib 를 .m2 stale jar 가 아니라 방금 빌드한 모듈에서 해석한다. 단, **`samples` 가 reactor 모듈이 됐어도 "독립 소비자" 충실도는 유지**된다 — 샘플 pom 은 여전히 `spring-boot-starter-parent` 를 상속하고 라이브러리를 GAV 의존으로만 참조한다(라이브러리 내부에 결합하지 않음).
 - Java 21 / Spring Boot 4.1.0 (Spring Framework 7) / Spring Modulith 2.1.0
-  - 베이스라인은 **JDK 21 고정**이다(`lib/pom.xml`의 `java.version`/`maven.compiler.release`). 브랜치명·일부 커밋에 "Java 25"가 보여도 작업 트리는 안정성·소비 서비스 강제 회피를 이유로 21로 되돌려져 있다 — 산출물 타깃은 21이다.
+  - 베이스라인은 **JDK 21 고정**이다(`parent/pom.xml`의 `java.version`/`maven.compiler.release`). 브랜치명·일부 커밋에 "Java 25"가 보여도 작업 트리는 안정성·소비 서비스 강제 회피를 이유로 21로 되돌려져 있다 — 산출물 타깃은 21이다.
 - 라이브러리 기능은 `ai.mutuus.common` 아래 **패키지로만** 구분된다(라이브러리 내부엔 별도 Maven 모듈 없음). README 등에서 `common-web`, `common-core`로 부르는 것은 모듈이 아니라 패키지를 가리킨다.
 
 ## 빌드 / 테스트 명령
 
-Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능). 루트에서의 `./mvnw`는 **reactor 전체**(bom → lib → starters → samples)를 대상으로 한다.
+Maven Wrapper(`./mvnw`)가 포함돼 있고 **Maven 3.9.9로 고정**(`.mvn/wrapper/maven-wrapper.properties`)이라 로컬 Maven 설치 없이 재현 가능하게 빌드된다. JDK 21만 있으면 된다(아래 명령의 `mvn`은 `./mvnw`로 대체 가능). 루트에서의 `./mvnw`는 **reactor 전체**(parent → bom → lib → starters → samples)를 대상으로 한다.
 
 ```bash
 # 라이브러리만 (대부분의 라이브러리 작업은 이걸로 충분)
 ./mvnw -pl lib clean install     # lib 만 컴파일 + 로컬 .m2 설치 (라이브러리 모듈엔 테스트 없음)
 
-# 게시 대상(BOM·라이브러리·스타터) 일괄 게시 (samples·aggregator는 deploy.skip)
-./mvnw -pl bom,lib,starters/starter-web,starters/starter-batch clean deploy
+# 테스트 후 배포(한 방): deployAtEnd 라 리액터 전체(샘플 테스트 포함) 성공 후에만 게시 모듈
+#   (parent·bom·lib·starters)을 일괄 업로드. samples·aggregator는 deploy.skip.
+#   Nexus 가 self-signed 라 MAVEN_OPTS 로 커스텀 truststore 지정 필요 → 메모리 nexus-publishing.
+./mvnw clean deploy
 
 # reactor 전체 (bom → lib → starters → samples 순서로 빌드, 샘플 테스트까지 실행)
 ./mvnw clean install             # 전 모듈 설치 후 samples 빌드/테스트 — 라이브러리+소비검증 일괄
