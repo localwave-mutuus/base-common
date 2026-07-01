@@ -1,0 +1,136 @@
+# PostgreSQL + Spring Boot — DB 계층 통합 기술 가이드
+
+> 프로젝트: backend기술스택
+> 성격: **소비 서비스의 DB 계층 설계 표준**(참고용). 대부분 서비스 레벨 결정이라 common-platform 라이브러리 코드와는 분리된다.
+> 상태: 저장·보관용. ① read/write 라우팅 "메커니즘"은 향후 common-platform 의 optional 통합으로 승격 가능(현재 보류) — 아래 3~4장 참고.
+
+---
+
+## 0. 핵심 요약
+
+- **스택 선정 원칙**: AI 코딩 최적 = ① 학습 데이터 풍부, ② 컨벤션 명확, ③ 컴파일 타임 검증, ④ 보일러플레이트 최소. 사람이 AI 산출물을 빠르게 검증할 수 있어야 한다.
+- **데이터 접근**: `Spring Data JPA`(기본 CRUD) + `jOOQ`(복잡/PostgreSQL 특화 쿼리) 병용을 기본으로 한다.
+- **멀티 데이터소스**: 요구에 따라 ① RoutingDataSource(읽기/쓰기 분리·멀티테넌트), ② 데이터소스별 개별 TxManager(독립 DB), ③ JTA/XA(여러 DB 원자적 커밋 필요 시) 중 선택. 대부분 ①②로 해결.
+- **판별 한 문장**: "두 DB를 동시에 커밋/롤백해야 하는가?" → 아니면 ①②, 맞으면 ③.
+- **적합성 핵심**: 멀티 데이터소스를 도입하면 Flyway·jOOQ·Testcontainers·HikariCP 설정이 **데이터소스별로 각각** 구성되어야 한다(단일 DS 자동설정에 의존 불가).
+
+---
+
+## 1. 설계 원칙 (공통)
+
+1. **횡단 관심사만 공통화**: 응답 포맷·예외처리·로깅 등은 공통 모듈(common-platform), 도메인 로직·엔티티·DB 구성은 각 서비스.
+2. **AI 검증 가능성 우선**: 컴파일 타임 검증(jOOQ, MapStruct) + 실 DB 통합테스트(Testcontainers)로 산출물을 신뢰 가능하게.
+3. **명시적 경계**: 다중 DB는 **DB별 패키지 분리**(`com.app.user.*`, `com.app.order.*`)로 소속 데이터소스를 명확히.
+4. **최소 복잡도**: 분산 트랜잭션(XA)은 성능·운영 비용이 크므로 원자성이 필수인 소수 유스케이스에만.
+
+---
+
+## 2. DB 기술 스택 (AI 코딩 최적)
+
+| 계층 | 추천 | 이유 |
+|---|---|---|
+| ORM 기본 | **Spring Data JPA (Hibernate)** | 학습 데이터 풍부, 메서드명 기반 선언적 쿼리 |
+| 복잡/PG특화 쿼리 | **jOOQ** | JSONB·CTE·window·upsert 를 타입세이프 SQL 로, 컴파일 타임 검증 |
+| 단순 도메인 대안 | Spring Data JDBC | "마법" 최소 → 예측 가능한 코드 |
+| DTO | **Java Record (17/21)** | 보일러플레이트 0, 불변 |
+| 매핑 | **MapStruct** | 컴파일 타임 매핑 생성, 필드 누락 시 컴파일 에러 |
+| 검증 | **Bean Validation** | 어노테이션 선언, 표준 |
+| 마이그레이션 | **Flyway** | 스키마 변경 이력 명시, `ddl-auto=update` 오남용 방지 |
+| 커넥션 풀 | **HikariCP** | Boot 기본, DS별 풀 용이 |
+| 테스트 | **Testcontainers(PostgreSQL) + JUnit5 + AssertJ** | 실 PG 검증 → "H2 통과, 운영 실패" 방지 |
+| API 문서 | **springdoc-openapi** | 자동 문서 (common-platform 이 공통 OpenAPI 설정 제공) |
+| 관측성 | **Actuator + Micrometer** | 표준화 (common-platform 이 공통 태그 제공) |
+| 언어 | **Java 21 (LTS)** | 학습 데이터 풍부 |
+
+> **기본 조합**: JPA(CRUD) + jOOQ(복잡 쿼리) + Record + MapStruct + Flyway + Testcontainers.
+
+---
+
+## 3. 멀티 데이터소스 & 트랜잭션 — 구조 판별
+
+| 상황 | 추천 구조 | 트랜잭션 원자성 |
+|---|---|---|
+| 읽기/쓰기 분리 (Primary + Replica) | **① RoutingDataSource** | 단일 (문제 없음) |
+| 멀티테넌트 (요청당 DB 1개) | **① RoutingDataSource** | 단일 |
+| 기능별 분리 DB (독립 tx) | **② 데이터소스별 TxManager** | DB별 개별 |
+| 여러 DB를 하나의 트랜잭션으로 원자 처리 | **③ JTA/XA** | 전역(2PC) |
+
+핵심 판별: **"두 DB를 동시에 커밋/롤백해야 하는가?"** → 아니면 ①②, 맞으면 ③.
+
+---
+
+## 4. 구조별 구현 (요약)
+
+### ① RoutingDataSource — 읽기/쓰기 분리·멀티테넌트 (가장 흔함)
+
+트랜잭션 매니저 1개, 커넥션 조회 시 ThreadLocal 키로 실제 DataSource 를 동적 선택. `@Transactional(readOnly=true)` → Replica.
+
+- `RoutingContext`(ThreadLocal<DbRole>) : set/get(기본 WRITE)/clear
+- `ReadWriteRoutingDataSource extends AbstractRoutingDataSource` : `determineCurrentLookupKey()` → RoutingContext
+- write/read `HikariDataSource` 두 개 + `ReadWriteRoutingDataSource` + **`LazyConnectionDataSourceProxy`(필수)** → `@Primary` DataSource
+- readOnly 자동 라우팅 AOP: `@Transactional(readOnly)` 이면 READ, 아니면 WRITE 로 컨텍스트 세팅(트랜잭션 인터셉터보다 먼저), `finally` 에서 clear(ThreadLocal 누수 방지)
+
+> ⚠️ `LazyConnectionDataSourceProxy` 누락 시 트랜잭션 시작 시점에 커넥션이 먼저 붙어 `readOnly` 라우팅이 동작하지 않음(대표적 실수).
+> ↔ **이 ① 뼈대(RoutingContext·RoutingDataSource·readOnly AOP)는 서비스마다 동일해 common-platform 의 optional 통합으로 승격 가능**(서비스는 write/read DataSource 만 배선). 현재 보류.
+
+### ② 데이터소스별 개별 TxManager — 독립 DB 각각
+
+DB마다 `EntityManagerFactory` + `PlatformTransactionManager` 를 두고 `@Transactional("userTx"|"orderTx")` 로 매니저 이름 명시. DB 간 원자성은 없음(각자 커밋).
+- DB별 설정 클래스 + 패키지 분리(`@EnableJpaRepositories(basePackages, entityManagerFactoryRef, transactionManagerRef)`), 한 DB만 `@Primary`.
+- **주의**: 매니저 이름 미지정 시 `@Primary` 매니저로 커밋되어 엉뚱한 DB에 반영될 수 있음.
+
+### ③ JTA/XA — 여러 DB 원자적 커밋 (원자성 필수일 때만)
+
+Boot 3+ 에서는 `com.atomikos:transactions-spring-boot3-starter`(6.x) 또는 Narayana 사용(레거시 `spring-boot-starter-jta-atomikos` 아님). DataSource 를 `XADataSource`(`PGXADataSource` → `AtomikosDataSourceBean`)로 교체, `JtaTransactionManager` 하에 `@Transactional` 로 전역 트랜잭션.
+> ⚠️ 2PC 오버헤드·장애복구 복잡성·성능 저하. 원자성이 정말 필요한 소수만. 나머지는 ②(개별 tx) + 보상 트랜잭션(Saga) 검토가 최근 흐름.
+
+---
+
+## 5. 적합성 체크포인트 — 멀티 DS 상호작용
+
+단일 DS 에서 자동설정에 맡기던 것들을 멀티 DS 에선 **DS별로 명시 구성**해야 한다.
+
+- **5.1 Flyway**: 단일 DS 는 `spring.flyway.*` 자동. 다중 DS 는 **DS별 Flyway 빈**을 프로그램적으로(`Flyway.configure().dataSource(ds).locations(...).load()`, `@Bean(initMethod="migrate")`). ① 읽기/쓰기 분리(같은 물리 스키마)면 마이그레이션은 Write(Primary)에만.
+- **5.2 jOOQ**: `DSLContext` 를 DS별 생성. 트랜잭션과 함께 돌리려면 `TransactionAwareDataSourceProxy` 로 감싼 DS 주입. codegen 은 마이그레이션 적용 스키마 기준(Flyway 이후).
+- **5.3 Testcontainers**: 멀티 DS 검증은 **PostgreSQL 컨테이너를 DS 수만큼** 기동 + `@DynamicPropertySource` 로 각 URL 주입. 검증 시나리오: 매니저별 커밋/롤백 격리(②), readOnly Replica 라우팅(①), XA 원자적 롤백(③).
+- **5.4 HikariCP**: DS별 독립 사이징(Replica 읽기 트래픽 많으면 `maximum-pool-size` ↑), `pool-name` 을 다르게 → 로그·메트릭 구분.
+- **5.5 트랜잭션 어노테이션 적합성**:
+  - ①: 매니저 1개 → `@Transactional` 이름 불필요, `readOnly` 만 정확히.
+  - ②: `@Transactional("userTx"|"orderTx")` **반드시 이름 명시**.
+  - ③: `@Transactional` 만으로 전역.
+  - **혼용 금지**: 한 서비스 메서드에서 ②의 두 매니저를 원자적으로 기대하면 안 됨. 원자성 필요 시 ③ 또는 Saga.
+
+---
+
+## 6. 흔한 버그 & 검증 전략
+
+| 구분 | 흔한 버그 | 방지책 |
+|---|---|---|
+| ① | `LazyConnectionDataSourceProxy` 누락 → readOnly 라우팅 실패 | Lazy 래핑 필수, 라우팅 통합테스트 |
+| ① | `RoutingContext.clear()` 누락 → 스레드풀 재사용 시 잘못된 DB | `finally`/`@After` clear, 부하 테스트 |
+| ② | `@Transactional` 매니저 미지정 → 엉뚱한 DB 커밋 | 매니저 이름 명시 강제, 리뷰 체크리스트 |
+| ②/③ | 두 DB 원자성 오해 | 원자성 필요 시 ③ 또는 Saga |
+| 설정 | 멀티 DS 인데 Flyway 한 곳만 | DS별 Flyway 빈(5.1) |
+| 설정 | H2 통과·운영 실패 | Testcontainers 실 PG(5.3) |
+
+검증 원칙: 멀티 DS/트랜잭션 코드는 **Testcontainers 통합테스트로 커밋·롤백 경계를 반드시 재현**해 신뢰성 확보.
+
+---
+
+## 7. 최종 추천 (의사결정 요약)
+
+1. **데이터 접근**: JPA + jOOQ, DTO Record, 매핑 MapStruct, 검증 Bean Validation.
+2. **마이그레이션/테스트**: Flyway + Testcontainers 를 처음부터(멀티 DS면 DS별 구성).
+3. **멀티 DS 구조**: 읽기/쓰기·멀티테넌트 → ① / 독립 DB → ② / 여러 DB 원자 커밋 → ③(Atomikos boot3 / Narayana).
+4. **가능하면 ①②로 해결**, XA는 최후. common-platform 관점에선 ①의 라우팅 메커니즘만 향후 optional 통합 후보(나머지는 서비스 레벨).
+
+---
+
+## 참고 자료
+
+- Creating Your Own Auto-configuration — Spring Boot Docs
+- Using Multiple Datasources with Spring Boot and Spring Data JPA — RedStack (2025)
+- Read-Write Database Splitting with Transactional Routing
+- Handling transactions across multiple data sources in Spring Boot — Atlantbh
+- Dynamic Data Source Routing using AbstractRoutingDataSource
+- Distributed Transactions with JTA — Spring Boot Reference
