@@ -24,15 +24,26 @@
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
+    <!-- common-platform BOM import → starter 버전을 "버전 없이" 참조(버전 단일 출처). -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ai.mutuus.common</groupId>
+                <artifactId>common-platform-bom</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-        <!-- 검증 대상: 공통 플랫폼 라이브러리 (의존성 하나, web/security starter 없음) -->
+        <!-- 비웹 소비 서비스: 큐레이션 스타터 1개(common-platform + JSON 로깅, web/security 제외).
+             web/security starter 를 담지 않으므로 해당 자동구성은 비전이·비활성 그대로다. 버전은 BOM 관리. -->
         <dependency>
             <groupId>ai.mutuus.common</groupId>
-            <artifactId>common-platform</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <artifactId>common-platform-starter-batch</artifactId>
         </dependency>
-
-        <!-- 비웹 서비스: web/security starter를 의존하지 않는다 → 해당 자동구성은 비활성 -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

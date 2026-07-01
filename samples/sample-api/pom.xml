@@ -24,46 +24,35 @@
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
+    <!--
+      common-platform BOM import → 자사 아티팩트/노출 optional 의존성(logstash·springdoc)을
+      "버전 없이" 추가할 수 있다(버전 단일 출처 · CVE 일괄 롤아웃).
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ai.mutuus.common</groupId>
+                <artifactId>common-platform-bom</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-        <!-- 검증 대상: 공통 플랫폼 라이브러리 (의존성 하나) -->
+        <!-- 웹 소비 서비스: 큐레이션 스타터 1개로 common-platform + 표준 웹 스택(web/security/
+             oauth2/actuator/validation/restclient/aspectj) + JSON 로깅(logstash) 전부 확보.
+             (이전엔 이 자리에 그 9개를 직접 나열했다.) 버전은 BOM 관리. -->
         <dependency>
             <groupId>ai.mutuus.common</groupId>
-            <artifactId>common-platform</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <artifactId>common-platform-starter-web</artifactId>
         </dependency>
 
-        <!-- 일반 API 서비스가 보유하는 starter들 → 라이브러리의 web/security/actuator 자동구성이 활성화됨 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- @Valid 검증(VALIDATION_ERROR 데모) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <!-- 아웃바운드 RestClient 자동구성(헤더 전파 Customizer 활성화 데모) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-restclient</artifactId>
-        </dependency>
-        <!-- OpenAPI 3.x(3.1) 스펙 자동 생성 + Swagger UI. v3.0.x 가 Spring Boot 4/Framework 7 지원. -->
+        <!-- OpenAPI 3.x(3.1) 스펙 + Swagger UI. 버전은 common-platform-bom 관리. -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>3.0.3</version>
         </dependency>
         <!-- 영속성(BaseEntity 감사 데모): JPA + H2 -->
         <dependency>
@@ -76,26 +65,13 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- 구조화 JSON 로깅: 라이브러리의 logback-common.xml 이 LogstashEncoder 를 쓴다.
-             라이브러리에선 optional 이라 전이되지 않으므로, JSON 로깅을 쓰는 소비자는 직접 추가한다. -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>8.0</version>
-            <scope>runtime</scope>
-        </dependency>
+        <!-- (구조화 JSON 로깅 logstash-logback-encoder, method-logging 용 spring-boot-starter-aspectj 는
+             이제 common-platform-starter-web 이 전이로 제공 → 여기서 직접 나열하지 않는다.) -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- 메서드 인자/리턴 로깅(method-logging, AOP)은 라이브러리에선 optional 이라 전이되지 않는다.
-             소비자가 켜려면 직접 추가해야 한다. 데모 앱(F5 local·ai) 구동 시에도 method.enter/exit 가
-             보이도록 compile 스코프로 둔다(테스트 classpath 에도 포함). Boot 4: -aop → -aspectj 개명. -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
         <!-- Boot 4: MockMvc 슬라이스 지원이 별도 모듈로 분리됨 (@AutoConfigureMockMvc 제공) -->
         <dependency>

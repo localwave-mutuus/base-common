@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/>
+    </parent>
+
+    <!--
+      비(非)웹 소비 서비스(배치 등)용 큐레이션 스타터 — 코드 없는 "의존성 취합 jar".
+      common-platform(core/config/i18n/async/persistence 등) + JSON 로깅(logstash)만 담고
+      web/security 는 담지 않는다 → 배치 서비스에 web/security 자동구성이 전이/활성화되지 않는다.
+    -->
+    <groupId>ai.mutuus.common</groupId>
+    <artifactId>common-platform-starter-batch</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>common-platform-starter-batch</name>
+    <description>비웹 소비 서비스용 스타터 — common-platform(core) + JSON 로깅(web/security 제외)</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <logstash-encoder.version>8.0</logstash-encoder.version>
+    </properties>
+
+    <dependencies>
+        <!-- 산출물 라이브러리(스타터와 동일 버전). web/security starter 는 넣지 않는다. -->
+        <dependency>
+            <groupId>ai.mutuus.common</groupId>
+            <artifactId>common-platform</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- 구조화 JSON 로깅(logback-common.xml 의 LogstashEncoder) -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-encoder.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>localwave</id>
+            <name>GitHub Packages - base-common</name>
+            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+        </repository>
+    </distributionManagement>
+</project>

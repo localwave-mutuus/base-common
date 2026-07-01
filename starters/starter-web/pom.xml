@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/>
+    </parent>
+
+    <!--
+      웹 소비 서비스용 큐레이션 스타터 — 코드 없는 "의존성 취합 jar".
+      이거 하나면 common-platform 의 web/security/observability/payload/method 로깅 자동구성이
+      모두 활성화되는 표준 웹 스택 + JSON 로깅(logstash)이 갖춰진다. 소비자가 어떤 starter 조합을
+      넣어야 하는지, logstash 를 빠뜨리면 기동 실패하는지 등을 몰라도 된다(온보딩 1줄).
+    -->
+    <groupId>ai.mutuus.common</groupId>
+    <artifactId>common-platform-starter-web</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>common-platform-starter-web</name>
+    <description>웹 소비 서비스용 스타터 — common-platform + 표준 웹 스택 + JSON 로깅</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <logstash-encoder.version>8.0</logstash-encoder.version>
+    </properties>
+
+    <dependencies>
+        <!-- 산출물 라이브러리(스타터와 동일 버전) -->
+        <dependency>
+            <groupId>ai.mutuus.common</groupId>
+            <artifactId>common-platform</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- 표준 웹 스택 → 라이브러리 web/security/observability 자동구성 트리거 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- 아웃바운드 RestClient 자동구성(헤더 전파 Customizer) — Boot 4 별도 모듈 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+        </dependency>
+        <!-- 메서드 인자/리턴 로깅(method-logging, AOP) 활성화용 — Boot 4: -aop → -aspectj -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
+        </dependency>
+
+        <!-- 구조화 JSON 로깅: 라이브러리 logback-common.xml 이 LogstashEncoder 를 쓴다.
+             빠뜨리면 기동 시 ClassNotFoundException → 스타터가 반드시 포함한다. -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-encoder.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 스타터는 코드 없는 의존성 취합 jar — 실행 jar 로 repackage 하지 않는다. -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>localwave</id>
+            <name>GitHub Packages - base-common</name>
+            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+        </repository>
+    </distributionManagement>
+</project>

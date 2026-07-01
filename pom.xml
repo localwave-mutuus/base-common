@@ -35,7 +35,12 @@
       samples 가 ai.mutuus.common:common-platform 을 의존하므로 lib 가 먼저 빌드된다.
     -->
     <modules>
+        <!-- 게시 대상: BOM + 라이브러리 + 큐레이션 스타터들 (dependency 순으로 정렬) -->
+        <module>bom</module>
         <module>lib</module>
+        <module>starters/starter-web</module>
+        <module>starters/starter-batch</module>
+        <!-- 소비 검증용 샘플(게시 제외) -->
         <module>samples/sample-api</module>
         <module>samples/sample-batch</module>
     </modules>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+      common-platform BOM — 자사 아티팩트(라이브러리 + 스타터들)와, 라이브러리가 노출하지만
+      Spring Boot BOM 이 관리하지 않는 optional 의존성(logstash·springdoc)의 버전을 한 곳에서 고정한다.
+      소비 서비스는 이 BOM 을 import 하면 그 의존성들을 "버전 없이" 추가할 수 있고, CVE/버전 상향도
+      BOM 한 곳만 올리면 모든 소비자가 다음 빌드에 물려받는다(버전 스큐 방지 · 일괄 롤아웃).
+
+      사용(소비자):
+        <dependencyManagement><dependencies>
+          <dependency>
+            <groupId>ai.mutuus.common</groupId><artifactId>common-platform-bom</artifactId>
+            <version>0.1.0-SNAPSHOT</version><type>pom</type><scope>import</scope>
+          </dependency>
+        </dependencies></dependencyManagement>
+    -->
+    <groupId>ai.mutuus.common</groupId>
+    <artifactId>common-platform-bom</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>common-platform-bom</name>
+    <description>common-platform 아티팩트 + 소비자가 흔히 추가하는 optional 의존성의 버전을 한 곳에서 관리하는 BOM</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 라이브러리가 노출하는 optional 의존성(Boot BOM 미관리분) -->
+        <logstash-encoder.version>8.0</logstash-encoder.version>
+        <springdoc.version>3.0.3</springdoc.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 자사 아티팩트 — 모두 이 BOM 과 같은 버전으로 정렬(${project.version}) -->
+            <dependency>
+                <groupId>ai.mutuus.common</groupId>
+                <artifactId>common-platform</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.mutuus.common</groupId>
+                <artifactId>common-platform-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.mutuus.common</groupId>
+                <artifactId>common-platform-starter-batch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 라이브러리가 노출하는 optional 3rd-party (소비자가 버전 없이 추가 가능) -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-encoder.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 게시 대상(lib 과 동일 저장소). ~/.m2/settings.xml 의 <server><id>localwave</id> 와 매칭. -->
+    <distributionManagement>
+        <repository>
+            <id>localwave</id>
+            <name>GitHub Packages - base-common</name>
+            <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+        </repository>
+    </distributionManagement>
+</project>
