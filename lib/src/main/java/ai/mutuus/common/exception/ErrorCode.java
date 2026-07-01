@@ -3,49 +3,30 @@ package ai.mutuus.common.exception;
 import org.springframework.http.HttpStatus;
 
 /**
- * 공통 에러 코드. enum 이름이 곧 안정적 오류 코드 문자열({@code code})이며,
- * {@code messageKey}는 common-i18n 메시지 번들 키와 매핑된다.
- * <p>다양한 API 오류 케이스를 망라한다 — 요청/검증, 인증·인가, 자원 상태, 트래픽,
- * 서버·외부 연동 장애.
+ * 표준 에러 코드 계약. 코드 문자열·HTTP 상태·i18n 메시지 키를 노출한다.
+ * <p>라이브러리 기본 코드는 {@link CommonErrorCode} 가 구현하고, <b>소비 서비스는 자체 enum 이
+ * 이 인터페이스를 구현</b>해 도메인 에러 코드를 추가할 수 있다. 그렇게 만든 코드는 같은 타입으로
+ * {@link BusinessException} 에 실려 {@code GlobalExceptionHandler} 가 라이브러리 코드와 <b>동일하게</b>
+ * 표준 {@code ApiResponse} 봉투로 변환한다(상태·코드·i18n 메시지·traceId).
+ * <pre>{@code
+ * public enum OrderErrorCode implements ErrorCode {
+ *     ALREADY_SHIPPED(HttpStatus.CONFLICT, "error.order.already.shipped");
+ *     private final HttpStatus status; private final String messageKey;
+ *     OrderErrorCode(HttpStatus s, String k) { this.status = s; this.messageKey = k; }
+ *     public String code() { return name(); }
+ *     public HttpStatus status() { return status; }
+ *     public String messageKey() { return messageKey; }
+ * }
+ * }</pre>
  */
-public enum ErrorCode {
+public interface ErrorCode {
 
-    // --- 4xx: 클라이언트 요청 문제 ---
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "error.invalid.request"),
-    VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "error.validation"),
-    MALFORMED_REQUEST(HttpStatus.BAD_REQUEST, "error.malformed"),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "error.unauthorized"),
-    FORBIDDEN(HttpStatus.FORBIDDEN, "error.forbidden"),
-    NOT_FOUND(HttpStatus.NOT_FOUND, "error.not.found"),
-    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "error.method.not.allowed"),
-    CONFLICT(HttpStatus.CONFLICT, "error.conflict"),
-    UNSUPPORTED_MEDIA_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "error.unsupported.media.type"),
-    TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, "error.too.many.requests"),
+    /** 안정적 오류 코드 문자열(클라이언트 분기/로깅에 사용). enum 이면 보통 {@code name()}. */
+    String code();
 
-    // --- 5xx: 서버·외부 연동 장애 ---
-    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error.internal"),
-    EXTERNAL_API_ERROR(HttpStatus.BAD_GATEWAY, "error.external.api"),
-    SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "error.service.unavailable"),
-    GATEWAY_TIMEOUT(HttpStatus.GATEWAY_TIMEOUT, "error.gateway.timeout");
+    /** 응답 HTTP 상태. */
+    HttpStatus status();
 
-    private final HttpStatus status;
-    private final String messageKey;
-
-    ErrorCode(HttpStatus status, String messageKey) {
-        this.status = status;
-        this.messageKey = messageKey;
-    }
-
-    public HttpStatus status() {
-        return status;
-    }
-
-    public String messageKey() {
-        return messageKey;
-    }
-
-    /** 안정적 오류 코드 문자열(= enum 이름). 클라이언트 분기/로깅에 사용. */
-    public String code() {
-        return name();
-    }
+    /** i18n 메시지 번들 키(소비자 커스텀 코드는 자신의 메시지 번들 키를 반환하면 된다). */
+    String messageKey();
 }

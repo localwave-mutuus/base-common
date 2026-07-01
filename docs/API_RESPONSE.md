@@ -53,7 +53,9 @@ public ApiResponse<OrderDto> get(@PathVariable Long id) {
 `GlobalExceptionHandler` 가 표준 봉투로 변환하고, 상태코드·메시지(i18n)·`fieldErrors` 를 채운다.
 
 ```java
-throw new BusinessException(ErrorCode.NOT_FOUND);
+throw new BusinessException(CommonErrorCode.NOT_FOUND);   // 라이브러리 기본 코드
+// 소비 서비스는 ErrorCode 인터페이스를 구현한 자체 코드도 던질 수 있다:
+// throw new BusinessException(OrderErrorCode.ALREADY_SHIPPED);
 ```
 
 ```jsonc
@@ -76,8 +78,7 @@ throw new BusinessException(ErrorCode.NOT_FOUND);
 
 ## 4. ErrorCode 카탈로그
 
-`code` 는 `ErrorCode` enum 이름과 동일하다(`ErrorCode.code()`). 메시지는
-`messages/messages*.properties` 의 `messageKey` 로 로케일별 변환된다(`X-Locale` 헤더).
+라이브러리 기본 코드는 **`CommonErrorCode` enum**(= `ErrorCode` 인터페이스 구현)이며, `code` 는 그 이름과 동일하다(`ErrorCode.code()`). 메시지는 `messages/messages*.properties` 의 `messageKey` 로 로케일별 변환된다(`X-Locale` 헤더).
 
 | code | HTTP | messageKey |
 |------|------|-----------|
@@ -96,8 +97,9 @@ throw new BusinessException(ErrorCode.NOT_FOUND);
 | `SERVICE_UNAVAILABLE` | 503 | `error.service.unavailable` |
 | `GATEWAY_TIMEOUT` | 504 | `error.gateway.timeout` |
 
-> **새 도메인 에러를 추가할 때**: `ErrorCode` enum 항목 추가 + `messages*.properties`(기본/`_ko`/`_en`)에
-> 해당 `messageKey` 추가가 한 세트다.
+> **새 에러 코드 추가**:
+> - 라이브러리 공통 코드 → `CommonErrorCode` enum 항목 + `messages*.properties`(기본/`_ko`/`_en`) `messageKey`.
+> - **소비 서비스 도메인 코드** → `ErrorCode` 인터페이스를 구현한 자체 enum(예: `SampleErrorCode`) + 자체 messages 번들(`spring.messages.basename` 에 추가). **라이브러리 수정 불필요.**
 
 ## 5. 추적/로깅 연계
 

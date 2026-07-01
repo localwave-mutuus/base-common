@@ -1,6 +1,10 @@
 spring:
   application:
     name: sample-api
+  messages:
+    # 라이브러리 번들(messages/messages) + 소비자 자체 번들(messages/sample-messages) 함께 로드.
+    # 소비자 커스텀 ErrorCode(SampleErrorCode)의 메시지 키가 sample-messages 에서 해석된다.
+    basename: messages/messages,messages/sample-messages
   security:
     oauth2:
       resourceserver:

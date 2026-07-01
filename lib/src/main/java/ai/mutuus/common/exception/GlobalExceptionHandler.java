@@ -51,40 +51,40 @@ public class GlobalExceptionHandler {
         List<ApiError.FieldError> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(fe -> new ApiError.FieldError(fe.getField(), fe.getDefaultMessage()))
                 .toList();
-        return clientError(ErrorCode.VALIDATION_ERROR,
-                messages.get(ErrorCode.VALIDATION_ERROR.messageKey()), fieldErrors, request);
+        return clientError(CommonErrorCode.VALIDATION_ERROR,
+                messages.get(CommonErrorCode.VALIDATION_ERROR.messageKey()), fieldErrors, request);
     }
 
     /** 허용되지 않은 HTTP 메서드. */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiResponse<Void>> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex,
                                                                     HttpServletRequest request) {
-        return clientError(ErrorCode.METHOD_NOT_ALLOWED,
-                messages.get(ErrorCode.METHOD_NOT_ALLOWED.messageKey()), List.of(), request);
+        return clientError(CommonErrorCode.METHOD_NOT_ALLOWED,
+                messages.get(CommonErrorCode.METHOD_NOT_ALLOWED.messageKey()), List.of(), request);
     }
 
     /** 지원하지 않는 미디어 타입. */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<ApiResponse<Void>> handleMediaType(HttpMediaTypeNotSupportedException ex,
                                                              HttpServletRequest request) {
-        return clientError(ErrorCode.UNSUPPORTED_MEDIA_TYPE,
-                messages.get(ErrorCode.UNSUPPORTED_MEDIA_TYPE.messageKey()), List.of(), request);
+        return clientError(CommonErrorCode.UNSUPPORTED_MEDIA_TYPE,
+                messages.get(CommonErrorCode.UNSUPPORTED_MEDIA_TYPE.messageKey()), List.of(), request);
     }
 
     /** 매핑되지 않은 경로/정적 리소스 없음. */
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFound(NoResourceFoundException ex,
                                                             HttpServletRequest request) {
-        return clientError(ErrorCode.NOT_FOUND,
-                messages.get(ErrorCode.NOT_FOUND.messageKey()), List.of(), request);
+        return clientError(CommonErrorCode.NOT_FOUND,
+                messages.get(CommonErrorCode.NOT_FOUND.messageKey()), List.of(), request);
     }
 
     /** 잘못된 포맷으로 들어온 요청 본문(파싱 불가 JSON 등) → 400 MALFORMED. */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<Void>> handleMalformed(HttpMessageNotReadableException ex,
                                                              HttpServletRequest request) {
-        return clientError(ErrorCode.MALFORMED_REQUEST,
-                messages.get(ErrorCode.MALFORMED_REQUEST.messageKey()), List.of(), request);
+        return clientError(CommonErrorCode.MALFORMED_REQUEST,
+                messages.get(CommonErrorCode.MALFORMED_REQUEST.messageKey()), List.of(), request);
     }
 
     /**
@@ -96,7 +96,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleNetwork(ResourceAccessException ex,
                                                            HttpServletRequest request) {
         ErrorCode code = (ex.getCause() instanceof SocketTimeoutException)
-                ? ErrorCode.GATEWAY_TIMEOUT : ErrorCode.EXTERNAL_API_ERROR;
+                ? CommonErrorCode.GATEWAY_TIMEOUT : CommonErrorCode.EXTERNAL_API_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
         String detail = messages.get(code.messageKey());
         ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
     /** 그 외 처리되지 않은 모든 예외 → 500. 스택을 포함해 ERROR 로깅. */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex, HttpServletRequest request) {
-        ErrorCode code = ErrorCode.INTERNAL_ERROR;
+        ErrorCode code = CommonErrorCode.INTERNAL_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
         String detail = messages.get(code.messageKey());
         ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());

@@ -13,7 +13,7 @@ import java.util.Set;
 import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.exception.BusinessException;
-import ai.mutuus.common.exception.ErrorCode;
+import ai.mutuus.common.exception.CommonErrorCode;
 import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.sample.persistence.SampleNote;
 import ai.mutuus.sample.persistence.SampleNoteRepository;
@@ -124,6 +124,9 @@ public class DemoCaseController {
                 new DemoCase("error-network", "표준 예외 - 네트워크(502)", "GET", "/demo/error/network", null,
                         "해석 불가 호스트로 아웃바운드 호출 → ResourceAccessException → 502 EXTERNAL_API_ERROR(타임아웃은 504). (기대 502)",
                         "ai.mutuus.common.exception.GlobalExceptionHandler#handleNetwork", 502, null),
+                new DemoCase("error-custom", "표준 예외 - 소비자 커스텀 코드(409)", "GET", "/demo/error/custom", null,
+                        "소비자가 ErrorCode 인터페이스를 구현한 SampleErrorCode.ORDER_ALREADY_SHIPPED 를 던짐 → 라이브러리가 CommonErrorCode 와 동일 봉투로 409 처리(code=ORDER_ALREADY_SHIPPED, i18n 메시지는 소비자 번들). X-Locale: en 으로 바꿔 비교. (기대 409)",
+                        "ai.mutuus.sample.demo.SampleErrorCode", 409, null),
                 new DemoCase("params-query", "입력 파라미터 - 쿼리(단일 q + 배열 ids)", "GET",
                         "/demo/params/query?q=hello&ids=a&ids=b", null,
                         "단일 q + 배열 ids 를 쿼리로 전달. 로그의 request.received httpQuery, method.enter args=[hello, [a, b]] 확인. OpenAPI: query parameter(배열=style form).",
@@ -173,7 +176,7 @@ public class DemoCaseController {
 
     @GetMapping("/error/business")
     public ApiResponse<Void> errorBusiness() {
-        throw new BusinessException(ErrorCode.NOT_FOUND);
+        throw new BusinessException(CommonErrorCode.NOT_FOUND);
     }
 
     @GetMapping("/error/server")
@@ -192,7 +195,7 @@ public class DemoCaseController {
 
     @GetMapping("/i18n")
     public ApiResponse<Map<String, Object>> i18n() {
-        String code = ErrorCode.NOT_FOUND.messageKey();
+        String code = CommonErrorCode.NOT_FOUND.messageKey();
         return ApiResponse.ok(Map.of(
                 "code", code,
                 "current", messages.get(code),
@@ -295,6 +298,17 @@ public class DemoCaseController {
                 .retrieve()
                 .body(String.class);
         return ApiResponse.ok(null);
+    }
+
+    // ---------------------------------------------------------------------
+    // 케이스: 소비자 커스텀 에러 코드 — SampleErrorCode(ErrorCode 인터페이스 구현)를
+    // BusinessException 에 실어 던지면, 라이브러리 GlobalExceptionHandler 가 공통 코드와 동일하게 처리.
+    // ---------------------------------------------------------------------
+
+    @GetMapping("/error/custom")
+    public ApiResponse<Void> errorCustom() {
+        // 라이브러리 CommonErrorCode 가 아니라 소비자가 정의한 도메인 코드를 던진다(409 CONFLICT).
+        throw new BusinessException(SampleErrorCode.ORDER_ALREADY_SHIPPED);
     }
 
     // ---------------------------------------------------------------------

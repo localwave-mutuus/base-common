@@ -34,7 +34,7 @@ class GlobalExceptionHandlerTest {
         TraceContext.put(HeaderNames.TRACE_ID, "t-1");
 
         ResponseEntity<ApiResponse<Void>> resp = handler.handleBusiness(
-                new BusinessException(ErrorCode.NOT_FOUND), new MockHttpServletRequest("GET", "/api/orders/9"));
+                new BusinessException(CommonErrorCode.NOT_FOUND), new MockHttpServletRequest("GET", "/api/orders/9"));
 
         assertThat(resp.getStatusCode().value()).isEqualTo(HttpStatus.NOT_FOUND.value());
         ApiResponse<Void> body = resp.getBody();

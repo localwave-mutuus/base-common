@@ -84,7 +84,7 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 ### 5. 표준 예외 응답
 
-`GlobalExceptionHandler`(`@RestControllerAdvice`)가 모든 예외를 **RFC7807 `ProblemDetail`**로 변환한다. `BusinessException`은 `ErrorCode`(enum: status + i18n messageKey)를 들고 다니며, 응답 메시지는 `MessageResolver`(i18n)로 로케일별 변환, `traceId`/`screenId`/`timestamp`를 부가 프로퍼티로 첨부한다. **새 도메인 에러는 `ErrorCode` enum에 항목 추가 + `messages*.properties`에 해당 키 추가**가 한 세트다.
+`GlobalExceptionHandler`(`@RestControllerAdvice`)가 모든 예외를 표준 `ApiResponse` 봉투로 변환한다. `BusinessException`은 **`ErrorCode` 인터페이스**(`code`/`status`/`messageKey`)를 들고 다닌다 — 라이브러리 기본 코드는 **`CommonErrorCode` enum**이 구현하고, **소비 서비스는 `ErrorCode`를 구현한 자체 enum으로 도메인 코드를 추가**할 수 있다(라이브러리를 안 건드리고 동일 봉투/흐름으로 처리 — 회귀 가드 `samples/sample-api/CustomErrorCodeIntegrationTest`, 소비자 예 `ai.mutuus.sample.demo.SampleErrorCode`). 응답 메시지는 `MessageResolver`(i18n)로 로케일별 변환, `traceId`/`screenId`/`timestamp`를 부가 프로퍼티로 첨부한다. **라이브러리 에러 추가 = `CommonErrorCode` 항목 + `messages*.properties` 키**, **소비자 에러 추가 = 자체 `ErrorCode` 구현 enum + 자체 messages 번들**(`spring.messages.basename` 확장)이 한 세트다.
 
 ### 6. 보안 (인증 위임 모델)
 

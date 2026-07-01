@@ -5,7 +5,7 @@ import java.util.Map;
 import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.exception.BusinessException;
-import ai.mutuus.common.exception.ErrorCode;
+import ai.mutuus.common.exception.CommonErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -33,7 +33,7 @@ public class DemoController {
     /** 전역 예외 처리(ApiResponse 오류 봉투) + i18n 메시지 확인. */
     @GetMapping("/public/boom")
     public ApiResponse<Void> boom() {
-        throw new BusinessException(ErrorCode.NOT_FOUND);
+        throw new BusinessException(CommonErrorCode.NOT_FOUND);
     }
 
     /** @Valid 검증 실패 → VALIDATION_ERROR + fieldErrors 확인. */
