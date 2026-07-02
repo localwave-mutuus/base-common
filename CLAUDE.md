@@ -169,6 +169,16 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **브로커 확장점**: 외부 브로커(Kafka/Rabbit 등)로 내보내려면 **소비 서비스가 `EventPublisher`를 구현한 빈으로 대체**한다(`@ConditionalOnMissingBean`) — 봉투 규약은 그대로 유지. 라이브러리는 코어(봉투+in-process 발행)만 제공하고, **브로커별 어댑터는 인프라 선택이 확정되면 얹는다**(현재 보류).
 - 토글: `mutuus.common.event.enabled=false`. 회귀 가드: `DomainEventTest`(봉투 TraceContext 자동주입, 단위) + `EventPublishingIntegrationTest`(발행→in-process 리스너 수신) + 데모 `samples/sample-api/.../DemoEventRecorder`(`/demo/event`).
 
+### 13. 읽기/쓰기 라우팅 (datasource 패키지, optional·opt-in)
+
+DB 읽기/쓰기 분리(Primary/Replica)·멀티테넌트에서 쓰는 **라우팅 "메커니즘"만** 제공하는 optional 통합이다(정책=어느 DB·토폴로지·풀 사이징은 서비스 몫). DB 계층 가이드([260702.002.DB_LAYER_GUIDE.md](docs/260702.002.DB_LAYER_GUIDE.md)) 3~4장의 ① 구조를 라이브러리로 승격한 것 — ②(DS별 TxManager)·③(JTA/XA)는 도메인·정책 종속이라 수용하지 않는다(서비스 레벨).
+
+`CommonDataSourceRoutingAutoConfiguration`(`@ConditionalOnClass(AbstractRoutingDataSource)` + `@ConditionalOnProperty(mutuus.common.datasource.routing.enabled=true)`, **기본 OFF**, `beforeName` Boot `DataSourceAutoConfiguration`)이 소비 서비스가 제공한 `@Qualifier("writeDataSource")`/`@Qualifier("readDataSource")` 두 DataSource 를 `ReadWriteRoutingDataSource` 로 묶고 **필수인 `LazyConnectionDataSourceProxy` 래핑**까지 대신 해 `@Primary` DataSource 로 노출한다.
+
+- **라우팅 판별(AOP 불필요)**: 커넥션을 실제로 얻는 시점에 `determineCurrentLookupKey()` 가 (1) `RoutingContext`(ThreadLocal) 명시 지정이 있으면 그 값, (2) 없으면 `TransactionSynchronizationManager.isCurrentTransactionReadOnly()` — `@Transactional(readOnly=true)`→READ, 그 외 WRITE. **`LazyConnectionDataSourceProxy` 가 필수**인 이유: 트랜잭션이 열려 readOnly 플래그가 설정된 *이후*로 커넥션 획득을 지연시켜야 이 판별이 정확하다(프록시 없으면 트랜잭션 시작 시점에 커넥션이 먼저 붙어 라우팅 무력화 — 가이드 6장 대표 버그).
+- **정리 규율**: `RoutingContext.set()` 로 명시 지정했으면 `finally` 에서 `clear()`(ThreadLocal 누수 방지 — `TraceContext` 와 동일).
+- 소비자가 자체 `@Primary` DataSource(`dataSource` 빈)를 정의하면 `@ConditionalOnMissingBean` 으로 비켜선다. 회귀 가드: `CommonDataSourceRoutingAutoConfigurationTest`(ApplicationContextRunner — readOnly→READ / 쓰기→WRITE / 명시 override / OFF 시 미등록) + 데모 `/demo/db/routing`. **DB 계층 3구조(①②③) 실증 데모**는 `samples/sample-api/.../DbDemoSupport`(`/demo/db/{routing,multitx,xa,guide}`) — ①은 이 라이브러리 메커니즘, ②③은 서비스 레벨(Atomikos) 프로그램적 시연(앱 기본 DataSource 와 분리).
+
 ## 작업 시 규칙
 
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.

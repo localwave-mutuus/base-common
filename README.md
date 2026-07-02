@@ -42,6 +42,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 | `idempotency` | 멱등성(`Idempotency-Key`) 필터(opt-in) — 중복 요청 첫 응답 재방 | 멱등 처리 |
 | `cache` | 캐시 추상화(`@EnableCaching` + Redis `CacheManager` 컨벤션, opt-in) | 캐시 표준화 |
 | `event` | 도메인 이벤트 봉투(`DomainEvent`) + 발행자 컨벤션(broker-agnostic) | 이벤트/메시징 |
+| `datasource` | 읽기/쓰기 라우팅 메커니즘(opt-in) — `@Transactional(readOnly)` 기반 Primary/Replica 분리 | DB 라우팅 → [260702.002.DB_LAYER_GUIDE.md](docs/260702.002.DB_LAYER_GUIDE.md) |
 
 ## 설계 원칙: optional 의존성 + 조건부 자동구성
 
