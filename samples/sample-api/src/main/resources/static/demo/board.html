@@ -65,12 +65,29 @@
   <div class="pager" id="pager"></div>
 </div>
 
-<!-- 상세 -->
+<!-- 상세 + 좋아요 + 댓글 -->
 <dialog id="viewDlg">
   <div class="dlg-h"><span id="v_title"></span><button onclick="viewDlg.close()">✕</button></div>
   <div class="dlg-b">
     <div class="muted"><span id="v_meta"></span></div>
-    <div id="v_content" style="white-space:pre-wrap; line-height:1.5"></div>
+    <div id="v_content" style="white-space:pre-wrap; line-height:1.5; padding-bottom:8px; border-bottom:1px solid var(--line)"></div>
+
+    <div class="row" style="align-items:center">
+      <span class="muted">나:</span>
+      <input id="me" class="md" placeholder="내 이름" value="alice" style="width:120px"/>
+      <button class="pri" onclick="like()">👍 좋아요 <span id="v_likes">0</span></button>
+      <span class="muted">— 댓글은 좋아요를 눌러야 작성 가능(비즈니스 규칙)</span>
+    </div>
+
+    <div style="margin-top:4px">
+      <div class="muted" style="margin-bottom:4px">댓글 <span id="c_count">0</span></div>
+      <div id="c_list" style="display:grid; gap:6px; max-height:180px; overflow:auto"></div>
+      <div class="row" style="margin-top:8px">
+        <input id="c_input" placeholder="댓글 입력" style="flex:1"/>
+        <button onclick="addComment()">등록</button>
+      </div>
+      <div class="field-err" id="c_err"></div>
+    </div>
   </div>
   <div class="dlg-f">
     <button onclick="openEdit()">수정</button>
@@ -143,7 +160,37 @@
     document.getElementById('v_title').textContent = current.title;
     document.getElementById('v_meta').textContent = `#${current.id} · ${current.author} · ${fmt(current.createdAt)} · via ${current.tech}`;
     document.getElementById('v_content').textContent = current.content;
+    document.getElementById('c_err').textContent = '';
+    document.getElementById('c_input').value = '';
+    document.getElementById('v_likes').textContent = '0';   // 좋아요 클릭 시 갱신
+    await loadComments();
     viewDlg.showModal();
+  }
+
+  async function loadComments(){
+    const res = await fetch(`${base()}/${current.id}/comments`);
+    const list = (await res.json()).data || [];
+    document.getElementById('c_count').textContent = list.length;
+    document.getElementById('c_list').innerHTML = list.length
+      ? list.map(c => `<div style="font-size:13px"><b>${esc(c.author)}</b> <span class="muted">${fmt(c.createdAt)}</span><br>${esc(c.content)}</div>`).join('')
+      : `<div class="muted" style="font-size:12px">댓글이 없습니다.</div>`;
+  }
+
+  async function like(){
+    const author = v('me').trim(); if(!author){ alert('내 이름을 입력하세요'); return; }
+    const res = await fetch(`${base()}/${current.id}/likes`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({author}) });
+    const json = await res.json();
+    if (res.ok) document.getElementById('v_likes').textContent = json.data.likeCount;
+    else alert(json.message || ('오류 HTTP '+res.status));
+  }
+
+  async function addComment(){
+    document.getElementById('c_err').textContent = '';
+    const author = v('me').trim(), content = v('c_input').trim();
+    const res = await fetch(`${base()}/${current.id}/comments`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({author, content}) });
+    const json = await res.json();
+    if (res.ok) { document.getElementById('c_input').value=''; loadComments(); }
+    else document.getElementById('c_err').textContent = json.message || ('오류 HTTP '+res.status);   // 좋아요 미선행이면 422 메시지
   }
 
   function openWrite(){ editId=null; setForm('글쓰기','',''); formDlg.showModal(); }

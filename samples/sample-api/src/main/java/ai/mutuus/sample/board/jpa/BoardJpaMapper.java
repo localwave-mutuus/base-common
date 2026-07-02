@@ -2,6 +2,7 @@ package ai.mutuus.sample.board.jpa;
 
 import ai.mutuus.sample.board.dto.BoardPostRequest;
 import ai.mutuus.sample.board.dto.BoardPostResponse;
+import ai.mutuus.sample.board.dto.CommentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,4 +17,6 @@ public interface BoardJpaMapper {
     BoardPost toEntity(BoardPostRequest req);
 
     BoardPostResponse toResponse(BoardPost entity, String tech);
+
+    CommentResponse toCommentResponse(BoardComment comment);
 }

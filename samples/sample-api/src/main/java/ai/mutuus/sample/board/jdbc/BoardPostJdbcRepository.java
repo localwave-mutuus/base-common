@@ -28,4 +28,10 @@ public interface BoardPostJdbcRepository extends ListCrudRepository<BoardPostJdb
                or lower(author) like lower('%' || :kw || '%')
             """)
     long countSearch(@Param("kw") String kw);
+
+    @Query("select count(*) > 0 from board_post where author = :author and title = :title")
+    boolean existsByAuthorAndTitle(@Param("author") String author, @Param("title") String title);
+
+    @Query("select count(*) > 0 from board_post where author = :author and title = :title and id <> :id")
+    boolean existsByAuthorAndTitleExcept(@Param("author") String author, @Param("title") String title, @Param("id") long id);
 }

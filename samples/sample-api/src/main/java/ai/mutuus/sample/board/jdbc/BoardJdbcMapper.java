@@ -2,6 +2,7 @@ package ai.mutuus.sample.board.jdbc;
 
 import ai.mutuus.sample.board.dto.BoardPostRequest;
 import ai.mutuus.sample.board.dto.BoardPostResponse;
+import ai.mutuus.sample.board.dto.CommentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,4 +15,6 @@ public interface BoardJdbcMapper {
     BoardPostJdbc toEntity(BoardPostRequest req);
 
     BoardPostResponse toResponse(BoardPostJdbc entity, String tech);
+
+    CommentResponse toCommentResponse(BoardCommentJdbc comment);
 }

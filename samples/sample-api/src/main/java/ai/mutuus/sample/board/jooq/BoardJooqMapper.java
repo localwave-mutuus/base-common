@@ -1,6 +1,7 @@
 package ai.mutuus.sample.board.jooq;
 
 import ai.mutuus.sample.board.dto.BoardPostResponse;
+import ai.mutuus.sample.board.dto.CommentResponse;
 import org.mapstruct.Mapper;
 
 /** jOOQ 행(POJO) → DTO 매핑(MapStruct). */
@@ -8,4 +9,6 @@ import org.mapstruct.Mapper;
 public interface BoardJooqMapper {
 
     BoardPostResponse toResponse(BoardPostRow row, String tech);
+
+    CommentResponse toCommentResponse(CommentRow row);
 }

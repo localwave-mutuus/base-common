@@ -20,4 +20,10 @@ public interface BoardPostJpaRepository extends JpaRepository<BoardPost, Long> {
                or lower(b.author) like lower(concat('%', :kw, '%'))
             """)
     Page<BoardPost> search(@Param("kw") String kw, Pageable pageable);
+
+    /** 중복 제목 사전검증(같은 작성자+제목). */
+    boolean existsByAuthorAndTitle(String author, String title);
+
+    /** 수정 시 자기 자신 제외 중복 검사. */
+    boolean existsByAuthorAndTitleAndIdNot(String author, String title, Long id);
 }
