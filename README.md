@@ -24,14 +24,14 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 |--------|------|----------|
 | `core` | 공통 상수(헤더), 추적 컨텍스트, ID 생성기, 기본 유틸, 민감정보 마스킹(`SensitiveDataMasker`) | 글로벌 UUID, 기본 유틸, 로그 PII 마스킹 |
 | `config` | 부팅 전 설정 주입(`EnvironmentPostProcessor`), 프로퍼티 | 프로퍼티 로딩, Boot 로딩 전 설정 주입 |
-| `api` | 표준 응답 봉투 `ApiResponse`/`ApiError`, 페이징 응답 `PageResponse` | 응답 표준화 → [API_RESPONSE.md](docs/API_RESPONSE.md) |
+| `api` | 표준 응답 봉투 `ApiResponse`/`ApiError`, 페이징 응답 `PageResponse` | 응답 표준화 → [260629.002.API_RESPONSE.md](docs/260629.002.API_RESPONSE.md) |
 | `exception` | 표준 `ApiResponse` 봉투 전역 예외 처리(+ i18n·추적ID), `ErrorCode` 인터페이스(소비자 확장) | 응답/오류 표준화 |
 | `response` | 성공 응답 자동 래핑(`ResponseBodyAdvice`, opt-in) — 평범한 반환을 표준 봉투로 | 응답 표준화(무코드) |
 | `i18n` | MessageSource 기반 다국어 | 다국어 |
-| `logging` | API 생명주기 구조화 JSON 로깅(`AccessLogger`) | logging → [LOG_FORMAT.md](docs/LOG_FORMAT.md) |
-| `payload` | 요청/응답 **본문** 로깅(opt-in) | 본문 관측 → [PAYLOAD_LOGGING.md](docs/PAYLOAD_LOGGING.md) |
-| `intercept` | 컨트롤러 **진입** 인터셉트 로깅(opt-in, 인자 역직렬화 전) | 진입 관측 → [CONTROLLER_ENTRY.md](docs/CONTROLLER_ENTRY.md) |
-| `aop` | 컨트롤러 메서드 **인자/리턴** 로깅(AOP, opt-in, 역직렬화 후) | 메서드 관측 → [METHOD_LOGGING.md](docs/METHOD_LOGGING.md) |
+| `logging` | API 생명주기 구조화 JSON 로깅(`AccessLogger`) | logging → [260629.001.LOG_FORMAT.md](docs/260629.001.LOG_FORMAT.md) |
+| `payload` | 요청/응답 **본문** 로깅(opt-in) | 본문 관측 → [260701.002.PAYLOAD_LOGGING.md](docs/260701.002.PAYLOAD_LOGGING.md) |
+| `intercept` | 컨트롤러 **진입** 인터셉트 로깅(opt-in, 인자 역직렬화 전) | 진입 관측 → [260701.001.CONTROLLER_ENTRY.md](docs/260701.001.CONTROLLER_ENTRY.md) |
+| `aop` | 컨트롤러 메서드 **인자/리턴** 로깅(AOP, opt-in, 역직렬화 후) | 메서드 관측 → [260701.005.METHOD_LOGGING.md](docs/260701.005.METHOD_LOGGING.md) |
 | `observability` | Micrometer/OTel 추적, 공통 `service.name` 태그, Modulith 관측 | telemetry |
 | `openapi` | 공통 OpenAPI 설정(springdoc, opt-in) — info + Bearer JWT 보안스킴 | API 문서 표준화 |
 | `web` | e2e 추적 필터, MDC 적재, API 간 헤더 자동 전파, 로케일, HTTP 클라 타임아웃/재시도 | e2e 정보계층, 헤더 자동추가 |
@@ -182,7 +182,7 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 ```bash
 # 테스트 후 배포(한 방): deployAtEnd 라 리액터 전체(샘플 테스트) 성공 후에만 게시 모듈
 # (parent·bom·lib·starters) 일괄 업로드. samples·aggregator 는 deploy.skip.
-# Nexus self-signed 라 MAVEN_OPTS 로 truststore 지정 필요(자세히: docs/HANDOFF.md).
+# Nexus self-signed 라 MAVEN_OPTS 로 truststore 지정 필요(자세히: docs/260701.003.HANDOFF.md).
 ./mvnw -q clean deploy
 ```
 

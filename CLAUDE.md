@@ -113,11 +113,11 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 `AccessLogger` 빈은 항상 제공(보안/예외 모듈이 `ObjectProvider`로 주입, 없으면 무동작 폴백)하고, 요청/응답 필터는 웹 환경에서만 등록한다. 토글·튜닝은 `mutuus.common.logging.*`(`enabled`, `include-query-string`, `exclude-path-prefixes`(기본 `/actuator`), `slow-request-threshold-millis`). 본문(body) 로깅은 PII·비용 문제로 기본 미포함. 회귀 가드: `samples/sample-api/AccessLoggingIntegrationTest`.
 
 **추가 3계층(모두 기본 OFF, opt-in)** — 액세스 로깅이 못 보는 "컨트롤러 안쪽"을 점점 더 깊이 관측한다. 계층별 위치·이벤트·의존성:
-- **입출력 본문(`payload` 패키지, 로거 `ai.mutuus.common.payload`)**: `PayloadLoggingFilter`(order `HIGHEST_PRECEDENCE+20`, AccessLogFilter 바로 안쪽)가 요청/응답 본문을 캐싱해 `request.payload`/`response.payload` 기록. 진입/종료 출력은 각각 `RequestPayloadLogger`/`ResponsePayloadLogger` 빈(교체 가능). 토글 `mutuus.common.payload-logging.*`. 문서 [PAYLOAD_LOGGING.md](docs/PAYLOAD_LOGGING.md).
-- **컨트롤러 진입(`intercept` 패키지, 로거 `ai.mutuus.common.controller`)**: `ControllerEntryInterceptor`(MVC `preHandle`, 인자 역직렬화 **전**)가 명칭/패키지/URL 로 타게팅한 메서드 진입 시 `controller.entry` 기록. 판별(`ControllerMethodMatcher`)·동작(`ControllerEntryHandler`) 분리. 토글 `mutuus.common.controller-entry.*`. 문서 [CONTROLLER_ENTRY.md](docs/CONTROLLER_ENTRY.md).
-- **메서드 인자/리턴(`aop` 패키지, 로거 `ai.mutuus.common.method`)**: `ControllerMethodLoggingAspect`(`@Around @within(@RestController)`, 인자 역직렬화 **후**)가 `method.enter`(인자 객체)/`method.exit`(리턴 객체) 기록. 출력은 `MethodLoggingWriter` 빈(교체 가능). **AOP라 소비자가 `spring-boot-starter-aspectj`(Boot 4에서 `-aop`→`-aspectj` 개명)를 추가해야만 활성**(`@ConditionalOnClass(ProceedingJoinPoint)`). 토글 `mutuus.common.method-logging.*`. 문서 [METHOD_LOGGING.md](docs/METHOD_LOGGING.md).
+- **입출력 본문(`payload` 패키지, 로거 `ai.mutuus.common.payload`)**: `PayloadLoggingFilter`(order `HIGHEST_PRECEDENCE+20`, AccessLogFilter 바로 안쪽)가 요청/응답 본문을 캐싱해 `request.payload`/`response.payload` 기록. 진입/종료 출력은 각각 `RequestPayloadLogger`/`ResponsePayloadLogger` 빈(교체 가능). 토글 `mutuus.common.payload-logging.*`. 문서 [260701.002.PAYLOAD_LOGGING.md](docs/260701.002.PAYLOAD_LOGGING.md).
+- **컨트롤러 진입(`intercept` 패키지, 로거 `ai.mutuus.common.controller`)**: `ControllerEntryInterceptor`(MVC `preHandle`, 인자 역직렬화 **전**)가 명칭/패키지/URL 로 타게팅한 메서드 진입 시 `controller.entry` 기록. 판별(`ControllerMethodMatcher`)·동작(`ControllerEntryHandler`) 분리. 토글 `mutuus.common.controller-entry.*`. 문서 [260701.001.CONTROLLER_ENTRY.md](docs/260701.001.CONTROLLER_ENTRY.md).
+- **메서드 인자/리턴(`aop` 패키지, 로거 `ai.mutuus.common.method`)**: `ControllerMethodLoggingAspect`(`@Around @within(@RestController)`, 인자 역직렬화 **후**)가 `method.enter`(인자 객체)/`method.exit`(리턴 객체) 기록. 출력은 `MethodLoggingWriter` 빈(교체 가능). **AOP라 소비자가 `spring-boot-starter-aspectj`(Boot 4에서 `-aop`→`-aspectj` 개명)를 추가해야만 활성**(`@ConditionalOnClass(ProceedingJoinPoint)`). 토글 `mutuus.common.method-logging.*`. 문서 [260701.005.METHOD_LOGGING.md](docs/260701.005.METHOD_LOGGING.md).
 
-> 세 "진입" 관측의 깊이 차이가 핵심: 필터=바이트 본문 / 인터셉터=메서드 식별(인자 결정 전) / AOP=역직렬화된 값(인자 결정 후). 그래서 @Valid·JSON 파싱 실패는 `controller.entry`까지만 남고 `method.enter`는 안 남는다. **요청 유입 시 전체 로깅 구간의 케이스별 실측 순서**는 [LOGGING_CASES.md](docs/LOGGING_CASES.md)(회귀 가드 `PayloadAndEntryLoggingIntegrationTest` + `LoggingCaseMatrixIntegrationTest`).
+> 세 "진입" 관측의 깊이 차이가 핵심: 필터=바이트 본문 / 인터셉터=메서드 식별(인자 결정 전) / AOP=역직렬화된 값(인자 결정 후). 그래서 @Valid·JSON 파싱 실패는 `controller.entry`까지만 남고 `method.enter`는 안 남는다. **요청 유입 시 전체 로깅 구간의 케이스별 실측 순서**는 [260701.004.LOGGING_CASES.md](docs/260701.004.LOGGING_CASES.md)(회귀 가드 `PayloadAndEntryLoggingIntegrationTest` + `LoggingCaseMatrixIntegrationTest`).
 
 **로그 민감정보 마스킹(opt-in, `mutuus.common.logging.masking.enabled=true`)**: `SensitiveDataMasker`(`core`, 정규식 매칭부를 마지막 4자만 남기고 마스킹)가 payload(`requestBody`/`responseBody`)·method(`args`/`return`) 로그에 남기 전에 카드번호·주민등록번호 등 PII 를 가린다. 기본 패턴(카드 13~16자리·주민번호)은 `CommonMaskingAutoConfiguration` 제공, 추가 패턴은 `mutuus.common.logging.masking.patterns`. **마스킹은 로깅 한정** — 실제 응답 본문은 원문 그대로다(마스킹 대상은 로그뿐). 기본 OFF, 소비자 자체 `SensitiveDataMasker` 빈으로 대체 가능. 회귀 가드 `SensitiveDataMaskerTest`·`MaskingIntegrationTest`.
 
@@ -148,7 +148,7 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **동작 조건**: 요청 메서드가 대상 목록(`mutuus.common.idempotency.methods`, 기본 POST/PUT/PATCH)에 있고 **`Idempotency-Key` 헤더가 있을 때만** 개입한다 — 그 외에는 무개입 통과(GET·헤더 없는 요청은 영향 없음).
 - **흐름**: 첫 요청은 `store.reserve`로 in-progress 마커를 원자 등록 후 처리하고, 응답을 `ContentCachingResponseWrapper`로 캡처해 `store.complete`로 저장. 같은 키의 이후 요청은 저장된 첫 응답을 **재처리 없이 재방**(상태/Content-Type/본문 그대로 + `Idempotent-Replayed: true` 헤더). 아직 처리 중인 같은 키의 동시 중복은 **409**(`Idempotent-Replayed: in-progress`).
 - **저장소 추상화**: `IdempotencyStore` 인터페이스(`reserve`/`find`/`complete`) + 기본 `InMemoryIdempotencyStore`(단일 인스턴스, TTL 관리). **분산(다중 인스턴스) 환경에서는 소비 서비스가 Redis 등 공유 저장소 구현을 빈으로 제공**하면 `@ConditionalOnMissingBean`으로 대체된다(인메모리는 인스턴스 간 공유 안 됨).
-- 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용). 상세(키 생성 책임·더블클릭 스코프·서버 발급 토큰 강화 패턴) → [IDEMPOTENCY.md](docs/IDEMPOTENCY.md).
+- 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용). 상세(키 생성 책임·더블클릭 스코프·서버 발급 토큰 강화 패턴) → [260702.003.IDEMPOTENCY.md](docs/260702.003.IDEMPOTENCY.md).
 
 ### 11. 캐시 추상화 (cache 패키지, optional·opt-in)
 
@@ -178,4 +178,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **국제화**: 사용자에게 노출되는 메시지는 하드코딩하지 말고 `messages/messages*.properties`(기본/`_ko`/`_en`) + `MessageResolver`를 거친다. 키는 `ErrorCode.messageKey()` 컨벤션(`error.*`)을 따른다.
 - **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`/`async`/`persistence`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다. `async`/`persistence`는 `core`(TraceContext)에만 의존하는 optional 통합 패키지다.
 - 주석·문서는 한국어로 작성돼 있다. 일관성을 위해 새 주석/문서도 한국어를 따른다.
+- **문서 파일 명명 규칙(중요)**: `docs/` 에 새 문서 파일을 만들 때 파일명은 **`yymmdd.NNN.<문서핵심제목>.확장자`** 구조를 따른다.
+  - `yymmdd` = 생성일(예: 2026-07-02 → `260702`), `NNN` = **같은 날 생성 순번 3자리**(그날 첫 문서 `001`부터 증가), `<문서핵심제목>` = 문서 핵심 제목(예: `IDEMPOTENCY`), 마지막에 확장자(`.md` 등).
+  - 예: `docs/260702.003.IDEMPOTENCY.md`. 구분자는 모두 `.`(점)이다.
+  - 문서를 rename/추가하면 그 문서를 링크하는 **모든 참조(README·CLAUDE·문서 간 링크)를 함께 갱신**한다(깨진 링크 금지). 기존 `docs/*` 문서는 각자 최초 생성일 기준으로 이 규칙이 소급 적용돼 있다.
 - **기본 응답 언어는 한국어다.** 사용자에게 보고·설명·요약하는 모든 응답은 별도 요청이 없는 한 한국어로 작성한다.
