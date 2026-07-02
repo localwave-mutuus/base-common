@@ -48,12 +48,14 @@ public class DemoSecurityConfig {
             } else {                                           // 기본: 설정된 허용 audience 를 담아 통과
                 audience = List.copyOf(props.getAudiences());
             }
+            // 데모: 주체가 "noroles" 면 권한 클레임을 비워 no_authorities 시연(그 외 USER)
+            List<String> roles = subject.equals("noroles") ? List.of() : List.of("USER");
             Instant now = Instant.now();
             Jwt jwt = Jwt.withTokenValue(token)
                     .header("alg", "none")
                     .subject(subject)
                     .audience(audience)
-                    .claim("roles", List.of("USER"))
+                    .claim("roles", roles)
                     .issuedAt(now)
                     .expiresAt(now.plusSeconds(3600))
                     .build();

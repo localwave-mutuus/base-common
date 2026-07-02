@@ -69,6 +69,44 @@ public class SecurityAuditLogger {
                 .log("Claimed X-User-Id does not match authenticated principal");
     }
 
+    /**
+     * 아웃바운드 호출에서 <b>식별/민감 헤더 전파를 차단</b>했다 — 대상이 신뢰 호스트 allowlist 밖이라 외부 유출을 막았다.
+     * (상관용 trace/span/locale 은 그대로 전파)
+     */
+    public void propagationBlocked(String targetHost, String droppedHeaders) {
+        log.atWarn()
+                .addKeyValue("event", "security.propagation.blocked")
+                .addKeyValue("securityEvent", true)
+                .addKeyValue("outcome", "blocked")
+                .addKeyValue("targetHost", nullToDash(targetHost))
+                .addKeyValue("droppedHeaders", nullToDash(droppedHeaders))
+                .log("Blocked identity header propagation to untrusted host");
+    }
+
+    /**
+     * 인증은 됐으나 <b>부여된 권한(role)이 없음</b> — roles 클레임이 비었거나 클레임 경로가 어긋난 것(→ 사실상 모든
+     * 보호 리소스 403, fail-closed). 진단을 돕도록 주체와 시도한 클레임 경로를 남긴다.
+     */
+    public void authzNoAuthorities(String subject, String rolesClaimPath) {
+        log.atWarn()
+                .addKeyValue("event", "security.authz.no_authorities")
+                .addKeyValue("securityEvent", true)
+                .addKeyValue("outcome", "warn")
+                .addKeyValue("subject", nullToDash(subject))
+                .addKeyValue("rolesClaimPath", nullToDash(rolesClaimPath))
+                .log("Authenticated principal has no granted authorities");
+    }
+
+    /** 시작 시 <b>보안 설정 위험</b> 탐지(예: 본문 로깅+마스킹 off, CSRF+세션, permit-all 과대). */
+    public void configRisk(String event, String detail) {
+        log.atWarn()
+                .addKeyValue("event", event)
+                .addKeyValue("securityEvent", true)
+                .addKeyValue("outcome", "warn")
+                .addKeyValue("detail", nullToDash(detail))
+                .log("Security configuration risk");
+    }
+
     /** 공통 필드 채움. userId/traceId 는 MDC 경유 자동 포함되므로 여기선 싣지 않는다. */
     private static LoggingEventBuilder base(LoggingEventBuilder ev, String event, String outcome,
                                             String path, String clientIp) {

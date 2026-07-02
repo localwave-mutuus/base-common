@@ -47,6 +47,13 @@ public final class HeaderNames {
     };
 
     /**
+     * <b>식별/민감</b> 헤더 — 사용자·단말·내부 토폴로지를 드러낸다. 신뢰 호스트가 아닌 아웃바운드 호출에는
+     * 부착하지 않는다(외부 유출 방지). 상관용 {@link #TRACE_ID}/{@link #SPAN_ID}/{@link #LOCALE} 는 제외(항상 전파 허용).
+     */
+    public static final java.util.Set<String> IDENTITY = java.util.Set.of(
+            USER_ID, DEVICE_LEVEL, DEVICE_ID, SCREEN_ID, EVENT_ID, APP_CODE, INSTANCE_ID);
+
+    /**
      * 인입 {@code X-User-Id}(신뢰 불가 주장값)를 담는 <b>요청 속성</b> 이름. TraceFilter(web)가 세팅하고
      * AuthenticatedUserContextFilter(security)가 인증 주체와 비교(스푸핑 탐지)한다 — 두 패키지가 공유하는
      * 상수라 무의존 {@code core} 에 둔다.

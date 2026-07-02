@@ -42,6 +42,7 @@ public class CommonSecurityAutoConfiguration {
     @ConditionalOnMissingBean
     public SecurityFilterChain commonSecurityFilterChain(HttpSecurity http,
                                                          CommonSecurityProperties props,
+                                                         JwtAuthenticationConverter jwtAuthenticationConverter,
                                                          ObjectProvider<AccessLogger> accessLogger,
                                                          ObjectProvider<SecurityAuditLogger> securityAuditLogger)
             throws Exception {
@@ -67,7 +68,7 @@ public class CommonSecurityAutoConfiguration {
                 .oauth2ResourceServer(oauth -> oauth
                         .authenticationEntryPoint(entryPoint)
                         .accessDeniedHandler(deniedHandler)
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(props))))
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)))
                 // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영 + 인입 X-User-Id 위장 탐지
                 .addFilterAfter(new AuthenticatedUserContextFilter(audit, props.isTrustForwardedUser()),
                         AuthorizationFilter.class);
@@ -101,25 +102,58 @@ public class CommonSecurityAutoConfiguration {
         return decoder;
     }
 
+    /** 시작 시 보안 설정 위험 조합을 점검해 경고 로그를 남긴다(동작 불변). */
     @Bean
     @ConditionalOnMissingBean
-    public JwtAuthenticationConverter jwtAuthenticationConverter(CommonSecurityProperties props) {
+    public SecurityConfigAuditor securityConfigAuditor(ObjectProvider<SecurityAuditLogger> securityAuditLogger,
+                                                       CommonSecurityProperties props) {
+        return new SecurityConfigAuditor(securityAuditLogger.getIfAvailable(SecurityAuditLogger::new), props);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public JwtAuthenticationConverter jwtAuthenticationConverter(CommonSecurityProperties props,
+            ObjectProvider<SecurityAuditLogger> securityAuditLogger) {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(rolesConverter(props));
+        converter.setJwtGrantedAuthoritiesConverter(
+                rolesConverter(props, securityAuditLogger.getIfAvailable(SecurityAuditLogger::new)));
         return converter;
     }
 
-    private Converter<Jwt, Collection<GrantedAuthority>> rolesConverter(CommonSecurityProperties props) {
+    /**
+     * roles 클레임 → 권한 변환. {@code roles-claim} 은 <b>중첩 경로</b>(점 구분, 예 {@code realm_access.roles})를
+     * 지원한다. 인증됐으나 부여 권한이 0건이면 {@code security.authz.no_authorities} 로 남긴다(fail-closed 진단).
+     */
+    private Converter<Jwt, Collection<GrantedAuthority>> rolesConverter(CommonSecurityProperties props,
+                                                                        SecurityAuditLogger audit) {
         return jwt -> {
-            Object claim = jwt.getClaim(props.getRolesClaim());
-            if (claim instanceof Collection<?> roles) {
+            Object claim = resolveClaim(jwt, props.getRolesClaim());
+            if (claim instanceof Collection<?> roles && !roles.isEmpty()) {
                 return roles.stream()
                         .map(String::valueOf)
                         .map(r -> new SimpleGrantedAuthority(props.getAuthorityPrefix() + r))
                         .map(GrantedAuthority.class::cast)
                         .toList();
             }
+            audit.authzNoAuthorities(jwt.getSubject(), props.getRolesClaim());
             return List.of();
         };
+    }
+
+    /** 점 구분 경로로 중첩 클레임을 탐색한다(예 {@code realm_access.roles}). 최상위 이름이면 그대로 조회. */
+    @SuppressWarnings("unchecked")
+    private static Object resolveClaim(Jwt jwt, String path) {
+        if (path == null || !path.contains(".")) {
+            return jwt.getClaim(path);
+        }
+        Object current = jwt.getClaims();
+        for (String part : path.split("\\.")) {
+            if (current instanceof java.util.Map<?, ?> map) {
+                current = ((java.util.Map<String, Object>) map).get(part);
+            } else {
+                return null;
+            }
+        }
+        return current;
     }
 }

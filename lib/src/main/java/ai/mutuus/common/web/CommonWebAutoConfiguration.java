@@ -3,7 +3,9 @@ package ai.mutuus.common.web;
 import java.util.Locale;
 
 import ai.mutuus.common.core.HeaderNames;
+import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -31,7 +33,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @AutoConfiguration(beforeName = "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration")
 @ConditionalOnClass(DispatcherServlet.class)
 @ConditionalOnProperty(prefix = "mutuus.common", name = "tracing-enabled", matchIfMissing = true)
-@EnableConfigurationProperties(CommonHttpProperties.class)
+@EnableConfigurationProperties({CommonHttpProperties.class, CommonPropagationProperties.class})
 public class CommonWebAutoConfiguration {
 
     @Bean
@@ -49,8 +51,10 @@ public class CommonWebAutoConfiguration {
     }
 
     @Bean
-    public HeaderPropagationInterceptor headerPropagationInterceptor() {
-        return new HeaderPropagationInterceptor();
+    public HeaderPropagationInterceptor headerPropagationInterceptor(
+            CommonPropagationProperties props, ObjectProvider<SecurityAuditLogger> securityAuditLogger) {
+        return new HeaderPropagationInterceptor(
+                props.getAllowedHosts(), securityAuditLogger.getIfAvailable(SecurityAuditLogger::new));
     }
 
     /** X-Locale 헤더 우선, 없으면 Accept-Language 사용. 앱이 자체 정의하면 그것을 따른다. */

@@ -120,14 +120,34 @@
         <div class="result" id="r-boom"></div>
       </div>
 
-      <div class="phase">Phase 2~3 — 예정 (전파·마스킹·헤더)</div>
-      <div class="card todo">
-        <h3>아웃바운드 전파 차단 <span class="badge btodo">예정</span> <span class="evtag">security.propagation.blocked</span></h3>
-        <p>비신뢰 외부 호스트로 식별/사용자 헤더 부착 차단.</p>
+      <div class="phase">Phase 2 — 권한·전파·설정 점검 (동작)</div>
+
+      <div class="card">
+        <h3>권한 없는 토큰 <span class="badge b200">200</span> <span class="evtag">security.authz.no_authorities</span></h3>
+        <p>roles 클레임이 빈 토큰(<code>noroles</code>) → 인증은 되나 부여 권한 0건(사실상 모든 보호 리소스 403).
+           진단용으로 주체·클레임 경로를 기록.</p>
+        <button onclick="run('noroles', this)">실행: GET /api/secure/whoami + 권한 없는 토큰</button>
+        <div class="result" id="r-noroles"></div>
       </div>
+
+      <div class="card">
+        <h3>아웃바운드 전파 차단 <span class="evtag">security.propagation.blocked</span> <span class="badge btodo">서버측</span></h3>
+        <p>서버가 <b>신뢰 allowlist 밖 호스트</b>로 호출할 때 식별 헤더(<code>X-User-Id</code> 등)를 부착하지 않고 차단한다
+           (상관용 trace/span만 전파). 브라우저에서 직접 트리거하지 않는 서버-서버 동작 — 회귀 테스트
+           <code>SecurityPropagationBlockIntegrationTest</code>로 검증. <code>mutuus.common.propagation.allowed-hosts</code> 로 설정.</p>
+      </div>
+
+      <div class="card">
+        <h3>시작 시 설정 점검 <span class="evtag">security.config.*</span> <span class="badge btodo">startup</span></h3>
+        <p>기동 시 위험 조합을 1회 경고한다 — 본문 로깅+마스킹 off(<code>masking_disabled</code>), <b>세션+CSRF 비활성</b>
+           (<code>csrf_disabled_with_session</code>, 이 샘플은 Redis 세션 사용이라 기동 로그에 나타남), permit-all 과대
+           (<code>permit_all_broad</code>). 위 우측 패널을 새로고침하면 기동 시 남은 이벤트를 볼 수 있다.</p>
+      </div>
+
+      <div class="phase">Phase 3 — 예정 (CSRF/세션 조건부·보안 헤더)</div>
       <div class="card todo">
-        <h3>설정 점검·보안 헤더 <span class="badge btodo">예정</span> <span class="evtag">security.config.*</span></h3>
-        <p>본문 마스킹 OFF·CSRF+세션 공존·permit-all 과대 startup 경고, 보안 응답 헤더.</p>
+        <h3>보안 응답 헤더·CSRF 조건부 <span class="badge btodo">예정</span></h3>
+        <p>CSP·Referrer-Policy·Permissions-Policy opt-in 하드닝, 세션 사용 시 CSRF 조건부 활성.</p>
       </div>
     </div>
 
@@ -156,6 +176,8 @@
       mismatch: { url: '/api/secure/whoami',  auth: true,  xUser: 'bob' },           // 인증 주체≠주장
       badaud:   { url: '/api/secure/whoami',  auth: true,  tokenOverride: (t) => (t || 'alice') + '~other-service' },
       boom:     { url: '/api/secure/boom',    auth: true },
+      // Phase 2
+      noroles:  { url: '/api/secure/whoami',  auth: true,  tokenOverride: () => 'noroles' }, // 권한 클레임 빈 토큰
     };
 
     async function run(key, btn) {

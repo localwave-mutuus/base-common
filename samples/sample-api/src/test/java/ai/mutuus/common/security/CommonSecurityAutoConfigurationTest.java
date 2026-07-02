@@ -2,7 +2,9 @@ package ai.mutuus.common.security;
 
 import java.util.List;
 
+import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -21,7 +23,7 @@ class CommonSecurityAutoConfigurationTest {
     @Test
     void roles_클레임을_authorityPrefix_붙인_권한으로_변환한다() {
         var props = new CommonSecurityProperties();   // 기본값: rolesClaim=roles, prefix=ROLE_
-        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props);
+        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props, auditProvider());
         Jwt jwt = jwtWithClaim("roles", List.of("admin", "user"));
 
         // 우리 rolesConverter가 만든 권한만 검증 (Spring Security 7이 자동 추가하는 FACTOR_* 제외)
@@ -31,7 +33,7 @@ class CommonSecurityAutoConfigurationTest {
     @Test
     void roles_클레임이_없으면_role_권한은_비어있다() {
         var props = new CommonSecurityProperties();
-        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props);
+        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props, auditProvider());
         Jwt jwt = jwtWithClaim("other", List.of("x"));
 
         assertThat(roleAuthorities(converter, jwt)).isEmpty();
@@ -42,7 +44,7 @@ class CommonSecurityAutoConfigurationTest {
         var props = new CommonSecurityProperties();
         props.setRolesClaim("authorities");
         props.setAuthorityPrefix("SCOPE_");
-        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props);
+        JwtAuthenticationConverter converter = config.jwtAuthenticationConverter(props, auditProvider());
         Jwt jwt = jwtWithClaim("authorities", List.of("read"));
 
         assertThat(roleAuthorities(converter, jwt)).containsExactly("SCOPE_read");
@@ -57,6 +59,16 @@ class CommonSecurityAutoConfigurationTest {
                 .map(GrantedAuthority::getAuthority)
                 .filter(a -> !a.startsWith("FACTOR_"))
                 .toList();
+    }
+
+    /** 단위 테스트용 ObjectProvider — 항상 새 SecurityAuditLogger 를 제공. */
+    private static ObjectProvider<SecurityAuditLogger> auditProvider() {
+        return new ObjectProvider<>() {
+            public SecurityAuditLogger getObject() { return new SecurityAuditLogger(); }
+            public SecurityAuditLogger getObject(Object... args) { return getObject(); }
+            public SecurityAuditLogger getIfAvailable() { return getObject(); }
+            public SecurityAuditLogger getIfUnique() { return getObject(); }
+        };
     }
 
     private Jwt jwtWithClaim(String name, Object value) {

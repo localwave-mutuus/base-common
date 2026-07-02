@@ -122,6 +122,19 @@ class SecurityAuditLoggingIntegrationTest {
     }
 
     @Test
+    void 권한없는_토큰은_인증되어도_no_authorities_로그() {
+        RestClient client = RestClient.create();
+        int status = client.get().uri(base() + "/api/secure/whoami")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer noroles") // mock: roles 클레임 비움
+                .exchange((req, res) -> res.getStatusCode().value());
+        assertThat(status).isEqualTo(200); // whoami 는 role 불요 → 인증만 되면 200
+
+        Optional<ILoggingEvent> ev = event("security.authz.no_authorities");
+        assertThat(ev).isPresent();
+        assertThat(kv(ev.get(), "subject")).contains("noroles");
+    }
+
+    @Test
     void 서버오류_500응답은_내부_예외클래스를_노출하지_않는다() {
         RestClient client = RestClient.create();
         Map<?, ?> body = client.get().uri(base() + "/api/secure/boom")
