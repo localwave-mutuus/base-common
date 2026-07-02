@@ -6,6 +6,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -14,12 +15,15 @@ import org.springframework.web.servlet.DispatcherServlet;
  */
 @AutoConfiguration
 @ConditionalOnClass(DispatcherServlet.class)
+@EnableConfigurationProperties(CommonExceptionProperties.class)
 public class CommonExceptionAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
     public GlobalExceptionHandler globalExceptionHandler(MessageResolver messageResolver,
-                                                         ObjectProvider<AccessLogger> accessLogger) {
-        return new GlobalExceptionHandler(messageResolver, accessLogger.getIfAvailable(AccessLogger::new));
+                                                         ObjectProvider<AccessLogger> accessLogger,
+                                                         CommonExceptionProperties props) {
+        return new GlobalExceptionHandler(messageResolver,
+                accessLogger.getIfAvailable(AccessLogger::new), props.isExposeException());
     }
 }

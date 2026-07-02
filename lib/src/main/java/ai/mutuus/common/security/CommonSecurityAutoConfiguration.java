@@ -6,9 +6,11 @@ import java.util.List;
 import ai.mutuus.common.logging.AccessLogger;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
@@ -17,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
@@ -64,8 +68,9 @@ public class CommonSecurityAutoConfiguration {
                         .authenticationEntryPoint(entryPoint)
                         .accessDeniedHandler(deniedHandler)
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(props))))
-                // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영
-                .addFilterAfter(new AuthenticatedUserContextFilter(), AuthorizationFilter.class);
+                // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영 + 인입 X-User-Id 위장 탐지
+                .addFilterAfter(new AuthenticatedUserContextFilter(audit, props.isTrustForwardedUser()),
+                        AuthorizationFilter.class);
         return http.build();
     }
 
@@ -79,6 +84,21 @@ public class CommonSecurityAutoConfiguration {
             ai.mutuus.common.i18n.MessageResolver messages,
             ObjectProvider<SecurityAuditLogger> securityAuditLogger) {
         return new SecurityExceptionAdvice(messages, securityAuditLogger.getIfAvailable(SecurityAuditLogger::new));
+    }
+
+    /**
+     * JWT 검증기(만료 + issuer/audience 하드닝)를 적용한 자원 서버 {@link JwtDecoder}. jwk-set-uri 가 있고
+     * 소비 서비스가 자체 디코더를 정의하지 않은 경우에만 등록한다(그 경우 Boot 기본 디코더를 대체). audiences/issuer 를
+     * {@code mutuus.common.security.*} 로 지정하면 <b>다른 서비스용 토큰(aud 불일치)</b>이 거부된다.
+     */
+    @Bean
+    @ConditionalOnMissingBean(JwtDecoder.class)
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.resourceserver.jwt", name = "jwk-set-uri")
+    public JwtDecoder commonJwtDecoder(CommonSecurityProperties props,
+            @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}") String jwkSetUri) {
+        NimbusJwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
+        decoder.setJwtValidator(CommonJwtValidators.build(props.getAudiences(), props.getIssuer()));
+        return decoder;
     }
 
     @Bean

@@ -31,6 +31,11 @@ spring:
 
 mutuus:
   common:
+    # 보안 테스트 화면(security.html)의 audience 하드닝 시연용 — 이 aud 만 허용(다른 서비스용 토큰 거부).
+    # mock JwtDecoder 는 Bearer alice → aud=[sample-api] 통과, Bearer alice#other-service → 거부.
+    security:
+      audiences:
+        - sample-api
     # local 과 Redis 세션 키가 겹치지 않게 네임스페이스 분리
     session:
       namespace: sample-api-ai:session

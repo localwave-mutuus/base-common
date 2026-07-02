@@ -8,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
@@ -34,7 +36,15 @@ public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         accessLogger.authFailure(request.getRequestURI(), authException.getMessage());
-        securityAuditLogger.authnFailed(request.getRequestURI(), request.getRemoteAddr(), authException.getMessage());
+        // 토큰 검증 실패(서명/만료/issuer/audience)는 security.jwt.rejected 로 사유를 분류, 그 외(토큰 없음 등)는 authn.failed
+        if (authException instanceof OAuth2AuthenticationException oae) {
+            OAuth2Error err = oae.getError();
+            securityAuditLogger.jwtRejected(request.getRequestURI(), request.getRemoteAddr(),
+                    err.getErrorCode(), err.getDescription());
+        } else {
+            securityAuditLogger.authnFailed(request.getRequestURI(), request.getRemoteAddr(),
+                    authException.getMessage());
+        }
         delegate.commence(request, response, authException);
     }
 }

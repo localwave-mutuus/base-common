@@ -30,10 +30,17 @@ public class GlobalExceptionHandler {
 
     private final MessageResolver messages;
     private final AccessLogger accessLogger;
+    /** 오류 응답에 예외 클래스명을 노출할지(운영 기본 false). 예외/스택은 항상 로그에만 남긴다. */
+    private final boolean exposeException;
 
     public GlobalExceptionHandler(MessageResolver messages, AccessLogger accessLogger) {
+        this(messages, accessLogger, false);
+    }
+
+    public GlobalExceptionHandler(MessageResolver messages, AccessLogger accessLogger, boolean exposeException) {
         this.messages = messages;
         this.accessLogger = accessLogger;
+        this.exposeException = exposeException;
     }
 
     /** 애플리케이션이 던진 비즈니스 예외. */
@@ -99,8 +106,7 @@ public class GlobalExceptionHandler {
                 ? CommonErrorCode.GATEWAY_TIMEOUT : CommonErrorCode.EXTERNAL_API_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
         String detail = messages.get(code.messageKey());
-        ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
-        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, error));
+        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
     }
 
     /** 타임아웃 판별 — HttpURLConnection 계열(SocketTimeout)·JDK HttpClient 계열(HttpTimeout) 모두 커버. */
@@ -115,8 +121,13 @@ public class GlobalExceptionHandler {
         ErrorCode code = CommonErrorCode.INTERNAL_ERROR;
         accessLogger.serverError(request.getRequestURI(), ex);
         String detail = messages.get(code.messageKey());
-        ApiError error = ApiError.of(code.code(), detail).withException(ex.getClass().getName());
-        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, error));
+        return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
+    }
+
+    /** 오류 상세 생성 — 예외 클래스명은 노출 정책({@code exposeException})이 true 일 때만 응답에 싣는다(기본 미노출). */
+    private ApiError errorOf(ErrorCode code, String detail, Throwable ex) {
+        ApiError error = ApiError.of(code.code(), detail);
+        return exposeException ? error.withException(ex.getClass().getName()) : error;
     }
 
     /** 4xx 공통 처리: WARN 로깅 + 표준 봉투 반환. */

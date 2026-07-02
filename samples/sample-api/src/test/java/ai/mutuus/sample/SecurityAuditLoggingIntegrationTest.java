@@ -1,7 +1,9 @@
 package ai.mutuus.sample;
 
+import java.util.Map;
 import java.util.Optional;
 
+import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -87,6 +89,49 @@ class SecurityAuditLoggingIntegrationTest {
         assertThat(status).isEqualTo(200);
         assertThat(event("security.authn.failed")).isEmpty();
         assertThat(event("security.authz.denied")).isEmpty();
+    }
+
+    @Test
+    void 미인증_permitall에_X_User_Id_위장은_폐기되고_header_ignored_로그와_빈_감사주체() {
+        RestClient client = RestClient.create();
+        Map<?, ?> res = client.get().uri(base() + "/api/public/whoami")
+                .header(HeaderNames.USER_ID, "spoofed-admin") // 위장 시도(토큰 없음)
+                .retrieve().body(Map.class);
+
+        // 감사 위조 방지: 위장값이 TraceContext(→ created_by)에 실리지 않아야 한다
+        Map<?, ?> data = (Map<?, ?>) res.get("data");
+        assertThat(data.get("traceContextUserId")).isEqualTo("");
+
+        Optional<ILoggingEvent> ev = event("security.identity.header_ignored");
+        assertThat(ev).isPresent();
+        assertThat(kv(ev.get(), "clientIp")).isPresent();
+    }
+
+    @Test
+    void 인증주체와_다른_X_User_Id_주장은_identity_mismatch_로그() {
+        RestClient client = RestClient.create();
+        int status = client.get().uri(base() + "/api/secure/whoami")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer alice")
+                .header(HeaderNames.USER_ID, "bob") // 검증 주체(alice)와 다른 주장
+                .exchange((req, res) -> res.getStatusCode().value());
+        assertThat(status).isEqualTo(200);
+
+        Optional<ILoggingEvent> ev = event("security.identity.mismatch");
+        assertThat(ev).isPresent();
+        assertThat(kv(ev.get(), "authenticatedUserId")).contains("alice");
+    }
+
+    @Test
+    void 서버오류_500응답은_내부_예외클래스를_노출하지_않는다() {
+        RestClient client = RestClient.create();
+        Map<?, ?> body = client.get().uri(base() + "/api/secure/boom")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer alice")
+                .exchange((req, res) -> res.bodyTo(Map.class));
+
+        assertThat(body).isNotNull();
+        assertThat(body.get("code")).isEqualTo("INTERNAL_ERROR");
+        Map<?, ?> error = (Map<?, ?>) body.get("error");
+        assertThat(error.get("exception")).isNull(); // 예외 클래스명 미노출
     }
 
     private String base() {

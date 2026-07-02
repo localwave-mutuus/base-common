@@ -37,9 +37,12 @@ public class CommonWebAutoConfiguration {
     @Bean
     public FilterRegistrationBean<TraceFilter> traceFilterRegistration(
             @Value("${mutuus.common.app-code:}") String appCode,
-            @Value("${mutuus.common.instance-code:}") String instanceCode) {
+            @Value("${mutuus.common.instance-code:}") String instanceCode,
+            // 인입 X-User-Id 신뢰 여부(기본 미신뢰). 값은 mutuus.common.security.* 소속이지만 여기선 원시
+            // 프로퍼티로만 읽어 web→security 패키지 결합을 만들지 않는다.
+            @Value("${mutuus.common.security.trust-forwarded-user:false}") boolean trustForwardedUser) {
         FilterRegistrationBean<TraceFilter> reg =
-                new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode));
+                new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode, trustForwardedUser));
         reg.setOrder(Ordered.HIGHEST_PRECEDENCE);
         reg.addUrlPatterns("/*");
         return reg;

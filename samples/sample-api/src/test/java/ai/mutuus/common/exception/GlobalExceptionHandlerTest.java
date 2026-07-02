@@ -48,9 +48,10 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void 예상치_못한_예외는_500_INTERNAL_ERROR이고_예외클래스를_error에_담는다() {
+    void 예상치_못한_예외는_500_INTERNAL_ERROR이고_기본은_예외클래스를_응답에_노출하지_않는다() {
         LocaleContextHolder.setLocale(Locale.ENGLISH);
 
+        // 기본(exposeException=false): 예외 클래스명은 응답에 노출하지 않는다(정보 노출 방지)
         ResponseEntity<ApiResponse<Void>> resp = handler.handleUnexpected(
                 new IllegalStateException("boom"), new MockHttpServletRequest("GET", "/api/orders/9"));
 
@@ -59,7 +60,20 @@ class GlobalExceptionHandlerTest {
         assertThat(body).isNotNull();
         assertThat(body.code()).isEqualTo("INTERNAL_ERROR");
         assertThat(body.message()).isEqualTo("An unexpected error occurred.");
-        assertThat(body.error().exception()).isEqualTo("java.lang.IllegalStateException");
+        assertThat(body.error().exception()).isNull();
+    }
+
+    @Test
+    void exposeException_true면_진단용으로_예외클래스를_담는다() {
+        LocaleContextHolder.setLocale(Locale.ENGLISH);
+        GlobalExceptionHandler exposing =
+                new GlobalExceptionHandler(new MessageResolver(messageSource()), new AccessLogger(), true);
+
+        ResponseEntity<ApiResponse<Void>> resp = exposing.handleUnexpected(
+                new IllegalStateException("boom"), new MockHttpServletRequest("GET", "/api/orders/9"));
+
+        assertThat(resp.getBody()).isNotNull();
+        assertThat(resp.getBody().error().exception()).isEqualTo("java.lang.IllegalStateException");
     }
 
     private ReloadableResourceBundleMessageSource messageSource() {

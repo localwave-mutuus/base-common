@@ -88,18 +88,36 @@
         <div class="result" id="r-denied"></div>
       </div>
 
-      <div class="phase">Phase 1 — 예정 (신뢰경계·토큰·정보노출)</div>
-      <div class="card todo">
-        <h3>X-User-Id 스푸핑 차단 <span class="badge btodo">예정</span> <span class="evtag">security.identity.*</span></h3>
-        <p>미인증 요청에 <code>X-User-Id: admin</code> 위장 → 감사(created_by) 위조 시도. 인입 헤더 미신뢰로 폐기·기록.</p>
+      <div class="phase">Phase 1 — 신뢰경계·토큰·정보노출 (동작)</div>
+
+      <div class="card">
+        <h3>X-User-Id 스푸핑 폐기 <span class="badge b200">200</span> <span class="evtag">security.identity.header_ignored</span></h3>
+        <p>미인증 요청에 <code>X-User-Id: spoofed-admin</code> 위장 → 신뢰하지 않아 폐기. 응답의 <code>traceContextUserId</code>가
+           비어 있어야 정상(감사 created_by 위조 방지).</p>
+        <button onclick="run('spoof', this)">실행: GET /api/public/whoami + 위장 X-User-Id (토큰 X)</button>
+        <div class="result" id="r-spoof"></div>
       </div>
-      <div class="card todo">
-        <h3>JWT audience 불일치 <span class="badge btodo">예정</span> <span class="evtag">security.jwt.rejected</span></h3>
-        <p>다른 서비스용 토큰(aud 불일치) → 거부. 사유(audience/issuer/expired/signature) 기록.</p>
+
+      <div class="card">
+        <h3>X-User-Id 불일치 <span class="badge b200">200</span> <span class="evtag">security.identity.mismatch</span> (ERROR)</h3>
+        <p>인증 주체(alice)와 다른 <code>X-User-Id: bob</code> 주장 → 신원 위·변조 시도로 ERROR 기록(검증 주체가 우선).</p>
+        <button onclick="run('mismatch', this)">실행: GET /api/secure/whoami + 토큰 + 다른 X-User-Id</button>
+        <div class="result" id="r-mismatch"></div>
       </div>
-      <div class="card todo">
-        <h3>오류 응답 정보 미노출 <span class="badge btodo">예정</span></h3>
-        <p>5xx 응답 본문에서 내부 예외 클래스명 제거(로그에만).</p>
+
+      <div class="card">
+        <h3>JWT audience 불일치 → 401 <span class="badge b401">401</span> <span class="evtag">security.jwt.rejected</span></h3>
+        <p>다른 서비스용 토큰(<code>alice~other-service</code>, aud 불일치) → 거부. 사유(errorCode/설명) 기록.
+           <b>ai 프로파일에 <code>audiences=[sample-api]</code> 설정 필요</b>.</p>
+        <button onclick="run('badaud', this)">실행: GET /api/secure/whoami + aud 불일치 토큰</button>
+        <div class="result" id="r-badaud"></div>
+      </div>
+
+      <div class="card">
+        <h3>오류 응답 정보 미노출 <span class="badge b500" style="background:#3a1d1d;color:#f08a8a">500</span></h3>
+        <p>런타임 예외 → 500. 응답 본문의 <code>error.exception</code>이 <b>null</b>이어야 정상(내부 클래스명 미노출, 로그에만).</p>
+        <button onclick="run('boom', this)">실행: GET /api/secure/boom (토큰)</button>
+        <div class="result" id="r-boom"></div>
       </div>
 
       <div class="phase">Phase 2~3 — 예정 (전파·마스킹·헤더)</div>
@@ -130,9 +148,14 @@
     const stClass = s => s >= 500 ? 'st5' : s >= 400 ? 'st4' : 'st2';
 
     const SCEN = {
-      ok:     { url: '/api/secure/whoami', auth: true },
-      noauth: { url: '/api/secure/whoami', auth: false },
-      denied: { url: '/api/admin/ping',    auth: true },
+      ok:       { url: '/api/secure/whoami', auth: true },
+      noauth:   { url: '/api/secure/whoami', auth: false },
+      denied:   { url: '/api/admin/ping',    auth: true },
+      // Phase 1
+      spoof:    { url: '/api/public/whoami',  auth: false, xUser: 'spoofed-admin' }, // 미인증 + 위장 헤더
+      mismatch: { url: '/api/secure/whoami',  auth: true,  xUser: 'bob' },           // 인증 주체≠주장
+      badaud:   { url: '/api/secure/whoami',  auth: true,  tokenOverride: (t) => (t || 'alice') + '~other-service' },
+      boom:     { url: '/api/secure/boom',    auth: true },
     };
 
     async function run(key, btn) {
@@ -140,7 +163,11 @@
       const box = document.getElementById('r-' + key);
       btn.disabled = true; box.innerHTML = '<span class="meta">호출 중…</span>';
       const headers = {};
-      if (s.auth && token()) headers['Authorization'] = 'Bearer ' + token();
+      if (s.auth) {
+        const t = s.tokenOverride ? s.tokenOverride(token()) : token();
+        if (t) headers['Authorization'] = 'Bearer ' + t;
+      }
+      if (s.xUser) headers['X-User-Id'] = s.xUser; // 위장/불일치 시연용 인입 헤더
       try {
         const res = await fetch(s.url, { headers });
         const text = await res.text();

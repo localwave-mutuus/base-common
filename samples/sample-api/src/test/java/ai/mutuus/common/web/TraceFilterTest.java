@@ -70,6 +70,42 @@ class TraceFilterTest {
     }
 
     @Test
+    void 미신뢰_기본이면_인입_X_User_Id는_컨텍스트에_싣지않고_요청속성으로만_보관한다() throws Exception {
+        var request = new MockHttpServletRequest();
+        request.addHeader(HeaderNames.USER_ID, "spoofed-admin");
+        var captured = new String[1];
+        var chain = new MockFilterChain() {
+            @Override
+            public void doFilter(ServletRequest req, ServletResponse res) {
+                captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
+            }
+        };
+
+        filter.doFilter(request, new MockHttpServletResponse(), chain); // 기본 filter = trustForwardedUser 미지정(false)
+
+        assertThat(captured[0]).isNull(); // 감사/로그 오염 방지: 위장값을 컨텍스트에 싣지 않음
+        assertThat(request.getAttribute(HeaderNames.CLAIMED_USER_ATTR)).isEqualTo("spoofed-admin"); // 탐지용 보관
+    }
+
+    @Test
+    void 신뢰설정이면_인입_X_User_Id를_컨텍스트에_싣는다() throws Exception {
+        TraceFilter trusting = new TraceFilter("TEST", "INST01", true);
+        var request = new MockHttpServletRequest();
+        request.addHeader(HeaderNames.USER_ID, "gateway-user");
+        var captured = new String[1];
+        var chain = new MockFilterChain() {
+            @Override
+            public void doFilter(ServletRequest req, ServletResponse res) {
+                captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
+            }
+        };
+
+        trusting.doFilter(request, new MockHttpServletResponse(), chain);
+
+        assertThat(captured[0]).isEqualTo("gateway-user");
+    }
+
+    @Test
     void 요청_종료_후_ThreadLocal과_MDC가_정리된다() throws Exception {
         var request = new MockHttpServletRequest();
         request.addHeader(HeaderNames.USER_ID, "u-1");

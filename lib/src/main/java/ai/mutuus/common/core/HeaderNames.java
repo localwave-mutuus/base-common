@@ -45,4 +45,11 @@ public final class HeaderNames {
             TRACE_ID, SPAN_ID, SCREEN_ID, EVENT_ID, DEVICE_LEVEL, DEVICE_ID, USER_ID, LOCALE,
             APP_CODE, INSTANCE_ID
     };
+
+    /**
+     * 인입 {@code X-User-Id}(신뢰 불가 주장값)를 담는 <b>요청 속성</b> 이름. TraceFilter(web)가 세팅하고
+     * AuthenticatedUserContextFilter(security)가 인증 주체와 비교(스푸핑 탐지)한다 — 두 패키지가 공유하는
+     * 상수라 무의존 {@code core} 에 둔다.
+     */
+    public static final String CLAIMED_USER_ATTR = "ai.mutuus.common.claimedUserId";
 }

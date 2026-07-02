@@ -38,4 +38,20 @@ public class SecurityDemoController {
     public ApiResponse<String> adminPing() {
         return ApiResponse.ok("pong (admin)");
     }
+
+    @Operation(summary = "서버 오류 데모(boom)",
+            description = "런타임 예외 → 500. 응답 본문엔 내부 예외 클래스명이 노출되지 않는다(정보 노출 방지).")
+    @GetMapping("/api/secure/boom")
+    public ApiResponse<String> boom() {
+        throw new IllegalStateException("의도된 데모 예외(내부 상세) — 응답엔 노출되지 않아야 함");
+    }
+
+    @Operation(summary = "공개 엔드포인트(신뢰경계 데모)",
+            description = "permit-all. 인입 X-User-Id 위장 헤더는 신뢰되지 않아 폐기된다(security.identity.header_ignored). "
+                    + "미인증이면 traceContextUserId 는 비어 있어야 정상(감사 위조 방지).")
+    @GetMapping("/api/public/whoami")
+    public ApiResponse<Map<String, Object>> publicWhoami() {
+        String userId = ai.mutuus.common.core.TraceContext.userId();
+        return ApiResponse.ok(Map.of("traceContextUserId", userId == null ? "" : userId));
+    }
 }
