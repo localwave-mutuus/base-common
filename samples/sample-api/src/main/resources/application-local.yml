@@ -10,8 +10,9 @@ spring:
     password: eva
   jpa:
     hibernate:
-      # 로컬 검증용이라 매번 스키마 생성/정리(운영에선 절대 사용 금지).
-      ddl-auto: create-drop
+      # 스키마는 Flyway 가 실 PostgreSQL 에 마이그레이션(base 의 ddl-auto=validate 상속).
+      # 이식형 DDL(timestamptz·generated as identity)이라 H2(ai)·PostgreSQL(local) 공통 적용된다.
+      ddl-auto: validate
   # 세션 케이스용 로컬 실 Redis. 비밀번호는 커밋 파일에 두지 않는다(외부화):
   #   런치 구성(.vscode/launch.json, gitignore) --spring.data.redis.password=... 또는 env REDIS_PASSWORD
   data:

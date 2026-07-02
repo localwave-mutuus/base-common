@@ -18,6 +18,13 @@ spring:
       # JPA 리포지토리와의 store 판별 경고를 없앤다.
       repositories:
         enabled: false
+  # 스키마는 Flyway(db/migration)가 소유하고, Hibernate 는 엔티티↔스키마 정합만 검증한다(운영급 기본).
+  # 모든 프로파일·통합테스트가 이 기본을 상속한다(엔티티 자동 DDL 금지).
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
 # Redis 클라이언트가 classpath 에 있어도(세션 케이스용), Redis 가 없는 프로파일에서
 # actuator health 가 DOWN 으로 뜨지 않게 health 기여자를 끈다. 실 Redis 연결은

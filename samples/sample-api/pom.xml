@@ -68,6 +68,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
+        <!-- 스키마 버전 관리(운영급): 엔티티 자동 DDL 대신 Flyway 마이그레이션 + ddl-auto=validate.
+             Boot 4 는 Flyway 자동구성을 별도 모듈로 분리(cache/restclient 처럼) → flyway-core 만으론 자동실행이
+             안 되므로 spring-boot-starter-flyway(자동구성 + flyway-core 전이)를 쓴다. H2·PostgreSQL 공통 지원. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
+        <!-- Flyway 10+ 는 DB별 지원을 모듈로 분리했다. 로컬 실 PostgreSQL(local 프로파일 + *LiveIntegrationTest)에서
+             마이그레이션하려면 이 모듈이 필요(PG 17 지원). H2 는 flyway-core 내장이라 별도 모듈 불필요. -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
         <!-- 매핑: MapStruct(컴파일 타임 매퍼 생성). Boot BOM 미관리 → 명시 버전. -->
         <dependency>
             <groupId>org.mapstruct</groupId>

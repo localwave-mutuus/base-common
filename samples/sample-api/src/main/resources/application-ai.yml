@@ -23,11 +23,11 @@ spring:
       port: ${REDIS_PORT:16010}
       username: ${REDIS_USERNAME:default}
       password: ${REDIS_PASSWORD:}
+  # 스키마는 Flyway 가 @Primary DataSource(app 그룹, app-db)에 마이그레이션한다(base application.yml 의
+  # ddl-auto=validate 상속). db1/db2/db3 는 DB 랩이 프로그램적으로 만드는 별도 DataSource 라 Flyway 대상 아님.
   jpa:
     hibernate:
-      # 라이브러리 라우팅이 @Primary DataSource(app 그룹)를 제공하므로 Boot 의 임베디드 자동 ddl 이
-      # 걸리지 않는다 → JPA 감사 데모용 스키마를 명시 생성.
-      ddl-auto: create-drop
+      ddl-auto: validate
 
 mutuus:
   common:
