@@ -84,10 +84,9 @@ public class BoardJdbcService implements BoardService {
 
     @Override
     public void delete(long id) {
-        if (!posts.existsById(id)) {
+        if (posts.deleteByIdReturningCount(id) == 0) { // 단일 쿼리(존재확인+삭제). 자식은 FK cascade 로 정리
             throw new BusinessException(BoardErrorCode.POST_NOT_FOUND);
         }
-        posts.deleteById(id);
     }
 
     @Override

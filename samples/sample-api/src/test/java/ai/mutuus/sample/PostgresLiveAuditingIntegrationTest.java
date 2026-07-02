@@ -47,8 +47,9 @@ class PostgresLiveAuditingIntegrationTest {
         registry.add("spring.datasource.url", () -> LiveInfra.PG_URL);
         registry.add("spring.datasource.username", () -> LiveInfra.PG_USERNAME);
         registry.add("spring.datasource.password", () -> LiveInfra.PG_PASSWORD);
-        // 공유 실 DB 를 더럽히지 않도록 테스트 종료 시 스키마(sample_note) 자동 정리.
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+        // 스키마는 Flyway 가 실 PostgreSQL 에 마이그레이션하고 Hibernate 는 validate(base 상속) — 운영 패턴 그대로
+        // 실 DB 로 검증한다. create-drop(스키마 드롭)은 Flyway 가 만든 테이블을 지워 schema_history 와 어긋나므로
+        // 쓰지 않는다. 공유 실 DB 오염 방지는 스키마 드롭이 아니라 @AfterEach 의 "데이터 정리"로 한다.
     }
 
     @Autowired
@@ -56,6 +57,7 @@ class PostgresLiveAuditingIntegrationTest {
 
     @AfterEach
     void tearDown() {
+        repository.deleteAll(); // 이 테스트가 만든 행만 정리(스키마는 Flyway 관리라 유지) — 공유 실 DB 오염 방지
         TraceContext.clear();
     }
 

@@ -66,6 +66,15 @@ class BoardBusinessValidationIntegrationTest {
 
         // 7) 없는 글 좋아요 → 404
         assertThat(status(client, base + "/999999/likes", Map.of("author", "z"))).isEqualTo(404);
+
+        // 8) 자식(좋아요+댓글)이 있는 글 삭제 → 200 (FK on delete cascade 로 자식 함께 정리, FK 위반 없음)
+        int deleteStatus = client.delete().uri(base + "/" + id)
+                .exchange((req, res) -> res.getStatusCode().value());
+        assertThat(deleteStatus).isEqualTo(200);
+        // 삭제 후 조회 → 404
+        int getStatus = client.get().uri(base + "/" + id)
+                .exchange((req, res) -> res.getStatusCode().value());
+        assertThat(getStatus).isEqualTo(404);
     }
 
     /** POST 후 HTTP 상태코드만(오류에도 예외 없이). */

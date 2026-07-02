@@ -2,6 +2,7 @@ package ai.mutuus.sample.board.jdbc;
 
 import java.util.List;
 
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -34,4 +35,13 @@ public interface BoardPostJdbcRepository extends ListCrudRepository<BoardPostJdb
 
     @Query("select count(*) > 0 from board_post where author = :author and title = :title and id <> :id")
     boolean existsByAuthorAndTitleExcept(@Param("author") String author, @Param("title") String title, @Param("id") long id);
+
+    /**
+     * 단일 쿼리 삭제 — 존재확인({@code existsById}) + {@code deleteById}(2쿼리)를 1쿼리로 합친다.
+     * 반영 행 수를 돌려주므로 서비스가 0건이면 {@code POST_NOT_FOUND} 로 신호할 수 있다(jOOQ DAO 와 동일 관용구).
+     * 자식(좋아요/댓글)은 FK {@code on delete cascade}(V3 마이그레이션)로 DB 가 함께 정리한다.
+     */
+    @Modifying
+    @Query("delete from board_post where id = :id")
+    int deleteByIdReturningCount(@Param("id") long id);
 }
