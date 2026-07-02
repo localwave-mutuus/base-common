@@ -25,7 +25,13 @@ public enum BoardErrorCode implements ErrorCode {
     COMMENT_REQUIRES_LIKE(HttpStatus.UNPROCESSABLE_CONTENT, "error.board.comment.requireslike"),
 
     /** 낙관적 락 충돌 — 내가 읽은 버전 이후 다른 사용자가 수정함(409). */
-    STALE_UPDATE(HttpStatus.CONFLICT, "error.board.stale");
+    STALE_UPDATE(HttpStatus.CONFLICT, "error.board.stale"),
+
+    /** 동적 검색에서 허용되지 않은 SELECT 필드명 요청(400) — 허용목록(allowlist) 밖. */
+    INVALID_SEARCH_FIELD(HttpStatus.BAD_REQUEST, "error.board.search.invalidfield"),
+
+    /** 동적 검색의 작성일시 범위가 역전됨(from > to)(422) — 입력 상호관계 검증. */
+    INVALID_SEARCH_RANGE(HttpStatus.UNPROCESSABLE_CONTENT, "error.board.search.invalidrange");
 
     private final HttpStatus status;
     private final String messageKey;
