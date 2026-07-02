@@ -198,6 +198,7 @@ mutuus.common.datasource:
 - **국제화**: 사용자에게 노출되는 메시지는 하드코딩하지 말고 `messages/messages*.properties`(기본/`_ko`/`_en`) + `MessageResolver`를 거친다. 키는 `ErrorCode.messageKey()` 컨벤션(`error.*`)을 따른다.
 - **패키지 경계**: 패키지별 책임이 명확히 갈린다(`core` 무의존 유틸 → `config`/`i18n`/`exception` → `web`/`security`/`observability`/`async`/`persistence`). 하위 패키지(예: `core`)가 상위 통합 패키지(`web` 등)에 의존하지 않도록 한다. `async`/`persistence`는 `core`(TraceContext)에만 의존하는 optional 통합 패키지다.
 - 주석·문서는 한국어로 작성돼 있다. 일관성을 위해 새 주석/문서도 한국어를 따른다.
+- **데이터 접근 CRUD 모범사례(중요)**: 새 CRUD/도메인 기능을 만들 때는 게시판 3-스택 샘플([docs/260702.004.BOARD_SAMPLE_GUIDE.md](docs/260702.004.BOARD_SAMPLE_GUIDE.md), `samples/sample-api/.../board`)의 구조·관습을 참조한다 — 계층형(Controller 얇게→Service 트랜잭션→Repository/DAO), Record DTO + MapStruct + Bean Validation, 응답 `ApiResponse`·목록 `PageResponse`·에러 `ErrorCode`+`BusinessException`. Spring Data JPA / jOOQ / Spring Data JDBC 세 방식의 관용구와 선택 기준, AI 변경관리 지침을 담고 있다.
 - **문서 파일 명명 규칙(중요)**: `docs/` 에 새 문서 파일을 만들 때 파일명은 **`yymmdd.NNN.<문서핵심제목>.확장자`** 구조를 따른다.
   - `yymmdd` = 생성일(예: 2026-07-02 → `260702`), `NNN` = **같은 날 생성 순번 3자리**(그날 첫 문서 `001`부터 증가), `<문서핵심제목>` = 문서 핵심 제목(예: `IDEMPOTENCY`), 마지막에 확장자(`.md` 등).
   - 예: `docs/260702.003.IDEMPOTENCY.md`. 구분자는 모두 `.`(점)이다.

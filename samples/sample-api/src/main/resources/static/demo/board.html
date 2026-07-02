@@ -3,91 +3,182 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>게시판 CRUD — 3-스택(JPA/jOOQ/JDBC) 샘플</title>
+  <title>게시판 — JPA / jOOQ / Spring Data JDBC (모범사례 샘플)</title>
   <style>
-    body { font-family: system-ui, "Malgun Gothic", sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
-    header { padding: 16px 24px; background: #1e293b; border-bottom: 1px solid #334155; }
-    header h1 { margin: 0; font-size: 18px; }
-    header p { margin: 6px 0 0; font-size: 13px; color: #94a3b8; }
+    :root { --bg:#0f172a; --panel:#1e293b; --line:#334155; --fg:#e2e8f0; --mut:#94a3b8; --accent:#0ea5e9; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; margin: 0; background: var(--bg); color: var(--fg); }
+    header { padding: 14px 24px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    header h1 { margin: 0; font-size: 17px; }
+    header p { margin: 5px 0 0; font-size: 12px; color: var(--mut); }
     header a { color: #7dd3fc; }
-    main { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 16px; padding: 16px 24px; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 16px; }
-    .card h2 { margin: 0 0 2px; font-size: 15px; }
-    .jpa { color: #86efac; } .jooq { color: #fca5a5; } .jdbc { color: #93c5fd; }
-    .card .desc { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
-    .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; }
-    input { background: #0f172a; border: 1px solid #475569; color: #e2e8f0; border-radius: 6px; padding: 5px 8px; font-size: 13px; }
-    input.sm { width: 60px; } input.md { width: 120px; }
-    button { background: #334155; color: #e2e8f0; border: 1px solid #475569; border-radius: 6px; padding: 5px 9px; font-size: 12px; cursor: pointer; }
+    .tabs { display: flex; gap: 6px; padding: 12px 24px 0; }
+    .tab { padding: 8px 16px; border: 1px solid var(--line); border-bottom: none; border-radius: 8px 8px 0 0;
+           background: #172033; color: var(--mut); cursor: pointer; font-size: 13px; }
+    .tab.active { background: var(--panel); color: var(--fg); font-weight: 700; }
+    .tab.jpa.active { color:#86efac; } .tab.jooq.active { color:#fca5a5; } .tab.jdbc.active { color:#93c5fd; }
+    .wrap { margin: 0 24px 24px; border: 1px solid var(--line); border-radius: 0 8px 8px 8px; background: var(--panel); padding: 16px; }
+    .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    input, textarea { background: var(--bg); border: 1px solid #475569; color: var(--fg); border-radius: 6px; padding: 7px 9px; font-size: 13px; font-family: inherit; }
+    button { background: #334155; color: var(--fg); border: 1px solid #475569; border-radius: 6px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
     button:hover { background: #475569; }
-    button.pri { background: #0ea5e9; border-color: #0ea5e9; color: #04263a; font-weight: 600; }
+    button.pri { background: var(--accent); border-color: var(--accent); color: #04263a; font-weight: 700; }
     button.warn { background: #b45309; border-color: #b45309; color: #fff; }
-    pre { background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 8px; font-size: 11.5px; max-height: 260px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin: 6px 0 0; }
-    .st { font-weight: 700; } .ok { color: #4ade80; } .bad { color: #f87171; }
-    .tag { display:inline-block; font-size:10px; padding:1px 6px; border-radius:10px; background:#334155; color:#cbd5e1; margin-left:6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    th { color: var(--mut); font-weight: 600; }
+    tr.post { cursor: pointer; } tr.post:hover { background: #172033; }
+    .id { color: var(--mut); width: 48px; } .date { color: var(--mut); white-space: nowrap; }
+    .pager { display: flex; gap: 8px; align-items: center; margin-top: 12px; justify-content: center; color: var(--mut); font-size: 13px; }
+    .muted { color: var(--mut); font-size: 12px; }
+    dialog { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; width: min(560px, 92vw); padding: 0; }
+    dialog::backdrop { background: rgba(0,0,0,.55); }
+    .dlg-h { padding: 12px 16px; border-bottom: 1px solid var(--line); font-weight: 700; display:flex; justify-content:space-between; }
+    .dlg-b { padding: 16px; display: grid; gap: 8px; }
+    .dlg-b label { font-size: 12px; color: var(--mut); }
+    .dlg-b input, .dlg-b textarea { width: 100%; }
+    .dlg-f { padding: 12px 16px; border-top: 1px solid var(--line); display: flex; gap: 8px; justify-content: flex-end; }
+    .field-err { color:#f87171; font-size:12px; min-height:14px; }
   </style>
 </head>
 <body>
 <header>
-  <h1>게시판 CRUD — 3-스택 샘플 <span class="tag">실제 DB · 하나의 board_post 테이블</span></h1>
-  <p>같은 <b>board_post</b> 테이블을 <b>JPA / jOOQ / Spring Data JDBC</b> 세 방식으로 각각 CRUD. 셋 다 <b>Record DTO + MapStruct + Bean Validation</b> 적용.
+  <h1>게시판 — 3-스택 모범사례 <span class="muted">JPA · jOOQ · Spring Data JDBC · 하나의 board_post</span></h1>
+  <p>계층형(Controller→Service→Repository) · Record DTO + MapStruct + Bean Validation · 표준 응답(ApiResponse)·페이징(PageResponse)·에러(BusinessException).
      &nbsp;|&nbsp; <a href="/demo/index.html">← 공통기능</a> <a href="/demo/db.html">🗄️ DB 랩</a></p>
 </header>
-<main id="main"></main>
+
+<div class="tabs" id="tabs"></div>
+<div class="wrap">
+  <div class="toolbar">
+    <input id="kw" placeholder="제목/작성자 검색" style="width:220px" onkeydown="if(event.key==='Enter')reload(0)"/>
+    <button onclick="reload(0)">검색</button>
+    <button onclick="document.getElementById('kw').value='';reload(0)">전체</button>
+    <span style="flex:1"></span>
+    <span class="muted" id="stackLabel"></span>
+    <button class="pri" onclick="openWrite()">＋ 글쓰기</button>
+  </div>
+  <table>
+    <thead><tr><th class="id">번호</th><th>제목</th><th style="width:120px">작성자</th><th class="date" style="width:180px">작성일</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="pager" id="pager"></div>
+</div>
+
+<!-- 상세 -->
+<dialog id="viewDlg">
+  <div class="dlg-h"><span id="v_title"></span><button onclick="viewDlg.close()">✕</button></div>
+  <div class="dlg-b">
+    <div class="muted"><span id="v_meta"></span></div>
+    <div id="v_content" style="white-space:pre-wrap; line-height:1.5"></div>
+  </div>
+  <div class="dlg-f">
+    <button onclick="openEdit()">수정</button>
+    <button class="warn" onclick="removeCurrent()">삭제</button>
+    <button onclick="viewDlg.close()">닫기</button>
+  </div>
+</dialog>
+
+<!-- 글쓰기/수정 -->
+<dialog id="formDlg">
+  <div class="dlg-h"><span id="f_title">글쓰기</span><button onclick="formDlg.close()">✕</button></div>
+  <div class="dlg-b">
+    <label>제목</label><input id="f_titleInput"/><div class="field-err" id="f_titleErr"></div>
+    <label>작성자</label><input id="f_author"/><div class="field-err" id="f_authorErr"></div>
+    <label>내용</label><textarea id="f_content" rows="6"></textarea><div class="field-err" id="f_contentErr"></div>
+  </div>
+  <div class="dlg-f">
+    <button class="pri" id="f_submit" onclick="submitForm()">저장</button>
+    <button onclick="formDlg.close()">취소</button>
+  </div>
+</dialog>
 
 <script>
   const STACKS = [
-    { key: 'jpa',  name: 'Spring Data JPA (Hibernate)', cls: 'jpa',  desc: '@Entity + JpaRepository · 메서드명 파생 쿼리(by-author)' },
-    { key: 'jooq', name: 'jOOQ',                         cls: 'jooq', desc: 'DSLContext 타입세이프 SQL · 복잡/PG특화 쿼리 강점' },
-    { key: 'jdbc', name: 'Spring Data JDBC',             cls: 'jdbc', desc: '@Table + CrudRepository · "마법" 최소, 예측가능' },
+    { key:'jpa',  label:'Spring Data JPA (Hibernate)' },
+    { key:'jooq', label:'jOOQ' },
+    { key:'jdbc', label:'Spring Data JDBC' },
   ];
+  let stack = 'jpa', page = 0, size = 5, current = null, editId = null;
 
-  const main = document.getElementById('main');
+  const tabsEl = document.getElementById('tabs');
   STACKS.forEach(s => {
-    main.insertAdjacentHTML('beforeend', `
-      <section class="card">
-        <h2 class="${s.cls}">${s.name}</h2>
-        <div class="desc">${s.desc} · 엔드포인트 <code>/demo/board/${s.key}</code></div>
-        <div class="row">
-          title <input id="${s.key}_title" class="md" value="첫 글"/>
-          author <input id="${s.key}_author" class="md" value="alice"/>
-        </div>
-        <div class="row">
-          content <input id="${s.key}_content" value="본문입니다"/>
-          <button class="pri" onclick="create('${s.key}')">Create</button>
-        </div>
-        <div class="row">
-          id <input id="${s.key}_id" class="sm" value="1"/>
-          <button onclick="one('${s.key}','GET')">Get</button>
-          <button onclick="one('${s.key}','PUT')">Update</button>
-          <button onclick="one('${s.key}','DELETE')">Delete</button>
-          <button onclick="listAll('${s.key}')">List</button>
-          <button onclick="byAuthor('${s.key}')">By author</button>
-        </div>
-        <pre id="${s.key}_out">여기에 결과가 표시됩니다.</pre>
-      </section>`);
+    const el = document.createElement('div');
+    el.className = `tab ${s.key}`; el.textContent = s.label; el.dataset.key = s.key;
+    el.onclick = () => { stack = s.key; page = 0; renderTabs(); reload(0); };
+    tabsEl.appendChild(el);
   });
+  function renderTabs(){ [...tabsEl.children].forEach(t => t.classList.toggle('active', t.dataset.key===stack));
+    document.getElementById('stackLabel').textContent = 'API: /demo/board/' + stack; }
 
-  function v(id){ return document.getElementById(id).value; }
-  function body(k){ return { title: v(k+'_title'), content: v(k+'_content'), author: v(k+'_author') }; }
-  async function call(method, url, payload, k){
-    const el = document.getElementById(k + '_out');
-    const opt = { method, headers: { 'Content-Type': 'application/json' } };
-    if (payload !== null) opt.body = JSON.stringify(payload);
-    try {
-      const res = await fetch(url, opt);
-      let json; try { json = await res.json(); } catch(e){ json = '(no json)'; }
-      el.innerHTML = `<span class="st ${res.ok?'ok':'bad'}">HTTP ${res.status}</span> ${method} ${url}\n` + JSON.stringify(json, null, 2);
-    } catch(e){ el.innerHTML = `<span class="st bad">ERROR</span> ${e}`; }
+  const base = () => `/demo/board/${stack}`;
+  const fmt = iso => iso ? iso.replace('T',' ').slice(0,19) : '';
+
+  async function reload(p){
+    page = p ?? page;
+    const kw = document.getElementById('kw').value.trim();
+    const url = `${base()}?page=${page}&size=${size}` + (kw ? `&keyword=${encodeURIComponent(kw)}` : '');
+    const res = await fetch(url); const json = await res.json();
+    const pr = json.data;   // PageResponse
+    const rows = document.getElementById('rows'); rows.innerHTML = '';
+    if (!pr.content.length) {
+      rows.innerHTML = `<tr><td colspan="4" class="muted" style="text-align:center;padding:24px">게시글이 없습니다.</td></tr>`;
+    }
+    pr.content.forEach(p => {
+      const tr = document.createElement('tr'); tr.className = 'post';
+      tr.innerHTML = `<td class="id">${p.id}</td><td>${esc(p.title)}</td><td>${esc(p.author)}</td><td class="date">${fmt(p.createdAt)}</td>`;
+      tr.onclick = () => openView(p.id);
+      rows.appendChild(tr);
+    });
+    document.getElementById('pager').innerHTML =
+      `<button ${pr.first?'disabled':''} onclick="reload(${pr.page-1})">‹ 이전</button>`
+      + ` <span>${pr.totalElements}건 · ${pr.totalPages? (pr.page+1):0}/${pr.totalPages} 페이지</span> `
+      + `<button ${pr.last?'disabled':''} onclick="reload(${pr.page+1})">다음 ›</button>`;
   }
-  const base = k => `/demo/board/${k}`;
-  function create(k){ call('POST', base(k), body(k), k); }
-  function listAll(k){ call('GET', base(k), null, k); }
-  function byAuthor(k){ call('GET', base(k)+'/by-author?author='+encodeURIComponent(v(k+'_author')), null, k); }
-  function one(k, method){
-    const url = base(k) + '/' + v(k+'_id');
-    call(method, url, method==='PUT' ? body(k) : null, k);
+
+  async function openView(id){
+    const res = await fetch(`${base()}/${id}`);
+    if (!res.ok) { alert('조회 실패 (HTTP '+res.status+')'); reload(); return; }
+    current = (await res.json()).data;
+    document.getElementById('v_title').textContent = current.title;
+    document.getElementById('v_meta').textContent = `#${current.id} · ${current.author} · ${fmt(current.createdAt)} · via ${current.tech}`;
+    document.getElementById('v_content').textContent = current.content;
+    viewDlg.showModal();
   }
+
+  function openWrite(){ editId=null; setForm('글쓰기','',''); formDlg.showModal(); }
+  function openEdit(){ editId=current.id; setForm('수정', current.title, current.author, current.content); viewDlg.close(); formDlg.showModal(); }
+  function setForm(t, title, author, content){
+    document.getElementById('f_title').textContent = t;
+    document.getElementById('f_titleInput').value = title || '';
+    document.getElementById('f_author').value = author || '';
+    document.getElementById('f_content').value = content || '';
+    clearErr();
+  }
+  function clearErr(){ ['title','author','content'].forEach(f => document.getElementById('f_'+f+'Err').textContent=''); }
+
+  async function submitForm(){
+    clearErr();
+    const body = { title: v('f_titleInput'), content: v('f_content'), author: v('f_author') };
+    const url = editId ? `${base()}/${editId}` : base();
+    const res = await fetch(url, { method: editId?'PUT':'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const json = await res.json();
+    if (res.ok) { formDlg.close(); reload(editId?page:0); return; }
+    if (res.status===400 && json.error?.fieldErrors?.length) {
+      json.error.fieldErrors.forEach(fe => { const el=document.getElementById('f_'+fe.field+'Err'); if(el) el.textContent=fe.reason; });
+    } else { alert(json.message || ('오류 HTTP '+res.status)); }
+  }
+
+  async function removeCurrent(){
+    if (!confirm('삭제하시겠습니까?')) return;
+    const res = await fetch(`${base()}/${current.id}`, { method:'DELETE' });
+    if (res.ok) { viewDlg.close(); reload(); } else { alert('삭제 실패 HTTP '+res.status); }
+  }
+
+  const v = id => document.getElementById(id).value;
+  const esc = s => (s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+  renderTabs(); reload(0);
 </script>
 </body>
 </html>
