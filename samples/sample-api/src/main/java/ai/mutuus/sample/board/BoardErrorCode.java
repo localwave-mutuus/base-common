@@ -22,7 +22,10 @@ public enum BoardErrorCode implements ErrorCode {
     NOTICE_NOT_ALLOWED(HttpStatus.FORBIDDEN, "error.board.notice.forbidden"),
 
     /** 좋아요를 누르지 않은 사용자의 댓글 작성 시도(422) — cross-entity 사전검증. */
-    COMMENT_REQUIRES_LIKE(HttpStatus.UNPROCESSABLE_CONTENT, "error.board.comment.requireslike");
+    COMMENT_REQUIRES_LIKE(HttpStatus.UNPROCESSABLE_CONTENT, "error.board.comment.requireslike"),
+
+    /** 낙관적 락 충돌 — 내가 읽은 버전 이후 다른 사용자가 수정함(409). */
+    STALE_UPDATE(HttpStatus.CONFLICT, "error.board.stale");
 
     private final HttpStatus status;
     private final String messageKey;

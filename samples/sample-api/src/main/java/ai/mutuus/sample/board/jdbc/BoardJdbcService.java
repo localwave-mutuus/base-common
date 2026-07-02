@@ -66,8 +66,11 @@ public class BoardJdbcService implements BoardService {
     }
 
     @Override
-    public BoardPostResponse update(long id, BoardPostRequest request) {
+    public BoardPostResponse update(long id, BoardPostRequest request, Long expectedVersion) {
         BoardPostJdbc entity = findPost(id);
+        if (expectedVersion != null && !expectedVersion.equals(entity.getVersion())) {
+            throw new BusinessException(BoardErrorCode.STALE_UPDATE);
+        }
         BoardRules.validateNotice(request.title(), request.author());
         if (posts.existsByAuthorAndTitleExcept(request.author(), request.title(), id)) {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);

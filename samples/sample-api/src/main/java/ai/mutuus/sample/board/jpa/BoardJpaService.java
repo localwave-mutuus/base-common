@@ -71,8 +71,11 @@ public class BoardJpaService implements BoardService {
     }
 
     @Override
-    public BoardPostResponse update(long id, BoardPostRequest request) {
+    public BoardPostResponse update(long id, BoardPostRequest request, Long expectedVersion) {
         BoardPost entity = findPost(id);
+        if (expectedVersion != null && !expectedVersion.equals(entity.getVersion())) {
+            throw new BusinessException(BoardErrorCode.STALE_UPDATE); // 내가 읽은 버전 이후 변경됨
+        }
         BoardRules.validateNotice(request.title(), request.author());
         if (posts.existsByAuthorAndTitleAndIdNot(request.author(), request.title(), id)) {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
@@ -81,7 +84,8 @@ public class BoardJpaService implements BoardService {
         entity.setContent(request.content());
         entity.setAuthor(request.author());
         entity.setUpdatedAt(Instant.now());
-        return mapper.toResponse(posts.save(entity));
+        // saveAndFlush: @Version 증가는 flush 시점에 일어나므로, 응답에 증가된 version 을 담으려면 즉시 flush 한다.
+        return mapper.toResponse(posts.saveAndFlush(entity));
     }
 
     @Override

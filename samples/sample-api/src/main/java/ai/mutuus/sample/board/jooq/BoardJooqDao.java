@@ -28,6 +28,7 @@ public class BoardJooqDao {
     private static final Field<String> P_AUTHOR = DSL.field(DSL.name("author"), String.class);
     private static final Field<Instant> P_CREATED = DSL.field(DSL.name("created_at"), Instant.class);
     private static final Field<Instant> P_UPDATED = DSL.field(DSL.name("updated_at"), Instant.class);
+    private static final Field<Long> P_VERSION = DSL.field(DSL.name("version"), Long.class);
     // board_like
     private static final Table<Record> LIKE = DSL.table(DSL.name("board_like"));
     private static final Field<Long> L_POST = DSL.field(DSL.name("post_id"), Long.class);
@@ -51,8 +52,8 @@ public class BoardJooqDao {
 
     public BoardPostRow insert(String title, String content, String author) {
         Instant now = Instant.now();
-        Record key = dsl.insertInto(POST).columns(P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED)
-                .values(title, content, author, now, now)
+        Record key = dsl.insertInto(POST).columns(P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED, P_VERSION)
+                .values(title, content, author, now, now, 0L) // 신규 글의 초기 버전 0
                 .returning(P_ID).fetchOne();
         if (key == null) { // 방어: 일부 DB/드라이버에서 returning 실패 가능
             throw new IllegalStateException("board_post insert 후 생성 키를 얻지 못했습니다.");
@@ -61,7 +62,7 @@ public class BoardJooqDao {
     }
 
     public BoardPostRow findById(long id) {
-        Record r = dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED)
+        Record r = dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED, P_VERSION)
                 .from(POST).where(P_ID.eq(id)).fetchOne();
         return r == null ? null : toRow(r);
     }
@@ -80,7 +81,7 @@ public class BoardJooqDao {
     }
 
     public List<BoardPostRow> search(String keyword, int size, int offset) {
-        return dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED).from(POST)
+        return dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED, P_VERSION).from(POST)
                 .where(searchCondition(keyword)).orderBy(P_ID.desc()).limit(size).offset(offset)
                 .fetch(this::toRow);
     }
@@ -90,10 +91,19 @@ public class BoardJooqDao {
         return n == null ? 0 : n;
     }
 
-    public int update(long id, String title, String content, String author) {
+    /**
+     * 게시글 수정. {@code expectedVersion} 이 주어지면 <b>원자적 낙관적 락</b> — {@code WHERE id=? AND version=?} 로
+     * 조건부 갱신하고 {@code version} 을 1 증가시킨다(그 사이 변경됐으면 매칭 0건 → 반영 행 수 0으로 회신).
+     * null 이면 버전 조건 없이 갱신한다. @return 실제 갱신된 행 수.
+     */
+    public int update(long id, String title, String content, String author, Long expectedVersion) {
+        Condition where = P_ID.eq(id);
+        if (expectedVersion != null) {
+            where = where.and(P_VERSION.eq(expectedVersion));
+        }
         return dsl.update(POST).set(P_TITLE, title).set(P_CONTENT, content).set(P_AUTHOR, author)
-                .set(P_UPDATED, Instant.now())
-                .where(P_ID.eq(id)).execute();
+                .set(P_UPDATED, Instant.now()).set(P_VERSION, P_VERSION.plus(1))
+                .where(where).execute();
     }
 
     public int delete(long id) {
@@ -110,7 +120,7 @@ public class BoardJooqDao {
 
     private BoardPostRow toRow(Record r) {
         return new BoardPostRow(r.get(P_ID), r.get(P_TITLE), r.get(P_CONTENT), r.get(P_AUTHOR),
-                r.get(P_CREATED), r.get(P_UPDATED));
+                r.get(P_CREATED), r.get(P_UPDATED), r.get(P_VERSION));
     }
 
     // ----- 좋아요 -----

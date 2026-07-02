@@ -28,7 +28,11 @@ public interface BoardService {
 
     PageResponse<BoardPostResponse> search(String keyword, int page, int size);
 
-    BoardPostResponse update(long id, BoardPostRequest request);
+    /**
+     * 수정 — 없으면 {@code POST_NOT_FOUND}. {@code expectedVersion} 이 주어지고 현재 버전과 다르면
+     * {@code STALE_UPDATE}(409, 낙관적 락). null 이면 버전 검사 없이 갱신.
+     */
+    BoardPostResponse update(long id, BoardPostRequest request, Long expectedVersion);
 
     void delete(long id);
 

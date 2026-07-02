@@ -12,5 +12,6 @@ public record BoardPostResponse(
         String content,
         String author,
         Instant createdAt,
-        Instant updatedAt) {
+        Instant updatedAt,
+        Long version) {
 }

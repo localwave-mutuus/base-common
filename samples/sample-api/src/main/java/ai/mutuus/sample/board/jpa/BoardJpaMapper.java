@@ -15,6 +15,7 @@ public interface BoardJpaMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "version", ignore = true) // @Version — JPA 가 관리
     BoardPost toEntity(BoardPostRequest req);
 
     BoardPostResponse toResponse(BoardPost entity);

@@ -56,7 +56,7 @@ public class BoardJooqService implements BoardService {
     }
 
     @Override
-    public BoardPostResponse update(long id, BoardPostRequest request) {
+    public BoardPostResponse update(long id, BoardPostRequest request, Long expectedVersion) {
         if (!dao.postExists(id)) {
             throw new BusinessException(BoardErrorCode.POST_NOT_FOUND);
         }
@@ -64,7 +64,11 @@ public class BoardJooqService implements BoardService {
         if (dao.existsByAuthorAndTitleExcept(request.author(), request.title(), id)) {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
         }
-        dao.update(id, request.title(), request.content(), request.author());
+        // 원자적 낙관적 락: 조건부 UPDATE 가 0건이면(존재는 확인됨) 버전 불일치 → STALE_UPDATE
+        int affected = dao.update(id, request.title(), request.content(), request.author(), expectedVersion);
+        if (expectedVersion != null && affected == 0) {
+            throw new BusinessException(BoardErrorCode.STALE_UPDATE);
+        }
         return mapper.toResponse(dao.findById(id));
     }
 

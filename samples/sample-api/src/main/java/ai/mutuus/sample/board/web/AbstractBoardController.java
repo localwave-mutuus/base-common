@@ -63,10 +63,13 @@ public abstract class AbstractBoardController {
         return ApiResponse.ok(service().create(request));
     }
 
-    @Operation(summary = "게시글 수정", description = "없으면 404, 제목 중복 409.")
+    @Operation(summary = "게시글 수정",
+            description = "없으면 404, 제목 중복 409. version 을 주면 낙관적 락 — 그 사이 수정됐으면 409(STALE_UPDATE).")
     @PutMapping("/{id}")
-    public ApiResponse<BoardPostResponse> update(@PathVariable long id, @Valid @RequestBody BoardPostRequest request) {
-        return ApiResponse.ok(service().update(id, request));
+    public ApiResponse<BoardPostResponse> update(@PathVariable long id,
+                                                 @RequestParam(required = false) Long version,
+                                                 @Valid @RequestBody BoardPostRequest request) {
+        return ApiResponse.ok(service().update(id, request, version));
     }
 
     @Operation(summary = "게시글 삭제", description = "없으면 404.")

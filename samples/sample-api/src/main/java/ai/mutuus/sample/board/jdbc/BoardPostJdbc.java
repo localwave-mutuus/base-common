@@ -3,6 +3,7 @@ package ai.mutuus.sample.board.jdbc;
 import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -30,6 +31,11 @@ public class BoardPostJdbc {
 
     @Column("updated_at")
     private Instant updatedAt;
+
+    /** 낙관적 락 버전(Spring Data JDBC 자동 관리). */
+    @Version
+    @Column("version")
+    private Long version;
 
     public Long getId() {
         return id;
@@ -77,5 +83,13 @@ public class BoardPostJdbc {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

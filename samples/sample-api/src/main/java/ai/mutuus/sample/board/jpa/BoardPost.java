@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 /**
  * 게시글 JPA 엔티티(테이블 {@code board_post}). 세 스택이 공유하는 물리 테이블을 JPA ddl-auto 가 생성한다.
@@ -36,6 +37,11 @@ public class BoardPost {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    /** 낙관적 락 버전(JPA 자동 관리). */
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     public Long getId() {
         return id;
@@ -83,6 +89,14 @@ public class BoardPost {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     /** JPA 엔티티 동등성은 <b>식별자 기반</b>(id 미할당 상태에서는 서로 다름). hashCode 는 안정적으로 클래스 기준. */

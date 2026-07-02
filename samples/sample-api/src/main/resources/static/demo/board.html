@@ -116,7 +116,7 @@
     { key:'jooq', label:'jOOQ' },
     { key:'jdbc', label:'Spring Data JDBC' },
   ];
-  let stack = 'jpa', page = 0, size = 5, current = null, editId = null;
+  let stack = 'jpa', page = 0, size = 5, current = null, editId = null, editVersion = null;
 
   const tabsEl = document.getElementById('tabs');
   STACKS.forEach(s => {
@@ -194,8 +194,8 @@
     else document.getElementById('c_err').textContent = json.message || ('오류 HTTP '+res.status);   // 좋아요 미선행이면 422 메시지
   }
 
-  function openWrite(){ editId=null; setForm('글쓰기','',''); formDlg.showModal(); }
-  function openEdit(){ editId=current.id; setForm('수정', current.title, current.author, current.content); viewDlg.close(); formDlg.showModal(); }
+  function openWrite(){ editId=null; editVersion=null; setForm('글쓰기','',''); formDlg.showModal(); }
+  function openEdit(){ editId=current.id; editVersion=current.version; setForm('수정', current.title, current.author, current.content); viewDlg.close(); formDlg.showModal(); }
   function setForm(t, title, author, content){
     document.getElementById('f_title').textContent = t;
     document.getElementById('f_titleInput').value = title || '';
@@ -208,12 +208,17 @@
   async function submitForm(){
     clearErr();
     const body = { title: v('f_titleInput'), content: v('f_content'), author: v('f_author') };
-    const url = editId ? `${base()}/${editId}` : base();
+    // 수정은 낙관적 락: 조회 시점 version 을 함께 보내 그 사이 변경됐으면 409(STALE_UPDATE)
+    const url = editId
+      ? `${base()}/${editId}${editVersion!=null?`?version=${editVersion}`:''}`
+      : base();
     const res = await fetch(url, { method: editId?'PUT':'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
     const json = await res.json();
     if (res.ok) { formDlg.close(); reload(editId?page:0); return; }
     if (res.status===400 && json.error?.fieldErrors?.length) {
       json.error.fieldErrors.forEach(fe => { const el=document.getElementById('f_'+fe.field+'Err'); if(el) el.textContent=fe.reason; });
+    } else if (res.status===409 && json.code==='STALE_UPDATE') {
+      alert('다른 사용자가 먼저 수정했습니다. 최신 내용을 다시 불러옵니다.'); formDlg.close(); reload(page);
     } else { alert(json.message || ('오류 HTTP '+res.status)); }
   }
 

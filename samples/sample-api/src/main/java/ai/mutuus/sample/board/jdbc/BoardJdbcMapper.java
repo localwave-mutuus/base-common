@@ -13,6 +13,7 @@ public interface BoardJdbcMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "version", ignore = true) // @Version — Spring Data JDBC 가 관리
     BoardPostJdbc toEntity(BoardPostRequest req);
 
     BoardPostResponse toResponse(BoardPostJdbc entity);
