@@ -4,7 +4,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -39,24 +38,13 @@ public class DbDemoSupport {
     // ---------- ① 읽기/쓰기 라우팅 (라이브러리 메커니즘) ----------
     private DataSource routingPrimary;
     private DataSourceTransactionManager routingTm;
-    private DataSource routeWriteDs;
-    private DataSource routeReadDs;
 
     private synchronized void initRouting() {
         if (routingPrimary != null) {
             return;
         }
-        this.routeWriteDs = markerH2("jdbc:h2:mem:demo-route-write;DB_CLOSE_DELAY=-1", "WRITE");
-        this.routeReadDs = markerH2("jdbc:h2:mem:demo-route-read;DB_CLOSE_DELAY=-1", "READ");
-        // rw 랩용 테이블: WRITE 는 비우고, READ(Replica) 는 씨앗 데이터를 심어 "다른 물리 저장소"임을 보인다.
-        JdbcTemplate w = new JdbcTemplate(routeWriteDs);
-        w.execute("create table if not exists rw_item(id int auto_increment primary key, name varchar(100))");
-        w.update("delete from rw_item");
-        JdbcTemplate r = new JdbcTemplate(routeReadDs);
-        r.execute("create table if not exists rw_item(id int auto_increment primary key, name varchar(100))");
-        r.update("delete from rw_item");
-        r.update("insert into rw_item(name) values('replica-seed-1')");
-        r.update("insert into rw_item(name) values('replica-seed-2')");
+        DataSource routeWriteDs = markerH2("jdbc:h2:mem:demo-route-write;DB_CLOSE_DELAY=-1", "WRITE");
+        DataSource routeReadDs = markerH2("jdbc:h2:mem:demo-route-read;DB_CLOSE_DELAY=-1", "READ");
 
         ReadWriteRoutingDataSource routing = new ReadWriteRoutingDataSource();
         Map<Object, Object> targets = new HashMap<>();
@@ -95,40 +83,6 @@ public class DbDemoSupport {
                 && "WRITE".equals(writeTxRole) && "READ".equals(explicit));
         res.put("note", "@Transactional(readOnly) → READ, 그 외 → WRITE, RoutingContext 로 명시 override. "
                 + "라이브러리 CommonDataSourceRoutingAutoConfiguration(opt-in) 이 이 배관을 @Primary 로 조립해 준다.");
-        return res;
-    }
-
-    // --- rw 랩: 실제 데이터 쓰기/읽기가 서로 다른 물리 저장소로 라우팅됨을 보인다 ---
-
-    /** 쓰기 트랜잭션(readOnly 아님) → WRITE 저장소에 실제 insert. */
-    public Map<String, Object> rwWrite(String name) {
-        initRouting();
-        new TransactionTemplate(routingTm).executeWithoutResult(s ->
-                new JdbcTemplate(routingPrimary).update("insert into rw_item(name) values(?)", name));
-        return rwStatus("WRITE 저장소에 insert(name=" + name + ") — 쓰기 트랜잭션은 WRITE 로 라우팅.");
-    }
-
-    /** readOnly 트랜잭션 → READ(Replica) 저장소에서 조회. */
-    public Map<String, Object> rwRead() {
-        initRouting();
-        TransactionTemplate ro = new TransactionTemplate(routingTm);
-        ro.setReadOnly(true);
-        List<String> names = ro.execute(s ->
-                new JdbcTemplate(routingPrimary).queryForList("select name from rw_item order by id", String.class));
-        Map<String, Object> res = rwStatus("readOnly 조회는 READ 저장소로 라우팅 — WRITE 에 넣은 값은 보이지 않고 Replica 씨앗만 보인다(별도 물리 저장소).");
-        res.put("readNames", names);
-        return res;
-    }
-
-    /** 두 물리 저장소의 현재 행 수(라우팅이 서로 다른 저장소로 감을 수치로 확인). */
-    public Map<String, Object> rwStatus(String note) {
-        initRouting();
-        Map<String, Object> res = new LinkedHashMap<>();
-        res.put("writeStoreCount", count(routeWriteDs, "rw_item"));
-        res.put("readStoreCount", count(routeReadDs, "rw_item"));
-        res.put("note", note != null ? note
-                : "WRITE/READ 는 별도 물리 저장소(데모). 쓰기는 WRITE, readOnly 조회는 READ 로 라우팅됨을 카운트로 확인. "
-                + "실무 Replica 는 Primary 를 복제하지만, 여기선 라우팅이 물리적으로 분리됨을 보이려 별도로 둠.");
         return res;
     }
 

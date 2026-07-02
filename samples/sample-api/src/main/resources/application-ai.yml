@@ -16,7 +16,6 @@ demo:
   environment: ai
 
 spring:
-  # datasource 미지정 → JPA + H2(runtime) 로 임베디드 H2 자동 구성(무인프라, local 의 실 PostgreSQL 과 독립)
   data:
     redis:
       # 세션 케이스용(선택). 비밀번호는 커밋 파일에 두지 않는다(외부화) — 실행 시 주입.
@@ -24,12 +23,34 @@ spring:
       port: ${REDIS_PORT:16010}
       username: ${REDIS_USERNAME:default}
       password: ${REDIS_PASSWORD:}
+  jpa:
+    hibernate:
+      # 라이브러리 라우팅이 @Primary DataSource(app 그룹)를 제공하므로 Boot 의 임베디드 자동 ddl 이
+      # 걸리지 않는다 → JPA 감사 데모용 스키마를 명시 생성.
+      ddl-auto: create-drop
 
 mutuus:
   common:
     # local 과 Redis 세션 키가 겹치지 않게 네임스페이스 분리
     session:
       namespace: sample-api-ai:session
+    # 프로퍼티 기반 다중 DataSource + 읽기/쓰기 라우팅(라이브러리, opt-in) — YAML만으로.
+    # app=JPA 기본(@Primary, read 생략→write 폴백). db1/db2/db3 = "3개 DB 각 read/write" 요구 실증용.
+    datasource:
+      enabled: true
+      primary: app
+      groups:
+        app:
+          write: { url: "jdbc:h2:mem:app-db;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
+        db1:
+          write: { url: "jdbc:h2:mem:db1-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
+          read:  { url: "jdbc:h2:mem:db1-read;DB_CLOSE_DELAY=-1",  username: sa, driver-class-name: org.h2.Driver }
+        db2:
+          write: { url: "jdbc:h2:mem:db2-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
+          read:  { url: "jdbc:h2:mem:db2-read;DB_CLOSE_DELAY=-1",  username: sa, driver-class-name: org.h2.Driver }
+        db3:
+          write: { url: "jdbc:h2:mem:db3-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
+          read:  { url: "jdbc:h2:mem:db3-read;DB_CLOSE_DELAY=-1",  username: sa, driver-class-name: org.h2.Driver }
   sample:
     # 보안 인증성공 케이스용 mock JwtDecoder 활성(자동화 검증 편의)
     mock-jwt: true

@@ -71,17 +71,19 @@
     <pre id="out_err">여기에 결과가 표시됩니다.</pre>
   </section>
 
-  <!-- 읽기/쓰기 분리 -->
+  <!-- 멀티커넥션: 3개 DB 각 읽기/쓰기 분리 -->
   <section class="card">
-    <h2>3. 멀티커넥션 읽기/쓰기 분리</h2>
-    <div class="desc">라이브러리 ReadWriteRoutingDataSource · 쓰기→WRITE 저장소, readOnly 조회→READ(Replica) 저장소</div>
+    <h2>3. 멀티커넥션 — 3개 DB 각 읽기/쓰기 분리</h2>
+    <div class="desc">하나의 API 가 db1/db2/db3 에 접속 · 각 DB: 쓰기→WRITE 저장소, readOnly 조회→READ(Replica) 저장소
+      · 전부 <b>YAML(mutuus.common.datasource.groups.*)만으로</b> 구성(소비자 Java 배선 0)</div>
     <div class="row">
-      name <input id="rw_name" value="order-1"/>
-      <button class="pri" onclick="call('POST','/demo/db/lab/rw/write',{name:v('rw_name')},'rw')">WRITE 에 쓰기</button>
-      <button onclick="call('GET','/demo/db/lab/rw/read',null,'rw')">READ 에서 읽기</button>
-      <button onclick="call('GET','/demo/db/lab/rw/status',null,'rw')">양쪽 카운트</button>
+      DB <select id="mdb"><option>db1</option><option>db2</option><option>db3</option></select>
+      name <input id="mdb_name" value="row-1"/>
+      <button class="pri" onclick="call('POST','/demo/db/lab/multidb/'+v('mdb')+'/write',{name:v('mdb_name')},'rw')">선택 DB 에 write</button>
+      <button onclick="call('GET','/demo/db/lab/multidb/'+v('mdb')+'/read',null,'rw')">선택 DB 에서 read</button>
+      <button onclick="call('GET','/demo/db/lab/multidb/status',null,'rw')">3개 DB 상태</button>
     </div>
-    <div class="desc">writeStoreCount 는 쓸수록 증가, readStoreCount 는 Replica 씨앗값 유지 → 물리적으로 다른 저장소로 라우팅됨을 확인.</div>
+    <div class="desc">선택 DB 의 writeStoreCount 증가(쓰기 라우팅), readStoreCount 는 &lt;db&gt;-replica-seed 유지(읽기 라우팅) → DB별 물리 분리 확인.</div>
     <pre id="out_rw">여기에 결과가 표시됩니다.</pre>
   </section>
 

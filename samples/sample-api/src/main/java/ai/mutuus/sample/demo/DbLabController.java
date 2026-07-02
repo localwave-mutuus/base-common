@@ -34,10 +34,12 @@ public class DbLabController {
 
     private final DbLabSupport crud;
     private final DbDemoSupport db;
+    private final DbMultiSupport multi;
 
-    public DbLabController(DbLabSupport crud, DbDemoSupport db) {
+    public DbLabController(DbLabSupport crud, DbDemoSupport db, DbMultiSupport multi) {
         this.crud = crud;
         this.db = db;
+        this.multi = multi;
     }
 
     // ---------------- CRUD (실 DB) ----------------
@@ -115,19 +117,21 @@ public class DbLabController {
 
     // ---------------- 읽기/쓰기 분리 ----------------
 
-    @PostMapping("/rw/write")
-    public ApiResponse<Map<String, Object>> rwWrite(@Valid @RequestBody NameRequest req) {
-        return ApiResponse.ok(db.rwWrite(req.name()));
+    // 3개 DB(db1/db2/db3) 각 read/write — 프로퍼티 기반 라이브러리 라우팅(YAML만으로 구성).
+    @PostMapping("/multidb/{db}/write")
+    public ApiResponse<Map<String, Object>> multiWrite(@PathVariable("db") String dbName,
+                                                       @Valid @RequestBody NameRequest req) {
+        return ApiResponse.ok(multi.write(dbName, req.name()));
     }
 
-    @GetMapping("/rw/read")
-    public ApiResponse<Map<String, Object>> rwRead() {
-        return ApiResponse.ok(db.rwRead());
+    @GetMapping("/multidb/{db}/read")
+    public ApiResponse<Map<String, Object>> multiRead(@PathVariable("db") String dbName) {
+        return ApiResponse.ok(multi.read(dbName));
     }
 
-    @GetMapping("/rw/status")
-    public ApiResponse<Map<String, Object>> rwStatus() {
-        return ApiResponse.ok(db.rwStatus(null));
+    @GetMapping("/multidb/status")
+    public ApiResponse<Map<String, Object>> multiStatus() {
+        return ApiResponse.ok(multi.statusAll());
     }
 
     // ---------------- XA 성공/실패 ----------------

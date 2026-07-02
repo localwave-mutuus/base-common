@@ -169,15 +169,25 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **브로커 확장점**: 외부 브로커(Kafka/Rabbit 등)로 내보내려면 **소비 서비스가 `EventPublisher`를 구현한 빈으로 대체**한다(`@ConditionalOnMissingBean`) — 봉투 규약은 그대로 유지. 라이브러리는 코어(봉투+in-process 발행)만 제공하고, **브로커별 어댑터는 인프라 선택이 확정되면 얹는다**(현재 보류).
 - 토글: `mutuus.common.event.enabled=false`. 회귀 가드: `DomainEventTest`(봉투 TraceContext 자동주입, 단위) + `EventPublishingIntegrationTest`(발행→in-process 리스너 수신) + 데모 `samples/sample-api/.../DemoEventRecorder`(`/demo/event`).
 
-### 13. 읽기/쓰기 라우팅 (datasource 패키지, optional·opt-in)
+### 13. 프로퍼티 기반 다중 DataSource + 읽기/쓰기 라우팅 (datasource 패키지, optional·opt-in)
 
-DB 읽기/쓰기 분리(Primary/Replica)·멀티테넌트에서 쓰는 **라우팅 "메커니즘"만** 제공하는 optional 통합이다(정책=어느 DB·토폴로지·풀 사이징은 서비스 몫). DB 계층 가이드([260702.002.DB_LAYER_GUIDE.md](docs/260702.002.DB_LAYER_GUIDE.md)) 3~4장의 ① 구조를 라이브러리로 승격한 것 — ②(DS별 TxManager)·③(JTA/XA)는 도메인·정책 종속이라 수용하지 않는다(서비스 레벨).
+여러 논리 DB를 **YAML만으로** 정의하고 각 DB의 읽기/쓰기를 라우팅하는 **"메커니즘"만** 제공하는 optional 통합이다(정책=어느 DB·토폴로지·풀 사이징·JPA 매핑·트랜잭션 경계·XA는 서비스 몫). DB 계층 가이드([260702.002.DB_LAYER_GUIDE.md](docs/260702.002.DB_LAYER_GUIDE.md)) 3~4장의 ① 구조를 승격한 것 — ②(DS별 TxManager)·③(JTA/XA)는 도메인·정책 종속이라 수용하지 않는다(서비스 레벨).
 
-`CommonDataSourceRoutingAutoConfiguration`(`@ConditionalOnClass(AbstractRoutingDataSource)` + `@ConditionalOnProperty(mutuus.common.datasource.routing.enabled=true)`, **기본 OFF**, `beforeName` Boot `DataSourceAutoConfiguration`)이 소비 서비스가 제공한 `@Qualifier("writeDataSource")`/`@Qualifier("readDataSource")` 두 DataSource 를 `ReadWriteRoutingDataSource` 로 묶고 **필수인 `LazyConnectionDataSourceProxy` 래핑**까지 대신 해 `@Primary` DataSource 로 노출한다.
+`CommonDataSourceRoutingAutoConfiguration`(`@ConditionalOnClass(AbstractRoutingDataSource)` + `@ConditionalOnProperty(mutuus.common.datasource.enabled=true)`, **기본 OFF**, `beforeName` Boot `DataSourceAutoConfiguration`)이 `@Import(MultiDataSourceRegistrar)` 로 프로퍼티(`mutuus.common.datasource.groups.*`)를 읽어 **그룹마다 라우팅 DataSource(`<group>DataSource`)를 등록**한다. 각 그룹은 논리 DB 하나이며 `write`/`read` 커넥션을 갖고(HikariCP), 라이브러리가 `ReadWriteRoutingDataSource` + **필수 `LazyConnectionDataSourceProxy` 래핑**으로 조립한다. `primary` 그룹의 DataSource 가 `@Primary`(JPA/기본 주입 대상, Boot 단일 DataSource 자동구성은 물러남), 나머지는 `@Qualifier("<group>DataSource")` 로 주입. `read` 생략 시 write 폴백.
 
-- **라우팅 판별(AOP 불필요)**: 커넥션을 실제로 얻는 시점에 `determineCurrentLookupKey()` 가 (1) `RoutingContext`(ThreadLocal) 명시 지정이 있으면 그 값, (2) 없으면 `TransactionSynchronizationManager.isCurrentTransactionReadOnly()` — `@Transactional(readOnly=true)`→READ, 그 외 WRITE. **`LazyConnectionDataSourceProxy` 가 필수**인 이유: 트랜잭션이 열려 readOnly 플래그가 설정된 *이후*로 커넥션 획득을 지연시켜야 이 판별이 정확하다(프록시 없으면 트랜잭션 시작 시점에 커넥션이 먼저 붙어 라우팅 무력화 — 가이드 6장 대표 버그).
-- **정리 규율**: `RoutingContext.set()` 로 명시 지정했으면 `finally` 에서 `clear()`(ThreadLocal 누수 방지 — `TraceContext` 와 동일).
-- 소비자가 자체 `@Primary` DataSource(`dataSource` 빈)를 정의하면 `@ConditionalOnMissingBean` 으로 비켜선다. 회귀 가드: `CommonDataSourceRoutingAutoConfigurationTest`(ApplicationContextRunner — readOnly→READ / 쓰기→WRITE / 명시 override / OFF 시 미등록) + 데모 `/demo/db/routing`. **DB 계층 3구조(①②③) 실증 데모**는 `samples/sample-api/.../DbDemoSupport`(`/demo/db/{routing,multitx,xa,guide}`) — ①은 이 라이브러리 메커니즘, ②③은 서비스 레벨(Atomikos) 프로그램적 시연(앱 기본 DataSource 와 분리).
+```yaml
+mutuus.common.datasource:
+  enabled: true
+  primary: app                    # 이 그룹이 @Primary(JPA 기본)
+  groups:
+    app:  { write: { url: ..., username: ..., password: ..., driver-class-name: ..., pool-max-size: 10 } }  # read 생략 → write 폴백
+    db1:  { write: { url: ... }, read: { url: ... } }   # 각 DB read/write 분리
+    db2:  { write: { url: ... }, read: { url: ... } }
+```
+
+- **라우팅 판별(AOP 불필요)**: 커넥션 획득 시점에 `determineCurrentLookupKey()` 가 (1) `RoutingContext`(ThreadLocal) 명시 지정 우선, (2) 없으면 `TransactionSynchronizationManager.isCurrentTransactionReadOnly()` — `@Transactional(readOnly=true)`→READ, 그 외 WRITE. **`LazyConnectionDataSourceProxy` 필수**(트랜잭션 readOnly 설정 *이후*로 커넥션 획득 지연 → 라우팅 정확; 없으면 무력화 = 가이드 6장 대표 버그).
+- **정리 규율**: `RoutingContext.set()` 명시 지정 시 `finally`에서 `clear()`(ThreadLocal 누수 방지 — `TraceContext` 와 동일).
+- 회귀 가드: `CommonDataSourceRoutingAutoConfigurationTest`(ApplicationContextRunner — 그룹별 DataSource 등록·primary 선택·readOnly→READ/쓰기→WRITE·OFF 시 미등록). **실증 데모**: 하나의 API 가 3개 DB(db1/db2/db3) 각 read/write 로 접속하는 `/demo/db/lab/multidb/*`(`DbMultiSupport`) + DB 3구조 개요 `/demo/db/{routing,multitx,xa,guide}`(`DbDemoSupport`) + 랩 페이지 `/demo/db.html`. ②(개별 TxManager)·③(Atomikos XA)는 서비스 레벨 프로그램적 시연(앱 기본 DataSource 와 분리).
 
 ## 작업 시 규칙
 
