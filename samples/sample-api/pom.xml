@@ -75,6 +75,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-flyway</artifactId>
         </dependency>
+        <!-- Spring Modulith: 모듈(=바운디드 컨텍스트) 경계 검증 + 모듈 간 이벤트(@ApplicationModuleListener).
+             버전은 common-platform-bom 의 spring-modulith-bom 이 관리(버전 명시 없음). -->
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-starter-core</artifactId>
+        </dependency>
+        <!-- 모듈 간 이벤트 애노테이션(@ApplicationModuleListener). 레지스트리(아웃박스) 백엔드는 추가하지 않아
+             in-process 표준 리스너로 동작(선불 데모라 아웃박스 미필요; 필요 시 -jdbc/-jpa 추가 → 260702.010). -->
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-events-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Flyway 10+ 는 DB별 지원을 모듈로 분리했다. 로컬 실 PostgreSQL(local 프로파일 + *LiveIntegrationTest)에서
              마이그레이션하려면 이 모듈이 필요(PG 17 지원). H2 는 flyway-core 내장이라 별도 모듈 불필요. -->
         <dependency>
