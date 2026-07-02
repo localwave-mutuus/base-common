@@ -191,6 +191,10 @@ mutuus.common.datasource:
 
 ## 작업 시 규칙
 
+- **코드 품질 기준(최우선 원칙)**: 이 프로젝트(`common-platform` 라이브러리 + `samples/*`)는 **상용(운영) 품질 AI 코딩의 모범사례이자 원천 소스(source of truth)** 다. 여기의 모든 코드·설정·문서는 AI 코딩 어시스턴트가 참조·재사용·변경관리하는 기준점이므로, **항상 상용 수준으로 작성**한다 — 임시방편·데모용 축약·"일단 동작" 코드를 남기지 않는다. 구체적으로:
+  - 계층 분리(얇은 Controller → 트랜잭션 Service → Repository/DAO), 도메인 DTO(record) 노출·MapStruct 매핑·Bean Validation, 표준 응답(`ApiResponse`)·페이징(`PageResponse`)·에러(`ErrorCode`+`BusinessException`), optional+조건부 자동구성 패턴을 지킨다.
+  - 새 기능은 참조 샘플([docs/260702.004.BOARD_SAMPLE_GUIDE.md](docs/260702.004.BOARD_SAMPLE_GUIDE.md) 등)의 구조·관습을 따르고, 회귀 가드(테스트)와 한국어 문서(설명·근거·AI 변경관리 지침)를 함께 남긴다.
+  - 데모/샘플이라도 눈속임(mock 값 반환 등)이 아니라 **실제로 동작하는 상용급 구현**을 원칙으로 한다(불가피한 시연용 축약은 주석/문서로 명시). 운영 관점 권고(예: 스키마는 Flyway + `ddl-auto=validate`)가 데모 편의 구현과 다르면 그 차이를 문서에 남긴다.
 - **테스트 위치(중요)**: 모든 테스트는 **소비 서비스 샘플(`samples/*`)에서 수행**한다. `lib/` 라이브러리 모듈에는 `lib/src/test`를 두지 않는다(현재 0개). 이 라이브러리는 "소비 서비스에 흡수되는" 산출물이므로, 단위 테스트까지 포함해 **실제 소비자가 의존성 하나로 끌어다 쓰는 관점**에서 검증한다.
   - **`samples/sample-api`**(웹 소비자): 대부분의 테스트. 라이브러리 내부 클래스의 단위/슬라이스 테스트는 라이브러리와 **같은 패키지명**(`ai.mutuus.common.*`)으로 둔다(package-private 멤버 접근은 classpath split-package로 동작 — 이 프로젝트는 JPMS 모듈이 아니다). 소비자 시나리오 통합 테스트는 `ai.mutuus.sample.*`에 둔다.
   - **`samples/sample-batch`**(비웹 소비자): web/security starter 미의존. optional 자동구성이 **비웹 서비스로 전이/활성화되지 않음**을 실제 컨텍스트로 검증한다. 비웹에선 spring-web/security 클래스가 classpath에 없어 타입 참조조차 불가하므로 web 빈 부재는 **빈 이름**으로 확인한다.
