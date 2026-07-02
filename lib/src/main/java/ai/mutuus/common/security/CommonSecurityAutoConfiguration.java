@@ -15,7 +15,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
+import org.springframework.util.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -53,10 +56,20 @@ public class CommonSecurityAutoConfiguration {
         var deniedHandler = new LoggingAccessDeniedHandler(new BearerTokenAccessDeniedHandler(), logger, audit);
 
         http
-                // 무상태 OAuth2 리소스 서버: 세션을 만들지 않고, 토큰 기반이라 CSRF 보호 불필요.
-                // (이 설정이 없으면 permit-all 경로라도 POST 등 변경 요청이 CSRF로 403 처리됨)
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // CSRF: 무상태 Bearer API 는 불필요(기본 비활성). 쿠키 세션 사용 시 csrf-enabled=true 로 켜면
+                // CookieCsrfTokenRepository 로 보호한다(그 경우 STATELESS 도 완화).
+                .csrf(csrf -> {
+                    if (props.isCsrfEnabled()) {
+                        csrf.csrfTokenRepository(
+                                org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse());
+                    } else {
+                        csrf.disable();
+                    }
+                })
+                .sessionManagement(session -> session.sessionCreationPolicy(
+                        props.isCsrfEnabled() ? SessionCreationPolicy.IF_REQUIRED : SessionCreationPolicy.STATELESS))
+                // 보안 응답 헤더(하드닝, opt-in)
+                .headers(headers -> applyHardeningHeaders(headers, props.getHeaders()))
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(props.getPermitAll().toArray(String[]::new)).permitAll()
                         .anyRequest().authenticated())
@@ -73,6 +86,23 @@ public class CommonSecurityAutoConfiguration {
                 .addFilterAfter(new AuthenticatedUserContextFilter(audit, props.isTrustForwardedUser()),
                         AuthorizationFilter.class);
         return http.build();
+    }
+
+    /** 보안 응답 헤더(하드닝, opt-in) — 활성 시 Referrer-Policy·Permissions-Policy·CSP(설정 시)를 응답에 추가. */
+    private static void applyHardeningHeaders(HeadersConfigurer<HttpSecurity> headers,
+                                              CommonSecurityProperties.Headers cfg) {
+        if (!cfg.isEnabled()) {
+            return; // 기본 OFF — Spring 기본 헤더(nosniff 등)만 유지
+        }
+        if (StringUtils.hasText(cfg.getReferrerPolicy())) {
+            headers.addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", cfg.getReferrerPolicy()));
+        }
+        if (StringUtils.hasText(cfg.getPermissionsPolicy())) {
+            headers.addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", cfg.getPermissionsPolicy()));
+        }
+        if (StringUtils.hasText(cfg.getContentSecurityPolicy())) {
+            headers.addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", cfg.getContentSecurityPolicy()));
+        }
     }
 
     /**

@@ -36,6 +36,9 @@ mutuus:
     security:
       audiences:
         - sample-api
+      # 보안 응답 헤더 하드닝(Phase 3) 시연. CSP 는 데모 HTML 의 인라인 스크립트를 막지 않도록 미설정.
+      headers:
+        enabled: true
     # local 과 Redis 세션 키가 겹치지 않게 네임스페이스 분리
     session:
       namespace: sample-api-ai:session

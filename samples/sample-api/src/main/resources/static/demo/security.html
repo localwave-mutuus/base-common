@@ -144,10 +144,21 @@
            (<code>permit_all_broad</code>). 위 우측 패널을 새로고침하면 기동 시 남은 이벤트를 볼 수 있다.</p>
       </div>
 
-      <div class="phase">Phase 3 — 예정 (CSRF/세션 조건부·보안 헤더)</div>
-      <div class="card todo">
-        <h3>보안 응답 헤더·CSRF 조건부 <span class="badge btodo">예정</span></h3>
-        <p>CSP·Referrer-Policy·Permissions-Policy opt-in 하드닝, 세션 사용 시 CSRF 조건부 활성.</p>
+      <div class="phase">Phase 3 — 보안 헤더·CSRF (동작)</div>
+
+      <div class="card">
+        <h3>보안 응답 헤더 <span class="badge b200">헤더</span> <span class="evtag">headers.enabled</span></h3>
+        <p>하드닝 활성(ai 프로파일 <code>headers.enabled=true</code>) 시 응답에 Referrer-Policy·Permissions-Policy·
+           X-Content-Type-Options 가 실린다. CSP 는 데모 HTML 인라인 스크립트를 막지 않도록 미설정.</p>
+        <button onclick="runHeaders(this)">실행: 응답 보안 헤더 확인</button>
+        <div class="result" id="r-headers"></div>
+      </div>
+
+      <div class="card">
+        <h3>CSRF 조건부 <span class="evtag">csrf-enabled</span> <span class="badge btodo">knob</span></h3>
+        <p>기본은 무상태 Bearer 라 CSRF 비활성(안전). 쿠키 <b>세션</b> 소비 서비스는
+           <code>mutuus.common.security.csrf-enabled=true</code> 로 켜면 CSRF 토큰 없는 상태변경(POST)이 403 이 된다.
+           회귀 <code>SecurityHeadersCsrfIntegrationTest</code>. (이 데모 프로파일은 CSRF 기본 비활성)</p>
       </div>
     </div>
 
@@ -196,6 +207,19 @@
         let pretty = text; try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch {}
         box.innerHTML = `<span class="st ${stClass(res.status)}">HTTP ${res.status}</span>`
           + `<pre class="body">${esc(pretty)}</pre>`;
+      } catch (e) {
+        box.innerHTML = `<span class="st st5">오류</span> <span class="meta">${esc(e)}</span>`;
+      } finally { btn.disabled = false; }
+    }
+
+    async function runHeaders(btn) {
+      const box = document.getElementById('r-headers');
+      btn.disabled = true; box.innerHTML = '<span class="meta">호출 중…</span>';
+      try {
+        const res = await fetch('/api/public/whoami');
+        const names = ['Referrer-Policy', 'Permissions-Policy', 'X-Content-Type-Options', 'Content-Security-Policy'];
+        const lines = names.map(n => `${n}: ${res.headers.get(n) || '(없음)'}`).join('\n');
+        box.innerHTML = `<span class="st st2">HTTP ${res.status}</span><pre class="body">${esc(lines)}</pre>`;
       } catch (e) {
         box.innerHTML = `<span class="st st5">오류</span> <span class="meta">${esc(e)}</span>`;
       } finally { btn.disabled = false; }
