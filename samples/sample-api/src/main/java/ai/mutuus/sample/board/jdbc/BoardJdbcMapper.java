@@ -12,9 +12,10 @@ public interface BoardJdbcMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     BoardPostJdbc toEntity(BoardPostRequest req);
 
-    BoardPostResponse toResponse(BoardPostJdbc entity, String tech);
+    BoardPostResponse toResponse(BoardPostJdbc entity);
 
     CommentResponse toCommentResponse(BoardCommentJdbc comment);
 }

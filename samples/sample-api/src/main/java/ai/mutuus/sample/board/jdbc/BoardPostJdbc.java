@@ -28,6 +28,9 @@ public class BoardPostJdbc {
     @Column("created_at")
     private Instant createdAt;
 
+    @Column("updated_at")
+    private Instant updatedAt;
+
     public Long getId() {
         return id;
     }
@@ -66,5 +69,13 @@ public class BoardPostJdbc {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

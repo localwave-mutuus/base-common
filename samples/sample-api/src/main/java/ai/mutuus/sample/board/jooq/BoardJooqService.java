@@ -36,22 +36,22 @@ public class BoardJooqService implements BoardService {
         if (dao.existsByAuthorAndTitle(request.author(), request.title())) {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
         }
-        return mapper.toResponse(dao.insert(request.title(), request.content(), request.author()), tech());
+        return mapper.toResponse(dao.insert(request.title(), request.content(), request.author()));
     }
 
     @Override
     @Transactional(readOnly = true)
     public BoardPostResponse get(long id) {
-        return mapper.toResponse(findPost(id), tech());
+        return mapper.toResponse(findPost(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResponse<BoardPostResponse> search(String keyword, int page, int size) {
-        String kw = StringUtils.hasText(keyword) ? keyword.trim() : null;
+        String kw = StringUtils.hasText(keyword) ? BoardRules.escapeLike(keyword.trim()) : null;
         long total = dao.count(kw);
         List<BoardPostResponse> content = dao.search(kw, size, page * size).stream()
-                .map(r -> mapper.toResponse(r, tech())).toList();
+                .map(mapper::toResponse).toList();
         return PageResponse.of(content, page, size, total);
     }
 
@@ -65,7 +65,7 @@ public class BoardJooqService implements BoardService {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
         }
         dao.update(id, request.title(), request.content(), request.author());
-        return mapper.toResponse(dao.findById(id), tech());
+        return mapper.toResponse(dao.findById(id));
     }
 
     @Override
@@ -105,11 +105,6 @@ public class BoardJooqService implements BoardService {
     public List<CommentResponse> comments(long postId) {
         ensurePostExists(postId);
         return dao.findComments(postId).stream().map(mapper::toCommentResponse).toList();
-    }
-
-    @Override
-    public String tech() {
-        return "jOOQ";
     }
 
     private BoardPostRow findPost(long id) {

@@ -49,22 +49,24 @@ public class BoardJpaService implements BoardService {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
         }
         BoardPost entity = mapper.toEntity(request);
-        entity.setCreatedAt(Instant.now());
-        return mapper.toResponse(posts.save(entity), tech());
+        Instant now = Instant.now();
+        entity.setCreatedAt(now);
+        entity.setUpdatedAt(now);
+        return mapper.toResponse(posts.save(entity));
     }
 
     @Override
     @Transactional(readOnly = true)
     public BoardPostResponse get(long id) {
-        return mapper.toResponse(findPost(id), tech());
+        return mapper.toResponse(findPost(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResponse<BoardPostResponse> search(String keyword, int page, int size) {
-        String kw = StringUtils.hasText(keyword) ? keyword.trim() : null;
+        String kw = StringUtils.hasText(keyword) ? BoardRules.escapeLike(keyword.trim()) : null;
         Page<BoardPost> found = posts.search(kw, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
-        List<BoardPostResponse> content = found.getContent().stream().map(e -> mapper.toResponse(e, tech())).toList();
+        List<BoardPostResponse> content = found.getContent().stream().map(mapper::toResponse).toList();
         return PageResponse.of(content, found.getNumber(), found.getSize(), found.getTotalElements());
     }
 
@@ -78,7 +80,8 @@ public class BoardJpaService implements BoardService {
         entity.setTitle(request.title());
         entity.setContent(request.content());
         entity.setAuthor(request.author());
-        return mapper.toResponse(posts.save(entity), tech());
+        entity.setUpdatedAt(Instant.now());
+        return mapper.toResponse(posts.save(entity));
     }
 
     @Override
@@ -130,11 +133,6 @@ public class BoardJpaService implements BoardService {
     public List<CommentResponse> comments(long postId) {
         ensurePostExists(postId);
         return comments.findByPostIdOrderByIdAsc(postId).stream().map(mapper::toCommentResponse).toList();
-    }
-
-    @Override
-    public String tech() {
-        return "JPA";
     }
 
     private BoardPost findPost(long id) {

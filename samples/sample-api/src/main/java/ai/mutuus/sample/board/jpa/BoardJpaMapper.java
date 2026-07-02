@@ -14,9 +14,10 @@ public interface BoardJpaMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     BoardPost toEntity(BoardPostRequest req);
 
-    BoardPostResponse toResponse(BoardPost entity, String tech);
+    BoardPostResponse toResponse(BoardPost entity);
 
     CommentResponse toCommentResponse(BoardComment comment);
 }

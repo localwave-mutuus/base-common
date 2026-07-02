@@ -11,6 +11,7 @@ import ai.mutuus.sample.board.dto.BoardPostResponse;
 import ai.mutuus.sample.board.dto.CommentRequest;
 import ai.mutuus.sample.board.dto.CommentResponse;
 import ai.mutuus.sample.board.dto.LikeRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public abstract class AbstractBoardController {
 
     // ----- 게시글 -----
 
+    @Operation(summary = "게시글 목록/검색", description = "제목·작성자 부분일치 검색 + 페이징(size 1~100 클램프).")
     @GetMapping
     public ApiResponse<PageResponse<BoardPostResponse>> list(
             @RequestParam(required = false) String keyword,
@@ -48,21 +50,26 @@ public abstract class AbstractBoardController {
         return ApiResponse.ok(service().search(keyword, safePage, safeSize));
     }
 
+    @Operation(summary = "게시글 단건 조회", description = "없으면 404(POST_NOT_FOUND).")
     @GetMapping("/{id}")
     public ApiResponse<BoardPostResponse> get(@PathVariable long id) {
         return ApiResponse.ok(service().get(id));
     }
 
+    @Operation(summary = "게시글 작성",
+            description = "공지([공지]) 규칙·제목 중복 등 비즈니스 검증 적용. 검증 실패 400/403/409.")
     @PostMapping
     public ApiResponse<BoardPostResponse> create(@Valid @RequestBody BoardPostRequest request) {
         return ApiResponse.ok(service().create(request));
     }
 
+    @Operation(summary = "게시글 수정", description = "없으면 404, 제목 중복 409.")
     @PutMapping("/{id}")
     public ApiResponse<BoardPostResponse> update(@PathVariable long id, @Valid @RequestBody BoardPostRequest request) {
         return ApiResponse.ok(service().update(id, request));
     }
 
+    @Operation(summary = "게시글 삭제", description = "없으면 404.")
     @DeleteMapping("/{id}")
     public ApiResponse<String> delete(@PathVariable long id) {
         service().delete(id);
@@ -71,6 +78,7 @@ public abstract class AbstractBoardController {
 
     // ----- 좋아요 -----
 
+    @Operation(summary = "좋아요(멱등)", description = "같은 사용자의 반복 요청은 무시. 없는 글이면 404.")
     @PostMapping("/{id}/likes")
     public ApiResponse<Map<String, Object>> like(@PathVariable long id, @Valid @RequestBody LikeRequest request) {
         long count = service().like(id, request.author());
@@ -79,11 +87,14 @@ public abstract class AbstractBoardController {
 
     // ----- 댓글 -----
 
+    @Operation(summary = "댓글 목록", description = "오래된 순. 없는 글이면 404.")
     @GetMapping("/{id}/comments")
     public ApiResponse<List<CommentResponse>> comments(@PathVariable long id) {
         return ApiResponse.ok(service().comments(id));
     }
 
+    @Operation(summary = "댓글 작성",
+            description = "핵심 비즈니스 규칙: 좋아요를 누른 사용자만 작성 가능. 미선행 시 422(COMMENT_REQUIRES_LIKE).")
     @PostMapping("/{id}/comments")
     public ApiResponse<CommentResponse> addComment(@PathVariable long id, @Valid @RequestBody CommentRequest request) {
         return ApiResponse.ok(service().addComment(id, request));

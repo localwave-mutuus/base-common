@@ -1,6 +1,7 @@
 package ai.mutuus.sample.board.jpa;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ public class BoardPost {
     @Column(nullable = false, length = 200)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(nullable = false, length = 20000)
     private String content;
 
     @Column(nullable = false, length = 50)
@@ -32,6 +33,9 @@ public class BoardPost {
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 
     public Long getId() {
         return id;
@@ -71,5 +75,30 @@ public class BoardPost {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /** JPA 엔티티 동등성은 <b>식별자 기반</b>(id 미할당 상태에서는 서로 다름). hashCode 는 안정적으로 클래스 기준. */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BoardPost other)) {
+            return false;
+        }
+        return id != null && Objects.equals(id, other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

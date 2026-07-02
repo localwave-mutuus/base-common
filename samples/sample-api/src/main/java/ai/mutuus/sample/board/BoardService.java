@@ -45,6 +45,4 @@ public interface BoardService {
 
     /** 댓글 목록(오래된 순). 글이 없으면 {@code POST_NOT_FOUND}. */
     List<CommentResponse> comments(long postId);
-
-    String tech();
 }

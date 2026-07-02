@@ -158,7 +158,8 @@
     if (!res.ok) { alert('조회 실패 (HTTP '+res.status+')'); reload(); return; }
     current = (await res.json()).data;
     document.getElementById('v_title').textContent = current.title;
-    document.getElementById('v_meta').textContent = `#${current.id} · ${current.author} · ${fmt(current.createdAt)} · via ${current.tech}`;
+    const upd = (current.updatedAt && current.updatedAt !== current.createdAt) ? ` · 수정 ${fmt(current.updatedAt)}` : '';
+    document.getElementById('v_meta').textContent = `#${current.id} · ${current.author} · ${fmt(current.createdAt)}${upd} · via ${stack.toUpperCase()}`;
     document.getElementById('v_content').textContent = current.content;
     document.getElementById('c_err').textContent = '';
     document.getElementById('c_input').value = '';

@@ -13,9 +13,12 @@ import org.springframework.stereotype.Repository;
 
 /**
  * 게시글/좋아요/댓글 jOOQ DAO — {@link DSLContext} 로 타입세이프 SQL 구성(코드젠 없는 동적 API; 운영은 jooq-codegen 권장).
+ * 검색은 이스케이프된 키워드 + {@code escape '\'} 로 와일드카드 오남용을 막는다(키워드는 서비스에서 escapeLike 처리).
  */
 @Repository
 public class BoardJooqDao {
+
+    private static final char LIKE_ESCAPE = '\\';
 
     // board_post
     private static final Table<Record> POST = DSL.table(DSL.name("board_post"));
@@ -24,6 +27,7 @@ public class BoardJooqDao {
     private static final Field<String> P_CONTENT = DSL.field(DSL.name("content"), String.class);
     private static final Field<String> P_AUTHOR = DSL.field(DSL.name("author"), String.class);
     private static final Field<Instant> P_CREATED = DSL.field(DSL.name("created_at"), Instant.class);
+    private static final Field<Instant> P_UPDATED = DSL.field(DSL.name("updated_at"), Instant.class);
     // board_like
     private static final Table<Record> LIKE = DSL.table(DSL.name("board_like"));
     private static final Field<Long> L_POST = DSL.field(DSL.name("post_id"), Long.class);
@@ -46,8 +50,9 @@ public class BoardJooqDao {
     // ----- 게시글 -----
 
     public BoardPostRow insert(String title, String content, String author) {
-        Record key = dsl.insertInto(POST).columns(P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED)
-                .values(title, content, author, Instant.now())
+        Instant now = Instant.now();
+        Record key = dsl.insertInto(POST).columns(P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED)
+                .values(title, content, author, now, now)
                 .returning(P_ID).fetchOne();
         if (key == null) { // 방어: 일부 DB/드라이버에서 returning 실패 가능
             throw new IllegalStateException("board_post insert 후 생성 키를 얻지 못했습니다.");
@@ -56,8 +61,9 @@ public class BoardJooqDao {
     }
 
     public BoardPostRow findById(long id) {
-        Record r = dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED).from(POST).where(P_ID.eq(id)).fetchOne();
-        return r == null ? null : new BoardPostRow(r.get(P_ID), r.get(P_TITLE), r.get(P_CONTENT), r.get(P_AUTHOR), r.get(P_CREATED));
+        Record r = dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED)
+                .from(POST).where(P_ID.eq(id)).fetchOne();
+        return r == null ? null : toRow(r);
     }
 
     public boolean postExists(long id) {
@@ -74,9 +80,9 @@ public class BoardJooqDao {
     }
 
     public List<BoardPostRow> search(String keyword, int size, int offset) {
-        return dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED).from(POST)
+        return dsl.select(P_ID, P_TITLE, P_CONTENT, P_AUTHOR, P_CREATED, P_UPDATED).from(POST)
                 .where(searchCondition(keyword)).orderBy(P_ID.desc()).limit(size).offset(offset)
-                .fetch(r -> new BoardPostRow(r.get(P_ID), r.get(P_TITLE), r.get(P_CONTENT), r.get(P_AUTHOR), r.get(P_CREATED)));
+                .fetch(this::toRow);
     }
 
     public long count(String keyword) {
@@ -86,6 +92,7 @@ public class BoardJooqDao {
 
     public int update(long id, String title, String content, String author) {
         return dsl.update(POST).set(P_TITLE, title).set(P_CONTENT, content).set(P_AUTHOR, author)
+                .set(P_UPDATED, Instant.now())
                 .where(P_ID.eq(id)).execute();
     }
 
@@ -97,8 +104,13 @@ public class BoardJooqDao {
         if (keyword == null) {
             return DSL.noCondition();
         }
-        String like = "%" + keyword + "%";
-        return P_TITLE.likeIgnoreCase(like).or(P_AUTHOR.likeIgnoreCase(like));
+        String pattern = "%" + keyword + "%"; // keyword 는 이미 escapeLike 처리됨
+        return P_TITLE.likeIgnoreCase(pattern, LIKE_ESCAPE).or(P_AUTHOR.likeIgnoreCase(pattern, LIKE_ESCAPE));
+    }
+
+    private BoardPostRow toRow(Record r) {
+        return new BoardPostRow(r.get(P_ID), r.get(P_TITLE), r.get(P_CONTENT), r.get(P_AUTHOR),
+                r.get(P_CREATED), r.get(P_UPDATED));
     }
 
     // ----- 좋아요 -----

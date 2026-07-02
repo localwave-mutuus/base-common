@@ -25,4 +25,13 @@ public final class BoardRules {
             throw new BusinessException(BoardErrorCode.NOTICE_NOT_ALLOWED);
         }
     }
+
+    /**
+     * LIKE 검색어의 와일드카드(<code>%</code>, <code>_</code>)와 이스케이프 문자(<code>\</code>)를 이스케이프한다.
+     * 이스케이프 문자는 백슬래시({@code \})이며, 쿼리는 반드시 {@code ESCAPE '\'} 절과 함께 써야 한다.
+     * 사용자가 {@code %} 를 입력해도 "전체 매칭"이 아니라 리터럴 {@code %} 로 검색되게 한다.
+     */
+    public static String escapeLike(String input) {
+        return input.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+    }
 }

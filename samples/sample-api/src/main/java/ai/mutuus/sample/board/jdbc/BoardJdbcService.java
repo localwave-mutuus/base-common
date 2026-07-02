@@ -43,23 +43,25 @@ public class BoardJdbcService implements BoardService {
             throw new BusinessException(BoardErrorCode.DUPLICATE_TITLE);
         }
         BoardPostJdbc entity = mapper.toEntity(request);
-        entity.setCreatedAt(Instant.now());
-        return mapper.toResponse(posts.save(entity), tech());
+        Instant now = Instant.now();
+        entity.setCreatedAt(now);
+        entity.setUpdatedAt(now);
+        return mapper.toResponse(posts.save(entity));
     }
 
     @Override
     @Transactional(readOnly = true)
     public BoardPostResponse get(long id) {
-        return mapper.toResponse(findPost(id), tech());
+        return mapper.toResponse(findPost(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResponse<BoardPostResponse> search(String keyword, int page, int size) {
-        String kw = StringUtils.hasText(keyword) ? keyword.trim() : null;
+        String kw = StringUtils.hasText(keyword) ? BoardRules.escapeLike(keyword.trim()) : null;
         long total = posts.countSearch(kw);
         List<BoardPostResponse> content = posts.search(kw, size, page * size).stream()
-                .map(e -> mapper.toResponse(e, tech())).toList();
+                .map(mapper::toResponse).toList();
         return PageResponse.of(content, page, size, total);
     }
 
@@ -73,7 +75,8 @@ public class BoardJdbcService implements BoardService {
         entity.setTitle(request.title());
         entity.setContent(request.content());
         entity.setAuthor(request.author());
-        return mapper.toResponse(posts.save(entity), tech());
+        entity.setUpdatedAt(Instant.now());
+        return mapper.toResponse(posts.save(entity));
     }
 
     @Override
@@ -123,11 +126,6 @@ public class BoardJdbcService implements BoardService {
     public List<CommentResponse> comments(long postId) {
         ensurePostExists(postId);
         return comments.findByPost(postId).stream().map(mapper::toCommentResponse).toList();
-    }
-
-    @Override
-    public String tech() {
-        return "JDBC";
     }
 
     private BoardPostJdbc findPost(long id) {

@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface BoardJooqMapper {
 
-    BoardPostResponse toResponse(BoardPostRow row, String tech);
+    BoardPostResponse toResponse(BoardPostRow row);
 
     CommentResponse toCommentResponse(CommentRow row);
 }

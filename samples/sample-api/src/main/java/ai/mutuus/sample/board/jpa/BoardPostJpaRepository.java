@@ -12,12 +12,16 @@ import org.springframework.data.repository.query.Param;
  */
 public interface BoardPostJpaRepository extends JpaRepository<BoardPost, Long> {
 
-    /** 제목/작성자 부분일치(대소문자 무시) 검색 + 페이징. {@code kw} 가 null 이면 전체. */
+    /**
+     * 제목/작성자 부분일치(대소문자 무시) 검색 + 페이징. {@code kw} 가 null 이면 전체.
+     * {@code kw} 는 서비스에서 {@code BoardRules.escapeLike} 로 와일드카드가 이스케이프되어 들어오므로
+     * {@code escape '\'} 절과 함께 쓴다(사용자가 % 를 입력해도 리터럴로 검색).
+     */
     @Query("""
             select b from BoardPost b
             where :kw is null
-               or lower(b.title)  like lower(concat('%', :kw, '%'))
-               or lower(b.author) like lower(concat('%', :kw, '%'))
+               or lower(b.title)  like lower(concat('%', :kw, '%')) escape '\\'
+               or lower(b.author) like lower(concat('%', :kw, '%')) escape '\\'
             """)
     Page<BoardPost> search(@Param("kw") String kw, Pageable pageable);
 

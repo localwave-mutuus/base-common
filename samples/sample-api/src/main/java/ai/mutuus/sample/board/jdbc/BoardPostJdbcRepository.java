@@ -15,8 +15,8 @@ public interface BoardPostJdbcRepository extends ListCrudRepository<BoardPostJdb
     @Query("""
             select * from board_post
             where :kw is null
-               or lower(title)  like lower('%' || :kw || '%')
-               or lower(author) like lower('%' || :kw || '%')
+               or lower(title)  like lower('%' || :kw || '%') escape '\\'
+               or lower(author) like lower('%' || :kw || '%') escape '\\'
             order by id desc limit :size offset :off
             """)
     List<BoardPostJdbc> search(@Param("kw") String kw, @Param("size") int size, @Param("off") int off);
@@ -24,8 +24,8 @@ public interface BoardPostJdbcRepository extends ListCrudRepository<BoardPostJdb
     @Query("""
             select count(*) from board_post
             where :kw is null
-               or lower(title)  like lower('%' || :kw || '%')
-               or lower(author) like lower('%' || :kw || '%')
+               or lower(title)  like lower('%' || :kw || '%') escape '\\'
+               or lower(author) like lower('%' || :kw || '%') escape '\\'
             """)
     long countSearch(@Param("kw") String kw);
 

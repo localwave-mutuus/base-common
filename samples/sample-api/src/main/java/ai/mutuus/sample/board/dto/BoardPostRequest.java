@@ -9,6 +9,6 @@ import jakarta.validation.constraints.Size;
  */
 public record BoardPostRequest(
         @NotBlank @Size(max = 200) String title,
-        @NotBlank String content,
+        @NotBlank @Size(max = 20000) String content,
         @NotBlank @Size(max = 50) String author) {
 }
