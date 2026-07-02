@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DB 계층 테스트 랩 — common-platform</title>
+  <style>
+    body { font-family: system-ui, "Malgun Gothic", sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+    header { padding: 16px 24px; background: #1e293b; border-bottom: 1px solid #334155; }
+    header h1 { margin: 0; font-size: 18px; }
+    header p { margin: 6px 0 0; font-size: 13px; color: #94a3b8; }
+    header a { color: #7dd3fc; }
+    main { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; padding: 16px 24px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 16px; }
+    .card h2 { margin: 0 0 4px; font-size: 15px; color: #f1f5f9; }
+    .card .desc { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+    .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+    input { background: #0f172a; border: 1px solid #475569; color: #e2e8f0; border-radius: 6px; padding: 5px 8px; font-size: 13px; }
+    input.sm { width: 70px; }
+    button { background: #334155; color: #e2e8f0; border: 1px solid #475569; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
+    button:hover { background: #475569; }
+    button.pri { background: #0ea5e9; border-color: #0ea5e9; color: #04263a; font-weight: 600; }
+    button.warn { background: #b45309; border-color: #b45309; color: #fff; }
+    pre { background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 8px; font-size: 12px; max-height: 240px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin: 6px 0 0; }
+    .st { font-weight: 700; }
+    .ok { color: #4ade80; } .bad { color: #f87171; }
+    .tag { display:inline-block; font-size:10px; padding:1px 6px; border-radius:10px; background:#334155; color:#cbd5e1; margin-left:6px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>DB 계층 테스트 랩 <span class="tag">실제 DB 연동</span></h1>
+  <p>가이드(260702.002.DB_LAYER_GUIDE.md)의 CRUD · 오류 동작 · 읽기/쓰기 분리 · XA 성공/실패를 <b>실 DB 로 직접</b> 테스트한다.
+     &nbsp;|&nbsp; <a href="/demo/index.html">← 공통기능 케이스</a> &nbsp; <a href="/demo/logs.html">📜 로그뷰어</a></p>
+</header>
+
+<main>
+  <!-- CRUD -->
+  <section class="card">
+    <h2>1. CRUD (실 primary DB)</h2>
+    <div class="desc">앱의 실제 DataSource(ai=H2, local=PostgreSQL) · 테이블 lab_item(id, name UNIQUE, qty)</div>
+    <div class="row">
+      name <input id="c_name" value="apple"/> qty <input id="c_qty" class="sm" value="3"/>
+      <button class="pri" onclick="call('POST','/demo/db/lab/crud',{name:v('c_name'),qty:num('c_qty')},'crud')">Create</button>
+    </div>
+    <div class="row">
+      id <input id="c_id" class="sm" value="1"/>
+      <button onclick="call('GET','/demo/db/lab/crud/'+v('c_id'),null,'crud')">Get</button>
+      <button onclick="call('PUT','/demo/db/lab/crud/'+v('c_id'),{name:v('c_name'),qty:num('c_qty')},'crud')">Update</button>
+      <button onclick="call('DELETE','/demo/db/lab/crud/'+v('c_id'),null,'crud')">Delete</button>
+      <button onclick="call('GET','/demo/db/lab/crud',null,'crud')">List</button>
+    </div>
+    <pre id="out_crud">여기에 결과가 표시됩니다.</pre>
+  </section>
+
+  <!-- CRUD 오류 -->
+  <section class="card">
+    <h2>2. CRUD 오류 시 동작</h2>
+    <div class="desc">제약 위반(중복 name)→409 · 미존재 id→404 · 빈 name→400(@Valid) · 트랜잭션 롤백→미저장</div>
+    <div class="row">
+      <button class="warn" onclick="call('POST','/demo/db/lab/crud',{name:'dup-key',qty:1},'err')">중복 생성 ×2 (409)</button>
+      <button class="warn" onclick="call('GET','/demo/db/lab/crud/999999',null,'err')">없는 id 조회 (404)</button>
+      <button class="warn" onclick="call('PUT','/demo/db/lab/crud/999999',{name:'x',qty:0},'err')">없는 id 수정 (404)</button>
+    </div>
+    <div class="row">
+      <button class="warn" onclick="call('DELETE','/demo/db/lab/crud/999999',null,'err')">없는 id 삭제 (404)</button>
+      <button class="warn" onclick="call('POST','/demo/db/lab/crud',{name:'',qty:1},'err')">빈 name (400)</button>
+      <button class="warn" onclick="call('POST','/demo/db/lab/crud/rollback',{name:'rollback-test',qty:9},'err')">트랜잭션 롤백</button>
+    </div>
+    <div class="desc">※ "중복 생성"은 두 번 눌러 두 번째에서 409 확인.</div>
+    <pre id="out_err">여기에 결과가 표시됩니다.</pre>
+  </section>
+
+  <!-- 읽기/쓰기 분리 -->
+  <section class="card">
+    <h2>3. 멀티커넥션 읽기/쓰기 분리</h2>
+    <div class="desc">라이브러리 ReadWriteRoutingDataSource · 쓰기→WRITE 저장소, readOnly 조회→READ(Replica) 저장소</div>
+    <div class="row">
+      name <input id="rw_name" value="order-1"/>
+      <button class="pri" onclick="call('POST','/demo/db/lab/rw/write',{name:v('rw_name')},'rw')">WRITE 에 쓰기</button>
+      <button onclick="call('GET','/demo/db/lab/rw/read',null,'rw')">READ 에서 읽기</button>
+      <button onclick="call('GET','/demo/db/lab/rw/status',null,'rw')">양쪽 카운트</button>
+    </div>
+    <div class="desc">writeStoreCount 는 쓸수록 증가, readStoreCount 는 Replica 씨앗값 유지 → 물리적으로 다른 저장소로 라우팅됨을 확인.</div>
+    <pre id="out_rw">여기에 결과가 표시됩니다.</pre>
+  </section>
+
+  <!-- XA -->
+  <section class="card">
+    <h2>4. XA 트랜잭션 (성공 / 실패)</h2>
+    <div class="desc">Atomikos 2PC · 두 XA DB 를 하나의 전역 트랜잭션으로 원자적 커밋/롤백</div>
+    <div class="row">
+      value <input id="xa_val" value="tx-1"/>
+      <button class="pri" onclick="call('POST','/demo/db/lab/xa/commit',{value:v('xa_val')},'xa')">전역 커밋 (성공)</button>
+      <button class="warn" onclick="call('POST','/demo/db/lab/xa/rollback',{value:v('xa_val')},'xa')">전역 롤백 (실패)</button>
+    </div>
+    <div class="row">
+      <button onclick="call('GET','/demo/db/lab/xa/status',null,'xa')">두 DB 카운트</button>
+      <button onclick="call('POST','/demo/db/lab/xa/reset',null,'xa')">초기화</button>
+    </div>
+    <div class="desc">커밋→db1Count·db2Count 함께 +1(committed=true), 롤백→둘 다 불변(rolledBack=true) → 원자성 확인.</div>
+    <pre id="out_xa">여기에 결과가 표시됩니다.</pre>
+  </section>
+</main>
+
+<script>
+  function v(id){ return document.getElementById(id).value; }
+  function num(id){ return parseInt(document.getElementById(id).value || '0', 10); }
+  async function call(method, url, body, out){
+    const el = document.getElementById('out_' + out);
+    const opt = { method, headers: { 'Content-Type': 'application/json' } };
+    if (body !== null) opt.body = JSON.stringify(body);
+    try {
+      const res = await fetch(url, opt);
+      let json; try { json = await res.json(); } catch(e) { json = '(no json)'; }
+      const cls = res.ok ? 'ok' : 'bad';
+      el.innerHTML = `<span class="st ${cls}">HTTP ${res.status}</span>  ${method} ${url}\n`
+        + JSON.stringify(json, null, 2);
+    } catch (e) {
+      el.innerHTML = `<span class="st bad">FETCH ERROR</span> ${e}`;
+    }
+  }
+</script>
+</body>
+</html>

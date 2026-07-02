@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -22,14 +23,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
- * DB 계층 가이드(260702.002.DB_LAYER_GUIDE.md) 3~4장의 세 구조를 <b>자기완결적으로 시연</b>하는 지원 컴포넌트.
- * 앱의 기본(@Primary) DataSource·JPA 감사에는 전혀 손대지 않도록 <b>데모 전용 H2 자원을 내부에서 따로</b> 만든다.
+ * DB 계층 가이드(260702.002.DB_LAYER_GUIDE.md) 3~4장 구조를 <b>실제 DB 연산으로 시연</b>하는 지원 컴포넌트.
+ * 앱 기본(@Primary) DataSource·JPA 감사와 분리된 <b>데모 전용 H2 자원</b>을 내부에서 따로 만든다.
  * <ul>
  *   <li>① 읽기/쓰기 라우팅 — <b>라이브러리</b> {@link ReadWriteRoutingDataSource} + {@code LazyConnectionDataSourceProxy}</li>
- *   <li>② 데이터소스별 개별 TxManager — 독립 커밋/롤백(원자성 없음)</li>
+ *   <li>② 데이터소스별 개별 TxManager — 독립 커밋/롤백</li>
  *   <li>③ JTA/XA — Atomikos 로 여러 DB 원자적 커밋/롤백(2PC)</li>
  * </ul>
- * 자원은 지연 초기화·캐시하고 호출마다 데이터를 리셋해 결정적으로 관찰한다. ③ 초기화 실패는 잡아 안내만 반환(응답 200 유지).
+ * 개요 데모(routingDemo/multiTxDemo/xaDemo)와 DB 랩 페이지용 상세 연산(rw·xa 계열)을 함께 제공한다.
+ * 자원은 지연 초기화·캐시한다. XA 초기화 실패는 잡아 안내만 반환한다.
  */
 @Component
 public class DbDemoSupport {
@@ -37,45 +39,53 @@ public class DbDemoSupport {
     // ---------- ① 읽기/쓰기 라우팅 (라이브러리 메커니즘) ----------
     private DataSource routingPrimary;
     private DataSourceTransactionManager routingTm;
+    private DataSource routeWriteDs;
+    private DataSource routeReadDs;
 
     private synchronized void initRouting() {
         if (routingPrimary != null) {
             return;
         }
-        DataSource write = markerH2("jdbc:h2:mem:demo-route-write;DB_CLOSE_DELAY=-1", "WRITE");
-        DataSource read = markerH2("jdbc:h2:mem:demo-route-read;DB_CLOSE_DELAY=-1", "READ");
+        this.routeWriteDs = markerH2("jdbc:h2:mem:demo-route-write;DB_CLOSE_DELAY=-1", "WRITE");
+        this.routeReadDs = markerH2("jdbc:h2:mem:demo-route-read;DB_CLOSE_DELAY=-1", "READ");
+        // rw 랩용 테이블: WRITE 는 비우고, READ(Replica) 는 씨앗 데이터를 심어 "다른 물리 저장소"임을 보인다.
+        JdbcTemplate w = new JdbcTemplate(routeWriteDs);
+        w.execute("create table if not exists rw_item(id int auto_increment primary key, name varchar(100))");
+        w.update("delete from rw_item");
+        JdbcTemplate r = new JdbcTemplate(routeReadDs);
+        r.execute("create table if not exists rw_item(id int auto_increment primary key, name varchar(100))");
+        r.update("delete from rw_item");
+        r.update("insert into rw_item(name) values('replica-seed-1')");
+        r.update("insert into rw_item(name) values('replica-seed-2')");
+
         ReadWriteRoutingDataSource routing = new ReadWriteRoutingDataSource();
         Map<Object, Object> targets = new HashMap<>();
-        targets.put(DbRole.WRITE, write);
-        targets.put(DbRole.READ, read);
+        targets.put(DbRole.WRITE, routeWriteDs);
+        targets.put(DbRole.READ, routeReadDs);
         routing.setTargetDataSources(targets);
-        routing.setDefaultTargetDataSource(write);
+        routing.setDefaultTargetDataSource(routeWriteDs);
         routing.afterPropertiesSet();
         this.routingPrimary = new LazyConnectionDataSourceProxy(routing); // 필수 래핑
         this.routingTm = new DataSourceTransactionManager(routingPrimary);
     }
 
+    /** 개요: 라우팅 역할이 마커로 드러나는지(트랜잭션 밖/readOnly/쓰기/명시 override). */
     public Map<String, Object> routingDemo() {
         initRouting();
         JdbcTemplate jdbc = new JdbcTemplate(routingPrimary);
-
-        String noTx = marker(jdbc); // 트랜잭션 밖 → WRITE
-
+        String noTx = marker(jdbc);
         TransactionTemplate readOnly = new TransactionTemplate(routingTm);
         readOnly.setReadOnly(true);
-        String readOnlyTx = readOnly.execute(s -> marker(jdbc)); // → READ
-
+        String readOnlyTx = readOnly.execute(s -> marker(jdbc));
         TransactionTemplate writeTx = new TransactionTemplate(routingTm);
-        String writeTxRole = writeTx.execute(s -> marker(jdbc)); // → WRITE
-
-        RoutingContext.set(DbRole.READ); // 명시 override
+        String writeTxRole = writeTx.execute(s -> marker(jdbc));
+        RoutingContext.set(DbRole.READ);
         String explicit;
         try {
             explicit = marker(jdbc);
         } finally {
             RoutingContext.clear();
         }
-
         Map<String, Object> res = new LinkedHashMap<>();
         res.put("noTx", noTx);
         res.put("readOnlyTx", readOnlyTx);
@@ -85,6 +95,40 @@ public class DbDemoSupport {
                 && "WRITE".equals(writeTxRole) && "READ".equals(explicit));
         res.put("note", "@Transactional(readOnly) → READ, 그 외 → WRITE, RoutingContext 로 명시 override. "
                 + "라이브러리 CommonDataSourceRoutingAutoConfiguration(opt-in) 이 이 배관을 @Primary 로 조립해 준다.");
+        return res;
+    }
+
+    // --- rw 랩: 실제 데이터 쓰기/읽기가 서로 다른 물리 저장소로 라우팅됨을 보인다 ---
+
+    /** 쓰기 트랜잭션(readOnly 아님) → WRITE 저장소에 실제 insert. */
+    public Map<String, Object> rwWrite(String name) {
+        initRouting();
+        new TransactionTemplate(routingTm).executeWithoutResult(s ->
+                new JdbcTemplate(routingPrimary).update("insert into rw_item(name) values(?)", name));
+        return rwStatus("WRITE 저장소에 insert(name=" + name + ") — 쓰기 트랜잭션은 WRITE 로 라우팅.");
+    }
+
+    /** readOnly 트랜잭션 → READ(Replica) 저장소에서 조회. */
+    public Map<String, Object> rwRead() {
+        initRouting();
+        TransactionTemplate ro = new TransactionTemplate(routingTm);
+        ro.setReadOnly(true);
+        List<String> names = ro.execute(s ->
+                new JdbcTemplate(routingPrimary).queryForList("select name from rw_item order by id", String.class));
+        Map<String, Object> res = rwStatus("readOnly 조회는 READ 저장소로 라우팅 — WRITE 에 넣은 값은 보이지 않고 Replica 씨앗만 보인다(별도 물리 저장소).");
+        res.put("readNames", names);
+        return res;
+    }
+
+    /** 두 물리 저장소의 현재 행 수(라우팅이 서로 다른 저장소로 감을 수치로 확인). */
+    public Map<String, Object> rwStatus(String note) {
+        initRouting();
+        Map<String, Object> res = new LinkedHashMap<>();
+        res.put("writeStoreCount", count(routeWriteDs, "rw_item"));
+        res.put("readStoreCount", count(routeReadDs, "rw_item"));
+        res.put("note", note != null ? note
+                : "WRITE/READ 는 별도 물리 저장소(데모). 쓰기는 WRITE, readOnly 조회는 READ 로 라우팅됨을 카운트로 확인. "
+                + "실무 Replica 는 Primary 를 복제하지만, 여기선 라우팅이 물리적으로 분리됨을 보이려 별도로 둠.");
         return res;
     }
 
@@ -111,11 +155,8 @@ public class DbDemoSupport {
         DataSourceTransactionManager userTx = new DataSourceTransactionManager(userDs);
         DataSourceTransactionManager orderTx = new DataSourceTransactionManager(orderDs);
 
-        // userTx: 정상 커밋
         new TransactionTemplate(userTx).executeWithoutResult(s ->
                 new JdbcTemplate(userDs).update("insert into t values('U')"));
-
-        // orderTx: 예외로 롤백 — userTx 와 독립이므로 user 커밋에 영향 없음
         try {
             new TransactionTemplate(orderTx).executeWithoutResult(s -> {
                 new JdbcTemplate(orderDs).update("insert into t values('O')");
@@ -125,8 +166,8 @@ public class DbDemoSupport {
             // 기대된 롤백
         }
 
-        int userCount = count(userDs);
-        int orderCount = count(orderDs);
+        int userCount = count(userDs, "t");
+        int orderCount = count(orderDs, "t");
         Map<String, Object> res = new LinkedHashMap<>();
         res.put("userCommitted", userCount == 1);
         res.put("orderRolledBack", orderCount == 0);
@@ -148,7 +189,7 @@ public class DbDemoSupport {
         }
         String dir = System.getProperty("java.io.tmpdir") + File.separator + "atomikos-demo";
         new File(dir).mkdirs();
-        System.setProperty("com.atomikos.icatch.enable_logging", "false"); // 데모: 복구 로그 비활성
+        System.setProperty("com.atomikos.icatch.enable_logging", "false");
         System.setProperty("com.atomikos.icatch.log_base_dir", dir);
         System.setProperty("com.atomikos.icatch.output_dir", dir);
 
@@ -159,10 +200,10 @@ public class DbDemoSupport {
         utm.init();
 
         try (Connection c = xa1.getConnection()) {
-            c.createStatement().execute("create table if not exists t(v varchar(10))");
+            c.createStatement().execute("create table if not exists t(v varchar(50))");
         }
         try (Connection c = xa2.getConnection()) {
-            c.createStatement().execute("create table if not exists t(v varchar(10))");
+            c.createStatement().execute("create table if not exists t(v varchar(50))");
         }
         this.xaReady = true;
     }
@@ -181,26 +222,25 @@ public class DbDemoSupport {
         return bean;
     }
 
+    /** 개요: 롤백/커밋 경로 원자성 자가 확인. */
     public Map<String, Object> xaDemo() {
         Map<String, Object> res = new LinkedHashMap<>();
         try {
             initXa();
-            new JdbcTemplate(xa1).update("delete from t"); // 로컬 모드 리셋
+            new JdbcTemplate(xa1).update("delete from t");
             new JdbcTemplate(xa2).update("delete from t");
 
-            // (a) 롤백 경로: 두 DB 모두 넣고 rollback → 둘 다 비어야 원자적
             utm.begin();
             new JdbcTemplate(xa1).update("insert into t values('A')");
             new JdbcTemplate(xa2).update("insert into t values('B')");
             utm.rollback();
-            boolean atomicRollback = count(xa1) == 0 && count(xa2) == 0;
+            boolean atomicRollback = count(xa1, "t") == 0 && count(xa2, "t") == 0;
 
-            // (b) 커밋 경로: 두 DB 모두 넣고 commit → 둘 다 있어야 원자적
             utm.begin();
             new JdbcTemplate(xa1).update("insert into t values('A')");
             new JdbcTemplate(xa2).update("insert into t values('B')");
             utm.commit();
-            boolean atomicCommit = count(xa1) == 1 && count(xa2) == 1;
+            boolean atomicCommit = count(xa1, "t") == 1 && count(xa2, "t") == 1;
 
             res.put("xaAvailable", true);
             res.put("atomicRollback", atomicRollback);
@@ -217,6 +257,67 @@ public class DbDemoSupport {
         return res;
     }
 
+    // --- XA 랩: 성공(커밋)/실패(롤백)를 개별 호출로 실증 ---
+
+    /** XA 성공: 두 DB 에 insert 후 전역 커밋 → 둘 다 반영. */
+    public Map<String, Object> xaCommit(String value) throws Exception {
+        initXa();
+        utm.begin();
+        try {
+            new JdbcTemplate(xa1).update("insert into t values(?)", value);
+            new JdbcTemplate(xa2).update("insert into t values(?)", value);
+            utm.commit();
+        } catch (RuntimeException e) {
+            safeRollback();
+            throw e;
+        }
+        Map<String, Object> res = xaCounts();
+        res.put("committed", true);
+        res.put("note", "전역 커밋 성공 — 두 DB 모두 value 반영(원자적).");
+        return res;
+    }
+
+    /** XA 실패: 두 DB 에 insert 후 전역 롤백 → 둘 다 미반영(원자적 취소). */
+    public Map<String, Object> xaRollback(String value) throws Exception {
+        initXa();
+        int before1 = count(xa1, "t");
+        int before2 = count(xa2, "t");
+        utm.begin();
+        new JdbcTemplate(xa1).update("insert into t values(?)", value);
+        new JdbcTemplate(xa2).update("insert into t values(?)", value);
+        utm.rollback();
+        Map<String, Object> res = xaCounts();
+        res.put("rolledBack", count(xa1, "t") == before1 && count(xa2, "t") == before2);
+        res.put("note", "전역 롤백 — 두 DB 모두 value 미반영(원자적 취소). 카운트 불변.");
+        return res;
+    }
+
+    /** XA 두 DB 현재 행 수 + 초기화. */
+    public Map<String, Object> xaCounts() throws Exception {
+        initXa();
+        Map<String, Object> res = new LinkedHashMap<>();
+        res.put("xaAvailable", true);
+        res.put("db1Count", count(xa1, "t"));
+        res.put("db2Count", count(xa2, "t"));
+        return res;
+    }
+
+    /** XA 두 DB 초기화(행 삭제). */
+    public Map<String, Object> xaReset() throws Exception {
+        initXa();
+        new JdbcTemplate(xa1).update("delete from t");
+        new JdbcTemplate(xa2).update("delete from t");
+        return xaCounts();
+    }
+
+    private void safeRollback() {
+        try {
+            utm.rollback();
+        } catch (Exception ignored) {
+            // best-effort
+        }
+    }
+
     // ---------- 공용 헬퍼 ----------
     private static DriverManagerDataSource h2(String url) {
         DriverManagerDataSource ds = new DriverManagerDataSource(url, "sa", "");
@@ -230,8 +331,8 @@ public class DbDemoSupport {
         return ds;
     }
 
-    private static int count(DataSource ds) {
-        Integer n = new JdbcTemplate(ds).queryForObject("select count(*) from t", Integer.class);
+    private static int count(DataSource ds, String table) {
+        Integer n = new JdbcTemplate(ds).queryForObject("select count(*) from " + table, Integer.class);
         return n == null ? 0 : n;
     }
 }
