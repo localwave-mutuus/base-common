@@ -59,6 +59,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <!-- 게시판 CRUD 3-스택 데모: jOOQ + Spring Data JDBC(JPA 는 위에서 이미). 버전은 Boot BOM 관리. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+        <!-- 매핑: MapStruct(컴파일 타임 매퍼 생성). Boot BOM 미관리 → 명시 버전. -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.3</version>
+        </dependency>
         <!-- H2: JPA 감사 데모(runtime) + DB 계층 데모가 org.h2.jdbcx.JdbcDataSource 를 컴파일 참조하므로 compile 스코프.
              sample-api 는 게시 대상 아님(maven.deploy.skip)이라 소비자 전이 문제 없음. -->
         <dependency>
@@ -151,6 +166,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- MapStruct 애노테이션 프로세서(컴파일 타임 매퍼 생성) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.6.3</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
             <!-- 포크된 테스트 JVM 출력을 UTF-8로 고정 — 한글 테스트명/로그가
                  Windows cp949 콘솔에서 깨지지 않도록(빌드 동작엔 영향 없음) -->

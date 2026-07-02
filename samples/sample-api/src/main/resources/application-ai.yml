@@ -41,7 +41,9 @@ mutuus:
       primary: app
       groups:
         app:
-          write: { url: "jdbc:h2:mem:app-db;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
+          # CASE_INSENSITIVE_IDENTIFIERS=TRUE: Hibernate(대문자 저장)·jOOQ·Spring Data JDBC(소문자 인용 식별자)가
+          # 같은 board_post 테이블을 문제없이 공유하도록 식별자 대소문자 무시(3-스택 게시판 데모용).
+          write: { url: "jdbc:h2:mem:app-db;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE", username: sa, driver-class-name: org.h2.Driver }
         db1:
           write: { url: "jdbc:h2:mem:db1-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
           read:  { url: "jdbc:h2:mem:db1-read;DB_CLOSE_DELAY=-1",  username: sa, driver-class-name: org.h2.Driver }
