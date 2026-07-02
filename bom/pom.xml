@@ -36,6 +36,17 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Modulith — 소비 서비스가 모듈러 모놀리스(모듈=바운디드 컨텍스트)로 구성 시 버전 없이
+                 spring-modulith-* (starter-core·events-jpa·observability 등)을 추가할 수 있도록 BOM 을 import.
+                 버전은 common-platform-parent 의 ${spring-modulith.version} 단일 출처. -->
+            <dependency>
+                <groupId>org.springframework.modulith</groupId>
+                <artifactId>spring-modulith-bom</artifactId>
+                <version>${spring-modulith.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- 자사 아티팩트 — 모두 이 BOM 과 같은 버전으로 정렬(${project.version}) -->
             <dependency>
                 <groupId>ai.mutuus.common</groupId>

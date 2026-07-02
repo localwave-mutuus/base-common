@@ -31,6 +31,7 @@
         <!-- 라이브러리가 노출하는 optional 3rd-party 버전(소비자 BOM 과 동일 출처) -->
         <logstash-encoder.version>8.0</logstash-encoder.version>
         <springdoc.version>3.0.3</springdoc.version>
+        <spring-modulith.version>2.1.0</spring-modulith.version>
     </properties>
 
     <build>

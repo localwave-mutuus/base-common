@@ -19,8 +19,7 @@
     <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>
 
     <properties>
-        <!-- java.version·maven.compiler.release·sourceEncoding·logstash-encoder.version 은 common-platform-parent 상속 -->
-        <spring-modulith.version>2.1.0</spring-modulith.version>
+        <!-- java.version·maven.compiler.release·sourceEncoding·logstash-encoder·spring-modulith 버전은 common-platform-parent 상속 -->
     </properties>
 
     <dependencyManagement>
