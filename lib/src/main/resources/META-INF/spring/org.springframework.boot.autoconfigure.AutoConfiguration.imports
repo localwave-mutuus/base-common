@@ -15,6 +15,7 @@ ai.mutuus.common.datasource.CommonDataSourceRoutingAutoConfiguration
 ai.mutuus.common.observability.CommonObservabilityAutoConfiguration
 ai.mutuus.common.openapi.CommonOpenApiAutoConfiguration
 ai.mutuus.common.web.CommonWebAutoConfiguration
+ai.mutuus.common.security.audit.CommonSecurityAuditAutoConfiguration
 ai.mutuus.common.security.CommonSecurityAutoConfiguration
 ai.mutuus.common.persistence.CommonPersistenceAutoConfiguration
 ai.mutuus.common.persistence.JpaAuditingAutoConfiguration

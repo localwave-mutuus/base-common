@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ai.mutuus.common.logging.AccessLogger;
+import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -37,11 +38,14 @@ public class CommonSecurityAutoConfiguration {
     @ConditionalOnMissingBean
     public SecurityFilterChain commonSecurityFilterChain(HttpSecurity http,
                                                          CommonSecurityProperties props,
-                                                         ObjectProvider<AccessLogger> accessLogger) throws Exception {
-        // 액세스 로깅이 비활성(빈 없음)이면 무동작 로거로 폴백
+                                                         ObjectProvider<AccessLogger> accessLogger,
+                                                         ObjectProvider<SecurityAuditLogger> securityAuditLogger)
+            throws Exception {
+        // 액세스/보안감사 로깅이 비활성(빈 없음)이면 무동작 로거로 폴백
         AccessLogger logger = accessLogger.getIfAvailable(AccessLogger::new);
-        var entryPoint = new LoggingAuthenticationEntryPoint(new BearerTokenAuthenticationEntryPoint(), logger);
-        var deniedHandler = new LoggingAccessDeniedHandler(new BearerTokenAccessDeniedHandler(), logger);
+        SecurityAuditLogger audit = securityAuditLogger.getIfAvailable(SecurityAuditLogger::new);
+        var entryPoint = new LoggingAuthenticationEntryPoint(new BearerTokenAuthenticationEntryPoint(), logger, audit);
+        var deniedHandler = new LoggingAccessDeniedHandler(new BearerTokenAccessDeniedHandler(), logger, audit);
 
         http
                 // 무상태 OAuth2 리소스 서버: 세션을 만들지 않고, 토큰 기반이라 CSRF 보호 불필요.
@@ -51,6 +55,11 @@ public class CommonSecurityAutoConfiguration {
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(props.getPermitAll().toArray(String[]::new)).permitAll()
                         .anyRequest().authenticated())
+                // 최상위 예외 처리: 필터/메서드 보안(@PreAuthorize)에서 발생한 인증실패·인가거부를 모두
+                // 로깅 핸들러로 라우팅한다(이게 없으면 메서드 보안 403 은 기본 핸들러로 빠져 보안 로그가 남지 않음).
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(entryPoint)
+                        .accessDeniedHandler(deniedHandler))
                 .oauth2ResourceServer(oauth -> oauth
                         .authenticationEntryPoint(entryPoint)
                         .accessDeniedHandler(deniedHandler)
@@ -58,6 +67,18 @@ public class CommonSecurityAutoConfiguration {
                 // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영
                 .addFilterAfter(new AuthenticatedUserContextFilter(), AuthorizationFilter.class);
         return http.build();
+    }
+
+    /**
+     * 메서드 보안(@PreAuthorize) 등 MVC 내부에서 발생한 인가 거부를 403 + 보안 로그로 바로잡는 어드바이스.
+     * (필터 단계 인가 거부는 {@link LoggingAccessDeniedHandler} 가 처리)
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public SecurityExceptionAdvice securityExceptionAdvice(
+            ai.mutuus.common.i18n.MessageResolver messages,
+            ObjectProvider<SecurityAuditLogger> securityAuditLogger) {
+        return new SecurityExceptionAdvice(messages, securityAuditLogger.getIfAvailable(SecurityAuditLogger::new));
     }
 
     @Bean

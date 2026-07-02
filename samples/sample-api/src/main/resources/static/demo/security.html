@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>common-platform 보안 테스트</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, "Segoe UI", sans-serif; margin: 0; background: #0f1115; color: #e6e6e6; }
+    header { padding: 12px 20px; background: #161a22; border-bottom: 1px solid #2a2f3a; position: sticky; top: 0; z-index: 5; }
+    header h1 { margin: 0 0 6px; font-size: 16px; }
+    .meta { font-size: 12px; color: #8b94a7; }
+    .ctrl { margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    input[type=text] { background: #11141b; border: 1px solid #2a2f3a; color: #e6e6e6; border-radius: 6px; padding: 5px 8px; font-size: 13px; }
+    a { color: #6ea8ff; text-decoration: none; }
+    .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0; height: calc(100vh - 74px); }
+    .left { padding: 14px 18px; overflow: auto; border-right: 1px solid #2a2f3a; }
+    .right { display: flex; flex-direction: column; min-height: 0; }
+    .phase { font-size: 12px; color: #8b94a7; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
+    .phase:first-child { margin-top: 4px; }
+    .card { background: #161a22; border: 1px solid #262b36; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+    .card.todo { opacity: .55; }
+    .card h3 { margin: 0 0 4px; font-size: 14px; }
+    .card p { margin: 0 0 8px; font-size: 12px; color: #9aa4b5; line-height: 1.5; }
+    .evtag { font-family: ui-monospace, monospace; font-size: 11px; color: #c39bf0; background: #221a33; padding: 1px 6px; border-radius: 4px; }
+    .badge { font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 6px; }
+    .b401 { background: #3a2f1d; color: #f0b06e; } .b403 { background: #3a1d1d; color: #f08a8a; } .b200 { background: #143324; color: #6ee7a8; }
+    .btodo { background: #23262e; color: #8b94a7; }
+    button { background: #2b6cf0; color: #fff; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 12px; }
+    button:hover { filter: brightness(1.12); }
+    button:disabled { background: #23262e; color: #6b7280; cursor: not-allowed; }
+    .result { margin-top: 8px; font-family: ui-monospace, monospace; font-size: 11.5px; }
+    .result .st { font-weight: 700; }
+    .st2 { color: #6ee7a8; } .st4 { color: #f0b06e; } .st5 { color: #f06e6e; }
+    pre.body { margin: 4px 0 0; padding: 8px; background: #0b0e14; border: 1px solid #20242e; border-radius: 6px; overflow: auto; max-height: 130px; color: #cdd6e6; white-space: pre-wrap; word-break: break-word; }
+    /* 보안 이벤트 패널 */
+    .rhead { padding: 10px 16px; background: #161a22; border-bottom: 1px solid #2a2f3a; display: flex; align-items: center; gap: 10px; }
+    .rhead h2 { margin: 0; font-size: 14px; }
+    #events { flex: 1; overflow: auto; padding: 8px 12px 30vh; font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12px; }
+    .ev { border-bottom: 1px solid #1b1f28; padding: 6px 6px; }
+    .ev:hover { background: #141821; }
+    .ev .top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+    .ts { color: #6b7280; }
+    .lvl { font-weight: 700; padding: 0 5px; border-radius: 3px; }
+    .WARN { color: #f0b06e; } .ERROR { color: #f06e6e; } .INFO { color: #6ee7a8; }
+    .name { color: #c39bf0; }
+    .kv { color: #9aa4b5; } .kv b { color: #cdd6e6; font-weight: 600; }
+    .hint { color: #8b94a7; padding: 14px; font-size: 12px; }
+    .empty { color: #6b7280; padding: 14px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔐 common-platform 보안 테스트 <span class="meta">— 각 검사의 위배를 유발하고 <b>보안 감사 로그</b>를 실시간 확인</span></h1>
+    <div class="ctrl">
+      <label class="meta">Bearer 토큰</label>
+      <input type="text" id="token" value="alice" size="14" placeholder="(mock: 토큰=주체, 권한 USER)">
+      <span class="meta">비우면 인증 없음(→401). ai 프로파일 mock JwtDecoder 기준.</span>
+      <a href="/demo/index.html" style="margin-left:auto">← 케이스 화면</a>
+      <a href="/demo/logs.html">📜 전체 로그</a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- 좌: 시나리오 -->
+    <div class="left">
+      <div class="phase">Phase 0 — 보안 감사 로깅 기반 (동작)</div>
+
+      <div class="card">
+        <h3>정상 인증 (whoami) <span class="badge b200">200</span></h3>
+        <p>유효 토큰으로 보호 리소스 접근 → 주체·권한 반환. (위배 아님, 기준선)</p>
+        <button onclick="run('ok', this)">실행: GET /api/secure/whoami (토큰 O)</button>
+        <div class="result" id="r-ok"></div>
+      </div>
+
+      <div class="card">
+        <h3>인증 없음 → 401 <span class="badge b401">401</span> <span class="evtag">security.authn.failed</span></h3>
+        <p>토큰 없이 보호 리소스 접근 → 인증 실패. clientIp·사유가 보안 로그에 남는다.</p>
+        <button onclick="run('noauth', this)">실행: GET /api/secure/whoami (토큰 X)</button>
+        <div class="result" id="r-noauth"></div>
+      </div>
+
+      <div class="card">
+        <h3>권한 부족 → 403 <span class="badge b403">403</span> <span class="evtag">security.authz.denied</span></h3>
+        <p>USER 토큰으로 <b>ROLE_ADMIN</b> 리소스 접근 → 인가 거부. 주체(principal)·사유가 보안 로그에 남는다.</p>
+        <button onclick="run('denied', this)">실행: GET /api/admin/ping (USER 토큰)</button>
+        <div class="result" id="r-denied"></div>
+      </div>
+
+      <div class="phase">Phase 1 — 예정 (신뢰경계·토큰·정보노출)</div>
+      <div class="card todo">
+        <h3>X-User-Id 스푸핑 차단 <span class="badge btodo">예정</span> <span class="evtag">security.identity.*</span></h3>
+        <p>미인증 요청에 <code>X-User-Id: admin</code> 위장 → 감사(created_by) 위조 시도. 인입 헤더 미신뢰로 폐기·기록.</p>
+      </div>
+      <div class="card todo">
+        <h3>JWT audience 불일치 <span class="badge btodo">예정</span> <span class="evtag">security.jwt.rejected</span></h3>
+        <p>다른 서비스용 토큰(aud 불일치) → 거부. 사유(audience/issuer/expired/signature) 기록.</p>
+      </div>
+      <div class="card todo">
+        <h3>오류 응답 정보 미노출 <span class="badge btodo">예정</span></h3>
+        <p>5xx 응답 본문에서 내부 예외 클래스명 제거(로그에만).</p>
+      </div>
+
+      <div class="phase">Phase 2~3 — 예정 (전파·마스킹·헤더)</div>
+      <div class="card todo">
+        <h3>아웃바운드 전파 차단 <span class="badge btodo">예정</span> <span class="evtag">security.propagation.blocked</span></h3>
+        <p>비신뢰 외부 호스트로 식별/사용자 헤더 부착 차단.</p>
+      </div>
+      <div class="card todo">
+        <h3>설정 점검·보안 헤더 <span class="badge btodo">예정</span> <span class="evtag">security.config.*</span></h3>
+        <p>본문 마스킹 OFF·CSRF+세션 공존·permit-all 과대 startup 경고, 보안 응답 헤더.</p>
+      </div>
+    </div>
+
+    <!-- 우: 실시간 보안 이벤트 -->
+    <div class="right">
+      <div class="rhead">
+        <h2>🛡️ 보안 감사 로그 (실시간)</h2>
+        <span class="meta" id="evstatus">폴링 중…</span>
+        <button style="margin-left:auto" onclick="clearEvents()">🗑 지우기</button>
+      </div>
+      <div id="events"><div class="hint">시나리오를 실행하면 <b>ai.mutuus.common.security.audit</b> 이벤트가 여기 실시간으로 나타납니다.</div></div>
+    </div>
+  </div>
+
+  <script>
+    const token = () => document.getElementById('token').value.trim();
+    const esc = s => String(s == null ? '' : s).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    const stClass = s => s >= 500 ? 'st5' : s >= 400 ? 'st4' : 'st2';
+
+    const SCEN = {
+      ok:     { url: '/api/secure/whoami', auth: true },
+      noauth: { url: '/api/secure/whoami', auth: false },
+      denied: { url: '/api/admin/ping',    auth: true },
+    };
+
+    async function run(key, btn) {
+      const s = SCEN[key];
+      const box = document.getElementById('r-' + key);
+      btn.disabled = true; box.innerHTML = '<span class="meta">호출 중…</span>';
+      const headers = {};
+      if (s.auth && token()) headers['Authorization'] = 'Bearer ' + token();
+      try {
+        const res = await fetch(s.url, { headers });
+        const text = await res.text();
+        let pretty = text; try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch {}
+        box.innerHTML = `<span class="st ${stClass(res.status)}">HTTP ${res.status}</span>`
+          + `<pre class="body">${esc(pretty)}</pre>`;
+      } catch (e) {
+        box.innerHTML = `<span class="st st5">오류</span> <span class="meta">${esc(e)}</span>`;
+      } finally { btn.disabled = false; }
+    }
+
+    // ---- 보안 이벤트 패널: 전체 로그 tail 을 폴링해 보안 이벤트만 필터 ----
+    const evEl = document.getElementById('events');
+    let lastFile = null, lastTotal = 0, busy = false, shown = 0;
+
+    function isSecurity(e) {
+      return e.logger_name === 'ai.mutuus.common.security.audit'
+        || e.securityEvent === true || e.securityEvent === 'true'
+        || (typeof e.event === 'string' && e.event.startsWith('security.'));
+    }
+    function shortTs(t) { const m = String(t || '').match(/T(\d\d:\d\d:\d\d\.\d{1,3})/); return m ? m[1] : ''; }
+    function kv(label, val) { return val == null || val === '' ? '' : ` <span class="kv">${label}=<b>${esc(val)}</b></span>`; }
+
+    function renderEvent(e) {
+      const lvl = e.level || 'INFO';
+      const div = document.createElement('div');
+      div.className = 'ev';
+      div.innerHTML =
+        `<div class="top"><span class="ts">${esc(shortTs(e['@timestamp']))}</span>`
+        + `<span class="lvl ${lvl}">${esc(lvl)}</span>`
+        + `<span class="name">${esc(e.event || '')}</span>`
+        + kv('outcome', e.outcome) + kv('http', e.httpPath) + '</div>'
+        + `<div class="top">${kv('principal', e.principal)}${kv('userId', e['X-User-Id'])}`
+        + `${kv('clientIp', e.clientIp)}${kv('reason', e.reason)}`
+        + `${kv('trace', (e['X-Trace-Id'] || '').slice(0, 8))}</div>`;
+      return div;
+    }
+
+    function appendSecurity(lines) {
+      let added = 0;
+      for (const raw of lines) {
+        let e; try { e = JSON.parse(raw); } catch { continue; }
+        if (!isSecurity(e)) continue;
+        evEl.appendChild(renderEvent(e)); added++;
+      }
+      if (added) {
+        shown += added;
+        if (shown && evEl.querySelector('.hint')) evEl.querySelector('.hint').remove();
+        evEl.scrollTop = evEl.scrollHeight;
+      }
+    }
+    function clearEvents() { evEl.innerHTML = '<div class="empty">지웠습니다. 새 이벤트를 기다리는 중…</div>'; }
+
+    async function poll() {
+      if (busy) return; busy = true;
+      try {
+        const after = (lastFile === null) ? -1 : lastTotal;
+        let data = (await (await fetch('/demo/logs/tail?after=' + after)).json()).data;
+        if (!data.file) { document.getElementById('evstatus').textContent = '로그 파일 없음'; return; }
+        if (data.file !== lastFile) {              // 최초/재기동 → 새 파일 tail
+          lastFile = data.file; lastTotal = 0;
+          if (after !== -1) data = (await (await fetch('/demo/logs/tail?after=-1')).json()).data;
+          appendSecurity(data.lines); lastTotal = data.total;
+        } else if (data.lines.length) {
+          appendSecurity(data.lines); lastTotal = data.total;
+        }
+        document.getElementById('evstatus').textContent = `보안 이벤트 ${shown}건 · ${new Date().toLocaleTimeString()}`;
+      } catch (e) {
+        document.getElementById('evstatus').textContent = '폴링 오류';
+      } finally { busy = false; }
+    }
+    poll();
+    setInterval(poll, 1500);
+  </script>
+</body>
+</html>

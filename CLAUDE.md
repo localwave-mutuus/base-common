@@ -100,6 +100,8 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 
 인증 확정 후 `AuthenticatedUserContextFilter`(`AuthorizationFilter` 뒤)가 **검증된 인증 주체**(JWT subject)를 `TraceContext`/MDC `X-User-Id`에 반영한다 — 인입 헤더 위장값보다 우선하므로 이후 모든 로그가 신뢰 가능한 사용자 식별자를 갖는다.
 
+**보안 감사 로깅(`security/audit` 패키지, 기본 ON)**: 인증/인가 위배를 트래픽 로그와 **분리된** 전용 로거 `ai.mutuus.common.security.audit`(`SecurityAuditLogger`)로 구조화 기록한다 — 401 `security.authn.failed`, 403 `security.authz.denied`(principal·clientIp·reason 포함). 401/403 은 필터 단계(`Logging{AuthenticationEntryPoint,AccessDeniedHandler}`)와 **MVC 단계**(`SecurityExceptionAdvice`, `@Order(HIGHEST_PRECEDENCE)`) 양쪽에서 잡는다 — 특히 `@PreAuthorize` 등 메서드 보안이 던지는 `AccessDeniedException` 이 `GlobalExceptionHandler`(Exception 포괄)에 걸려 **500 으로 오분류되던 것을 403 + 보안 로그로 바로잡는다**(AOP 유무와 무관하게 일관). 토글 `mutuus.common.security.audit.enabled`. 검증 기준 화면 `/demo/security.html` + 회귀 가드 `samples/sample-api/SecurityAuditLoggingIntegrationTest`. 보안 하드닝 로드맵(Phase 0 완료, 1~3 예정)은 [docs/260702.006.SECURITY_HARDENING.md](docs/260702.006.SECURITY_HARDENING.md).
+
 ### 7. API 생명주기 자동 로깅 (logging 패키지)
 
 소비 서비스는 **별도 코드 없이** 라이브러리가 지정한 컴포넌트를 거치며 4개 지점에서 자동 로깅된다. 중심은 `AccessLogger`(단일 진입점, 로거 이름 `ai.mutuus.common.access`) — SLF4J 2 fluent API(`addKeyValue`)로 구조화 필드를 남기고 logstash 인코더가 JSON으로 렌더한다(추적ID/사용자는 MDC 경유 자동 포함).
