@@ -148,7 +148,7 @@ cd samples/sample-api && ../../mvnw -Dtest=ClassName#methodName test # 단일 �
 - **동작 조건**: 요청 메서드가 대상 목록(`mutuus.common.idempotency.methods`, 기본 POST/PUT/PATCH)에 있고 **`Idempotency-Key` 헤더가 있을 때만** 개입한다 — 그 외에는 무개입 통과(GET·헤더 없는 요청은 영향 없음).
 - **흐름**: 첫 요청은 `store.reserve`로 in-progress 마커를 원자 등록 후 처리하고, 응답을 `ContentCachingResponseWrapper`로 캡처해 `store.complete`로 저장. 같은 키의 이후 요청은 저장된 첫 응답을 **재처리 없이 재방**(상태/Content-Type/본문 그대로 + `Idempotent-Replayed: true` 헤더). 아직 처리 중인 같은 키의 동시 중복은 **409**(`Idempotent-Replayed: in-progress`).
 - **저장소 추상화**: `IdempotencyStore` 인터페이스(`reserve`/`find`/`complete`) + 기본 `InMemoryIdempotencyStore`(단일 인스턴스, TTL 관리). **분산(다중 인스턴스) 환경에서는 소비 서비스가 Redis 등 공유 저장소 구현을 빈으로 제공**하면 `@ConditionalOnMissingBean`으로 대체된다(인메모리는 인스턴스 간 공유 안 됨).
-- 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용).
+- 토글·튜닝: `mutuus.common.idempotency.*`(`enabled`, `header-name`, `ttl`(기본 24h), `methods`). 회귀 가드: `InMemoryIdempotencyStoreTest`(단위) + `samples/sample-api/IdempotencyIntegrationTest`(RANDOM_PORT — 같은 키→재방, 다른 키→새 응답, 키 없음→미적용). 상세(키 생성 책임·더블클릭 스코프·서버 발급 토큰 강화 패턴) → [IDEMPOTENCY.md](docs/IDEMPOTENCY.md).
 
 ### 11. 캐시 추상화 (cache 패키지, optional·opt-in)
 
