@@ -14,7 +14,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 
 - Java 21 (LTS)
 - Spring Boot 4.1.0 / Spring Framework 7
-- Spring Modulith 2.1.0 (관측)
+- Spring Modulith 2.1.0 (관측 + 샘플 모듈러 구조화; BOM 이 `spring-modulith-bom` 노출 → 소비자 버전 없이 사용)
 - Micrometer + OpenTelemetry, Logback(JSON), Spring Security OAuth2 Resource Server
 - 빌드: Maven **reactor** — 루트 aggregator(`pom.xml`, packaging=pom) 아래 `parent/`(게시모듈 공용부모) + `bom/`(common-platform-bom) + `lib/`(산출물 라이브러리 jar) + `starters/*`(큐레이션 스타터 web/batch) + `samples/*`(소비 검증). 게시 대상은 parent·BOM·라이브러리·스타터.
 
@@ -35,7 +35,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 | `observability` | Micrometer/OTel 추적, 공통 `service.name` 태그, Modulith 관측 | telemetry |
 | `openapi` | 공통 OpenAPI 설정(springdoc, opt-in) — info + Bearer JWT 보안스킴 | API 문서 표준화 |
 | `web` | e2e 추적 필터, MDC 적재, API 간 헤더 자동 전파, 로케일, HTTP 클라 타임아웃/재시도 | e2e 정보계층, 헤더 자동추가 |
-| `security` | OAuth2 Resource Server(JWT), 인증/인가 MSA 연계, 인증 주체 추적 | 인증/인가 연계 |
+| `security` | OAuth2 Resource Server(JWT), 인증/인가 MSA 연계, 인증 주체 추적 + **보안 감사 로깅**(`security/audit`, 401/403·위배 이벤트) + **하드닝**(X-User-Id 신뢰경계·JWT audience·오류 정보 미노출·전파 allowlist·CSRF 조건부·보안 응답 헤더) | 인증/인가 연계·보안 하드닝 → [260702.006.SECURITY_HARDENING.md](docs/260702.006.SECURITY_HARDENING.md) |
 | `async` | `@Async`/가상스레드 추적 컨텍스트 전파 | 비동기 추적 연속성 |
 | `persistence` | JPA 공통 베이스 엔티티 + 감사(생성/수정 시각·주체) | 감사 컬럼 자동화 |
 | `session` | 분산 세션(Redis) 컨벤션(네임스페이스·타임아웃) | 세션 |
@@ -202,4 +202,14 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - ~~관측 심화(본문/진입/메서드 로깅)~~ 완료 — `payload`/`intercept`/`aop` 3계층(opt-in) + 로그 민감정보 마스킹(`SensitiveDataMasker`, opt-in)
 - ~~멱등성(`Idempotency-Key`)~~ 완료 — `idempotency` 패키지(opt-in, 중복 요청 첫 응답 재방)
 - ~~캐시 추상화~~ 완료 — `cache` 패키지(`@EnableCaching` + Redis `CacheManager` 컨벤션, opt-in)
-- ~~도메인 이벤트/메시징 코어~~ 완료 — `event` 패키지(broker-agnostic 봉투 + in-process 발행자). 브로커별 어댑터(Kafka/Rabbit)는 인프라 선택 시 별도 진행
+- ~~도메인 이벤트/메시징 코어~~ 완료 — `event` 패키지(broker-agnostic 봉투 + in-process 발행자). 브로커별 어댑터(Kafka/Rabbit)는 인프라 선택 시 별도 진행. **Spring Modulith 이벤트(`events-jpa` 아웃박스)로 신뢰성 확보 + 외부화 경로** 제공(→ [260702.010](docs/260702.010.MODULITH_INTEGRATION.md))
+- ~~보안 하드닝~~ 완료(Phase 0~3) — 보안 감사 로깅(`security/audit`)·인가거부 403 정상화·X-User-Id 신뢰경계·JWT audience 검증·오류 정보 미노출·아웃바운드 전파 allowlist·startup 설정 점검·CSRF 조건부·보안 응답 헤더 (→ [260702.006](docs/260702.006.SECURITY_HARDENING.md))
+- ~~데이터 접근 참조 샘플(게시판 3-스택)~~ 완료 — JPA/jOOQ/JDBC 계층형 CRUD + Flyway·`ddl-auto=validate`·낙관적 락(`@Version`)·jOOQ 코드젠·동적 쿼리(→ [260702.004](docs/260702.004.BOARD_SAMPLE_GUIDE.md))
+
+## 문서
+- 온보딩(소비 서비스 적용 5분): [260702.009.ONBOARDING.md](docs/260702.009.ONBOARDING.md)
+- Spring Modulith 통합(모듈=바운디드 컨텍스트·이벤트 아웃박스·async 전파): [260702.010.MODULITH_INTEGRATION.md](docs/260702.010.MODULITH_INTEGRATION.md)
+- 보안 하드닝(이벤트 카탈로그·토글): [260702.006.SECURITY_HARDENING.md](docs/260702.006.SECURITY_HARDENING.md)
+- 데이터 접근: 참조 샘플 [260702.004](docs/260702.004.BOARD_SAMPLE_GUIDE.md) · DB 계층 [260702.002](docs/260702.002.DB_LAYER_GUIDE.md)
+- 도메인(바우처·서비스교환) DDD: 전략 [260702.007](docs/260702.007.PLATFORM_DDD_STRATEGY.md) · 전술(voucher/ledger) [260702.008](docs/260702.008.VOUCHER_LEDGER_TACTICAL.md)
+- 관측/로깅: 로그 포맷 [260629.001](docs/260629.001.LOG_FORMAT.md) · 케이스 매트릭스 [260701.004](docs/260701.004.LOGGING_CASES.md) · 멱등성 [260702.003](docs/260702.003.IDEMPOTENCY.md)
