@@ -168,9 +168,9 @@ public class DemoCaseController {
                 new DemoCase("build-policy", "빌드 정책 - PostgreSQL-only jOOQ 코드젠", "GET", "/demo/build-policy", null,
                         "기본 Maven 빌드에 DDLDatabase/H2 시뮬레이션 코드젠이 없는지, PostgreSQL 코드젠은 pg-codegen 프로파일+환경변수로만 켜지는지 화면에서 확인. (기대 200)",
                         "samples/sample-api/pom.xml#pg-codegen", 200, null),
-                new DemoCase("secret-policy", "Secret policy - SOPS age external import", "GET",
+                new DemoCase("secret-policy", "Secret policy - external config import", "GET",
                         "/demo/secret-policy", null,
-                        "Checks that local secrets are imported from an external Spring config file, plaintext sample passwords are absent, and the SOPS age example/docs exist.",
+                        "Checks that local secrets are imported from an external Spring config file and plaintext sample passwords are absent from classpath config.",
                         "ai.mutuus.common.security.SecurityConfigAuditor#secret_in_classpath_config", 200, null),
                 new DemoCase("db-routing", "DB ① 읽기/쓰기 라우팅(라이브러리)", "GET", "/demo/db/routing", null,
                         "라이브러리 ReadWriteRoutingDataSource: 트랜잭션 밖/쓰기 → WRITE, @Transactional(readOnly) → READ, RoutingContext 명시 override. routingWorks=true 기대(write/read 마커 H2로 실증). opt-in mutuus.common.datasource.routing. (기대 200)",
@@ -551,9 +551,9 @@ public class DemoCaseController {
         if (!Files.exists(local)) {
             local = Path.of("samples", "sample-api", "src", "main", "resources", "application-local.yml");
         }
-        Path example = Path.of("secrets", "local.sops.yml.example");
+        Path example = Path.of("secrets", "local.example.yml");
         if (!Files.exists(example)) {
-            example = Path.of("samples", "sample-api", "secrets", "local.sops.yml.example");
+            example = Path.of("samples", "sample-api", "secrets", "local.example.yml");
         }
         Path doc = Path.of("docs", "260707.002.SECRET_MANAGEMENT_STANDARD.md");
         if (!Files.exists(doc)) {
@@ -561,24 +561,23 @@ public class DemoCaseController {
         }
 
         String localText = Files.readString(local);
-        String exampleText = Files.exists(example) ? Files.readString(example) : "";
         boolean importsExternalSecret = localText.contains("spring.config.import")
                 || localText.contains("import: optional:file:${user.home}/.mutuus/${spring.application.name}/local.yml");
         boolean noPlainSamplePassword = !localText.contains("password: eva")
                 && !localText.contains("GOLMOK_DB_PASSWORD")
                 && !localText.contains("REDIS_PASSWORD");
-        boolean exampleUsesSopsAge = exampleText.contains("sops:") && exampleText.contains("age:");
+        boolean exampleExists = Files.exists(example);
         boolean docExists = Files.exists(doc);
 
         return ApiResponse.ok(Map.of(
-                "policyPass", importsExternalSecret && noPlainSamplePassword && exampleUsesSopsAge && docExists,
+                "policyPass", importsExternalSecret && noPlainSamplePassword && exampleExists && docExists,
                 "importsExternalSecret", importsExternalSecret,
                 "localConfigHasNoPlainSamplePassword", noPlainSamplePassword,
-                "sopsAgeExampleExists", exampleUsesSopsAge,
+                "exampleFileExists", exampleExists,
                 "canonicalSecretDocExists", docExists,
                 "runtimeSecretImport", "${user.home}/.mutuus/${spring.application.name}/local.yml",
                 "commonModuleGuard", "security.config.secret_in_classpath_config",
-                "note", "common-platform audits plaintext secret-like properties in classpath application config; sample-api imports decrypted SOPS age secrets from an external file."));
+                "note", "common-platform audits plaintext secret-like properties in classpath application config; sample-api imports runtime secrets from an external file."));
     }
 
     @GetMapping("/cache")

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * File-level guard for the SOPS + age secret-management standard.
+ * File-level guard for the external secret-file standard.
  *
  * <p>This test does not connect to PostgreSQL, Redis, Nexus, or any fixed port.
  */
@@ -28,17 +28,17 @@ class SecretManagementPolicyTest {
     }
 
     @Test
-    void sops_age_example_and_ignore_rules_are_present() throws IOException {
-        String example = Files.readString(root("samples/sample-api/secrets/local.sops.yml.example",
-                "secrets/local.sops.yml.example"));
+    void local_secret_example_and_ignore_rules_are_present() throws IOException {
+        String example = Files.readString(root("samples/sample-api/secrets/local.example.yml",
+                "secrets/local.example.yml"));
         String ignore = Files.readString(root(".gitignore", "../../.gitignore"));
 
         assertThat(example)
-                .contains("sops:")
-                .contains("age:")
-                .contains("ENC[AES256_GCM");
+                .contains("spring:")
+                .contains("datasource:")
+                .contains("<local database password>")
+                .contains("<local redis password>");
         assertThat(ignore)
-                .contains("*.agekey")
                 .contains("*.decrypted.yml")
                 .contains("samples/**/secrets/*.yml")
                 .contains("!samples/**/secrets/*.example.yml");
@@ -50,10 +50,10 @@ class SecretManagementPolicyTest {
                 "../../docs/260707.002.SECRET_MANAGEMENT_STANDARD.md"));
 
         assertThat(doc)
-                .contains("SOPS + age")
                 .contains("spring.config.import")
                 .contains("SecurityConfigAuditor")
                 .contains("does not own")
+                .contains("Runtime secret-manager SDK coupling")
                 .doesNotContain("deployer /")
                 .doesNotContain("admin /");
     }

@@ -78,7 +78,7 @@ public class SecurityConfigAuditor implements ApplicationListener<ApplicationRea
                     "Secret-like properties are defined in classpath application config: "
                             + findings
                             + ". Move real values to an external spring.config.import file, "
-                            + "for example a SOPS+age decrypted local.yml or runtime secret mount.");
+                            + "for example an external local.yml via spring.config.import or a runtime secret mount.");
         }
     }
 

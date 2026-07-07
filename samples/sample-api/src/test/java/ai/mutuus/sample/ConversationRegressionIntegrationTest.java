@@ -72,14 +72,14 @@ class ConversationRegressionIntegrationTest {
     }
 
     @Test
-    void secret_policy_demo_exposes_sops_age_external_import_decision() {
+    void secret_policy_demo_exposes_external_import_decision() {
         Map<String, Object> response = getApiResponse("/demo/secret-policy");
         Map<String, Object> data = data(response);
 
         assertThat(data.get("policyPass")).isEqualTo(true);
         assertThat(data.get("importsExternalSecret")).isEqualTo(true);
         assertThat(data.get("localConfigHasNoPlainSamplePassword")).isEqualTo(true);
-        assertThat(data.get("sopsAgeExampleExists")).isEqualTo(true);
+        assertThat(data.get("exampleFileExists")).isEqualTo(true);
         assertThat(data.get("canonicalSecretDocExists")).isEqualTo(true);
         assertThat(data.get("commonModuleGuard")).isEqualTo("security.config.secret_in_classpath_config");
     }

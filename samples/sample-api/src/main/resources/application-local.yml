@@ -5,7 +5,7 @@ demo:
 
 spring:
   config:
-    # Create this file by decrypting samples/sample-api/secrets/local.sops.yml.example with SOPS + age.
+    # Keep real local secrets outside git. Create this file manually or generate it from an external secret source.
     import: optional:file:${user.home}/.mutuus/${spring.application.name}/local.yml
   datasource:
     url: jdbc:postgresql://localhost:15010/local.test.common
