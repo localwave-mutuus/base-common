@@ -1,0 +1,103 @@
+{
+  "template": {
+    "mappings": {
+      "dynamic": true,
+      "dynamic_templates": [
+        {
+          "mutuus_legacy_strings_as_keyword": {
+            "match_mapping_type": "string",
+            "mapping": { "type": "keyword", "ignore_above": 1024 }
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "ecs": { "properties": { "version": { "type": "keyword" } } },
+        "message": { "type": "text" },
+        "log": { "properties": { "level": { "type": "keyword" } } },
+        "logger": { "properties": { "name": { "type": "keyword" } } },
+        "process": { "properties": { "thread": { "properties": { "name": { "type": "keyword" } } } } },
+
+        "service": {
+          "properties": {
+            "name": { "type": "keyword" },
+            "environment": { "type": "keyword" },
+            "node": { "properties": { "name": { "type": "keyword" } } }
+          }
+        },
+        "data_stream": {
+          "properties": {
+            "type": { "type": "constant_keyword" },
+            "dataset": { "type": "constant_keyword" },
+            "namespace": { "type": "constant_keyword" }
+          }
+        },
+
+        "event": {
+          "properties": {
+            "dataset": { "type": "keyword" },
+            "action": { "type": "keyword" },
+            "category": { "type": "keyword" },
+            "type": { "type": "keyword" },
+            "outcome": { "type": "keyword" },
+            "duration": { "type": "long" }
+          }
+        },
+
+        "trace": { "properties": { "id": { "type": "keyword" } } },
+        "span": { "properties": { "id": { "type": "keyword" } } },
+        "transaction": { "properties": { "id": { "type": "keyword" } } },
+        "user": { "properties": { "id": { "type": "keyword" }, "name": { "type": "keyword" } } },
+        "client": { "properties": { "ip": { "type": "ip" } } },
+        "source": { "properties": { "ip": { "type": "ip" } } },
+
+        "http": {
+          "properties": {
+            "request": {
+              "properties": {
+                "method": { "type": "keyword" },
+                "mime_type": { "type": "keyword" },
+                "body": { "properties": { "content": { "type": "wildcard" }, "bytes": { "type": "long" } } }
+              }
+            },
+            "response": {
+              "properties": {
+                "status_code": { "type": "integer" },
+                "mime_type": { "type": "keyword" },
+                "body": { "properties": { "content": { "type": "wildcard" }, "bytes": { "type": "long" } } }
+              }
+            }
+          }
+        },
+        "url": {
+          "properties": {
+            "path": { "type": "keyword", "ignore_above": 2048 },
+            "query": { "type": "keyword", "ignore_above": 2048 },
+            "full": { "type": "wildcard" },
+            "domain": { "type": "keyword" }
+          }
+        },
+
+        "error": {
+          "properties": {
+            "type": { "type": "keyword" },
+            "code": { "type": "keyword" },
+            "message": { "type": "text" },
+            "stack_trace": { "type": "wildcard" }
+          }
+        },
+        "code": { "properties": { "namespace": { "type": "keyword" }, "function": { "type": "keyword" } } },
+        "rule": { "properties": { "name": { "type": "keyword" } } },
+
+        "mutuus": {
+          "properties": {
+            "security": { "properties": { "disposition": { "type": "keyword" } } },
+            "domain_event": { "properties": { "id": { "type": "keyword" }, "type": { "type": "keyword" } } },
+            "payload": { "properties": { "truncated": { "type": "boolean" } } }
+          }
+        }
+      }
+    }
+  },
+  "_meta": { "description": "mutuus common-platform ECS 매핑(공통). PUT _component_template/mutuus-logs-mappings" }
+}

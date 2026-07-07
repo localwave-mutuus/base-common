@@ -1,0 +1,49 @@
+# Filebeat 8.x — common-platform NDJSON 로그 수집 → Elasticsearch data stream
+#
+# 전제(문서 260707.004):
+#  - 애플리케이션이 ECS JSON Lines(한 줄당 JSON 객체)를 파일/stdout 으로 출력한다.
+#  - 문서에 data_stream.{type,dataset,namespace} 필드가 이미 들어 있어 그 값으로 라우팅한다.
+#  - active 파일(.log)만 수집하고 롤아웃된 .gz(archive)는 제외한다.
+#  - 필드 정규화(legacy rename·타입·본문 절단)는 index template 의 default_pipeline(mutuus-common)이 수행하므로
+#    Filebeat 에서 pipeline 을 지정하지 않는다.
+#
+# 주의: 아래는 검증된 "출발점" 설정이다. 운영 배포 전 실제 ES 버전/보안(TLS·API key)에 맞춰 조정하고,
+#       컨테이너 환경이라면 Filebeat 대신 Elastic Agent(네이티브 data_stream 라우팅) 사용을 우선 검토한다.
+
+filebeat.inputs:
+  - type: filestream
+    id: mutuus-common-logs
+    enabled: true
+    paths:
+      - /var/log/mutuus/*/*.log      # Linux/VM
+      - C:/logs/*.log                # Windows
+    prospector.scanner.exclude_files: ['\.gz$']   # 롤아웃 archive 제외
+    parsers:
+      - ndjson:
+          target: ""                 # 최상위로 펼침(service.name 등 dotted 키를 객체로 확장)
+          add_error_key: true        # 파싱 실패 시 error.* 부여
+          overwrite_keys: true
+    fields_under_root: true
+    fields:
+      # 문서에 값이 없을 때만 쓰이는 fallback(로거가 이미 채우면 overwrite_keys 로 문서 값 우선)
+      data_stream.type: logs
+      data_stream.namespace: prod
+
+# 데이터스트림 라우팅: 문서의 data_stream.{dataset,namespace} 로 logs-<dataset>-<namespace> 에 적재.
+output.elasticsearch:
+  hosts: ["https://localhost:9200"]
+  # api_key: "<id>:<key>"     # 운영은 API key/TLS 사용 권장
+  # ssl.certificate_authorities: ["/etc/filebeat/certs/ca.crt"]
+  index: "logs-%{[data_stream.dataset]:mutuus.access}-%{[data_stream.namespace]:prod}"
+
+# 템플릿/ILM 은 common-platform 이 소유(deploy/elastic/*) → Filebeat 자체 관리 비활성화
+setup.template.enabled: false
+setup.ilm.enabled: false
+
+processors:
+  - add_host_metadata: ~
+  - drop_fields:
+      fields: ["input", "agent.ephemeral_id"]   # Filebeat 수집 메타 노이즈 축소(선택). ecs.version 등 문서 필드는 보존
+      ignore_missing: true
+
+logging.level: info

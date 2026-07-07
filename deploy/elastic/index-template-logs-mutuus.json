@@ -1,0 +1,17 @@
+{
+  "index_patterns": ["logs-mutuus.*-*"],
+  "data_stream": {},
+  "composed_of": ["mutuus-logs-settings", "mutuus-logs-mappings"],
+  "priority": 250,
+  "_meta": {
+    "description": "mutuus common-platform 로그 데이터스트림 템플릿(logs-mutuus.<dataset>-<namespace>). PUT _index_template/logs-mutuus",
+    "managed_by": "common-platform"
+  },
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": { "name": "mutuus-logs-default" }
+      }
+    }
+  }
+}

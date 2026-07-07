@@ -1,0 +1,31 @@
+{
+  "description": "mutuus common-platform 로그 정규화(legacy→ECS 코어 필드 rename, 타입 보장, dataset fallback, 본문 절단). PUT _ingest/pipeline/mutuus-common",
+  "processors": [
+    { "rename": { "field": "level", "target_field": "log.level", "ignore_missing": true } },
+    { "rename": { "field": "logger_name", "target_field": "logger.name", "ignore_missing": true } },
+    { "rename": { "field": "thread_name", "target_field": "process.thread.name", "ignore_missing": true } },
+    { "rename": { "field": "stack_trace", "target_field": "error.stack_trace", "ignore_missing": true } },
+    { "remove": { "field": ["@version", "tags", "level_value"], "ignore_missing": true } },
+
+    { "rename": { "field": "httpPath", "target_field": "url.path", "ignore_missing": true, "if": "ctx.url?.path == null" } },
+    { "rename": { "field": "httpMethod", "target_field": "http.request.method", "ignore_missing": true, "if": "ctx.http?.request?.method == null" } },
+    { "set": { "field": "http.response.status_code", "copy_from": "httpStatus", "override": false, "ignore_empty_value": true } },
+
+    { "convert": { "field": "http.response.status_code", "type": "integer", "ignore_missing": true, "on_failure": [ { "remove": { "field": "http.response.status_code", "ignore_missing": true } } ] } },
+    { "convert": { "field": "event.duration", "type": "long", "ignore_missing": true, "on_failure": [ { "remove": { "field": "event.duration", "ignore_missing": true } } ] } },
+    { "convert": { "field": "client.ip", "type": "ip", "ignore_missing": true, "on_failure": [ { "remove": { "field": "client.ip", "ignore_missing": true } } ] } },
+    { "convert": { "field": "source.ip", "type": "ip", "ignore_missing": true, "on_failure": [ { "remove": { "field": "source.ip", "ignore_missing": true } } ] } },
+
+    { "set": { "field": "data_stream.dataset", "copy_from": "event.dataset", "override": false, "ignore_empty_value": true } },
+    { "set": { "field": "data_stream.dataset", "value": "mutuus.access", "override": false, "if": "ctx.data_stream?.dataset == null && ctx.logger?.name == 'ai.mutuus.common.access'" } },
+    { "set": { "field": "data_stream.dataset", "value": "mutuus.security_audit", "override": false, "if": "ctx.data_stream?.dataset == null && ctx.logger?.name == 'ai.mutuus.common.security.audit'" } },
+    { "set": { "field": "data_stream.dataset", "value": "mutuus.http_client", "override": false, "if": "ctx.data_stream?.dataset == null && ctx.logger?.name == 'ai.mutuus.common.http.client'" } },
+    { "set": { "field": "data_stream.dataset", "value": "mutuus.domain_event", "override": false, "if": "ctx.data_stream?.dataset == null && ctx.logger?.name == 'ai.mutuus.common.event'" } },
+
+    { "script": { "lang": "painless", "description": "본문 필드 4096자 초과 시 절단(비용/PII 방어)", "source": "int max = 4096; for (String f : ['http.request.body.content','http.response.body.content']) { def parts = f.splitOnToken('.'); def cur = ctx; for (int i=0;i<parts.length-1 && cur!=null;i++){ cur = cur[parts[i]]; } if (cur != null) { def leaf = parts[parts.length-1]; def v = cur[leaf]; if (v instanceof String && v.length() > max) { cur[leaf] = v.substring(0,max); ctx.mutuus = ctx.mutuus ?: [:]; ctx.mutuus.payload = ctx.mutuus.payload ?: [:]; ctx.mutuus.payload.truncated = true; } } }" } }
+  ],
+  "on_failure": [
+    { "set": { "field": "error.pipeline", "value": "mutuus-common" } },
+    { "set": { "field": "error.message", "value": "{{ _ingest.on_failure_message }}", "override": false } }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "template": {
+    "settings": {
+      "index": {
+        "default_pipeline": "mutuus-common",
+        "codec": "best_compression",
+        "number_of_shards": 1,
+        "number_of_replicas": 1,
+        "mapping": {
+          "total_fields": { "limit": 2000 },
+          "ignore_malformed": true
+        }
+      }
+    }
+  },
+  "_meta": { "description": "mutuus common-platform 인덱스 설정(공통) — 기본 ingest pipeline·필드 상한. PUT _component_template/mutuus-logs-settings" }
+}
