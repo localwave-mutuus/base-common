@@ -54,19 +54,26 @@ class AccessLoggerTest {
 
     @Test
     void requestCompleted는_상태와_소요시간을_남기고_5xx면_WARN이다() {
-        accessLogger.requestCompleted("GET", "/api/orders", 500, 12L, false);
+        accessLogger.requestCompleted("GET", "/api/orders", 500, 12L, 12_000_000L, "10.0.0.1", false);
 
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.WARN);
         assertThat(kv(ev))
                 .containsEntry("event", "request.completed")
                 .containsEntry("httpStatus", 500)
-                .containsEntry("durationMs", 12L);
+                .containsEntry("durationMs", 12L)
+                // ECS(dual): 운영 주 로그 필드
+                .containsEntry("event.action", "request.completed")
+                .containsEntry("event.dataset", "mutuus.access")
+                .containsEntry("event.outcome", "failure")
+                .containsEntry("http.response.status_code", 500)
+                .containsEntry("event.duration", 12_000_000L)
+                .containsEntry("client.ip", "10.0.0.1");
     }
 
     @Test
     void 느린요청은_WARN과_slow플래그를_남긴다() {
-        accessLogger.requestCompleted("GET", "/api/slow", 200, 3000L, true);
+        accessLogger.requestCompleted("GET", "/api/slow", 200, 3000L, 3_000_000_000L, "10.0.0.1", true);
 
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.WARN);
@@ -101,7 +108,7 @@ class AccessLoggerTest {
     void TraceContext의_userId가_있으면_userId_필드가_포함된다() {
         TraceContext.put(HeaderNames.USER_ID, "u-7");
 
-        accessLogger.requestCompleted("GET", "/api/orders", 200, 5L, false);
+        accessLogger.requestCompleted("GET", "/api/orders", 200, 5L, 5_000_000L, null, false);
 
         assertThat(kv(single())).containsEntry("userId", "u-7");
     }

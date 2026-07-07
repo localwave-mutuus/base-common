@@ -39,15 +39,17 @@ public class AccessLogFilter extends OncePerRequestFilter {
 
         String method = request.getMethod();
         String query = props.isIncludeQueryString() ? request.getQueryString() : null;
+        String clientIp = clientIp(request);
         long startNanos = System.nanoTime();
-        accessLogger.requestReceived(method, path, query, clientIp(request));
+        accessLogger.requestReceived(method, path, query, clientIp);
         try {
             filterChain.doFilter(request, response);
         } finally {
-            long durationMs = (System.nanoTime() - startNanos) / 1_000_000L;
+            long durationNanos = System.nanoTime() - startNanos;
+            long durationMs = durationNanos / 1_000_000L;
             long threshold = props.getSlowRequestThresholdMillis();
             boolean slow = threshold > 0 && durationMs >= threshold;
-            accessLogger.requestCompleted(method, path, response.getStatus(), durationMs, slow);
+            accessLogger.requestCompleted(method, path, response.getStatus(), durationMs, durationNanos, clientIp, slow);
         }
     }
 

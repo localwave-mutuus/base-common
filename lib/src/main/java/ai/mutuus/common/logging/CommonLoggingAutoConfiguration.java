@@ -24,8 +24,8 @@ public class CommonLoggingAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AccessLogger accessLogger() {
-        return new AccessLogger();
+    public AccessLogger accessLogger(CommonLoggingProperties props) {
+        return new AccessLogger(props.getFormat());
     }
 
     /** 웹 환경에서만 요청/응답 필터를 등록한다. */

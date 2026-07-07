@@ -2,6 +2,7 @@ package ai.mutuus.common.web;
 
 import java.io.IOException;
 
+import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.IdGenerator;
 import ai.mutuus.common.core.StringUtils;
@@ -49,6 +50,12 @@ public class TraceFilter extends OncePerRequestFilter {
 
             populate(HeaderNames.TRACE_ID, traceId);
             populate(HeaderNames.SPAN_ID, spanId);
+            // ECS MDC alias(스칼라 keyword) — 로깅 렌더 전용. 전파/헤더는 위 X-* 유지.
+            // transaction.id 는 이 요청 1건 식별(요청당 1회, span 과 구분). MDC 는 finally 의 clear 로 정리.
+            MDC.put(EcsFields.TRACE_ID, traceId);
+            MDC.put(EcsFields.SPAN_ID, spanId);
+            MDC.put(EcsFields.TRANSACTION_ID, IdGenerator.newTransactionId());
+            // service.node.name 은 인스턴스 상수라 logback customFields 로 항상 싣는다(startup 로그 포함).
             populate(HeaderNames.SCREEN_ID, request.getHeader(HeaderNames.SCREEN_ID));
             populate(HeaderNames.EVENT_ID, request.getHeader(HeaderNames.EVENT_ID));
             populate(HeaderNames.DEVICE_LEVEL, request.getHeader(HeaderNames.DEVICE_LEVEL));
@@ -62,6 +69,9 @@ public class TraceFilter extends OncePerRequestFilter {
             }
             if (trustForwardedUser) {
                 populate(HeaderNames.USER_ID, claimedUser);
+                if (StringUtils.hasText(claimedUser)) {
+                    MDC.put(EcsFields.USER_ID, claimedUser); // ECS alias
+                }
             }
             populate(HeaderNames.LOCALE, request.getHeader(HeaderNames.LOCALE));
             // 애플리케이션/인스턴스 식별 코드(상수) — MDC/TraceContext 적재 → 로그 포함 + 아웃바운드 전파

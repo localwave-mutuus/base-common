@@ -1,5 +1,9 @@
 package ai.mutuus.common.payload;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.SensitiveDataMasker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -34,9 +38,21 @@ public class DefaultResponsePayloadLogger implements ResponsePayloadLogger {
                 .addKeyValue("httpMethod", request.getMethod())
                 .addKeyValue("httpPath", request.getRequestURI())
                 .addKeyValue("httpStatus", status);                // 최종 응답 상태코드
+        // ECS(dual): dataset/이벤트/HTTP 필드를 함께 남긴다.
+        ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_PAYLOAD)
+                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_PAYLOAD)
+                .addKeyValue(EcsFields.EVENT_ACTION, "response.payload")
+                .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
+                .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))
+                .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, request.getMethod())
+                .addKeyValue(EcsFields.URL_PATH, request.getRequestURI())
+                .addKeyValue(EcsFields.HTTP_RESPONSE_STATUS_CODE, status);
         // 응답 본문(정책 적용 후)이 있을 때만 추가. 마스커가 있으면 PII 를 남기기 전에 마스킹.
         if (body != null && !body.isBlank()) {
-            ev.addKeyValue("responseBody", masker != null ? masker.mask(body) : body);
+            String rendered = masker != null ? masker.mask(body) : body;
+            ev.addKeyValue("responseBody", rendered);
+            ev.addKeyValue(EcsFields.HTTP_RESPONSE_BODY_CONTENT, rendered)
+                    .addKeyValue(EcsFields.HTTP_RESPONSE_BODY_BYTES, body.getBytes(StandardCharsets.UTF_8).length);
         }
         // 같은 요청의 request.payload 와 동일 X-Trace-Id(MDC)로 묶여 한 트랜잭션으로 조회된다.
         ev.log("controller response payload");

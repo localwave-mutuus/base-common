@@ -102,24 +102,31 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceAccessException.class)
     public ResponseEntity<ApiResponse<Void>> handleNetwork(ResourceAccessException ex,
                                                            HttpServletRequest request) {
-        ErrorCode code = isTimeout(ex.getCause())
+        ErrorCode code = isTimeout(ex)
                 ? CommonErrorCode.GATEWAY_TIMEOUT : CommonErrorCode.EXTERNAL_API_ERROR;
-        accessLogger.serverError(request.getRequestURI(), ex);
+        accessLogger.serverError(request.getRequestURI(), code.code(), ex);
         String detail = messages.get(code.messageKey());
         return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
     }
 
     /** 타임아웃 판별 — HttpURLConnection 계열(SocketTimeout)·JDK HttpClient 계열(HttpTimeout) 모두 커버. */
     private static boolean isTimeout(Throwable cause) {
-        return cause instanceof SocketTimeoutException
-                || cause instanceof java.net.http.HttpTimeoutException;
+        Throwable current = cause;
+        while (current != null) {
+            if (current instanceof SocketTimeoutException
+                    || current instanceof java.net.http.HttpTimeoutException) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 
     /** 그 외 처리되지 않은 모든 예외 → 500. 스택을 포함해 ERROR 로깅. */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex, HttpServletRequest request) {
         ErrorCode code = CommonErrorCode.INTERNAL_ERROR;
-        accessLogger.serverError(request.getRequestURI(), ex);
+        accessLogger.serverError(request.getRequestURI(), code.code(), ex);
         String detail = messages.get(code.messageKey());
         return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
     }

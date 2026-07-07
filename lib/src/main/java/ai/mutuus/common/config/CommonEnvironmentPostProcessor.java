@@ -79,11 +79,25 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         defaults.put("mutuus.common.app-code", appCode);
         defaults.put("mutuus.common.instance-code", instanceCode);
 
+        // 배포 환경/네임스페이스 해석(ECS service.environment / data_stream.namespace 의 근거).
+        // 미지정 시 활성 프로파일 첫 값, 그것도 없으면 local. namespace 미지정 시 environment 로 대체.
+        String environmentName = blankToNull(environment.getProperty("mutuus.common.logging.environment"));
+        if (environmentName == null) {
+            String[] profiles = environment.getActiveProfiles();
+            environmentName = profiles.length > 0 ? profiles[0] : "local";
+        }
+        String namespace = blankToNull(environment.getProperty("mutuus.common.logging.data-stream.namespace"));
+        if (namespace == null) {
+            namespace = environmentName;
+        }
+
         // 로깅 시스템 초기화 이전 시점이므로 시스템 프로퍼티로 노출 → logback ${...} 에서 사용.
         System.setProperty("mutuus.appCode", appCode);
         System.setProperty("mutuus.instanceCode", instanceCode);
         System.setProperty("mutuus.logFileBase", appCode + "-" + instanceCode);
         System.setProperty("SERVICE_NAME", serviceName);
+        System.setProperty("mutuus.environment", environmentName);
+        System.setProperty("mutuus.dataStreamNamespace", namespace);
     }
 
     private static String blankToNull(String v) {

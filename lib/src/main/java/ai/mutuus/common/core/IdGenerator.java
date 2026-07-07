@@ -53,6 +53,14 @@ public final class IdGenerator {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 16);
     }
 
+    /**
+     * 트랜잭션 ID — 이 서비스가 처리한 HTTP 요청 1건의 식별자(ECS {@code transaction.id}).
+     * span 과 달리 요청 진입 시 1회 발급되어 요청 종료까지 불변이다. 형식은 W3C 호환 16 hex.
+     */
+    public static String newTransactionId() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+    }
+
     /** 일반 엔터티 식별자. */
     public static UUID newId() {
         return UUID.randomUUID();

@@ -1,5 +1,9 @@
 package ai.mutuus.common.payload;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.SensitiveDataMasker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -43,10 +47,27 @@ public class DefaultRequestPayloadLogger implements RequestPayloadLogger {
         if (request.getContentType() != null) {
             ev.addKeyValue("contentType", request.getContentType());
         }
+        // ECS(dual): dataset/이벤트/HTTP 필드를 함께 남긴다(로거 호출부에서 직접 명시 — MDC 로 못 싣는 타입 포함).
+        ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_PAYLOAD)
+                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_PAYLOAD)
+                .addKeyValue(EcsFields.EVENT_ACTION, "request.payload")
+                .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
+                .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))
+                .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, request.getMethod())
+                .addKeyValue(EcsFields.URL_PATH, request.getRequestURI());
+        if (request.getQueryString() != null && !request.getQueryString().isBlank()) {
+            ev.addKeyValue(EcsFields.URL_QUERY, request.getQueryString());
+        }
+        if (request.getContentType() != null) {
+            ev.addKeyValue(EcsFields.HTTP_REQUEST_MIME_TYPE, request.getContentType());
+        }
         // 본문(필터에서 크기/타입 정책을 적용해 넘어온 값)이 있을 때만 추가. null 이면 필드 자체를 생략.
         // 마스커가 있으면 PII(카드/주민번호 등)를 로그에 남기기 전에 마스킹한다.
         if (body != null && !body.isBlank()) {
-            ev.addKeyValue("requestBody", masker != null ? masker.mask(body) : body);
+            String rendered = masker != null ? masker.mask(body) : body;
+            ev.addKeyValue("requestBody", rendered);
+            ev.addKeyValue(EcsFields.HTTP_REQUEST_BODY_CONTENT, rendered)
+                    .addKeyValue(EcsFields.HTTP_REQUEST_BODY_BYTES, body.getBytes(StandardCharsets.UTF_8).length);
         }
         // 메시지 + 위 필드로 한 줄 출력. 추적ID/appCode/instanceCode 는 MDC 에 있어 자동 포함된다.
         ev.log("controller request payload");

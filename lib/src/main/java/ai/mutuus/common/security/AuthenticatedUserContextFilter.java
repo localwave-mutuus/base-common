@@ -2,6 +2,7 @@ package ai.mutuus.common.security;
 
 import java.io.IOException;
 
+import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.StringUtils;
 import ai.mutuus.common.core.TraceContext;
@@ -50,6 +51,7 @@ public class AuthenticatedUserContextFilter extends OncePerRequestFilter {
             String principal = auth.getName();
             TraceContext.put(HeaderNames.USER_ID, principal); // 검증된 주체가 위장값보다 우선
             MDC.put(HeaderNames.USER_ID, principal);
+            MDC.put(EcsFields.USER_ID, principal); // ECS alias(로깅 렌더 전용)
             if (StringUtils.hasText(claimed) && !claimed.equals(principal)) {
                 securityAuditLogger.identityMismatch(request.getRequestURI(), request.getRemoteAddr(),
                         claimed, principal); // 신원 위·변조 시도

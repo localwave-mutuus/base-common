@@ -1,5 +1,8 @@
 package ai.mutuus.common.security.audit;
 
+import ai.mutuus.common.core.LogFormat;
+import ai.mutuus.common.logging.CommonLoggingProperties;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,7 +22,10 @@ public class CommonSecurityAuditAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SecurityAuditLogger securityAuditLogger() {
-        return new SecurityAuditLogger();
+    public SecurityAuditLogger securityAuditLogger(ObjectProvider<CommonLoggingProperties> loggingProps) {
+        // 로그 포맷은 액세스 로깅과 동일 출처(CommonLoggingProperties.format)를 따른다. 부재 시 DUAL.
+        CommonLoggingProperties props = loggingProps.getIfAvailable();
+        LogFormat format = props != null ? props.getFormat() : LogFormat.DUAL;
+        return new SecurityAuditLogger(format);
     }
 }

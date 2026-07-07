@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  공통 JSON 로깅 설정. 소비 측 애플리케이션의 logback-spring.xml 에서 include 하여 사용한다.
+  공통 JSON 로깅 설정(ECS 호환). 소비 측 애플리케이션의 logback-spring.xml 에서 include 하여 사용한다.
   예) <include resource="logback-common.xml"/>
-  MDC 의 추적/화면/단말 헤더와 service/appCode/instanceCode 가 로그에 자동 포함된다.
 
-  파일 적재: <어플리케이션코드>-<인스턴스구분코드>.log (크기+일자 롤링).
-  코드/경로는 CommonEnvironmentPostProcessor 가 구동 시 시스템 프로퍼티로 노출한다:
-    mutuus.logFileBase = <appCode>-<instanceCode>,  mutuus.appCode, mutuus.instanceCode, SERVICE_NAME
+  구조화 필드는 두 경로로 실린다:
+   1) MDC — 추적/화면/단말/사용자 헤더(X-*) + ECS alias(trace.id/span.id/transaction.id/user.id).
+      includeMdcKeyName 화이트리스트를 두지 않아 MDC 의 모든 키가 자동 포함된다(필터가 통제).
+   2) customFields — 인스턴스 상수(ecs.version/service.*/data_stream.*)와 legacy(appCode/instanceCode).
+
+  파일 적재: <어플리케이션코드>-<인스턴스구분코드>.log (크기+일자 롤링, 롤아웃 시 .gz 압축=archive).
+  코드/경로/환경은 CommonEnvironmentPostProcessor 가 구동 시 시스템 프로퍼티로 노출한다:
+    mutuus.logFileBase, mutuus.appCode, mutuus.instanceCode, SERVICE_NAME, mutuus.environment, mutuus.dataStreamNamespace
   로그 디렉터리는 ${LOG_DIR:-logs} (소비 측이 LOG_DIR 로 override 가능).
+
+  ECS 주의: ECS 는 점 표기(service.name)를 쓰며 Elasticsearch 가 색인 시 중첩 객체로 확장한다. 따라서
+  bare "service" 문자열 필드와 service.* 는 공존 불가 → service 는 ECS 중첩으로만 싣는다.
 -->
 <included>
     <property name="LOG_DIR" value="${LOG_DIR:-logs}"/>
     <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-APP0-INST000}"/>
+    <!-- 모든 인코더가 공유하는 인스턴스 상수(ECS 중첩 + legacy). service.node.name 은 여기서 항상 싣는다. -->
+    <property name="COMMON_FIELDS"
+              value='{"ecs":{"version":"9.0.0"},"service":{"name":"${SERVICE_NAME:-unknown-service}","environment":"${mutuus.environment:-local}","node":{"name":"${mutuus.appCode:-APP0}-${mutuus.instanceCode:-INST000}"}},"data_stream":{"type":"logs","namespace":"${mutuus.dataStreamNamespace:-local}"},"appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}'/>
 
-    <!-- 모든 로그에 공통 식별 필드(service/appCode/instanceCode)를 부여하는 인코더 정의(중복 제거) -->
+    <!-- JSON 콘솔(컨테이너 stdout 수집 1순위) -->
     <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeMdcKeyName>X-Trace-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Span-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Screen-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Event-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Device-Level</includeMdcKeyName>
-            <includeMdcKeyName>X-User-Id</includeMdcKeyName>
-            <customFields>{"service":"${SERVICE_NAME:-unknown-service}","appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}</customFields>
+            <customFields>${COMMON_FIELDS}</customFields>
         </encoder>
     </appender>
 
-    <!-- HTTP 유입/응답/에러 로그 파일 적재. 파일명 = <앱코드>-<인스턴스코드>.log, 크기+일자 롤링 -->
+    <!-- JSON 롤링 파일(VM/로컬 2순위). 파일명 = <앱코드>-<인스턴스코드>.log, 크기+일자 롤링 -->
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- active file 은 비압축(수집 대상), 롤아웃된 파일만 .gz(archive) -->
             <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>${mutuus.log.maxHistory:-30}</maxHistory>
+            <totalSizeCap>${mutuus.log.totalSizeCap:-3GB}</totalSizeCap>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeMdcKeyName>X-Trace-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Span-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Screen-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Event-Id</includeMdcKeyName>
-            <includeMdcKeyName>X-Device-Level</includeMdcKeyName>
-            <includeMdcKeyName>X-User-Id</includeMdcKeyName>
-            <customFields>{"service":"${SERVICE_NAME:-unknown-service}","appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}</customFields>
+            <customFields>${COMMON_FIELDS}</customFields>
         </encoder>
+    </appender>
+
+    <!-- 운영: 파일 적재를 비동기로 감싸 애플리케이션 스레드 블로킹을 줄인다. -->
+    <appender name="ASYNC_JSON_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="JSON_FILE"/>
     </appender>
 
     <root level="INFO">
         <appender-ref ref="JSON_CONSOLE"/>
-        <appender-ref ref="JSON_FILE"/>
+        <appender-ref ref="ASYNC_JSON_FILE"/>
     </root>
 </included>
