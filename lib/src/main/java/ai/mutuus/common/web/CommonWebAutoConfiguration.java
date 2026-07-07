@@ -3,6 +3,7 @@ package ai.mutuus.common.web;
 import java.util.Locale;
 
 import ai.mutuus.common.core.HeaderNames;
+import ai.mutuus.common.core.LogFormat;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.ObjectProvider;
@@ -99,6 +100,45 @@ public class CommonWebAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean(name = "headerPropagationRestTemplateCustomizer")
         RestTemplateCustomizer headerPropagationRestTemplateCustomizer(HeaderPropagationInterceptor interceptor) {
+            return restTemplate -> restTemplate.getInterceptors().add(interceptor);
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // 아웃바운드 호출 로깅(기본 ON) — 하위 서비스 호출마다 http.client.completed 이벤트를
+    // mutuus.http_client dataset 으로 남긴다(e2e 호출 구간 관측). client-logging.enabled=false 로 OFF.
+    // ---------------------------------------------------------------------
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
+    public HttpClientLoggingInterceptor httpClientLoggingInterceptor(
+            CommonHttpProperties props,
+            // 로그 포맷은 액세스 로깅과 동일 출처를 원시 프로퍼티로만 읽어 web→logging 패키지 결합을 피한다.
+            @Value("${mutuus.common.logging.format:DUAL}") LogFormat format) {
+        return new HttpClientLoggingInterceptor(format, props.getClientLogging().getSlowRequestThresholdMillis());
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestClientCustomizer.class)
+    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
+    static class HttpClientLoggingRestClientConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "httpClientLoggingRestClientCustomizer")
+        RestClientCustomizer httpClientLoggingRestClientCustomizer(HttpClientLoggingInterceptor interceptor) {
+            return builder -> builder.requestInterceptor(interceptor);
+        }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestTemplateCustomizer.class)
+    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
+    static class HttpClientLoggingRestTemplateConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "httpClientLoggingRestTemplateCustomizer")
+        RestTemplateCustomizer httpClientLoggingRestTemplateCustomizer(HttpClientLoggingInterceptor interceptor) {
             return restTemplate -> restTemplate.getInterceptors().add(interceptor);
         }
     }

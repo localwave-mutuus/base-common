@@ -12,8 +12,44 @@ public class CommonHttpProperties {
 
     private final Retry retry = new Retry();
 
+    /** 아웃바운드 호출 로깅({@code mutuus.common.http.client-logging.*}). */
+    private final ClientLogging clientLogging = new ClientLogging();
+
     public Retry getRetry() {
         return retry;
+    }
+
+    public ClientLogging getClientLogging() {
+        return clientLogging;
+    }
+
+    /**
+     * 아웃바운드 호출 완료 로깅 설정. 하위 서비스 호출(RestClient/RestTemplate)마다 {@code http.client.completed}
+     * 이벤트를 {@code mutuus.http_client} dataset 으로 남긴다(e2e 호출 구간 관측). 기본 ON.
+     */
+    public static class ClientLogging {
+
+        /** 아웃바운드 호출 로깅 활성화(기본 true). 소음이 크면 false 로 끄거나 로거 레벨로 제어. */
+        private boolean enabled = true;
+
+        /** 느린 호출 경고 임계값(ms). 0이면 비활성. 초과 시 완료 로그가 WARN 으로 기록된다. */
+        private long slowRequestThresholdMillis = 0;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public long getSlowRequestThresholdMillis() {
+            return slowRequestThresholdMillis;
+        }
+
+        public void setSlowRequestThresholdMillis(long slowRequestThresholdMillis) {
+            this.slowRequestThresholdMillis = slowRequestThresholdMillis;
+        }
     }
 
     public static class Retry {

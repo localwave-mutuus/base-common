@@ -12,11 +12,22 @@ public class CommonEventProperties {
     /** 공통 이벤트 발행자 자동 등록 여부(기본 true). */
     private boolean enabled = true;
 
+    /** 도메인 이벤트 발행/소비 로깅({@code mutuus.domain_event} dataset) 활성화 여부(기본 true). */
+    private boolean loggingEnabled = true;
+
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
+
+    public void setLoggingEnabled(boolean loggingEnabled) {
+        this.loggingEnabled = loggingEnabled;
     }
 }

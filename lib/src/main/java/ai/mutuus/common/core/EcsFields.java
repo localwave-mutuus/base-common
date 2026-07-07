@@ -83,4 +83,6 @@ public final class EcsFields {
     public static final String MUTUUS_DURATION_MS = "mutuus.duration.ms";
     public static final String MUTUUS_METHOD_ARGS = "mutuus.method.args";
     public static final String MUTUUS_METHOD_RETURN = "mutuus.method.return";
+    public static final String MUTUUS_DOMAIN_EVENT_ID = "mutuus.domain_event.id";
+    public static final String MUTUUS_DOMAIN_EVENT_TYPE = "mutuus.domain_event.type";
 }

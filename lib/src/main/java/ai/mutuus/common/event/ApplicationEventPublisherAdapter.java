@@ -11,13 +11,23 @@ import org.springframework.context.ApplicationEventPublisher;
 public class ApplicationEventPublisherAdapter implements EventPublisher {
 
     private final ApplicationEventPublisher delegate;
+    private final DomainEventLogger logger;
 
     public ApplicationEventPublisherAdapter(ApplicationEventPublisher delegate) {
+        this(delegate, null);
+    }
+
+    /** {@code logger} 가 있으면 발행 시 {@code domain_event.published} 로그를 남긴다(null 이면 무로깅). */
+    public ApplicationEventPublisherAdapter(ApplicationEventPublisher delegate, DomainEventLogger logger) {
         this.delegate = delegate;
+        this.logger = logger;
     }
 
     @Override
     public void publish(DomainEvent<?> event) {
+        if (logger != null) {
+            logger.published(event);
+        }
         // DomainEvent 는 ApplicationEvent 가 아니므로 Spring 이 PayloadApplicationEvent 로 감싸 전달한다.
         // 리스너는 파라미터 타입 DomainEvent 로 구독하면 봉투를 그대로 받는다.
         delegate.publishEvent(event);
