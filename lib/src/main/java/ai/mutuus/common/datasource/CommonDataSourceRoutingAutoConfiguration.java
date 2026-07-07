@@ -20,7 +20,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * 라우팅 판별은 {@code @Transactional(readOnly)} 플래그(+ {@link RoutingContext} 명시 override)로 이뤄진다(AOP 불필요).
  */
 @AutoConfiguration(beforeName = "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration")
-@ConditionalOnClass(AbstractRoutingDataSource.class)
+@ConditionalOnClass(value = AbstractRoutingDataSource.class, name = "com.zaxxer.hikari.HikariDataSource")
 @ConditionalOnProperty(prefix = "mutuus.common.datasource", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(CommonDataSourceProperties.class)
 @Import(MultiDataSourceRegistrar.class)

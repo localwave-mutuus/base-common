@@ -1,7 +1,11 @@
 package ai.mutuus.common.idempotency;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.HexFormat;
 import java.util.Locale;
 import java.util.Set;
 
@@ -45,22 +49,31 @@ public class IdempotencyFilter extends OncePerRequestFilter {
             return;
         }
 
+        String fingerprint = fingerprint(request);
         IdempotencyRecord existing = store.find(key);
         if (existing != null) {
+            if (fingerprintMismatch(existing, fingerprint)) {
+                conflict(response, "fingerprint-mismatch");
+                return;
+            }
             if (existing.completed()) {
                 replay(response, existing);       // 첫 응답 재방
             } else {
-                conflict(response);               // 처리 중 중복
+                conflict(response, "in-progress");               // 처리 중 중복
             }
             return;
         }
         // in-progress 마커 원자적 등록. 실패(경쟁)면 재확인.
-        if (!store.reserve(key, props.getTtl())) {
+        if (!store.reserve(key, props.getTtl(), fingerprint)) {
             IdempotencyRecord r = store.find(key);
+            if (r != null && fingerprintMismatch(r, fingerprint)) {
+                conflict(response, "fingerprint-mismatch");
+                return;
+            }
             if (r != null && r.completed()) {
                 replay(response, r);
             } else {
-                conflict(response);
+                conflict(response, "in-progress");
             }
             return;
         }
@@ -69,10 +82,13 @@ public class IdempotencyFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper cached = new ContentCachingResponseWrapper(response);
         try {
             filterChain.doFilter(request, cached);
-        } finally {
             store.complete(key, IdempotencyRecord.completed(
-                    cached.getStatus(), cached.getContentType(), cached.getContentAsByteArray()), props.getTtl());
+                    fingerprint, cached.getStatus(), cached.getContentType(), cached.getContentAsByteArray()), props.getTtl());
             cached.copyBodyToResponse();
+        } catch (ServletException | IOException | RuntimeException | Error ex) {
+            store.remove(key);
+            cached.copyBodyToResponse();
+            throw ex;
         }
     }
 
@@ -89,8 +105,26 @@ public class IdempotencyFilter extends OncePerRequestFilter {
     }
 
     /** 같은 키가 아직 처리 중일 때(동시 중복). */
-    private void conflict(HttpServletResponse response) {
+    private void conflict(HttpServletResponse response, String reason) {
         response.setStatus(HttpServletResponse.SC_CONFLICT);
-        response.setHeader("Idempotent-Replayed", "in-progress");
+        response.setHeader("Idempotent-Replayed", reason);
+    }
+
+    private boolean fingerprintMismatch(IdempotencyRecord record, String fingerprint) {
+        return record.fingerprint() != null && !record.fingerprint().equals(fingerprint);
+    }
+
+    private String fingerprint(HttpServletRequest request) {
+        String raw = request.getMethod() + " " + request.getRequestURI() + "?" + nullToEmpty(request.getQueryString());
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return HexFormat.of().formatHex(digest.digest(raw.getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException e) {
+            return raw;
+        }
+    }
+
+    private static String nullToEmpty(String value) {
+        return value == null ? "" : value;
     }
 }

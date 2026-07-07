@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import ai.mutuus.sample.support.LiveInfra;
 import org.junit.jupiter.api.AfterEach;
@@ -39,12 +40,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @EnabledIf(value = "ai.mutuus.sample.support.LiveInfra#redisReachable",
         disabledReason = "로컬 실 Redis(기본 localhost:16010, cain/eva) 에 접속할 수 없음")
-@TestPropertySource(properties = {
-        "mutuus.common.session.namespace=demo:session",
-        "mutuus.common.session.timeout=15m"
-})
+@TestPropertySource(properties = "mutuus.common.session.timeout=15m")
 @Import(RedisLiveSessionIntegrationTest.TestSecurityConfig.class)
 class RedisLiveSessionIntegrationTest {
+
+    private static final String NAMESPACE = "demo:session:" + UUID.randomUUID();
 
     @DynamicPropertySource
     static void redis(DynamicPropertyRegistry registry) {
@@ -52,6 +52,7 @@ class RedisLiveSessionIntegrationTest {
         registry.add("spring.data.redis.port", () -> LiveInfra.REDIS_PORT);
         registry.add("spring.data.redis.username", () -> LiveInfra.REDIS_USERNAME);
         registry.add("spring.data.redis.password", () -> LiveInfra.REDIS_PASSWORD);
+        registry.add("mutuus.common.session.namespace", () -> NAMESPACE);
     }
 
     @Autowired
@@ -63,7 +64,7 @@ class RedisLiveSessionIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        Set<String> keys = redisTemplate.keys("demo:session:*");
+        Set<String> keys = redisTemplate.keys(NAMESPACE + ":*");
         if (keys != null && !keys.isEmpty()) {
             redisTemplate.delete(keys);
         }
@@ -81,7 +82,7 @@ class RedisLiveSessionIntegrationTest {
         assertThat(loaded.<String>getAttribute("user")).isEqualTo("u-sess");
 
         // 네임스페이스 컨벤션: 라이브러리 커스터마이저가 지정한 접두사로 키가 저장돼야 한다.
-        assertThat(redisTemplate.keys("demo:session:*")).isNotEmpty();
+        assertThat(redisTemplate.keys(NAMESPACE + ":*")).isNotEmpty();
 
         // 타임아웃 컨벤션: 지정한 15m 가 세션 비활성 유지시간으로 반영돼야 한다(Boot 기본 30m 아님).
         assertThat(loaded.getMaxInactiveInterval()).isEqualTo(Duration.ofMinutes(15));

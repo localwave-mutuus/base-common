@@ -3,9 +3,15 @@ package ai.mutuus.sample.support;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
+
+import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.io.FileSystemResource;
 
 /**
  * 로컬 <b>실 인프라</b>(PostgreSQL/Redis) 도달성 게이트 + 접속 좌표.
@@ -29,17 +35,24 @@ public final class LiveInfra {
     public static final String PG_URL =
             System.getProperty("live.pg.url", "jdbc:postgresql://localhost:15010/local.test.common");
     public static final String PG_USERNAME = System.getProperty("live.pg.username", "cain");
-    public static final String PG_PASSWORD = System.getProperty("live.pg.password", "eva");
+    public static final String PG_PASSWORD = secret("live.pg.password", "spring.datasource.password");
 
     public static final String REDIS_HOST = System.getProperty("live.redis.host", "localhost");
     public static final int REDIS_PORT = Integer.getInteger("live.redis.port", 16010);
     // Redis 의 cain ACL 은 이 인스턴스에서 영속 불가(재시작 시 소실)하므로, 안정적으로 영속되는
     // default 계정(requirepass)을 기본으로 쓴다. cain 으로 돌리려면 live.redis.username 로 override.
     public static final String REDIS_USERNAME = System.getProperty("live.redis.username", "default");
-    public static final String REDIS_PASSWORD = System.getProperty("live.redis.password", "eva");
+    public static final String REDIS_PASSWORD = secret("live.redis.password", "spring.data.redis.password");
+
+    public static boolean liveTestsEnabled() {
+        return Boolean.getBoolean("live.tests.enabled");
+    }
 
     /** JDBC 로 실제 로그인까지 성공해야 {@code true}(포트만 열린 상태로는 부족). */
     public static boolean postgresReachable() {
+        if (!liveTestsEnabled()) {
+            return false;
+        }
         int prev = DriverManager.getLoginTimeout();
         try {
             DriverManager.setLoginTimeout(2);
@@ -55,6 +68,9 @@ public final class LiveInfra {
 
     /** RESP 로 {@code AUTH}+{@code PING} 까지 성공해야 {@code true}(자격증명 확인). */
     public static boolean redisReachable() {
+        if (!liveTestsEnabled()) {
+            return false;
+        }
         try (Socket s = new Socket()) {
             s.connect(new InetSocketAddress(REDIS_HOST, REDIS_PORT), 2000);
             s.setSoTimeout(2000);
@@ -70,5 +86,33 @@ public final class LiveInfra {
         } catch (Throwable t) {
             return false;
         }
+    }
+
+    private static String secret(String systemPropertyName, String localSecretPropertyName) {
+        String override = System.getProperty(systemPropertyName);
+        if (override != null && !override.isBlank()) {
+            return override;
+        }
+        return localSecret(localSecretPropertyName);
+    }
+
+    private static String localSecret(String propertyName) {
+        Path path = Path.of(System.getProperty("user.home"), ".mutuus", "sample-api", "local.yml");
+        FileSystemResource resource = new FileSystemResource(path);
+        if (!resource.exists()) {
+            return "";
+        }
+        try {
+            List<PropertySource<?>> sources = new YamlPropertySourceLoader().load("sample-api-local-secret", resource);
+            for (PropertySource<?> source : sources) {
+                Object value = source.getProperty(propertyName);
+                if (value != null && !value.toString().isBlank()) {
+                    return value.toString();
+                }
+            }
+        } catch (Exception ignored) {
+            return "";
+        }
+        return "";
     }
 }

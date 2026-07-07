@@ -111,3 +111,11 @@ mutuus:
 # 환경 식별 마커. 프로파일별 application-<profile>.yml 이 이 값을 덮어쓴다.
 demo:
   environment: local
+
+server:
+  port: ${SAMPLE_API_PORT:8090}
+
+sample:
+  ports:
+    app: 8090
+    test-range: 8095-8099

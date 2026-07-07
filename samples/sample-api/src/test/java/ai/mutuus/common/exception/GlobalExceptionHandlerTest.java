@@ -1,5 +1,7 @@
 package ai.mutuus.common.exception;
 
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Locale;
 
 import ai.mutuus.common.api.ApiResponse;
@@ -14,6 +16,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.client.ResourceAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -74,6 +77,20 @@ class GlobalExceptionHandlerTest {
 
         assertThat(resp.getBody()).isNotNull();
         assertThat(resp.getBody().error().exception()).isEqualTo("java.lang.IllegalStateException");
+    }
+
+    @Test
+    void nested_socket_timeout_is_mapped_to_gateway_timeout() {
+        LocaleContextHolder.setLocale(Locale.ENGLISH);
+        ResourceAccessException ex = new ResourceAccessException("wrapped",
+                new IOException("nested", new SocketTimeoutException("read timed out")));
+
+        ResponseEntity<ApiResponse<Void>> resp = handler.handleNetwork(
+                ex, new MockHttpServletRequest("GET", "/api/downstream"));
+
+        assertThat(resp.getStatusCode().value()).isEqualTo(HttpStatus.GATEWAY_TIMEOUT.value());
+        assertThat(resp.getBody()).isNotNull();
+        assertThat(resp.getBody().code()).isEqualTo("GATEWAY_TIMEOUT");
     }
 
     private ReloadableResourceBundleMessageSource messageSource() {

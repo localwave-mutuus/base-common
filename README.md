@@ -65,7 +65,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
     <dependency>
       <groupId>ai.mutuus.common</groupId>
       <artifactId>common-platform-bom</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.2.0</version>
       <type>pom</type><scope>import</scope>
     </dependency>
   </dependencies>
@@ -94,7 +94,7 @@ ai.mutuus.common:common-platform-starter-web / -starter-batch ← 큐레이션 �
 <dependency>
   <groupId>ai.mutuus.common</groupId>
   <artifactId>common-platform</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -170,6 +170,11 @@ management:
 
 테스트는 라이브러리 모듈이 아니라 **소비 서비스 `samples/*` 에서 수행**한다(라이브러리는 소비자에 흡수되는 산출물이라, 단위 테스트까지 소비자 관점에서 검증). 루트에서 reactor 로 돌리면 `lib` 를 먼저 빌드한 뒤 샘플이 그 모듈을 해석하므로 별도 재설치가 필요 없다.
 
+샘플 프로파일 파일 자체도 소비자 설정의 일부로 검증한다. 예를 들어 `AiProfilePropertiesTest`는
+`application-ai.yml`의 `mutuus.sample.mock-jwt=true`, `mutuus.common.security.audiences`,
+`demo.environment=ai`가 실제 `DemoSecurityConfig`/`JwtDecoder` 동작으로 이어지는지 확인한다.
+이 테스트는 MOCK 웹 컨텍스트라 `server.port=8095`를 읽어도 서버 포트를 열지 않는다. 샘플 기본 실행 포트는 `8090`, 수동/백그라운드 테스트 할당 범위는 `8095~8099`다.
+
 ```bash
 ./mvnw clean test                                   # reactor 전체: lib 빌드 후 두 샘플 테스트 일괄
 cd samples/sample-api   && ../../mvnw clean test    # 웹 소비자만 (대부분)
@@ -207,9 +212,12 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - ~~데이터 접근 참조 샘플(게시판 3-스택)~~ 완료 — JPA/jOOQ/JDBC 계층형 CRUD + Flyway·`ddl-auto=validate`·낙관적 락(`@Version`)·jOOQ 코드젠·동적 쿼리(→ [260702.004](docs/260702.004.BOARD_SAMPLE_GUIDE.md))
 
 ## 문서
+- **최종 정리(기술스택 구조·제공 기능·샘플 화면/접속 정보 한 장)**: [260704.001.PLATFORM_FINAL_OVERVIEW.md](docs/260704.001.PLATFORM_FINAL_OVERVIEW.md)
 - 온보딩(소비 서비스 적용 5분): [260702.009.ONBOARDING.md](docs/260702.009.ONBOARDING.md)
 - Spring Modulith 통합(모듈=바운디드 컨텍스트·이벤트 아웃박스·async 전파): [260702.010.MODULITH_INTEGRATION.md](docs/260702.010.MODULITH_INTEGRATION.md)
 - 보안 하드닝(이벤트 카탈로그·토글): [260702.006.SECURITY_HARDENING.md](docs/260702.006.SECURITY_HARDENING.md)
 - 데이터 접근: 참조 샘플 [260702.004](docs/260702.004.BOARD_SAMPLE_GUIDE.md) · DB 계층 [260702.002](docs/260702.002.DB_LAYER_GUIDE.md)
+- DB 기반 프로퍼티 방안: [260706.001](docs/260706.001.DB_BACKED_CONFIGURATION_PLAN.md)
+- H2 제거/PostgreSQL-only 전환 컨텍스트: [260706.002](docs/260706.002.POSTGRES_ONLY_MIGRATION_CONTEXT.md)
 - 도메인(바우처·서비스교환) DDD: 전략 [260702.007](docs/260702.007.PLATFORM_DDD_STRATEGY.md) · 전술(voucher/ledger) [260702.008](docs/260702.008.VOUCHER_LEDGER_TACTICAL.md)
 - 관측/로깅: 로그 포맷 [260629.001](docs/260629.001.LOG_FORMAT.md) · 케이스 매트릭스 [260701.004](docs/260701.004.LOGGING_CASES.md) · 멱등성 [260702.003](docs/260702.003.IDEMPOTENCY.md)

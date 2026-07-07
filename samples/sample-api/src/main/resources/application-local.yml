@@ -1,23 +1,22 @@
-# local 프로파일: 개발자 PC의 로컬 실 인프라(Traefik TCP 경유)에 연결.
-# 활성화:  --spring.profiles.active=local  (또는 SPRING_PROFILES_ACTIVE=local)
+# local profile: connects to local developer infrastructure only.
+# Secrets stay outside the repository and are imported with Spring Boot native config import.
 demo:
   environment: local
 
 spring:
+  config:
+    # Create this file by decrypting samples/sample-api/secrets/local.sops.yml.example with SOPS + age.
+    import: optional:file:${user.home}/.mutuus/${spring.application.name}/local.yml
   datasource:
     url: jdbc:postgresql://localhost:15010/local.test.common
     username: cain
-    password: eva
+    password:
   jpa:
     hibernate:
-      # 스키마는 Flyway 가 실 PostgreSQL 에 마이그레이션(base 의 ddl-auto=validate 상속).
-      # 이식형 DDL(timestamptz·generated as identity)이라 H2(ai)·PostgreSQL(local) 공통 적용된다.
       ddl-auto: validate
-  # 세션 케이스용 로컬 실 Redis. 비밀번호는 커밋 파일에 두지 않는다(외부화):
-  #   런치 구성(.vscode/launch.json, gitignore) --spring.data.redis.password=... 또는 env REDIS_PASSWORD
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:16010}
       username: ${REDIS_USERNAME:default}
-      password: ${REDIS_PASSWORD:}
+      password:

@@ -2,6 +2,7 @@ package ai.mutuus.common.web;
 
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -27,13 +28,10 @@ class TraceFilterTest {
     void 인입_헤더가_없으면_traceId를_생성해_컨텍스트_MDC_응답헤더에_싣는다() throws Exception {
         var request = new MockHttpServletRequest();
         var response = new MockHttpServletResponse();
-        var chain = new MockFilterChain() {
-            @Override
-            public void doFilter(ServletRequest req, ServletResponse res) {
-                // 체인 진행 시점에 컨텍스트가 적재돼 있어야 한다
-                assertThat(TraceContext.traceId()).isNotBlank();
-                assertThat(MDC.get(HeaderNames.TRACE_ID)).isNotBlank();
-            }
+        FilterChain chain = (req, res) -> {
+            // 체인 진행 시점에 컨텍스트가 적재돼 있어야 한다
+            assertThat(TraceContext.traceId()).isNotBlank();
+            assertThat(MDC.get(HeaderNames.TRACE_ID)).isNotBlank();
         };
 
         filter.doFilter(request, response, chain);
@@ -57,12 +55,7 @@ class TraceFilterTest {
         var request = new MockHttpServletRequest();
         request.addHeader(HeaderNames.SCREEN_ID, "   ");   // 공백
         var captured = new String[1];
-        var chain = new MockFilterChain() {
-            @Override
-            public void doFilter(ServletRequest req, ServletResponse res) {
-                captured[0] = TraceContext.get(HeaderNames.SCREEN_ID).orElse(null);
-            }
-        };
+        FilterChain chain = (req, res) -> captured[0] = TraceContext.get(HeaderNames.SCREEN_ID).orElse(null);
 
         filter.doFilter(request, new MockHttpServletResponse(), chain);
 
@@ -74,12 +67,7 @@ class TraceFilterTest {
         var request = new MockHttpServletRequest();
         request.addHeader(HeaderNames.USER_ID, "spoofed-admin");
         var captured = new String[1];
-        var chain = new MockFilterChain() {
-            @Override
-            public void doFilter(ServletRequest req, ServletResponse res) {
-                captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
-            }
-        };
+        FilterChain chain = (req, res) -> captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
 
         filter.doFilter(request, new MockHttpServletResponse(), chain); // 기본 filter = trustForwardedUser 미지정(false)
 
@@ -93,12 +81,7 @@ class TraceFilterTest {
         var request = new MockHttpServletRequest();
         request.addHeader(HeaderNames.USER_ID, "gateway-user");
         var captured = new String[1];
-        var chain = new MockFilterChain() {
-            @Override
-            public void doFilter(ServletRequest req, ServletResponse res) {
-                captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
-            }
-        };
+        FilterChain chain = (req, res) -> captured[0] = TraceContext.get(HeaderNames.USER_ID).orElse(null);
 
         trusting.doFilter(request, new MockHttpServletResponse(), chain);
 

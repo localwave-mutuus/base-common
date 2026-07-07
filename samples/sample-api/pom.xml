@@ -33,7 +33,7 @@
             <dependency>
                 <groupId>ai.mutuus.common</groupId>
                 <artifactId>common-platform-bom</artifactId>
-                <version>0.1.0-SNAPSHOT</version>
+                <version>0.2.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -197,81 +197,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--
-              jOOQ 코드젠(운영 권장): 라이브 DB 없이 Flyway 마이그레이션(db/migration/*.sql)을 DDLDatabase 로
-              파싱해 board 테이블/컬럼을 컴파일타임 타입세이프 코드로 생성한다(target/generated-sources/jooq).
-              → BoardJooqDao 가 문자열 DSL.name(...) 대신 생성 상수(BOARD_POST.TITLE 등)를 써 완전 타입안전.
-              버전은 spring-boot-starter-parent(=spring-boot-dependencies)의 ${jooq.version} 로 런타임 jOOQ 와 정합.
-            -->
-            <plugin>
-                <groupId>org.jooq</groupId>
-                <artifactId>jooq-codegen-maven</artifactId>
-                <version>${jooq.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-board-jooq</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <!-- DDLDatabase(마이그레이션 스크립트 → 메타데이터) 제공 -->
-                    <dependency>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-meta-extensions</artifactId>
-                        <version>${jooq.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <generator>
-                        <database>
-                            <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
-                            <properties>
-                                <property>
-                                    <key>scripts</key>
-                                    <value>src/main/resources/db/migration/*.sql</value>
-                                </property>
-                                <!-- Flyway 버전 순서(V1→V2→V3)대로 적용해 ALTER 까지 반영 -->
-                                <property>
-                                    <key>sort</key>
-                                    <value>flyway</value>
-                                </property>
-                                <!-- 식별자를 소문자로 파싱 → 렌더 시 "board_post"/"id"(소문자). H2 CASE_INSENSITIVE 와
-                                     PostgreSQL(소문자 기본) 양쪽에 이식(기존 동적 DAO 의 DSL.name 소문자 관습과 동일). -->
-                                <property>
-                                    <key>defaultNameCase</key>
-                                    <value>lower</value>
-                                </property>
-                            </properties>
-                            <!-- board 테이블만 생성(감사용 sample_note·flyway 메타테이블 제외) -->
-                            <includes>board_.*</includes>
-                            <!-- 감사 시각(created_at/updated_at)은 도메인이 Instant 를 쓰므로 TIMESTAMP WITH TIME ZONE
-                                 → java.time.Instant 로 강제 매핑(BoardPostRow 와 정합, OffsetDateTime 누출 방지). -->
-                            <forcedTypes>
-                                <forcedType>
-                                    <userType>java.time.Instant</userType>
-                                    <converter>org.jooq.Converter.ofNullable(
-                                        java.time.OffsetDateTime.class, java.time.Instant.class,
-                                        java.time.OffsetDateTime::toInstant,
-                                        (java.time.Instant i) -&gt; i.atOffset(java.time.ZoneOffset.UTC))</converter>
-                                    <includeExpression>.*\.(created_at|updated_at)</includeExpression>
-                                    <includeTypes>.*</includeTypes>
-                                </forcedType>
-                            </forcedTypes>
-                        </database>
-                        <generate>
-                            <!-- 샘플은 DAO 가 직접 SQL 을 조립하므로 액티브레코드/DAO 는 생성하지 않는다(테이블/필드만). -->
-                            <records>false</records>
-                            <pojos>false</pojos>
-                            <daos>false</daos>
-                        </generate>
-                        <target>
-                            <packageName>ai.mutuus.sample.board.jooq.gen</packageName>
-                            <directory>${project.build.directory}/generated-sources/jooq</directory>
-                        </target>
-                    </generator>
-                </configuration>
-            </plugin>
             <!-- MapStruct 애노테이션 프로세서(컴파일 타임 매퍼 생성) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -297,4 +222,79 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>pg-codegen</id>
+            <activation>
+                <property>
+                    <name>pg-codegen</name>
+                </property>
+            </activation>
+            <properties>
+                <jooq.codegen.url>${env.JOOQ_CODEGEN_URL}</jooq.codegen.url>
+                <jooq.codegen.username>${env.JOOQ_CODEGEN_USERNAME}</jooq.codegen.username>
+                <jooq.codegen.password>${env.JOOQ_CODEGEN_PASSWORD}</jooq.codegen.password>
+                <jooq.codegen.schema>public</jooq.codegen.schema>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${jooq.version}</version>
+                        <executions>
+                            <execution>
+                                <id>generate-board-jooq-from-postgresql</id>
+                                <phase>generate-sources</phase>
+                                <goals><goal>generate</goal></goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${postgresql.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <jdbc>
+                                <driver>org.postgresql.Driver</driver>
+                                <url>${jooq.codegen.url}</url>
+                                <user>${jooq.codegen.username}</user>
+                                <password>${jooq.codegen.password}</password>
+                            </jdbc>
+                            <generator>
+                                <database>
+                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                    <inputSchema>${jooq.codegen.schema}</inputSchema>
+                                    <includes>board_.*</includes>
+                                    <forcedTypes>
+                                        <forcedType>
+                                            <userType>java.time.Instant</userType>
+                                            <converter>org.jooq.Converter.ofNullable(
+                                                java.time.OffsetDateTime.class, java.time.Instant.class,
+                                                java.time.OffsetDateTime::toInstant,
+                                                (java.time.Instant i) -&gt; i.atOffset(java.time.ZoneOffset.UTC))</converter>
+                                            <includeExpression>.*\.(created_at|updated_at)</includeExpression>
+                                            <includeTypes>.*</includeTypes>
+                                        </forcedType>
+                                    </forcedTypes>
+                                </database>
+                                <generate>
+                                    <records>false</records>
+                                    <pojos>false</pojos>
+                                    <daos>false</daos>
+                                </generate>
+                                <target>
+                                    <packageName>ai.mutuus.sample.board.jooq.gen</packageName>
+                                    <directory>src/main/java</directory>
+                                </target>
+                            </generator>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

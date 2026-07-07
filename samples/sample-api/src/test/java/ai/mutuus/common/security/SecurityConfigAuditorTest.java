@@ -2,6 +2,7 @@ package ai.mutuus.common.security;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
@@ -15,9 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
+import org.springframework.session.SessionRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * {@link SecurityConfigAuditor} 단위 테스트 — 시작 시 설정 위험 조합을 {@code security.config.*} 경고로 남기는지 검증한다.
@@ -72,9 +76,60 @@ class SecurityConfigAuditorTest {
         assertThat(event("security.config.masking_disabled")).isEmpty();
     }
 
+    @Test
+    void session_repository_with_csrf_disabled_logs_csrf_risk() {
+        fireWithSessionRepository(new MockEnvironment(), new CommonSecurityProperties());
+
+        assertThat(event("security.config.csrf_disabled_with_session")).isPresent();
+    }
+
+    @Test
+    void session_repository_with_csrf_enabled_does_not_log_csrf_risk() {
+        CommonSecurityProperties props = new CommonSecurityProperties();
+        props.setCsrfEnabled(true);
+
+        fireWithSessionRepository(new MockEnvironment(), props);
+
+        assertThat(event("security.config.csrf_disabled_with_session")).isEmpty();
+    }
+
+    @Test
+    void classpath_application_config_with_secret_like_property_logs_secret_policy_risk() {
+        MockEnvironment env = new MockEnvironment();
+        env.getPropertySources().addFirst(new MapPropertySource(
+                "Config resource 'class path resource [application-local.yml]' via location 'optional:classpath:/'",
+                Map.of("spring.datasource.password", "plain-password")));
+
+        fire(env, new CommonSecurityProperties());
+
+        assertThat(event("security.config.secret_in_classpath_config")).isPresent();
+    }
+
+    @Test
+    void external_secret_import_without_classpath_secret_does_not_log_secret_policy_risk() {
+        MockEnvironment env = new MockEnvironment()
+                .withProperty("spring.config.import", "optional:file:${user.home}/.mutuus/sample-api/local.yml");
+
+        fire(env, new CommonSecurityProperties());
+
+        assertThat(event("security.config.secret_in_classpath_config")).isEmpty();
+    }
+
     private void fire(MockEnvironment env, CommonSecurityProperties props) {
         GenericApplicationContext ctx = new GenericApplicationContext();
         ctx.setEnvironment(env);
+        ctx.refresh();
+        new SecurityConfigAuditor(new SecurityAuditLogger(), props)
+                .onApplicationEvent(new ApplicationReadyEvent(
+                        new SpringApplication(), new String[0], ctx, Duration.ZERO));
+        ctx.close();
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void fireWithSessionRepository(MockEnvironment env, CommonSecurityProperties props) {
+        GenericApplicationContext ctx = new GenericApplicationContext();
+        ctx.setEnvironment(env);
+        ctx.registerBean(SessionRepository.class, () -> mock(SessionRepository.class));
         ctx.refresh();
         new SecurityConfigAuditor(new SecurityAuditLogger(), props)
                 .onApplicationEvent(new ApplicationReadyEvent(

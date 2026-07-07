@@ -159,9 +159,19 @@ public class DemoCaseController {
                 new DemoCase("idem", "멱등성(Idempotency-Key) - 중복 POST 재방", "GET", "/demo/idem", null,
                         "같은 Idempotency-Key 로 대상 POST(/demo/idem/echo, 호출마다 새 UUID)를 두 번 호출 → 2차는 재처리 없이 1차 응답 재방(value 동일, Idempotent-Replayed=true). sameResponse=true 기대(mutuus.common.idempotency.enabled). (기대 200)",
                         "ai.mutuus.common.idempotency.IdempotencyFilter", 200, null),
+                new DemoCase("idem-fingerprint", "멱등성 - 같은 키 다른 요청 409", "GET", "/demo/idem/fingerprint", null,
+                        "같은 Idempotency-Key 를 다른 fingerprint(method+path+query)에 재사용 → 409 + Idempotent-Replayed=fingerprint-mismatch. 키 재사용 오염 방지 개선점 검수. (기대 200)",
+                        "ai.mutuus.common.idempotency.IdempotencyFilter#fingerprintMismatch", 200, null),
                 new DemoCase("cache", "캐시 추상화(@Cacheable + Redis) - 재호출 캐시", "GET", "/demo/cache", null,
                         "CacheDemoService.compute(key)(호출마다 새 UUID)를 같은 키로 두 번 호출 → 캐시가 켜지고 Redis 연결 시 2차는 재계산 없이 1차 값 반환(sameValue=true). 키 프리픽스 <service>:cache:demo::. Redis 미가동 시 안내만(200 유지, mutuus.common.cache.enabled). (기대 200)",
                         "ai.mutuus.common.cache.CommonCacheAutoConfiguration", 200, null),
+                new DemoCase("build-policy", "빌드 정책 - PostgreSQL-only jOOQ 코드젠", "GET", "/demo/build-policy", null,
+                        "기본 Maven 빌드에 DDLDatabase/H2 시뮬레이션 코드젠이 없는지, PostgreSQL 코드젠은 pg-codegen 프로파일+환경변수로만 켜지는지 화면에서 확인. (기대 200)",
+                        "samples/sample-api/pom.xml#pg-codegen", 200, null),
+                new DemoCase("secret-policy", "Secret policy - SOPS age external import", "GET",
+                        "/demo/secret-policy", null,
+                        "Checks that local secrets are imported from an external Spring config file, plaintext sample passwords are absent, and the SOPS age example/docs exist.",
+                        "ai.mutuus.common.security.SecurityConfigAuditor#secret_in_classpath_config", 200, null),
                 new DemoCase("db-routing", "DB ① 읽기/쓰기 라우팅(라이브러리)", "GET", "/demo/db/routing", null,
                         "라이브러리 ReadWriteRoutingDataSource: 트랜잭션 밖/쓰기 → WRITE, @Transactional(readOnly) → READ, RoutingContext 명시 override. routingWorks=true 기대(write/read 마커 H2로 실증). opt-in mutuus.common.datasource.routing. (기대 200)",
                         "ai.mutuus.common.datasource.CommonDataSourceRoutingAutoConfiguration", 200, null),
@@ -466,6 +476,65 @@ public class DemoCaseController {
                 "note", "같은 Idempotency-Key 의 2차 POST 는 재처리 없이 1차 응답을 재방 → value 동일 + Idempotent-Replayed=true"));
     }
 
+    @GetMapping("/idem/fingerprint")
+    public ApiResponse<Map<String, Object>> idemFingerprint(HttpServletRequest request) {
+        String base = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String key = java.util.UUID.randomUUID().toString();
+        RestClient client = restClientBuilder.build();
+
+        var first = client.post().uri(base + "/demo/idem/echo")
+                .header("Idempotency-Key", key)
+                .retrieve().toEntity(Map.class);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("idempotencyKey", key);
+        result.put("firstStatus", first.getStatusCode().value());
+        result.put("firstBody", first.getBody());
+        try {
+            client.post().uri(base + "/demo/idem/echo?variant=other")
+                    .header("Idempotency-Key", key)
+                    .retrieve().toEntity(String.class);
+            result.put("secondStatus", 200);
+            result.put("fingerprintRejected", false);
+        } catch (org.springframework.web.client.HttpClientErrorException.Conflict e) {
+            result.put("secondStatus", e.getStatusCode().value());
+            result.put("secondReplayHeader", e.getResponseHeaders().getFirst("Idempotent-Replayed"));
+            result.put("fingerprintRejected", "fingerprint-mismatch"
+                    .equals(e.getResponseHeaders().getFirst("Idempotent-Replayed")));
+        }
+        result.put("note", "같은 키를 다른 요청 fingerprint에 재사용하면 저장된 응답을 잘못 재방하지 않고 409로 막는다.");
+        return ApiResponse.ok(result);
+    }
+
+    @GetMapping("/build-policy")
+    public ApiResponse<Map<String, Object>> buildPolicy() throws IOException {
+        Path pom = Path.of("pom.xml");
+        if (!Files.exists(pom)) {
+            pom = Path.of("samples", "sample-api", "pom.xml");
+        }
+        String text = Files.readString(pom);
+        boolean hasDefaultDdlCodegen = text.contains("org.jooq.meta.extensions.ddl.DDLDatabase")
+                || text.contains("jooq-meta-extensions");
+        boolean hasPgCodegen = text.contains("<id>pg-codegen</id>")
+                && text.contains("org.jooq.meta.postgres.PostgresDatabase")
+                && text.contains("${env.JOOQ_CODEGEN_URL}")
+                && text.contains("${env.JOOQ_CODEGEN_PASSWORD}");
+        Path generated = Path.of("src", "main", "java", "ai", "mutuus", "sample", "board", "jooq", "gen", "Tables.java");
+        if (!Files.exists(generated)) {
+            generated = Path.of("samples", "sample-api", "src", "main", "java",
+                    "ai", "mutuus", "sample", "board", "jooq", "gen", "Tables.java");
+        }
+        return ApiResponse.ok(Map.of(
+                "postgresOnlyPolicy", !hasDefaultDdlCodegen && hasPgCodegen && Files.exists(generated),
+                "defaultBuildRunsDdlDatabaseCodegen", hasDefaultDdlCodegen,
+                "pgCodegenProfileConfigured", hasPgCodegen,
+                "checkedInGeneratedSources", Files.exists(generated),
+                "codegenDatabase", "PostgreSQL",
+                "targetDatabaseName", "golmok",
+                "secretPolicy", "JOOQ_CODEGEN_* environment variables only",
+                "note", "기본 빌드는 DB 연결 없이 체크인된 jOOQ 생성 소스를 컴파일하고, 재생성만 pg-codegen 프로파일로 PostgreSQL 메타데이터를 사용한다."));
+    }
+
     // ---------------------------------------------------------------------
     // 케이스: 캐시 추상화(@Cacheable + Redis CacheManager 컨벤션) — 같은 키의 재호출은 캐시 반환.
     // CacheDemoService.compute(key) 는 호출마다 새 UUID 를 만들지만, 캐시가 켜지고 Redis 가
@@ -475,6 +544,42 @@ public class DemoCaseController {
     //     때까지 짧게 재조회해(최대 5회) 캐시 동작을 결정적으로 보여준다. 전용 Redis(테스트의
     //     Testcontainers)에선 1~2회에 안정화된다. Redis 미가동/인증 실패 시엔 안내만(200 유지).
     // ---------------------------------------------------------------------
+
+    @GetMapping("/secret-policy")
+    public ApiResponse<Map<String, Object>> secretPolicy() throws IOException {
+        Path local = Path.of("src", "main", "resources", "application-local.yml");
+        if (!Files.exists(local)) {
+            local = Path.of("samples", "sample-api", "src", "main", "resources", "application-local.yml");
+        }
+        Path example = Path.of("secrets", "local.sops.yml.example");
+        if (!Files.exists(example)) {
+            example = Path.of("samples", "sample-api", "secrets", "local.sops.yml.example");
+        }
+        Path doc = Path.of("docs", "260707.002.SECRET_MANAGEMENT_STANDARD.md");
+        if (!Files.exists(doc)) {
+            doc = Path.of("..", "..", "docs", "260707.002.SECRET_MANAGEMENT_STANDARD.md");
+        }
+
+        String localText = Files.readString(local);
+        String exampleText = Files.exists(example) ? Files.readString(example) : "";
+        boolean importsExternalSecret = localText.contains("spring.config.import")
+                || localText.contains("import: optional:file:${user.home}/.mutuus/${spring.application.name}/local.yml");
+        boolean noPlainSamplePassword = !localText.contains("password: eva")
+                && !localText.contains("GOLMOK_DB_PASSWORD")
+                && !localText.contains("REDIS_PASSWORD");
+        boolean exampleUsesSopsAge = exampleText.contains("sops:") && exampleText.contains("age:");
+        boolean docExists = Files.exists(doc);
+
+        return ApiResponse.ok(Map.of(
+                "policyPass", importsExternalSecret && noPlainSamplePassword && exampleUsesSopsAge && docExists,
+                "importsExternalSecret", importsExternalSecret,
+                "localConfigHasNoPlainSamplePassword", noPlainSamplePassword,
+                "sopsAgeExampleExists", exampleUsesSopsAge,
+                "canonicalSecretDocExists", docExists,
+                "runtimeSecretImport", "${user.home}/.mutuus/${spring.application.name}/local.yml",
+                "commonModuleGuard", "security.config.secret_in_classpath_config",
+                "note", "common-platform audits plaintext secret-like properties in classpath application config; sample-api imports decrypted SOPS age secrets from an external file."));
+    }
 
     @GetMapping("/cache")
     public ApiResponse<Map<String, Object>> cache() {
@@ -505,7 +610,7 @@ public class DemoCaseController {
             result.put("cacheError", e.getClass().getSimpleName() + ": " + e.getMessage());
             result.put("cached", false);
             result.put("note", "캐시 조회 실패 — 로컬 Redis(16010) 미가동/인증 필요. "
-                    + "REDIS_PASSWORD 주입 후 재구동하면 cached=true 로 실증된다.");
+                    + "${user.home}/.mutuus/sample-api/local.yml 에 Redis password 를 주입 후 재구동하면 cached=true 로 실증된다.");
         }
         return ApiResponse.ok(result);
     }

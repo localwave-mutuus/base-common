@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import ai.mutuus.sample.demo.CacheDemoService;
 import ai.mutuus.sample.support.LiveInfra;
@@ -37,12 +38,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @EnabledIf(value = "ai.mutuus.sample.support.LiveInfra#redisReachable",
         disabledReason = "로컬 실 Redis(기본 localhost:16010, default/eva) 에 접속할 수 없음")
-@TestPropertySource(properties = {
-        "mutuus.common.cache.enabled=true",
-        "mutuus.common.cache.key-prefix=live:cache:"
-})
+@TestPropertySource(properties = "mutuus.common.cache.enabled=true")
 @Import(RedisCacheLiveIntegrationTest.TestSecurityConfig.class)
 class RedisCacheLiveIntegrationTest {
+
+    private static final String KEY_PREFIX = "live:cache:" + UUID.randomUUID() + ":";
 
     @DynamicPropertySource
     static void redis(DynamicPropertyRegistry registry) {
@@ -50,6 +50,7 @@ class RedisCacheLiveIntegrationTest {
         registry.add("spring.data.redis.port", () -> LiveInfra.REDIS_PORT);
         registry.add("spring.data.redis.username", () -> LiveInfra.REDIS_USERNAME);
         registry.add("spring.data.redis.password", () -> LiveInfra.REDIS_PASSWORD);
+        registry.add("mutuus.common.cache.key-prefix", () -> KEY_PREFIX);
     }
 
     @Autowired
@@ -63,7 +64,7 @@ class RedisCacheLiveIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        Set<String> keys = redisTemplate.keys("live:cache:*");
+        Set<String> keys = redisTemplate.keys(KEY_PREFIX + "*");
         if (keys != null && !keys.isEmpty()) {
             redisTemplate.delete(keys);
         }
@@ -88,7 +89,7 @@ class RedisCacheLiveIntegrationTest {
             prev = read;
         }
         assertThat(cached).as("같은 키 재호출이 캐시 값을 반환(최대 5회 내 안정화)").isTrue();
-        assertThat(redisTemplate.keys("live:cache:demo::*")).isNotEmpty();
+        assertThat(redisTemplate.keys(KEY_PREFIX + "demo::*")).isNotEmpty();
     }
 
     @TestConfiguration

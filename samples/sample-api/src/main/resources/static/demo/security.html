@@ -139,9 +139,10 @@
 
       <div class="card">
         <h3>시작 시 설정 점검 <span class="evtag">security.config.*</span> <span class="badge btodo">startup</span></h3>
-        <p>기동 시 위험 조합을 1회 경고한다 — 본문 로깅+마스킹 off(<code>masking_disabled</code>), <b>세션+CSRF 비활성</b>
-           (<code>csrf_disabled_with_session</code>, 이 샘플은 Redis 세션 사용이라 기동 로그에 나타남), permit-all 과대
-           (<code>permit_all_broad</code>). 위 우측 패널을 새로고침하면 기동 시 남은 이벤트를 볼 수 있다.</p>
+        <p>기동 시 위험 조합을 1회 경고한다 — 본문 로깅+마스킹 off(<code>masking_disabled</code>),
+           <b>세션 저장소가 있고 CSRF 설정이 비활성인 경우에만</b>
+           <code>csrf_disabled_with_session</code> 을 남긴다. <code>mutuus.common.security.csrf-enabled=true</code>
+           인 정상 설정은 false positive 로 경고하지 않는다. permit-all 과대(<code>permit_all_broad</code>)도 함께 점검한다.</p>
       </div>
 
       <div class="phase">Phase 3 — 보안 헤더·CSRF (동작)</div>

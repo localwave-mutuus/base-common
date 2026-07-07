@@ -1,56 +1,45 @@
-# ai 프로파일 — Claude(자동화)의 백그라운드 테스트 구동 전용.
-#
-# 실행 모드 분리(포트/인프라 충돌 방지):
-#   - 사람(VS Code F5)      → local 프로파일, 포트 8081, 실 PostgreSQL
-#   - Claude(백그라운드 테스트) → ai 프로파일,  포트 8091, 임베디드 H2 (이 파일)
-# 테스트 화면(/demo)은 sample-api 에 항상 포함되고 permit-all 도 application.yml 기본값이라
-# 별도 인자 없이 어느 모드로 띄워도 http://localhost:<port>/demo/index.html 가 동작한다.
-#
-# 실행 예) ./mvnw -pl samples/sample-api spring-boot:run -Dspring-boot.run.profiles=ai \
-#            -Dspring-boot.run.arguments="--spring.data.redis.password=<REDIS_PASSWORD>"
+# ai profile: manual/background sample verification profile.
+# Port policy:
+#   - normal sample runtime: 8090 (application.yml)
+#   - test sample runtimes: 8095-8099, default 8095
+# Override with: --SAMPLE_API_TEST_PORT=8096
 
 server:
-  port: 8091            # local(8081) 과 분리
+  port: ${SAMPLE_API_TEST_PORT:8095}
 
 demo:
   environment: ai
 
+sample:
+  ports:
+    app: 8090
+    test-range: 8095-8099
+
 spring:
   data:
     redis:
-      # 세션 케이스용(선택). 비밀번호는 커밋 파일에 두지 않는다(외부화) — 실행 시 주입.
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:16010}
       username: ${REDIS_USERNAME:default}
-      password: ${REDIS_PASSWORD:}
-  # 스키마는 Flyway 가 @Primary DataSource(app 그룹, app-db)에 마이그레이션한다(base application.yml 의
-  # ddl-auto=validate 상속). db1/db2/db3 는 DB 랩이 프로그램적으로 만드는 별도 DataSource 라 Flyway 대상 아님.
+      password:
   jpa:
     hibernate:
       ddl-auto: validate
 
 mutuus:
   common:
-    # 보안 테스트 화면(security.html)의 audience 하드닝 시연용 — 이 aud 만 허용(다른 서비스용 토큰 거부).
-    # mock JwtDecoder 는 Bearer alice → aud=[sample-api] 통과, Bearer alice#other-service → 거부.
     security:
       audiences:
         - sample-api
-      # 보안 응답 헤더 하드닝(Phase 3) 시연. CSP 는 데모 HTML 의 인라인 스크립트를 막지 않도록 미설정.
       headers:
         enabled: true
-    # local 과 Redis 세션 키가 겹치지 않게 네임스페이스 분리
     session:
       namespace: sample-api-ai:session
-    # 프로퍼티 기반 다중 DataSource + 읽기/쓰기 라우팅(라이브러리, opt-in) — YAML만으로.
-    # app=JPA 기본(@Primary, read 생략→write 폴백). db1/db2/db3 = "3개 DB 각 read/write" 요구 실증용.
     datasource:
       enabled: true
       primary: app
       groups:
         app:
-          # CASE_INSENSITIVE_IDENTIFIERS=TRUE: Hibernate(대문자 저장)·jOOQ·Spring Data JDBC(소문자 인용 식별자)가
-          # 같은 board_post 테이블을 문제없이 공유하도록 식별자 대소문자 무시(3-스택 게시판 데모용).
           write: { url: "jdbc:h2:mem:app-db;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE", username: sa, driver-class-name: org.h2.Driver }
         db1:
           write: { url: "jdbc:h2:mem:db1-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
@@ -62,5 +51,4 @@ mutuus:
           write: { url: "jdbc:h2:mem:db3-write;DB_CLOSE_DELAY=-1", username: sa, driver-class-name: org.h2.Driver }
           read:  { url: "jdbc:h2:mem:db3-read;DB_CLOSE_DELAY=-1",  username: sa, driver-class-name: org.h2.Driver }
   sample:
-    # 보안 인증성공 케이스용 mock JwtDecoder 활성(자동화 검증 편의)
     mock-jwt: true

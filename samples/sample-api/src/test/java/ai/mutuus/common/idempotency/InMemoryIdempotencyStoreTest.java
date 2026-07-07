@@ -3,9 +3,13 @@ package ai.mutuus.common.idempotency;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * {@link InMemoryIdempotencyStore} 단위 테스트 — 라이브러리와 같은 패키지(split-package)로 둔다.
@@ -55,5 +59,41 @@ class InMemoryIdempotencyStoreTest {
         assertThat(store.reserve("k4", Duration.ZERO)).isTrue();
         assertThat(store.find("k4")).isNull();          // 만료 → 조회 시 없음
         assertThat(store.reserve("k4", Duration.ofMinutes(5))).isTrue(); // 재예약 가능
+    }
+
+    @Test
+    void filter_exception_removes_in_progress_record_instead_of_caching_partial_response() {
+        IdempotencyProperties props = new IdempotencyProperties();
+        IdempotencyFilter filter = new IdempotencyFilter(store, props);
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/idem/fail");
+        request.addHeader("Idempotency-Key", "boom-key");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        assertThatThrownBy(() -> filter.doFilter(request, response,
+                (req, res) -> {
+                    throw new ServletException("boom");
+                })).isInstanceOf(ServletException.class);
+
+        assertThat(store.find("boom-key")).isNull();
+    }
+
+    @Test
+    void filter_rejects_same_key_used_for_different_request_fingerprint() throws Exception {
+        IdempotencyProperties props = new IdempotencyProperties();
+        IdempotencyFilter filter = new IdempotencyFilter(store, props);
+
+        MockHttpServletRequest first = new MockHttpServletRequest("POST", "/idem/a");
+        first.addHeader("Idempotency-Key", "same-key");
+        MockHttpServletResponse firstResponse = new MockHttpServletResponse();
+        filter.doFilter(first, firstResponse, (req, res) -> res.getWriter().write("ok"));
+
+        MockHttpServletRequest second = new MockHttpServletRequest("POST", "/idem/b");
+        second.addHeader("Idempotency-Key", "same-key");
+        MockHttpServletResponse secondResponse = new MockHttpServletResponse();
+        filter.doFilter(second, secondResponse, (req, res) -> {
+        });
+
+        assertThat(secondResponse.getStatus()).isEqualTo(409);
+        assertThat(secondResponse.getHeader("Idempotent-Replayed")).isEqualTo("fingerprint-mismatch");
     }
 }

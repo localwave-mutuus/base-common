@@ -15,9 +15,18 @@ public interface IdempotencyStore {
      */
     boolean reserve(String key, Duration ttl);
 
+    /** Reserve with a request fingerprint. Existing custom stores can ignore the fingerprint. */
+    default boolean reserve(String key, Duration ttl, String fingerprint) {
+        return reserve(key, ttl);
+    }
+
     /** 저장된 레코드(처리 중 또는 완료). 없으면 {@code null}. */
     IdempotencyRecord find(String key);
 
     /** 처리 완료 응답을 저장한다(마커 → completed). */
     void complete(String key, IdempotencyRecord record, Duration ttl);
+
+    /** Remove a reserved or completed record. Default no-op keeps existing custom implementations compatible. */
+    default void remove(String key) {
+    }
 }

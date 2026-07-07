@@ -53,7 +53,9 @@ class AccessLoggingIntegrationTest {
 
     @Test
     void 정상요청은_received와_completed_200을_자동_로깅한다() throws Exception {
-        mockMvc.perform(get("/api/public/hello")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/public/hello")
+                        .header("Authorization", "Bearer valid-token"))
+                .andExpect(status().isOk());
 
         assertThat(eventStatusTuples())
                 .contains(tuple("request.received", null))
@@ -70,7 +72,9 @@ class AccessLoggingIntegrationTest {
 
     @Test
     void 비즈니스예외는_error_business와_completed_404를_자동_로깅한다() throws Exception {
-        mockMvc.perform(get("/api/public/boom")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/public/boom")
+                        .header("Authorization", "Bearer valid-token"))
+                .andExpect(status().isNotFound());
 
         assertThat(events()).contains("error.business");
         assertThat(eventStatusTuples()).contains(tuple("request.completed", 404));

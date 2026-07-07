@@ -17,8 +17,13 @@ public class InMemoryIdempotencyStore implements IdempotencyStore {
 
     @Override
     public boolean reserve(String key, Duration ttl) {
+        return reserve(key, ttl, null);
+    }
+
+    @Override
+    public boolean reserve(String key, Duration ttl, String fingerprint) {
         long now = System.currentTimeMillis();
-        Entry candidate = new Entry(IdempotencyRecord.inProgress(), now + ttl.toMillis());
+        Entry candidate = new Entry(IdempotencyRecord.inProgress(fingerprint), now + ttl.toMillis());
         while (true) {
             Entry prev = map.putIfAbsent(key, candidate);
             if (prev == null) {
@@ -51,5 +56,10 @@ public class InMemoryIdempotencyStore implements IdempotencyStore {
     @Override
     public void complete(String key, IdempotencyRecord record, Duration ttl) {
         map.put(key, new Entry(record, System.currentTimeMillis() + ttl.toMillis()));
+    }
+
+    @Override
+    public void remove(String key) {
+        map.remove(key);
     }
 }

@@ -8,15 +8,23 @@ package ai.mutuus.common.idempotency;
  * @param contentType 완료 시 응답 Content-Type
  * @param body        완료 시 응답 본문(바이트)
  */
-public record IdempotencyRecord(boolean completed, int status, String contentType, byte[] body) {
+public record IdempotencyRecord(boolean completed, String fingerprint, int status, String contentType, byte[] body) {
 
     /** 처리 시작을 표시하는 in-progress 마커. */
     public static IdempotencyRecord inProgress() {
-        return new IdempotencyRecord(false, 0, null, null);
+        return inProgress(null);
+    }
+
+    public static IdempotencyRecord inProgress(String fingerprint) {
+        return new IdempotencyRecord(false, fingerprint, 0, null, null);
     }
 
     /** 완료된 응답 스냅샷. */
     public static IdempotencyRecord completed(int status, String contentType, byte[] body) {
-        return new IdempotencyRecord(true, status, contentType, body);
+        return completed(null, status, contentType, body);
+    }
+
+    public static IdempotencyRecord completed(String fingerprint, int status, String contentType, byte[] body) {
+        return new IdempotencyRecord(true, fingerprint, status, contentType, body);
     }
 }

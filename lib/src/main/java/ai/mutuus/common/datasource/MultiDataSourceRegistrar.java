@@ -47,6 +47,7 @@ public class MultiDataSourceRegistrar implements ImportBeanDefinitionRegistrar, 
         if (!StringUtils.hasText(primary) && props.getGroups().size() == 1) {
             primary = props.getGroups().keySet().iterator().next();
         }
+        validate(props, primary);
         for (Map.Entry<String, CommonDataSourceProperties.Group> entry : props.getGroups().entrySet()) {
             String name = entry.getKey();
             CommonDataSourceProperties.Group group = entry.getValue();
@@ -58,6 +59,37 @@ public class MultiDataSourceRegistrar implements ImportBeanDefinitionRegistrar, 
                 bd.setPrimary(true);
             }
             registry.registerBeanDefinition(name + "DataSource", bd);
+        }
+    }
+
+    private static void validate(CommonDataSourceProperties props, String primary) {
+        if (StringUtils.hasText(primary) && !props.getGroups().containsKey(primary)) {
+            throw new IllegalStateException("mutuus.common.datasource.primary '" + primary
+                    + "' does not match any configured datasource group");
+        }
+        for (Map.Entry<String, CommonDataSourceProperties.Group> entry : props.getGroups().entrySet()) {
+            String name = entry.getKey();
+            CommonDataSourceProperties.Group group = entry.getValue();
+            if (!StringUtils.hasText(name)) {
+                throw new IllegalStateException("mutuus.common.datasource group name must not be blank");
+            }
+            if (group == null || group.getWrite() == null) {
+                throw new IllegalStateException("datasource group '" + name + "' requires a write connection");
+            }
+            validateConnection(name, "write", group.getWrite());
+            if (group.getRead() != null) {
+                validateConnection(name, "read", group.getRead());
+            }
+        }
+    }
+
+    private static void validateConnection(String group, String role, CommonDataSourceProperties.Conn conn) {
+        if (!StringUtils.hasText(conn.getUrl())) {
+            throw new IllegalStateException("datasource group '" + group + "' " + role + " connection requires url");
+        }
+        if (conn.getPoolMaxSize() != null && conn.getPoolMaxSize() < 1) {
+            throw new IllegalStateException("datasource group '" + group + "' " + role
+                    + " pool-max-size must be greater than zero");
         }
     }
 

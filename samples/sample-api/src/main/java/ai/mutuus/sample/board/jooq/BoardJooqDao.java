@@ -120,7 +120,10 @@ public class BoardJooqDao {
     public List<Map<String, Object>> dynamicSearch(String keyword, List<String> authors, Instant from, Instant to,
                                                     List<String> fields, int size, int offset) {
         List<String> names = (fields == null || fields.isEmpty()) ? List.copyOf(FIELD_MAP.keySet()) : fields;
-        List<Field<?>> selected = names.stream().map(FIELD_MAP::get).toList(); // 허용목록 밖은 서비스가 이미 차단
+        List<Field<?>> selected = new java.util.ArrayList<>(names.size());
+        for (String name : names) {
+            selected.add(FIELD_MAP.get(name)); // 허용목록 밖은 서비스가 이미 차단
+        }
 
         return dsl.select(selected).from(BOARD_POST)
                 .where(dynamicCondition(keyword, authors, from, to))
