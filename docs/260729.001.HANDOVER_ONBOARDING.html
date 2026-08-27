@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>common-platform 인수인계 온보딩</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1f2328;
+    --muted: #59636e;
+    --border: #d1d9e0;
+    --accent: #0969da;
+    --accent-soft: #ddf4ff;
+    --card: #f6f8fa;
+    --warn-bg: #fff8e6;
+    --warn-border: #d4a72c;
+    --ok: #1a7f37;
+    --code-bg: #f0f2f5;
+    --table-stripe: #f6f8fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #9198a1;
+      --border: #30363d;
+      --accent: #4493f8;
+      --accent-soft: #121d2f;
+      --card: #161b22;
+      --warn-bg: #2a2010;
+      --warn-border: #9e6a03;
+      --ok: #3fb950;
+      --code-bg: #1c2128;
+      --table-stripe: #161b22;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.65;
+    font-size: 15.5px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 28px 80px; }
+  header.doc {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  header.doc h1 { margin: 0 0 6px; font-size: 1.8em; letter-spacing: -0.5px; }
+  header.doc .sub { color: var(--muted); font-size: 0.95em; }
+  .meta-badges { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 0.8em; font-weight: 600;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  nav.toc {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 22px; margin-bottom: 32px;
+  }
+  nav.toc strong { display: block; margin-bottom: 8px; }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 32px; }
+  nav.toc li { margin: 3px 0; break-inside: avoid; }
+  @media (max-width: 640px) { nav.toc ol { columns: 1; } }
+  h2 {
+    font-size: 1.35em; margin-top: 44px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border); letter-spacing: -0.3px;
+  }
+  h2 .no {
+    display: inline-block; min-width: 30px; color: var(--accent); margin-right: 4px;
+  }
+  h3 { font-size: 1.08em; margin-top: 28px; color: var(--fg); letter-spacing: -0.2px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: "Cascadia Code", Consolas, "D2Coding", monospace;
+    background: var(--code-bg); padding: 2px 6px; border-radius: 5px; font-size: 0.88em;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 18px; overflow-x: auto; line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; }
+  .tablebox { overflow-x: auto; margin: 14px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.93em; }
+  th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--card); }
+  tbody tr:nth-child(even) { background: var(--table-stripe); }
+  .callout {
+    border-left: 4px solid var(--warn-border); background: var(--warn-bg);
+    padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
+  }
+  .callout.info { border-left-color: var(--accent); background: var(--accent-soft); }
+  .principle {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin: 12px 0;
+  }
+  .principle b:first-child { color: var(--accent); }
+  ul.checklist { list-style: none; padding-left: 4px; }
+  ul.checklist li { margin: 8px 0; padding-left: 30px; position: relative; }
+  ul.checklist li::before {
+    content: "☐"; position: absolute; left: 4px; top: -1px;
+    color: var(--accent); font-size: 1.15em;
+  }
+  .status-ing { color: var(--warn-border); font-weight: 700; }
+  .status-todo { color: #cf222e; font-weight: 700; }
+  @media (prefers-color-scheme: dark) { .status-todo { color: #f85149; } }
+  .status-hold { color: var(--muted); font-weight: 700; }
+  .status-done { color: var(--ok); font-weight: 700; }
+  footer { margin-top: 60px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85em; }
+  @media print {
+    body { font-size: 11pt; }
+    nav.toc ol { columns: 2; }
+    pre, .tablebox { break-inside: avoid; }
+    h2 { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <h1>공통모듈 인수인계 온보딩</h1>
+  <div class="sub">common-platform Handover Onboarding — 라이브러리 유지보수 담당자용 정본</div>
+  <div class="meta-badges">
+    <span class="badge">v0.2.1</span>
+    <span class="badge">Java 21</span>
+    <span class="badge">Spring Boot 4.1.0</span>
+    <span class="badge">Spring Modulith 2.1.0</span>
+    <span class="badge">2026-07-29</span>
+  </div>
+</header>
+
+<div class="callout info">
+  이 문서는 <code>common-platform</code> 공통모듈을 <b>새로 인수받는 개발자/유지보수 담당자</b>를 위한 온보딩 정본임(단일 파일).
+  소비 서비스(라이브러리를 갖다 쓰는 쪽) 온보딩은 <a href="260702.009.ONBOARDING.md">260702.009.ONBOARDING.md</a>를 볼 것.
+</div>
+
+<nav class="toc">
+  <strong>목차</strong>
+  <ol start="0">
+    <li><a href="#s0">읽는 순서 (Day 1 경로)</a></li>
+    <li><a href="#s1">프로젝트 정체성</a></li>
+    <li><a href="#s2">제공 기능 및 역할 (소비 서비스 관점)</a></li>
+    <li><a href="#s3">기술 스택</a></li>
+    <li><a href="#s4">레포 구조 (Maven reactor)</a></li>
+    <li><a href="#s5">라이브러리 내부 구조 (패키지 맵)</a></li>
+    <li><a href="#s6">반드시 지켜야 하는 설계 원칙</a></li>
+    <li><a href="#s7">빌드·테스트·배포</a></li>
+    <li><a href="#s8">실행 모드·로컬 인프라·Secret</a></li>
+    <li><a href="#s9">진행 중/남은 작업</a></li>
+    <li><a href="#s10">문서 지도</a></li>
+    <li><a href="#s11">신규 담당자 체크리스트</a></li>
+  </ol>
+</nav>
+
+<h2 id="s0"><span class="no">0.</span>읽는 순서 (Day 1 경로)</h2>
+<ol>
+  <li>이 문서 전체 (30분)</li>
+  <li>루트 <code>CLAUDE.md</code> — 아키텍처 원칙·작업 규칙의 최신 정본 (AI 어시스턴트용이지만 사람에게도 가장 정확한 요약)</li>
+  <li><a href="260704.001.PLATFORM_FINAL_OVERVIEW.md">260704.001.PLATFORM_FINAL_OVERVIEW.md</a> — 산출물/기능/실행 모드 개요</li>
+  <li><a href="260701.003.HANDOFF.md">260701.003.HANDOFF.md</a> — 게시·secret·DB 기준 요약</li>
+  <li>빌드 1회 성공시키기 (<a href="#s7">§7</a>) → 샘플 기동 후 <code>/demo/index.html</code> 둘러보기 (<a href="#s8">§8</a>)</li>
+</ol>
+
+<h2 id="s1"><span class="no">1.</span>프로젝트 정체성 (모든 설계 결정의 근간)</h2>
+<ul>
+  <li><b>핵심 산출물은 단일 jar 공통 라이브러리</b> <code>ai.mutuus.common:common-platform</code>임. 실행 애플리케이션이 아니라 <b>소비 서비스에 흡수되는 라이브러리</b>임.</li>
+  <li>타 API 서비스가 Maven 의존성 하나(스타터)로 추적/로깅/예외/i18n/인증/세션/캐시/멱등성 기능을 재사용함.</li>
+  <li>이 레포의 모든 코드·설정·문서는 <b>상용(운영) 품질 AI 코딩의 모범사례이자 원천 소스(source of truth)</b>로 관리함 — 임시방편·"일단 동작" 코드를 남기지 않음.</li>
+  <li>현재 버전: <b>0.2.1</b> (릴리스 커밋 <code>63ebfad</code>). 기준 런타임: <b>Java 21 / Spring Boot 4.1.0 (Framework 7) / Spring Modulith 2.1.0</b>.</li>
+</ul>
+<div class="callout">
+  브랜치명(<code>appmod/java-upgrade-*</code>)이나 일부 커밋에 "Java 25"가 보여도 <b>산출물 타깃은 JDK 21 고정</b>임
+  (안정성·소비 서비스 강제 회피를 이유로 되돌림 — <code>parent/pom.xml</code>의 <code>java.version</code>).
+</div>
+
+<h2 id="s2"><span class="no">2.</span>제공 기능 및 역할 (소비 서비스 관점)</h2>
+<p>공통모듈의 역할은 다섯 가지임: <b>(1) 관측성 표준화</b>(추적·로깅), <b>(2) 응답/예외 규약 통일</b>,
+<b>(3) 보안 기본기 위임 수용</b>(JWT 검증·감사), <b>(4) 인프라 컨벤션</b>(세션·캐시·DataSource·멱등성),
+<b>(5) 버전 거버넌스</b>(BOM). 소비 서비스는 스타터 1개로 아래 기능을 받음.</p>
+
+<h3>2-1. 스타터만 추가하면 즉시 동작 (설정 불필요)</h3>
+<div class="tablebox">
+<table>
+  <thead><tr><th>기능</th><th>역할 / 제공 가치</th></tr></thead>
+  <tbody>
+    <tr><td><b>e2e 추적</b></td><td><code>X-Trace-Id</code> 등 8종 헤더 + 앱/인스턴스 코드 수집 → MDC/로그 자동 포함 → 아웃바운드 호출에 자동 전파(Span 재발급). 화면→이벤트→API 체인 상관</td></tr>
+    <tr><td><b>API 생명주기 자동 로깅</b></td><td>요청 수신/응답/인증 실패/오류 4지점 JSON 구조화 로그(<code>AccessLogger</code>), 5xx·느린 요청 WARN, <code>/actuator</code> 기본 제외</td></tr>
+    <tr><td><b>JSON 로그 포맷</b></td><td><code>logback-common.xml</code>(콘솔+롤링 파일 <code>&lt;app&gt;-&lt;instance&gt;.log</code>) — 소비자는 include 한 줄</td></tr>
+    <tr><td><b>표준 예외 응답</b></td><td>모든 예외 → <code>ApiResponse</code> 봉투 통일(<code>GlobalExceptionHandler</code>). 소비자는 자체 <code>ErrorCode</code> enum만 추가하면 동일 규약</td></tr>
+    <tr><td><b>표준 응답 DTO</b></td><td><code>ApiResponse</code>, <code>PageResponse&lt;T&gt;</code>(spring-data 비의존 페이징 봉투)</td></tr>
+    <tr><td><b>i18n</b></td><td><code>MessageResolver</code> + <code>messages*.properties</code> 번들 규약(기본/ko/en), 로케일별 오류 메시지</td></tr>
+    <tr><td><b>JWT 인증 위임</b></td><td>인증 MSA 발급 JWT를 검증하는 OAuth2 Resource Server 기본 체인. 인증 확정 사용자를 추적/로그/감사 컬럼에 반영</td></tr>
+    <tr><td><b>보안 감사 로그</b></td><td>401/403을 전용 로거로 구조화 기록(필터+MVC 양단, <code>@PreAuthorize</code> 403 오분류 교정 포함)</td></tr>
+    <tr><td><b>비동기 추적 전파</b></td><td><code>@Async</code>/직접 스레드풀에서 TraceContext·MDC 유지(<code>TaskDecorator</code>/<code>wrap</code>)</td></tr>
+    <tr><td><b>도메인 이벤트</b></td><td><code>DomainEvent&lt;T&gt;</code> 봉투(traceId/userId 자동 주입) + in-process 발행자. 브로커 확장점 제공</td></tr>
+    <tr><td><b>HTTP 클라이언트 안전 기본값</b></td><td>connect 2s / read 10s 타임아웃, I/O 실패 → 502/504 매핑</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2-2. classpath 추가 시 자동 활성 (의존성 = 스위치)</h3>
+<div class="tablebox">
+<table>
+  <thead><tr><th>기능</th><th>추가할 의존성</th><th>역할</th></tr></thead>
+  <tbody>
+    <tr><td>공통 OpenAPI 문서</td><td>springdoc</td><td>info + Bearer JWT 보안 스킴이 잡힌 <code>OpenAPI</code> 빈 (Swagger UI Authorize 동작)</td></tr>
+    <tr><td>JPA 감사</td><td>spring-data-jpa</td><td><code>BaseEntity</code> 상속만으로 <code>created/updated_at·by</code> 자동 기록(주체=인증 사용자)</td></tr>
+    <tr><td>분산 세션</td><td>spring-session-data-redis</td><td>Redis 세션 저장소 활성화 + <code>&lt;service&gt;:session</code> 네임스페이스·타임아웃 컨벤션</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2-3. 프로퍼티 opt-in (기본 OFF — 명시적으로 켜야 동작)</h3>
+<div class="tablebox">
+<table>
+  <thead><tr><th>기능</th><th>켜는 키</th><th>역할</th></tr></thead>
+  <tbody>
+    <tr><td>성공 응답 자동 래핑</td><td><code>mutuus.common.response-wrapper.enabled</code></td><td>컨트롤러 평범한 리턴을 <code>ApiResponse.ok</code> 봉투로 자동 래핑</td></tr>
+    <tr><td>심층 로깅 3계층</td><td><code>mutuus.common.{payload-logging, controller-entry, method-logging}.*</code></td><td>본문/컨트롤러 진입/메서드 인자·리턴 로깅(깊이 순)</td></tr>
+    <tr><td>로그 마스킹</td><td><code>mutuus.common.logging.masking.enabled</code></td><td>카드번호·주민번호 등 PII를 로그에서만 마스킹</td></tr>
+    <tr><td>멱등성</td><td><code>mutuus.common.idempotency.enabled</code></td><td><code>Idempotency-Key</code> 재시도 중복 방지(첫 응답 재방, 동시 중복 409)</td></tr>
+    <tr><td>Redis 캐시 컨벤션</td><td><code>mutuus.common.cache.enabled</code></td><td><code>@EnableCaching</code> 대행 + TTL·<code>&lt;service&gt;:cache:</code> 프리픽스·JSON 직렬화</td></tr>
+    <tr><td>다중 DataSource 라우팅</td><td><code>mutuus.common.datasource.enabled</code></td><td>YAML만으로 그룹별 read/write 라우팅 DataSource 조립</td></tr>
+    <tr><td>HTTP 재시도</td><td><code>mutuus.common.http.retry.enabled</code></td><td>멱등 메서드 I/O 실패만 재시도</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="s3"><span class="no">3.</span>기술 스택</h2>
+<div class="tablebox">
+<table>
+  <thead><tr><th>구분</th><th>스택</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>언어/런타임</td><td><b>Java 21</b> (JDK 21 고정)</td><td><code>parent/pom.xml</code> <code>java.version</code> — Java 25 업그레이드는 되돌림</td></tr>
+    <tr><td>프레임워크</td><td><b>Spring Boot 4.1.0</b> / Spring Framework 7 / <b>Spring Modulith 2.1.0</b></td><td>Modulith는 BOM import 제공 + sample-api 구조화에 사용</td></tr>
+    <tr><td>빌드</td><td><b>Maven 3.9.9</b> (wrapper 고정), reactor 멀티모듈</td><td>JDK 21만 있으면 재현 빌드</td></tr>
+    <tr><td>보안</td><td>Spring Security OAuth2 <b>Resource Server (JWT)</b></td><td>인증 위임 모델 — 라이브러리는 검증만</td></tr>
+    <tr><td>로깅</td><td>SLF4J 2 fluent API + Logback + <b>logstash-logback-encoder 8.0</b></td><td>JSON 구조화. 인코더는 optional — 스타터가 포함</td></tr>
+    <tr><td>API 문서</td><td><b>springdoc-openapi 3.0.3</b></td><td>optional. 버전은 parent/BOM 단일 출처</td></tr>
+    <tr><td>데이터 접근</td><td>Spring Data JPA(Hibernate) · <b>jOOQ</b> · Spring Data JDBC</td><td>게시판 3-스택 샘플(모범사례). 라이브러리 자체는 JPA Auditing만 optional 제공</td></tr>
+    <tr><td>스키마/마이그레이션</td><td><b>Flyway</b> (+<code>flyway-database-postgresql</code>) + <code>ddl-auto=validate</code></td><td>엔티티 자동 DDL 금지(운영급 규율, 샘플에서 실증)</td></tr>
+    <tr><td>커넥션 풀</td><td>HikariCP</td><td>datasource 라우팅 그룹별 풀 구성</td></tr>
+    <tr><td>저장소</td><td><b>PostgreSQL</b>(검증 기준, live=<code>golmok</code>) · <b>Redis</b>(세션/캐시) · H2(전환 중 호환 경로)</td><td>신규 검증에 H2 사용 금지</td></tr>
+    <tr><td>매핑/검증</td><td>MapStruct(컴파일타임 매퍼) · Bean Validation</td><td>샘플 모범사례 스택</td></tr>
+    <tr><td>테스트</td><td>JUnit 5 · Spring Boot Test(MockMvc/<code>RANDOM_PORT</code>) · <b>Testcontainers</b>(무도커 자동 skip) · Live 게이트(<code>LiveInfra</code>)</td><td>전부 <code>samples/*</code>에 위치</td></tr>
+    <tr><td>게시/저장소</td><td>사내 <b>Nexus 3</b> (<code>maven-releases</code>/<code>maven-snapshots</code>)</td><td>self-signed → truststore 필요</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout">
+  lib(산출물)와 samples(모범사례)의 스택을 구분할 것 — jOOQ·Flyway·MapStruct는 라이브러리 산출물에 포함되지 않고,
+  <b>소비 서비스가 따라야 할 CRUD 모범사례</b>로 샘플에 실려 있음.
+</div>
+
+<h2 id="s4"><span class="no">4.</span>레포 구조 (Maven reactor)</h2>
+<p>루트 <code>pom.xml</code>은 <code>packaging=pom</code> aggregator(게시 대상 아님)이고, 아래 모듈로 구성됨.</p>
+<div class="tablebox">
+<table>
+  <thead><tr><th>모듈</th><th>좌표(artifactId)</th><th>역할</th><th>게시</th></tr></thead>
+  <tbody>
+    <tr><td><code>parent/</code></td><td><code>common-platform-parent</code></td><td>게시 모듈 공용 부모 POM — Nexus distributionManagement, <code>deployAtEnd</code>, 공통 버전(java/logstash/springdoc/spring-modulith)의 단일 출처</td><td>O</td></tr>
+    <tr><td><code>bom/</code></td><td><code>common-platform-bom</code></td><td>자사 아티팩트 + optional 3rd-party(logstash·springdoc) + <code>spring-modulith-bom</code> import 버전 고정</td><td>O</td></tr>
+    <tr><td><code>lib/</code></td><td><code>common-platform</code></td><td><b>산출물 라이브러리</b>. 모든 기능 코드. 테스트 없음(<a href="#s6">§6</a> 테스트 위치 규칙)</td><td>O</td></tr>
+    <tr><td><code>starters/starter-web</code></td><td><code>common-platform-starter-web</code></td><td>lib + 표준 웹 스택(web/security/oauth2/actuator/validation/restclient/aspectj) + JSON 로깅 취합 jar</td><td>O</td></tr>
+    <tr><td><code>starters/starter-batch</code></td><td><code>common-platform-starter-batch</code></td><td>lib + JSON 로깅(web/security 제외 → 비전이 유지)</td><td>O</td></tr>
+    <tr><td><code>samples/sample-api</code></td><td>—</td><td>웹 소비 검증 샘플(Spring Modulith 구조) + <b>대부분의 테스트</b> + <code>/demo/**</code> 수동 검증 화면</td><td>X</td></tr>
+    <tr><td><code>samples/sample-batch</code></td><td>—</td><td>비웹 소비 검증 샘플 — web/security <b>비전이</b> 검증</td><td>X</td></tr>
+  </tbody>
+</table>
+</div>
+<ul>
+  <li>소비자는 <b>스타터 1개 + BOM import</b>로 온보딩함. 샘플 둘 다 이 경로(스타터+BOM)로 소비해 실사용을 검증함.</li>
+  <li>reactor 구조 이유(lib가 하위 폴더인 이유): IDE(jdt.ls)의 '프로젝트 위치 중첩 금지' 회피 + reactor 빌드 시 samples가 .m2 stale jar가 아닌 방금 빌드한 lib를 해석. 단 샘플은 여전히 <code>spring-boot-starter-parent</code> 상속 + GAV 의존으로만 lib 참조(독립 소비자 충실도 유지).</li>
+  <li><code>lib/pom.xml</code>의 <code>spring-boot-maven-plugin</code>은 <code>&lt;skip&gt;true&lt;/skip&gt;</code> — 라이브러리라 repackage하지 않음. <b>건드리지 말 것</b>.</li>
+</ul>
+
+<h2 id="s5"><span class="no">5.</span>라이브러리 내부 구조 (패키지 맵)</h2>
+<p>라이브러리 기능은 <code>ai.mutuus.common</code> 아래 <b>패키지로만</b> 구분됨(내부 Maven 모듈 없음). 자동구성 등록부는
+<code>lib/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> —
+<b>새 <code>@AutoConfiguration</code>을 만들면 반드시 여기에 추가</b>해야 활성화됨.
+<code>META-INF/spring.factories</code>에는 <code>EnvironmentPostProcessor</code>만 등록(컨텍스트 초기화 <i>이전</i> 동작이라 별도 메커니즘).</p>
+<div class="tablebox">
+<table>
+  <thead><tr><th>패키지</th><th>기능</th><th>활성 조건/기본값</th></tr></thead>
+  <tbody>
+    <tr><td><code>core</code></td><td>무의존 유틸 — <code>HeaderNames</code>(헤더 정본), <code>TraceContext</code>(ThreadLocal), <code>SensitiveDataMasker</code></td><td>항상</td></tr>
+    <tr><td><code>config</code></td><td><code>CommonEnvironmentPostProcessor</code> 컨벤션 기본값 주입(<code>addLast</code>=최저 우선), app-code/instance-code 해석→시스템 프로퍼티</td><td>ON</td></tr>
+    <tr><td><code>i18n</code> / <code>exception</code></td><td><code>MessageResolver</code>, <code>GlobalExceptionHandler</code> 표준 <code>ApiResponse</code> 봉투, <code>ErrorCode</code>+<code>BusinessException</code>, 네트워크 502/504 매핑</td><td>웹 classpath ON</td></tr>
+    <tr><td><code>api</code></td><td><code>ApiResponse</code>, <code>PageResponse&lt;T&gt;</code>(spring-data 비의존 순수 DTO)</td><td>항상</td></tr>
+    <tr><td><code>web</code></td><td><code>TraceFilter</code>(e2e 추적 헤더 8종+앱/인스턴스 코드), <code>HeaderPropagationInterceptor</code>(아웃바운드 전파, Span 재발급), HTTP 타임아웃/재시도</td><td>웹 classpath ON</td></tr>
+    <tr><td><code>async</code></td><td><code>TraceContextPropagation.wrap</code>, <code>TraceContextTaskDecorator</code>(@Async 전파)</td><td>ON</td></tr>
+    <tr><td><code>logging</code></td><td><code>AccessLogger</code>/<code>AccessLogFilter</code>(4지점 자동 로깅), 마스킹(<code>CommonMaskingAutoConfiguration</code>)</td><td>access ON, 마스킹 opt-in</td></tr>
+    <tr><td><code>payload</code> / <code>intercept</code> / <code>aop</code></td><td>본문/컨트롤러 진입/메서드 인자·리턴 로깅 3계층</td><td>모두 opt-in (aop는 aspectj classpath도 필요)</td></tr>
+    <tr><td><code>response</code></td><td>성공 응답 자동 래핑(<code>ApiResponseWrapperAdvice</code>)</td><td>opt-in</td></tr>
+    <tr><td><code>openapi</code></td><td>공통 <code>OpenAPI</code> 빈(info + Bearer JWT 스킴)</td><td>springdoc classpath</td></tr>
+    <tr><td><code>security</code></td><td>OAuth2 Resource Server 기본 체인(인증 <b>위임</b> 모델 — 직접 인증 안 함), <code>AuthenticatedUserContextFilter</code>, 보안 감사 로깅(<code>security/audit</code>)</td><td>security classpath, 감사 ON</td></tr>
+    <tr><td><code>observability</code></td><td>tracing 연계</td><td>otel classpath</td></tr>
+    <tr><td><code>persistence</code></td><td><code>BaseEntity</code> JPA Auditing(감사 주체=TraceContext 인증 사용자), 시각은 <code>Instant</code> 고정</td><td>JPA classpath</td></tr>
+    <tr><td><code>datasource</code></td><td>프로퍼티 기반 다중 DataSource + read/write 라우팅(<code>LazyConnectionDataSourceProxy</code> 필수)</td><td>opt-in</td></tr>
+    <tr><td><code>session</code></td><td>Redis 세션 저장소 활성화 + 네임스페이스/타임아웃 컨벤션 (Boot 4가 스토어별 세션 자동구성을 제거해 라이브러리가 떠안음)</td><td>spring-session-redis classpath</td></tr>
+    <tr><td><code>cache</code></td><td>Redis <code>CacheManager</code> 컨벤션(<code>@EnableCaching</code> 대행, TTL·키프리픽스·JSON 직렬화)</td><td>opt-in</td></tr>
+    <tr><td><code>idempotency</code></td><td><code>Idempotency-Key</code> 재방/중복 방지(<code>IdempotencyStore</code> 추상화, 기본 인메모리)</td><td>opt-in</td></tr>
+    <tr><td><code>event</code></td><td><code>DomainEvent&lt;T&gt;</code> 봉투(TraceContext 자동 주입) + <code>EventPublisher</code>(in-process 기본, 브로커 어댑터는 보류)</td><td>ON</td></tr>
+  </tbody>
+</table>
+</div>
+<p>각 기능의 상세 설계·근거·함정은 루트 <code>CLAUDE.md</code> "핵심 아키텍처" 1~13절이 최신 정본임.</p>
+
+<h2 id="s6"><span class="no">6.</span>반드시 지켜야 하는 설계 원칙 (위반 = 회귀)</h2>
+<div class="principle"><b>1. optional 의존성 + 조건부 자동구성</b> — 통합 의존성은 전부 <code>lib/pom.xml</code>에서 <code>&lt;optional&gt;true&lt;/optional&gt;</code>, 자동구성은 <code>@ConditionalOnClass</code>(+<code>@ConditionalOnProperty</code>/<code>@ConditionalOnMissingBean</code>) 보호. 비웹 배치 소비자에 web/security가 끌려가면 안 됨 — <code>sample-batch</code>가 이걸 검증함.</div>
+<div class="principle"><b>2. 소비자 설정 우선</b> — 컨벤션 기본값은 <code>CommonEnvironmentPostProcessor</code>에서 <code>addLast</code>로만 주입. 소비 서비스 <code>application.yml</code>이 항상 이김.</div>
+<div class="principle"><b>3. 테스트 위치</b> — 모든 테스트는 <code>samples/*</code>에서 수행. <code>lib/src/test</code>는 두지 않음(현재 0개). 라이브러리 내부 단위 테스트도 sample-api에 <b>같은 패키지명</b>(<code>ai.mutuus.common.*</code>, classpath split-package)으로 둠.</div>
+<div class="principle"><b>4. ThreadLocal 정리 규율</b> — <code>TraceContext</code>/<code>RoutingContext</code>는 <code>finally</code>에서 반드시 <code>clear()</code> (누수 방지).</div>
+<div class="principle"><b>5. 소비자 대체 가능성</b> — 라이브러리 빈은 <code>@ConditionalOnMissingBean</code>으로 소비자 자체 빈에 비켜섬. 새 빈도 이 패턴을 따름.</div>
+<div class="principle"><b>6. i18n·한국어</b> — 노출 메시지는 <code>messages*.properties</code>+<code>MessageResolver</code> 경유, 주석·문서·응답은 한국어.</div>
+<div class="principle"><b>7. 문서 명명 규칙</b> — <code>docs/yymmdd.NNN.&lt;제목&gt;.md</code>. 문서 추가/개명 시 README 색인 등 <b>모든 참조 링크 동시 갱신</b>.</div>
+
+<h2 id="s7"><span class="no">7.</span>빌드·테스트·배포</h2>
+<p>Maven Wrapper(3.9.9 고정) 포함 — JDK 21만 있으면 됨.</p>
+<pre><code>.\mvnw.cmd -pl lib clean install     # 라이브러리만 (대부분의 lib 작업은 이걸로 충분)
+.\mvnw.cmd clean install             # reactor 전체: parent→bom→lib→starters→samples(테스트 포함)
+.\mvnw.cmd clean test                # reactor 전체 테스트</code></pre>
+<div class="callout">
+  <b>함정 1 — 샘플 단독 실행:</b> <code>cd samples/sample-api &amp;&amp; ..\..\mvnw.cmd test</code>는 lib를 <b>.m2 jar</b>로 해석함.
+  lib API를 바꿨으면 먼저 <code>-pl lib install</code> 후 샘플에서 <b>반드시 <code>clean</code></b> (stale <code>.class</code> → <code>NoSuchMethodError</code>).
+  루트 reactor 실행이면 이 함정이 없음.
+</div>
+<div class="callout">
+  <b>함정 2 — Windows/VS Code:</b> 전체 reactor 빌드 중 VS Code(jdt.ls)가 <code>target/</code>을 잠가 간헐 실패할 수 있음 — VS Code를 닫거나 재시도.
+</div>
+<p><b>Docker 없는 환경:</b> Testcontainers 테스트는 자동 skip. 로컬 실 인프라 대상 <code>*LiveIntegrationTest</code>는
+<code>support/LiveInfra</code> 게이트(접속+인증 성공 시에만 실행)로 opt-in.</p>
+<p><b>배포(사내 Nexus 3)</b> — self-signed라 truststore 지정 필요:</p>
+<pre><code>$env:MAVEN_OPTS='-Djavax.net.ssl.trustStore=C:\Users\cvnra\.m2\nexus-local-ca-truststore.p12 -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStoreType=PKCS12'
+.\mvnw.cmd clean deploy</code></pre>
+<p><code>deployAtEnd</code>라 <b>리액터 전체(샘플 테스트 포함) 성공 후에만</b> parent/bom/lib/starters를 일괄 업로드함(samples·aggregator는 deploy.skip).
+자격증명은 <code>~/.m2/settings.xml</code>의 deployer 계정. 상세: <a href="260707.001.NEXUS_REREGISTRATION.md">260707.001.NEXUS_REREGISTRATION.md</a>.</p>
+
+<h2 id="s8"><span class="no">8.</span>실행 모드·로컬 인프라·Secret</h2>
+<div class="tablebox">
+<table>
+  <thead><tr><th>모드</th><th>프로파일</th><th>포트</th><th>인프라</th></tr></thead>
+  <tbody>
+    <tr><td>사람 개발/디버그</td><td>기본 또는 <code>local</code></td><td><b>8090</b></td><td>로컬 PostgreSQL <code>localhost:15010</code>, Redis <code>localhost:16010</code></td></tr>
+    <tr><td>수동/백그라운드 검증</td><td><code>ai</code></td><td><b>8095~8099</b>(기본 8095)</td><td>현재 임베디드 H2(전환 중 호환 경로)</td></tr>
+    <tr><td>JUnit 통합 테스트</td><td>test context</td><td><code>RANDOM_PORT</code>/MOCK</td><td>고정 포트 자동 점유 금지</td></tr>
+  </tbody>
+</table>
+</div>
+<pre><code>.\mvnw.cmd -pl samples/sample-api spring-boot:run "-Dspring-boot.run.profiles=ai"
+# → http://localhost:8095/demo/index.html (케이스 대시보드 — 기능별 수동 검증 진입점)</code></pre>
+<ul>
+  <li>포트 정책 정본: <a href="260707.003.SAMPLE_PORT_POLICY.md">260707.003.SAMPLE_PORT_POLICY.md</a></li>
+  <li><b>Secret:</b> 커밋 파일에 비밀번호를 두지 않음. 샘플 local 프로파일은 <code>~/.mutuus/sample-api/local.yml</code>을 <code>spring.config.import</code>로 optional 읽기(레포 밖). 정본: <a href="260707.002.SECRET_MANAGEMENT_STANDARD.md">260707.002.SECRET_MANAGEMENT_STANDARD.md</a></li>
+  <li><b>DB 정책:</b> 신규 검증 기준은 PostgreSQL(live/Aiven DB 이름 <code>golmok</code>). H2는 전환 중 호환 경로 — 새 테스트/문서에 H2 기준 추가 금지. 정본: <a href="260706.002.POSTGRES_ONLY_MIGRATION_CONTEXT.md">260706.002.POSTGRES_ONLY_MIGRATION_CONTEXT.md</a></li>
+</ul>
+
+<h2 id="s9"><span class="no">9.</span>진행 중/남은 작업 (인수 시점 기준)</h2>
+<div class="tablebox">
+<table>
+  <thead><tr><th>항목</th><th>상태</th><th>참고</th></tr></thead>
+  <tbody>
+    <tr><td>PostgreSQL-only 전환 (<code>ai</code> 프로파일 H2 제거)</td><td><span class="status-ing">진행 중</span> — <code>application-ai.yml</code>·<code>DbDemoSupport</code>·H2 의존성·H2 테스트를 PostgreSQL 경로로 대체 후 제거</td><td><a href="260706.002.POSTGRES_ONLY_MIGRATION_CONTEXT.md">260706.002</a></td></tr>
+    <tr><td>DB-backed configuration</td><td><span class="status-hold">계획 단계</span></td><td><a href="260706.001.DB_BACKED_CONFIGURATION_PLAN.md">260706.001</a></td></tr>
+    <tr><td>ECS 로깅 Phase 3c — APM trace 연계</td><td><span class="status-todo">필수 TODO</span> — <code>trace.id</code>를 OTel tracer와 통일해 APM↔로그 연계. APM 백엔드 준비 시 착수</td><td><a href="260707.005.LOGGING_ONBOARDING.md">260707.005</a></td></tr>
+    <tr><td>이벤트 브로커 어댑터(Kafka/Rabbit)</td><td><span class="status-hold">보류</span> — 인프라 선택 확정 시 <code>EventPublisher</code> 구현으로 추가</td><td>CLAUDE.md §12</td></tr>
+    <tr><td>보안 하드닝 Phase 0~3</td><td><span class="status-done">완료</span></td><td><a href="260702.006.SECURITY_HARDENING.md">260702.006</a></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="s10"><span class="no">10.</span>문서 지도</h2>
+<p>전체 색인은 <a href="README.md">docs/README.md</a>. 주제별 정본만 추리면:</p>
+<ul>
+  <li><b>전체 개요:</b> <a href="260704.001.PLATFORM_FINAL_OVERVIEW.md">260704.001.PLATFORM_FINAL_OVERVIEW.md</a> / <b>운영 기준 handoff:</b> <a href="260701.003.HANDOFF.md">260701.003.HANDOFF.md</a></li>
+  <li><b>소비 서비스 온보딩(5분):</b> <a href="260702.009.ONBOARDING.md">260702.009.ONBOARDING.md</a> / <b>로깅 온보딩:</b> <a href="260707.005.LOGGING_ONBOARDING.md">260707.005.LOGGING_ONBOARDING.md</a></li>
+  <li><b>CRUD 모범사례(게시판 3-스택):</b> <a href="260702.004.BOARD_SAMPLE_GUIDE.md">260702.004.BOARD_SAMPLE_GUIDE.md</a> / <b>DB 계층:</b> <a href="260702.002.DB_LAYER_GUIDE.md">260702.002.DB_LAYER_GUIDE.md</a></li>
+  <li><b>Modulith 통합:</b> <a href="260702.010.MODULITH_INTEGRATION.md">260702.010.MODULITH_INTEGRATION.md</a> / <b>DDD 전략·전술:</b> <a href="260702.007.PLATFORM_DDD_STRATEGY.md">260702.007</a>·<a href="260702.008.VOUCHER_LEDGER_TACTICAL.md">260702.008</a></li>
+  <li><b>로깅 상세:</b> <a href="260629.001.LOG_FORMAT.md">260629.001.LOG_FORMAT.md</a>, <a href="260701.004.LOGGING_CASES.md">260701.004.LOGGING_CASES.md</a> 외 payload/entry/method 문서</li>
+  <li><b>데모 케이스:</b> <a href="260630.001.DEMO_CASES.md">260630.001.DEMO_CASES.md</a></li>
+</ul>
+
+<h2 id="s11"><span class="no">11.</span>신규 담당자 체크리스트</h2>
+<ul class="checklist">
+  <li>JDK 21 확인 후 <code>.\mvnw.cmd clean install</code> 1회 성공 (Docker 없으면 Testcontainers skip 정상)</li>
+  <li><code>ai</code> 프로파일로 sample-api 기동 → <code>http://localhost:8095/demo/index.html</code> 케이스 대시보드 확인</li>
+  <li><code>~/.m2/settings.xml</code> deployer 계정 + Nexus truststore 파일 존재 확인 (없으면 <a href="260707.001.NEXUS_REREGISTRATION.md">260707.001</a> 절차로 발급)</li>
+  <li>로컬 PostgreSQL(15010)/Redis(16010) 접속 확인, <code>~/.mutuus/sample-api/local.yml</code> secret 파일 준비</li>
+  <li>루트 <code>CLAUDE.md</code> 정독 — 새 기능 추가 전 "optional+조건부 자동구성" 패턴과 테스트 위치 규칙 숙지</li>
+  <li><a href="#s9">§9</a> 진행 중 작업 상태를 각 정본 문서에서 최신화 확인</li>
+</ul>
+
+<footer>
+  common-platform 인수인계 온보딩 · 2026-07-29 · 이 HTML 파일이 단일 정본임 — 내용 변경 시 이 파일을 직접 갱신할 것.
+</footer>
+
+</div>
+</body>
+</html>

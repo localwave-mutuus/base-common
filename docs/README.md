@@ -6,6 +6,8 @@
 
 | 주제 | 정본 |
 |---|---|
+| 현행화 계획(갭 분석·실행 순서) | [260827.001.PLATFORM_ALIGNMENT_PLAN.md](260827.001.PLATFORM_ALIGNMENT_PLAN.md) |
+| 인수인계 온보딩(유지보수 담당자) | [260729.001.HANDOVER_ONBOARDING.html](260729.001.HANDOVER_ONBOARDING.html) |
 | 전체 개요 | [260704.001.PLATFORM_FINAL_OVERVIEW.md](260704.001.PLATFORM_FINAL_OVERVIEW.md) |
 | 다음 작업자 handoff | [260701.003.HANDOFF.md](260701.003.HANDOFF.md) |
 | 샘플 데모 케이스 | [260630.001.DEMO_CASES.md](260630.001.DEMO_CASES.md) |
@@ -18,7 +20,7 @@
 
 ## 작성 규칙
 
-- 평문 비밀번호, token, age private key, Nexus/admin credential은 문서에 쓰지 않는다.
+- 평문 비밀번호, token, Nexus/admin credential은 문서에 쓰지 않는다.
 - DB 이름은 live/Aiven 기준 `golmok`으로 안내한다.
 - 샘플 현재 포트는 8090, 수동/백그라운드 테스트 슬롯은 8095~8099다.
 - 새 DB 검증 기준은 PostgreSQL이다. H2는 전환 중 호환 경로로만 언급한다.

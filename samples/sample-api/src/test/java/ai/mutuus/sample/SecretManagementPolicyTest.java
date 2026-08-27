@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * File-level guard for the external secret-file standard.
+ * File-level guard for the canonical encrypted-property standard and the legacy external-file bridge.
  *
  * <p>This test does not connect to PostgreSQL, Redis, Nexus, or any fixed port.
  */
@@ -45,11 +45,15 @@ class SecretManagementPolicyTest {
     }
 
     @Test
-    void canonical_secret_document_describes_common_module_boundary() throws IOException {
+    void canonical_secret_document_locks_inline_ciphertext_and_common_module_boundary() throws IOException {
         String doc = Files.readString(root("docs/260707.002.SECRET_MANAGEMENT_STANDARD.md",
                 "../../docs/260707.002.SECRET_MANAGEMENT_STANDARD.md"));
 
         assertThat(doc)
+                .contains("runtime implementation pending")
+                .contains("secret:v2:inline:")
+                .contains("its visibility alone is not a security finding")
+                .contains("existing `lib` module")
                 .contains("spring.config.import")
                 .contains("SecurityConfigAuditor")
                 .contains("does not own")
