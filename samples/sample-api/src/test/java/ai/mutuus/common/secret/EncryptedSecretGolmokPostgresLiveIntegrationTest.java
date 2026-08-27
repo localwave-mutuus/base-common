@@ -75,9 +75,22 @@ class EncryptedSecretGolmokPostgresLiveIntegrationTest {
         FileSystemResource resource = new FileSystemResource(golmokConfigPath());
         List<PropertySource<?>> sources = new YamlPropertySourceLoader().load("golmok-local", resource);
         return new DatabaseCredentials(
-                System.getProperty("live.golmok.url", required(sources, "spring.datasource.url")),
-                System.getProperty("live.golmok.username", required(sources, "spring.datasource.username")),
+                configured("live.golmok.url", "GOLMOK_DB_URL", sources, "spring.datasource.url"),
+                configured("live.golmok.username", "GOLMOK_DB_USER", sources, "spring.datasource.username"),
                 required(sources, "spring.datasource.password").toCharArray());
+    }
+
+    private static String configured(String systemProperty, String environmentVariable,
+                                     List<PropertySource<?>> sources, String property) {
+        String value = System.getProperty(systemProperty);
+        if (value != null && !value.isBlank()) {
+            return value;
+        }
+        value = System.getenv(environmentVariable);
+        if (value != null && !value.isBlank()) {
+            return value;
+        }
+        return required(sources, property);
     }
 
     private static String required(List<PropertySource<?>> sources, String property) {
