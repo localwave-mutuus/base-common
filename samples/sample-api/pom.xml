@@ -13,7 +13,7 @@
 
     <groupId>ai.mutuus.sample</groupId>
     <artifactId>sample-api</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <packaging>jar</packaging>
     <name>sample-api</name>
     <description>common-platform 소비 검증용 샘플 API (통합 테스트)</description>
@@ -33,7 +33,7 @@
             <dependency>
                 <groupId>ai.mutuus.common</groupId>
                 <artifactId>common-platform-bom</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -227,7 +227,7 @@
         <!--
           Consumer-only verification profile. It intentionally adds the GitHub
           Packages repository so a standalone Maven invocation can resolve the
-          published common-platform 0.2.3 artifacts instead of reactor outputs.
+          published common-platform 0.2.4 artifacts instead of reactor outputs.
         -->
         <profile>
             <id>github-consumer</id>

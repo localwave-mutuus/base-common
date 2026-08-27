@@ -13,7 +13,7 @@
 
     <groupId>ai.mutuus.sample</groupId>
     <artifactId>sample-batch</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <packaging>jar</packaging>
     <name>sample-batch</name>
     <description>common-platform 비(非)웹 소비 검증용 샘플 — web/security 자동구성 비전이 증명</description>
@@ -30,7 +30,7 @@
             <dependency>
                 <groupId>ai.mutuus.common</groupId>
                 <artifactId>common-platform-bom</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
