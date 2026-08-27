@@ -19,7 +19,7 @@
     -->
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform-parent</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <packaging>pom</packaging>
     <name>common-platform-parent</name>
     <description>common-platform 게시 모듈 공용 부모 — 게시 좌표·배포 정책·공통 버전 단일 관리</description>

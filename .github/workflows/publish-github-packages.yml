@@ -32,3 +32,9 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify sample-api consumes the published package
+        run: |
+          rm -rf "$RUNNER_TEMP/m2-consumer"
+          bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
+            -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" clean test

@@ -7,13 +7,13 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <packaging>jar</packaging>
     <name>common-platform</name>
     <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>

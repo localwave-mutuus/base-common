@@ -7,7 +7,7 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -21,13 +21,13 @@
         <dependencyManagement><dependencies>
           <dependency>
             <groupId>ai.mutuus.common</groupId><artifactId>common-platform-bom</artifactId>
-            <version>0.2.1</version><type>pom</type><scope>import</scope>
+            <version>0.2.2</version><type>pom</type><scope>import</scope>
           </dependency>
         </dependencies></dependencyManagement>
     -->
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform-bom</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <packaging>pom</packaging>
     <name>common-platform-bom</name>
     <description>common-platform 아티팩트 + 소비자가 흔히 추가하는 optional 의존성의 버전을 한 곳에서 관리하는 BOM</description>
