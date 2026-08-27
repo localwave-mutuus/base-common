@@ -115,6 +115,45 @@ class SecurityConfigAuditorTest {
         assertThat(event("security.config.secret_in_classpath_config")).isEmpty();
     }
 
+    @Test
+    void resolver가_활성화된_v2_inline_암호문은_평문_위험으로_오분류하지_않는다() {
+        MockEnvironment env = new MockEnvironment()
+                .withProperty("mutuus.common.secret.enabled", "true")
+                .withProperty("GOLMOK_DB_PASSWORD_TOKEN", "secret:v2:inline:test-ciphertext");
+        env.getPropertySources().addFirst(new MapPropertySource(
+                "Config resource 'class path resource [application-secret-local.yml]' via location 'classpath:/'",
+                Map.of("spring.datasource.password", "${GOLMOK_DB_PASSWORD_TOKEN}")));
+
+        fire(env, new CommonSecurityProperties());
+
+        assertThat(event("security.config.secret_in_classpath_config")).isEmpty();
+    }
+
+    @Test
+    void resolver가_비활성화된_inline_형식값은_계속_설정위험으로_보고한다() {
+        MockEnvironment env = new MockEnvironment();
+        env.getPropertySources().addFirst(new MapPropertySource(
+                "Config resource 'class path resource [application.yml]' via location 'classpath:/'",
+                Map.of("spring.datasource.password", "secret:v2:inline:unresolved")));
+
+        fire(env, new CommonSecurityProperties());
+
+        assertThat(event("security.config.secret_in_classpath_config")).isPresent();
+    }
+
+    @Test
+    void 아직_지원하지_않는_redis_inline_값은_resolver가_활성화돼도_설정위험으로_보고한다() {
+        MockEnvironment env = new MockEnvironment()
+                .withProperty("mutuus.common.secret.enabled", "true");
+        env.getPropertySources().addFirst(new MapPropertySource(
+                "Config resource 'class path resource [application.yml]' via location 'classpath:/'",
+                Map.of("spring.data.redis.password", "secret:v2:inline:not-yet-supported")));
+
+        fire(env, new CommonSecurityProperties());
+
+        assertThat(event("security.config.secret_in_classpath_config")).isPresent();
+    }
+
     private void fire(MockEnvironment env, CommonSecurityProperties props) {
         GenericApplicationContext ctx = new GenericApplicationContext();
         ctx.setEnvironment(env);

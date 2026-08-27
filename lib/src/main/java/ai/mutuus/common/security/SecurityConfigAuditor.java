@@ -67,7 +67,9 @@ public class SecurityConfigAuditor implements ApplicationListener<ApplicationRea
                 continue;
             }
             for (String name : enumerable.getPropertyNames()) {
-                if (isSecretPropertyName(name) && hasText(enumerable.getProperty(name))) {
+                Object value = enumerable.getProperty(name);
+                if (isSecretPropertyName(name) && hasText(value)
+                        && !isAcceptedEncryptedSecret(name, value, configurable)) {
                     findings.add(name + "@" + source.getName());
                 }
             }
@@ -77,8 +79,8 @@ public class SecurityConfigAuditor implements ApplicationListener<ApplicationRea
             audit.configRisk("security.config.secret_in_classpath_config",
                     "Secret-like properties are defined in classpath application config: "
                             + findings
-                            + ". Move real values to an external spring.config.import file, "
-                            + "for example an external local.yml via spring.config.import or a runtime secret mount.");
+                            + ". Use the enabled canonical secret:v2:inline resolver, an external "
+                            + "spring.config.import file, or a runtime secret mount.");
         }
     }
 
@@ -96,6 +98,20 @@ public class SecurityConfigAuditor implements ApplicationListener<ApplicationRea
 
     private static boolean hasText(Object value) {
         return value != null && !value.toString().isBlank();
+    }
+
+    private static boolean isAcceptedEncryptedSecret(
+            String propertyName, Object value, ConfigurableEnvironment environment) {
+        if (!"spring.datasource.password".equalsIgnoreCase(propertyName)
+                || !environment.getProperty("mutuus.common.secret.enabled", Boolean.class, false)) {
+            return false;
+        }
+        try {
+            return environment.resolveRequiredPlaceholders(value.toString())
+                    .startsWith("secret:v2:inline:");
+        } catch (IllegalArgumentException unresolvedPlaceholder) {
+            return false;
+        }
     }
 
     private static boolean hasSessionRepository(ApplicationContext ctx) {

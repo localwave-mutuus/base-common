@@ -50,7 +50,7 @@ class SecretManagementPolicyTest {
                 "../../docs/260707.002.SECRET_MANAGEMENT_STANDARD.md"));
 
         assertThat(doc)
-                .contains("runtime implementation pending")
+                .contains("Runtime resolver and sample proof implemented")
                 .contains("secret:v2:inline:")
                 .contains("its visibility alone is not a security finding")
                 .contains("existing `lib` module")
@@ -60,6 +60,28 @@ class SecretManagementPolicyTest {
                 .contains("Runtime secret-manager SDK coupling")
                 .doesNotContain("deployer /")
                 .doesNotContain("admin /");
+    }
+
+    @Test
+    void encrypted_secret_loader_and_sample_profile_are_wired_without_embedded_secrets() throws IOException {
+        String factories = Files.readString(root("lib/src/main/resources/META-INF/spring.factories",
+                "../../lib/src/main/resources/META-INF/spring.factories"));
+        String profile = Files.readString(root(
+                "samples/sample-api/src/main/resources/application-secret-local.yml",
+                "src/main/resources/application-secret-local.yml"));
+
+        assertThat(root(
+                "lib/src/main/java/ai/mutuus/common/secret/EncryptedSecretEnvironmentPostProcessor.java",
+                "../../lib/src/main/java/ai/mutuus/common/secret/EncryptedSecretEnvironmentPostProcessor.java"))
+                .exists();
+        assertThat(factories).contains("ai.mutuus.common.secret.EncryptedSecretEnvironmentPostProcessor");
+        assertThat(profile)
+                .contains("enabled: true")
+                .contains("password: ${GOLMOK_DB_PASSWORD_TOKEN}")
+                .contains("keystore: ${SAMPLE_SECRET_KEYSTORE}")
+                .contains("keystore-password-file: ${SAMPLE_SECRET_KEYSTORE_PASSWORD_FILE}")
+                .doesNotContain("secret:v2:inline:")
+                .doesNotContain("BEGIN PRIVATE KEY");
     }
 
     private static Path root(String fromRepositoryRoot, String fromSampleModule) {

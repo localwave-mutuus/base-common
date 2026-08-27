@@ -191,6 +191,18 @@ mutuus.common.datasource:
 - **정리 규율**: `RoutingContext.set()` 명시 지정 시 `finally`에서 `clear()`(ThreadLocal 누수 방지 — `TraceContext` 와 동일).
 - 회귀 가드: `CommonDataSourceRoutingAutoConfigurationTest`(ApplicationContextRunner — 그룹별 DataSource 등록·primary 선택·readOnly→READ/쓰기→WRITE·OFF 시 미등록). **실증 데모**: 하나의 API 가 3개 DB(db1/db2/db3) 각 read/write 로 접속하는 `/demo/db/lab/multidb/*`(`DbMultiSupport`) + DB 3구조 개요 `/demo/db/{routing,multitx,xa,guide}`(`DbDemoSupport`) + 랩 페이지 `/demo/db.html`. ②(개별 TxManager)·③(Atomikos XA)는 서비스 레벨 프로그램적 시연(앱 기본 DataSource 와 분리).
 
+### 13. 암호화 시크릿 부트스트랩 (secret 패키지, opt-in)
+
+Offline Secret Manager v2의 `secret:v2:inline:` 암호문을 소비 서비스가 시작할 때 복호화하는 기능이다. 별도 Maven 모듈이나 외부 secret-manager SDK를 추가하지 않고 기존 단일 `common-platform` JAR의 `ai.mutuus.common.secret` 패키지에 둔다.
+
+- `EncryptedSecretEnvironmentPostProcessor`는 Boot Config Data 로딩 뒤, DataSource/Flyway/Hikari 자동구성 전에 실행되며 `META-INF/spring.factories`에 등록돼 있다.
+- 기본 OFF다. `mutuus.common.secret.enabled=true`일 때만 동작하며 초기 허용 대상은 `spring.datasource.password` ↔ `database.password` 한 개다.
+- v2·unpadded Base64URL·16 KiB 제한·필드 집합·RSA-OAEP(SHA-256/MGF1-SHA256)·AES-256-GCM·AAD·program/environment/configKey/keyId를 모두 검증한다. v1, unknown/duplicate 필드, 변조, 빈 평문은 시작 실패다.
+- 개인키 PKCS#12와 `keystore-password-file`은 파일시스템에서 서로 독립 공급한다. classpath/http locator와 평문+암호문 다중 source는 fail-closed하며 다른 DB나 평문으로 fallback하지 않는다.
+- 성공한 모든 대상만 `mutuusDecryptedSecrets` 최우선 PropertySource에 원자 등록한다. 로그에는 target/keyId/formatVersion/결과만 남기고 암호문·평문·키 비밀번호는 남기지 않는다.
+- sample 실증 프로파일은 `samples/sample-api/src/main/resources/application-secret-local.yml`; 실제 Golmok DB live 테스트는 `EncryptedSecretGolmokPostgresLiveIntegrationTest`이며 명시적 `-Dlive.golmok.secret.enabled=true`에서만 실행한다. Flyway/Hibernate DDL은 꺼서 `SELECT 1`만 수행한다.
+- 정본과 운영 경계는 [docs/260707.002.SECRET_MANAGEMENT_STANDARD.md](docs/260707.002.SECRET_MANAGEMENT_STANDARD.md), 구현/검증 기록은 [docs/260827.002.ENCRYPTED_SECRET_LOADING_IMPLEMENTATION.md](docs/260827.002.ENCRYPTED_SECRET_LOADING_IMPLEMENTATION.md)다.
+
 ## 작업 시 규칙
 
 - **코드 품질 기준(최우선 원칙)**: 이 프로젝트(`common-platform` 라이브러리 + `samples/*`)는 **상용(운영) 품질 AI 코딩의 모범사례이자 원천 소스(source of truth)** 다. 여기의 모든 코드·설정·문서는 AI 코딩 어시스턴트가 참조·재사용·변경관리하는 기준점이므로, **항상 상용 수준으로 작성**한다 — 임시방편·데모용 축약·"일단 동작" 코드를 남기지 않는다. 구체적으로:

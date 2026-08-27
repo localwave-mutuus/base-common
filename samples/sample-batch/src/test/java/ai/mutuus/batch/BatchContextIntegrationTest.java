@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,6 +54,12 @@ class BatchContextIntegrationTest {
         assertThat(ctx.getBeanNamesForType(MessageResolver.class)).hasSize(1);
         assertThat(messages.get(Locale.KOREAN, "error.not.found")).isEqualTo("리소스를 찾을 수 없습니다.");
         assertThat(messages.get(Locale.ENGLISH, "error.not.found")).isEqualTo("Resource not found.");
+    }
+
+    @Test
+    void secret_loader_optOut이면_배치_환경에_복호화_source가_없다() {
+        ConfigurableEnvironment environment = (ConfigurableEnvironment) ctx.getEnvironment();
+        assertThat(environment.getPropertySources().contains("mutuusDecryptedSecrets")).isFalse();
     }
 
     @Test

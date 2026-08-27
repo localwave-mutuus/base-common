@@ -1,3 +1,4 @@
 # 부팅 전 설정 주입: 컨텍스트 초기화 이전에 동작하는 EnvironmentPostProcessor 등록
 org.springframework.boot.EnvironmentPostProcessor=\
-ai.mutuus.common.config.CommonEnvironmentPostProcessor
+ai.mutuus.common.config.CommonEnvironmentPostProcessor,\
+ai.mutuus.common.secret.EncryptedSecretEnvironmentPostProcessor
