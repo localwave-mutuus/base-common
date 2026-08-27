@@ -28,6 +28,9 @@
         <java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- GitHub Packages Maven registry coordinates. -->
+        <github.packages.owner>localwave-mutuus</github.packages.owner>
+        <github.packages.repository>base-common</github.packages.repository>
         <!-- 라이브러리가 노출하는 optional 3rd-party 버전(소비자 BOM 과 동일 출처) -->
         <logstash-encoder.version>8.0</logstash-encoder.version>
         <springdoc.version>3.0.3</springdoc.version>
@@ -67,4 +70,23 @@
             <url>https://nexusrepo.local/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- Opt-in GitHub Packages target; the existing Nexus target remains the default. -->
+    <profiles>
+        <profile>
+            <id>github</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/${github.packages.owner}/${github.packages.repository}</url>
+                </repository>
+                <snapshotRepository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/${github.packages.owner}/${github.packages.repository}</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
