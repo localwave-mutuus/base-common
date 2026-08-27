@@ -7,7 +7,7 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.2.2</version>
+        <version>0.2.3</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
     -->
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform-starter-batch</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <packaging>jar</packaging>
     <name>common-platform-starter-batch</name>
     <description>비웹 소비 서비스용 스타터 — common-platform(core) + JSON 로깅(web/security 제외)</description>
