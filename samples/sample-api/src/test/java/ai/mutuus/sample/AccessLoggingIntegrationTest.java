@@ -58,8 +58,8 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isOk());
 
         assertThat(eventStatusTuples())
-                .contains(tuple("request.received", null))
-                .contains(tuple("request.completed", 200));
+                .contains(tuple("http.request.in", 0))
+                .contains(tuple("http.response.out", 200));
     }
 
     @Test
@@ -67,7 +67,7 @@ class AccessLoggingIntegrationTest {
         mockMvc.perform(get("/api/secure/me")).andExpect(status().isUnauthorized());
 
         assertThat(events()).contains("auth.failure");
-        assertThat(eventStatusTuples()).contains(tuple("request.completed", 401));
+        assertThat(eventStatusTuples()).contains(tuple("http.response.out", 401));
     }
 
     @Test
@@ -77,7 +77,7 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isNotFound());
 
         assertThat(events()).contains("error.business");
-        assertThat(eventStatusTuples()).contains(tuple("request.completed", 404));
+        assertThat(eventStatusTuples()).contains(tuple("http.response.out", 404));
     }
 
     @Test
@@ -89,7 +89,7 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isOk());
 
         ILoggingEvent completed = appender.list.stream()
-                .filter(e -> "request.completed".equals(kv(e).get("event")))
+                .filter(e -> "http.response.out".equals(kv(e).get("event")))
                 .findFirst().orElseThrow();
         assertThat(kv(completed)).containsEntry("userId", "user-1");
     }

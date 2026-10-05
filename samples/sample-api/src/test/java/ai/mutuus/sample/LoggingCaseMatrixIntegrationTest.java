@@ -65,8 +65,8 @@ class LoggingCaseMatrixIntegrationTest {
         // 정상 경로 7건 + 계층 순서(엔트리 인터셉터 → AOP 진입 → AOP 종료) 회귀 가드.
         // method.enter/exit 가 있어야 method-logging 자동구성이 imports 에 등록돼 활성화됐음을 e2e 로 보장한다.
         assertThat(order).containsSubsequence(
-                "request.received", "request.payload", "controller.entry",
-                "method.enter", "method.exit", "response.payload", "request.completed");
+                "http.request.in", "request.payload", "controller.entry",
+                "method.enter", "method.exit", "response.payload", "http.response.out");
     }
 
     @Test
@@ -120,7 +120,7 @@ class LoggingCaseMatrixIntegrationTest {
 
     @Test
     void 느린요청_WARN() throws Exception {
-        run("C10 느린 요청 (200, request.completed WARN)", get("/demo/logging/slow"));
+        run("C10 느린 요청 (200, http.response.out WARN)", get("/demo/logging/slow"));
     }
 
     @Test
@@ -130,8 +130,8 @@ class LoggingCaseMatrixIntegrationTest {
         // method.enter args 에 단일값(hello)과 배열([a, b])이 함께 남는다: args=[hello, [a, b]]
         assertThat(order).contains("method.enter");
         assertThat(kvOf("method.enter", "args")).contains("hello").contains("[a, b]");
-        // 쿼리스트링은 request.received 의 httpQuery 로 남는다
-        assertThat(kvOf("request.received", "httpQuery")).contains("q=hello").contains("ids=a");
+        // 쿼리스트링은 http.request.in 의 httpQuery 로 남는다
+        assertThat(kvOf("http.request.in", "httpQuery")).contains("q=hello").contains("ids=a");
     }
 
     @Test
@@ -188,15 +188,15 @@ class LoggingCaseMatrixIntegrationTest {
 
         // 모든 케이스는 최소한 수신/완료 액세스 로그를 남긴다(누락 회귀 가드)
         List<String> order = events.stream().map(e -> kv(e, "event")).toList();
-        assertThat(order).contains("request.received", "request.completed");
+        assertThat(order).contains("http.request.in", "http.response.out");
         return order;
     }
 
     /** event 종류별로 대표 필드 하나를 골라 요약 표기. */
     private String extra(ILoggingEvent e, String event) {
         return switch (event) {
-            case "request.received" -> "method=" + kv(e, "httpMethod") + " path=" + kv(e, "httpPath");
-            case "request.completed" -> "durationMs=" + kv(e, "durationMs")
+            case "http.request.in" -> "method=" + kv(e, "httpMethod") + " path=" + kv(e, "httpPath");
+            case "http.response.out" -> "durationMs=" + kv(e, "durationMs")
                     + (kv(e, "slow") != null ? " slow=true" : "")
                     + (kv(e, "userId") != null ? " userId=" + kv(e, "userId") : "");
             case "request.payload" -> "body=" + kv(e, "requestBody");

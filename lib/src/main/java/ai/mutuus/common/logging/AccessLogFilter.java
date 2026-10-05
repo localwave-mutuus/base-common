@@ -1,74 +1,81 @@
 package ai.mutuus.common.logging;
-
 import java.io.IOException;
-
-import ai.mutuus.common.core.StringUtils;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import ai.mutuus.common.core.HeaderNames;
+import ai.mutuus.common.core.IdGenerator;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-/**
- * 액세스 로깅 필터. 요청 수신/응답 완료를 자동 기록한다.
- * <p>{@code TraceFilter}({@link Ordered#HIGHEST_PRECEDENCE}) <b>바로 뒤</b>에 위치하여
- * 추적 컨텍스트가 채워진 상태로 로깅하고, 보안 필터 체인을 <b>감싸므로</b> 응답 완료 로그가
- * 인증 실패(401/403)를 포함한 최종 상태코드를 본다.
- */
-@Order(Ordered.HIGHEST_PRECEDENCE + 10)
+/** 보안/추적보다 먼저 수신, 비동기는 종료 콜백에서 정확히 한 번 기록한다. */
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AccessLogFilter extends OncePerRequestFilter {
-
+    public static final String TRACE_ATTRIBUTE = HeaderNames.HTTP_PAIR_TRACE_ATTR;
+    public static final String USER_ATTRIBUTE = HeaderNames.HTTP_PAIR_USER_ATTR;
+    private static final String STATE_ATTRIBUTE = AccessLogFilter.class.getName() + ".state";
     private final AccessLogger accessLogger;
     private final CommonLoggingProperties props;
-
     public AccessLogFilter(AccessLogger accessLogger, CommonLoggingProperties props) {
-        this.accessLogger = accessLogger;
-        this.props = props;
+        this.accessLogger = accessLogger; this.props = props;
     }
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    @Override protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                              FilterChain chain) throws ServletException, IOException {
         String path = request.getRequestURI();
-        if (isExcluded(path)) {
-            filterChain.doFilter(request, response);
-            return;
+        if (path.equals("/actuator") || path.startsWith("/actuator/") || request.getAttribute(STATE_ATTRIBUTE) != null) {
+            chain.doFilter(request, response); return;
         }
-
-        String method = request.getMethod();
-        String query = props.isIncludeQueryString() ? request.getQueryString() : null;
-        String clientIp = clientIp(request);
-        long startNanos = System.nanoTime();
-        accessLogger.requestReceived(method, path, query, clientIp);
-        try {
-            filterChain.doFilter(request, response);
-        } finally {
-            long durationNanos = System.nanoTime() - startNanos;
-            long durationMs = durationNanos / 1_000_000L;
-            long threshold = props.getSlowRequestThresholdMillis();
-            boolean slow = threshold > 0 && durationMs >= threshold;
-            accessLogger.requestCompleted(method, path, response.getStatus(), durationMs, durationNanos, clientIp, slow);
-        }
-    }
-
-    private boolean isExcluded(String path) {
-        for (String prefix : props.getExcludePathPrefixes()) {
-            if (path.startsWith(prefix)) {
-                return true;
+        String trace = request.getHeader(HeaderNames.TRACE_ID);
+        if (trace == null || trace.isBlank()) trace = IdGenerator.newTraceId();
+        request.setAttribute(TRACE_ATTRIBUTE, trace);
+        State state = new State(request, response, UUID.randomUUID().toString(), trace);
+        request.setAttribute(STATE_ATTRIBUTE, state);
+        response.setHeader(HeaderNames.TRACE_ID, trace);
+        accessLogger.httpPair("http.request.in", state.id, trace, request.getMethod(), path,
+                0, 0, "", null, false, props.isIncludeQueryString() ? request.getQueryString() : null);
+        HttpServletRequestWrapper wrapped = new HttpServletRequestWrapper(request) {
+            @Override public AsyncContext startAsync() { return attach(super.startAsync(this, response)); }
+            @Override public AsyncContext startAsync(ServletRequest req, ServletResponse res) { return attach(super.startAsync(req, res)); }
+            private AsyncContext attach(AsyncContext context) {
+                state.async = true; context.addListener(state); return context;
             }
-        }
-        return false;
+        };
+        try { chain.doFilter(wrapped, response); }
+        catch (IOException | ServletException | RuntimeException | Error ex) { state.failure = ex; throw ex; }
+        finally { if (!state.async) state.finish(null, 0); }
     }
-
-    /** 프록시 뒤를 고려해 X-Forwarded-For 첫 홉 우선, 없으면 원격 주소. */
-    private String clientIp(HttpServletRequest request) {
-        String forwarded = request.getHeader("X-Forwarded-For");
-        if (StringUtils.hasText(forwarded)) {
-            int comma = forwarded.indexOf(',');
-            return (comma > 0 ? forwarded.substring(0, comma) : forwarded).trim();
+    private final class State implements AsyncListener {
+        final HttpServletRequest request;
+        final HttpServletResponse response;
+        final String id, trace;
+        final long started = System.nanoTime();
+        final AtomicBoolean finished = new AtomicBoolean();
+        volatile boolean async;
+        volatile Throwable failure;
+        State(HttpServletRequest request, HttpServletResponse response, String id, String trace) {
+            this.request = request; this.response = response; this.id = id; this.trace = trace;
         }
-        return request.getRemoteAddr();
+        void finish(String error, int forcedStatus) {
+            if (!finished.compareAndSet(false, true)) return;
+            int status = response.getStatus();
+            if (error == null && failure != null) {
+                Throwable cause = failure;
+                while (cause.getCause() != null && cause.getCause() != cause) cause = cause.getCause();
+                boolean disconnect = cause instanceof IOException;
+                error = disconnect ? "CLIENT_DISCONNECT" : "UNHANDLED_EXCEPTION";
+                forcedStatus = disconnect ? 499 : 500;
+            }
+            if (forcedStatus != 0) status = forcedStatus;
+            if (error == null) error = status >= 400 ? "HTTP_" + status : "";
+            long nanos = System.nanoTime() - started;
+            boolean slow = props.getSlowRequestThresholdMillis() > 0 && nanos / 1_000_000 > props.getSlowRequestThresholdMillis();
+            accessLogger.httpPair("http.response.out", id, trace, request.getMethod(), request.getRequestURI(),
+                    status, nanos, error, (String) request.getAttribute(USER_ATTRIBUTE), slow, null);
+        }
+        @Override public void onComplete(AsyncEvent event) { finish(null, 0); }
+        @Override public void onTimeout(AsyncEvent event) { finish("ASYNC_TIMEOUT", 504); }
+        @Override public void onError(AsyncEvent event) { failure = event.getThrowable(); finish(null, 0); }
+        @Override public void onStartAsync(AsyncEvent event) { event.getAsyncContext().addListener(this); }
     }
 }

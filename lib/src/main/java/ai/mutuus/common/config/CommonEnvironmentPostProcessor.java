@@ -94,7 +94,21 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         // 로깅 시스템 초기화 이전 시점이므로 시스템 프로퍼티로 노출 → logback ${...} 에서 사용.
         System.setProperty("mutuus.appCode", appCode);
         System.setProperty("mutuus.instanceCode", instanceCode);
-        System.setProperty("mutuus.logFileBase", appCode + "-" + instanceCode);
+        String shortName = blankToNull(environment.getProperty("mutuus.common.service-short-name"));
+        if (shortName == null) shortName = "app";
+        if (!shortName.matches("app|member|bo|batch")) throw new IllegalStateException("service-short-name: app/member/bo/batch만 허용");
+        String fileEnvironment = environmentName.matches("local|dev|prod") ? environmentName : "local";
+        String serial = blankToNull(environment.getProperty("mutuus.common.logging.serial"));
+        if (serial == null) serial = blankToNull(environment.getProperty("GS_LOG_SERIAL"));
+        if (serial == null && !fileEnvironment.equals("local")) throw new IllegalStateException("DEV/PROD logging.serial owner 주입 필요");
+        if (serial == null) serial = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        if (!serial.matches("[0-9a-z]{8}")) throw new IllegalStateException("logging.serial: 소문자 영숫자 8자리 필요");
+        defaults.put("mutuus.common.service-short-name", shortName);
+        defaults.put("mutuus.common.logging.serial", serial);
+        String directory = blankToNull(environment.getProperty("mutuus.common.logging.directory"));
+        if (directory != null) System.setProperty("mutuus.logDirectory", directory);
+        else System.clearProperty("mutuus.logDirectory");
+        System.setProperty("mutuus.logFileBase", fileEnvironment + "-" + shortName + "-" + serial + "-" + ProcessHandle.current().pid());
         System.setProperty("SERVICE_NAME", serviceName);
         System.setProperty("mutuus.environment", environmentName);
         System.setProperty("mutuus.dataStreamNamespace", namespace);

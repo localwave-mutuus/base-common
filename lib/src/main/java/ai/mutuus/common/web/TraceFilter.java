@@ -22,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * {@link TraceContext} 및 SLF4J {@link MDC}에 적재한다. 추적ID가 없으면 신규 UUID를 생성한다.
  * 응답 헤더에 추적ID를 회신하고, 요청 종료 시 컨텍스트를 정리한다.
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class TraceFilter extends OncePerRequestFilter {
 
     private final String appCode;
@@ -45,7 +45,8 @@ public class TraceFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String traceId = StringUtils.defaultIfBlank(
-                    request.getHeader(HeaderNames.TRACE_ID), IdGenerator.newTraceId());
+                    (String) request.getAttribute(HeaderNames.HTTP_PAIR_TRACE_ATTR),
+                    StringUtils.defaultIfBlank(request.getHeader(HeaderNames.TRACE_ID), IdGenerator.newTraceId()));
             String spanId = IdGenerator.newSpanId();
 
             populate(HeaderNames.TRACE_ID, traceId);
@@ -83,6 +84,8 @@ public class TraceFilter extends OncePerRequestFilter {
             response.setHeader(HeaderNames.INSTANCE_ID, instanceCode);
             filterChain.doFilter(request, response);
         } finally {
+            String user = TraceContext.userId();
+            if (user != null) request.setAttribute(HeaderNames.HTTP_PAIR_USER_ATTR, user);
             MDC.clear();
             TraceContext.clear();
         }

@@ -103,6 +103,28 @@ public class AccessLogger {
         addUser(ev).log("API request completed");
     }
 
+    /** MDC 정리/스레드 전환 후에도 필수 짝 필드를 직접 남긴다. */
+    public void httpPair(String action, String requestId, String traceId, String method, String path,
+                         int status, long nanos, String errorCode, String user, boolean slow, String query) {
+        LoggingEventBuilder ev = status >= 500 || slow ? log.atWarn() : log.atInfo();
+        boolean error = !errorCode.isEmpty();
+        dataset(ev, EcsFields.DATASET_ACCESS)
+                .addKeyValue("event", action).addKeyValue(EcsFields.EVENT_ACTION, action)
+                .addKeyValue("requestId", requestId).addKeyValue(EcsFields.TRACE_ID, traceId)
+                .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, method).addKeyValue(EcsFields.URL_PATH, path)
+                .addKeyValue(EcsFields.HTTP_RESPONSE_STATUS_CODE, status)
+                .addKeyValue(EcsFields.EVENT_DURATION, nanos).addKeyValue("durationMs", nanos / 1_000_000)
+                .addKeyValue("status", status).addKeyValue("outcome", error ? "ERROR" : "OK")
+                .addKeyValue("errorCode", errorCode).addKeyValue(EcsFields.ERROR_CODE, errorCode)
+                .addKeyValue(EcsFields.EVENT_OUTCOME, error ? EcsFields.OUTCOME_FAILURE : EcsFields.OUTCOME_SUCCESS)
+                .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB).addKeyValue(EcsFields.EVENT_TYPE, TYPE_ACCESS);
+        if (format.legacy()) ev.addKeyValue("httpMethod", method).addKeyValue("httpPath", path).addKeyValue("httpStatus", status);
+        if (hasText(query)) ev.addKeyValue("httpQuery", query).addKeyValue(EcsFields.URL_QUERY, query);
+        if (hasText(user)) ev.addKeyValue("userId", user).addKeyValue(EcsFields.USER_ID, user);
+        if (slow) ev.addKeyValue("slow", true);
+        ev.log(action);
+    }
+
     /** 인증 실패(401) — 토큰 없음/만료/위조 등. */
     public void authFailure(String path, String reason) {
         LoggingEventBuilder ev = log.atWarn();

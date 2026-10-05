@@ -6,6 +6,8 @@ package ai.mutuus.common.core;
  * 인입 시점에 추출하여 MDC에 적재하고, 하위 API 호출 시 자동 부착한다.
  */
 public final class HeaderNames {
+    public static final String HTTP_PAIR_TRACE_ATTR = "ai.mutuus.common.httpPair.traceId";
+    public static final String HTTP_PAIR_USER_ATTR = "ai.mutuus.common.httpPair.userId";
 
     private HeaderNames() {
     }

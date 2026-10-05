@@ -221,3 +221,5 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - H2 제거/PostgreSQL-only 전환 컨텍스트: [260706.002](docs/260706.002.POSTGRES_ONLY_MIGRATION_CONTEXT.md)
 - 도메인(바우처·서비스교환) DDD: 전략 [260702.007](docs/260702.007.PLATFORM_DDD_STRATEGY.md) · 전술(voucher/ledger) [260702.008](docs/260702.008.VOUCHER_LEDGER_TACTICAL.md)
 - 관측/로깅: 로그 포맷 [260629.001](docs/260629.001.LOG_FORMAT.md) · 케이스 매트릭스 [260701.004](docs/260701.004.LOGGING_CASES.md) · 멱등성 [260702.003](docs/260702.003.IDEMPOTENCY.md)
+
+- [0.2.5 요청·작업 짝 및 닫힌 파일 정책](docs/261005.001.LOG_PAIR_FILES.md)

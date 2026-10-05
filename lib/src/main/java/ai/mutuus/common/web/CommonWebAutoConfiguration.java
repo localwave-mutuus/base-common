@@ -46,7 +46,8 @@ public class CommonWebAutoConfiguration {
             @Value("${mutuus.common.security.trust-forwarded-user:false}") boolean trustForwardedUser) {
         FilterRegistrationBean<TraceFilter> reg =
                 new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode, trustForwardedUser));
-        reg.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        reg.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+        reg.setAsyncSupported(true);
         reg.addUrlPatterns("/*");
         return reg;
     }

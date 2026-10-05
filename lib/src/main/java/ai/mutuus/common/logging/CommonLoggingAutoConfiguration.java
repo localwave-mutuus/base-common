@@ -24,6 +24,10 @@ public class CommonLoggingAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public JobPairLogger jobPairLogger() { return new JobPairLogger(); }
+
+    @Bean
+    @ConditionalOnMissingBean
     public AccessLogger accessLogger(CommonLoggingProperties props) {
         return new AccessLogger(props.getFormat());
     }
@@ -38,7 +42,8 @@ public class CommonLoggingAutoConfiguration {
                 AccessLogger accessLogger, CommonLoggingProperties props) {
             FilterRegistrationBean<AccessLogFilter> reg =
                     new FilterRegistrationBean<>(new AccessLogFilter(accessLogger, props));
-            reg.setOrder(Ordered.HIGHEST_PRECEDENCE + 10);   // TraceFilter 바로 뒤
+            reg.setOrder(Ordered.HIGHEST_PRECEDENCE); // 보안보다 먼저
+            reg.setAsyncSupported(true);
             reg.addUrlPatterns("/*");
             return reg;
         }

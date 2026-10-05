@@ -48,7 +48,7 @@ class AccessLogFilterTest {
         filter.doFilter(request, response, new MockFilterChain());
 
         List<String> events = events();
-        assertThat(events).containsExactly("request.received", "request.completed");
+        assertThat(events).containsExactly("http.request.in", "http.response.out");
         assertThat(kv(appender.list.get(1)))
                 .containsEntry("httpStatus", 200)
                 .containsKey("durationMs");
@@ -80,7 +80,7 @@ class AccessLogFilterTest {
             // 필터는 예외를 전파하되 finally 에서 completed 를 남겨야 한다
         }
 
-        assertThat(events()).containsExactly("request.received", "request.completed");
+        assertThat(events()).containsExactly("http.request.in", "http.response.out");
     }
 
     private List<String> events() {

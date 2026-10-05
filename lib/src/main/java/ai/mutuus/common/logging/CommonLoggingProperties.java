@@ -24,13 +24,23 @@ public class CommonLoggingProperties {
     /** 배포 환경(local/dev/stage/prod). ECS {@code service.environment}/{@code data_stream.namespace} 의 근거. */
     private String environment;
 
+    /** 실행 단위 번호: ECS task id 앞 8자 또는 VM instance id 끝 8자. LOCAL은 자동 생성. */
+    private String serial;
+    public String getSerial() { return serial; }
+    public void setSerial(String value) { serial = value; }
+
+    /** 컨테이너 /runtime/logs, VM /var/log/gs. 소유자가 배포 설정으로 지정한다. */
+    private String directory;
+    public String getDirectory() { return directory; }
+    public void setDirectory(String value) { directory = value; }
+
     /** data stream 관련 설정. */
     private DataStream dataStream = new DataStream();
 
     /** 요청 수신 로그에 쿼리스트링 포함 여부. */
     private boolean includeQueryString = true;
 
-    /** 로깅을 생략할 경로 접두사(노이즈 감소 — 헬스체크 등). */
+    /** 호환 속성. 0.2.5 HTTP 짝은 /actuator 및 /actuator/**만 제외하며 추가 제외는 적용하지 않는다. */
     private List<String> excludePathPrefixes = new ArrayList<>(List.of("/actuator"));
 
     /** 느린 요청 경고 임계값(ms). 0이면 비활성. 초과 시 request.completed 가 WARN 으로 기록된다. */

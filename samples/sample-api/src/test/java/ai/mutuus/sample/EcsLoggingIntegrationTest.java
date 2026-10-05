@@ -69,9 +69,9 @@ class EcsLoggingIntegrationTest {
                 .exchange((req, res) -> res.getStatusCode().value());
         assertThat(status).isEqualTo(200);
 
-        ILoggingEvent ev = accessEvent("request.completed");
+        ILoggingEvent ev = accessEvent("http.response.out");
         // ECS
-        assertThat(raw(ev, "event.action")).isEqualTo("request.completed");
+        assertThat(raw(ev, "event.action")).isEqualTo("http.response.out");
         assertThat(raw(ev, "event.dataset")).isEqualTo("mutuus.access");
         assertThat(raw(ev, "data_stream.dataset")).isEqualTo("mutuus.access");
         assertThat(raw(ev, "event.outcome")).isEqualTo("success");
@@ -80,7 +80,7 @@ class EcsLoggingIntegrationTest {
         assertThat(raw(ev, "event.duration")).isInstanceOf(Long.class);
         assertThat((Long) raw(ev, "event.duration")).isGreaterThan(0L);
         // legacy 병존(dual)
-        assertThat(raw(ev, "event")).isEqualTo("request.completed");
+        assertThat(raw(ev, "event")).isEqualTo("http.response.out");
         assertThat(raw(ev, "httpStatus")).isEqualTo(200);
     }
 

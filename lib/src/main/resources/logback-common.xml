@@ -8,7 +8,7 @@
       includeMdcKeyName 화이트리스트를 두지 않아 MDC 의 모든 키가 자동 포함된다(필터가 통제).
    2) customFields — 인스턴스 상수(ecs.version/service.*/data_stream.*)와 legacy(appCode/instanceCode).
 
-  파일 적재: <어플리케이션코드>-<인스턴스구분코드>.log (크기+일자 롤링, 롤아웃 시 .gz 압축=archive).
+  파일 적재: <env>-<app>-<serial>-<pid>.log (UTC 시간+100MB 롤링, 압축 close 후 원자 공개).
   코드/경로/환경은 CommonEnvironmentPostProcessor 가 구동 시 시스템 프로퍼티로 노출한다:
     mutuus.logFileBase, mutuus.appCode, mutuus.instanceCode, SERVICE_NAME, mutuus.environment, mutuus.dataStreamNamespace
   로그 디렉터리는 ${LOG_DIR:-logs} (소비 측이 LOG_DIR 로 override 가능).
@@ -17,8 +17,8 @@
   bare "service" 문자열 필드와 service.* 는 공존 불가 → service 는 ECS 중첩으로만 싣는다.
 -->
 <included>
-    <property name="LOG_DIR" value="${LOG_DIR:-logs}"/>
-    <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-APP0-INST000}"/>
+    <property name="LOG_DIR" value="${mutuus.logDirectory:-${LOG_DIR:-logs}}"/>
+    <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-local-app-00000000-0}"/>
     <!-- 모든 인코더가 공유하는 인스턴스 상수(ECS 중첩 + legacy). service.node.name 은 여기서 항상 싣는다. -->
     <property name="COMMON_FIELDS"
               value='{"ecs":{"version":"9.0.0"},"service":{"name":"${SERVICE_NAME:-unknown-service}","environment":"${mutuus.environment:-local}","node":{"name":"${mutuus.appCode:-APP0}-${mutuus.instanceCode:-INST000}"}},"data_stream":{"type":"logs","namespace":"${mutuus.dataStreamNamespace:-local}"},"appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}'/>
@@ -30,15 +30,13 @@
         </encoder>
     </appender>
 
-    <!-- JSON 롤링 파일(VM/로컬 2순위). 파일명 = <앱코드>-<인스턴스코드>.log, 크기+일자 롤링 -->
-    <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- JSON 롤링 파일(VM/로컬 2순위). 파일명 = <env>-<app>-<serial>-<pid>.log, 시간+크기 롤링 -->
+    <appender name="JSON_FILE" class="ai.mutuus.common.logging.ClosingRollingFileAppender">
         <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <rollingPolicy class="ai.mutuus.common.logging.ClosedFileRollingPolicy">
             <!-- active file 은 비압축(수집 대상), 롤아웃된 파일만 .gz(archive) -->
-            <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyyMMdd-HH}.%i.log.gz</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
-            <maxHistory>${mutuus.log.maxHistory:-30}</maxHistory>
-            <totalSizeCap>${mutuus.log.totalSizeCap:-3GB}</totalSizeCap>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>${COMMON_FIELDS}</customFields>
@@ -49,6 +47,8 @@
     <appender name="ASYNC_JSON_FILE" class="ch.qos.logback.classic.AsyncAppender">
         <queueSize>1024</queueSize>
         <discardingThreshold>0</discardingThreshold>
+        <neverBlock>false</neverBlock>
+        <maxFlushTime>0</maxFlushTime>
         <appender-ref ref="JSON_FILE"/>
     </appender>
 

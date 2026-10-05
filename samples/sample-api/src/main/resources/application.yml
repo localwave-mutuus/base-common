@@ -43,6 +43,7 @@ logging:
 mutuus:
   common:
     service-name: sample-api
+    service-short-name: app
     default-locale: ko-KR
     # 어플리케이션코드(숫자/영문 4자리). 인스턴스구분코드(6자리)는 미지정 → 구동 시 자동 생성.
     app-code: SMPL
@@ -55,6 +56,7 @@ mutuus:
         - /swagger-ui/**    # Swagger UI 정적 리소스
         - /swagger-ui.html
     logging:
+      directory: target/logs
       # 느린 요청 케이스가 잘 드러나도록 임계치를 낮춘다(기본 1000ms)
       slow-request-threshold-millis: 1000
       # 로그 뷰어(logs.html)가 1.5초마다 폴링하는 tail 경로는 로깅에서 제외(뷰어가 자기 폴링으로 도배 방지)

@@ -5,6 +5,5 @@
   제공한다. 로그 파일은 빌드 산출물 디렉터리(target/logs) 아래에 둬 워크스페이스를 더럽히지 않는다.
 -->
 <configuration>
-    <property name="LOG_DIR" value="target/logs"/>
     <include resource="logback-common.xml"/>
 </configuration>
