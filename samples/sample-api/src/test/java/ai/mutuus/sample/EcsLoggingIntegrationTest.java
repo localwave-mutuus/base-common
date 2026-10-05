@@ -49,7 +49,9 @@ class EcsLoggingIntegrationTest {
         accessLogger = (Logger) LoggerFactory.getLogger(AccessLogger.LOGGER_NAME);
         securityLogger = (Logger) LoggerFactory.getLogger(SecurityAuditLogger.LOGGER_NAME);
         accessAppender = new ListAppender<>();
+        accessAppender.list = new java.util.concurrent.CopyOnWriteArrayList<>();
         securityAppender = new ListAppender<>();
+        securityAppender.list = new java.util.concurrent.CopyOnWriteArrayList<>();
         accessAppender.start();
         securityAppender.start();
         accessLogger.addAppender(accessAppender);
@@ -130,6 +132,13 @@ class EcsLoggingIntegrationTest {
     }
 
     private static ILoggingEvent find(ListAppender<ILoggingEvent> appender, String action) {
+        // 실제 소켓 응답은 최외곽 필터의 finally 로그보다 먼저 클라이언트에 도착할 수 있다.
+        long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(5);
+        while (appender.list.stream().noneMatch(e -> action.equals(raw(e, "event.action")))
+                && System.nanoTime() < deadline) {
+            try { Thread.sleep(10); }
+            catch (InterruptedException ex) { Thread.currentThread().interrupt(); throw new AssertionError(ex); }
+        }
         Optional<ILoggingEvent> ev = appender.list.stream()
                 .filter(e -> action.equals(raw(e, "event.action")))
                 .findFirst();
