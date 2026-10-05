@@ -1,1 +1,50 @@
-<configuration><include resource="logback-common.xml"/></configuration>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 표준 견본: 각 프로젝트의 src/main/resources/logback-spring.xml로 복사해 소유한다.
+     수준/로거/콘솔/파일 구성을 변경할 때 변경 이유를 각 위치에 한 줄 주석으로 남긴다.
+     굴림 값은 application.yml mutuus.common.logging.file.* (env GS_LOG_* 우선).
+     active .log는 수집 금지; r5 closed .log.gz 이름과 짝 필드를 유지한다.
+     로컬 보관/삭제는 S3 업로드 성공을 확인한 수집기가 담당한다. 미전송 파일 자동 삭제 금지.
+     구성 예: docs/261005.003.LOG_FILE_POLICY.md (웹/비웹 동일 부품).
+-->
+<configuration>
+    <property name="LOG_DIR" value="${mutuus.logDirectory:-${LOG_DIR:-logs}}"/>
+    <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-local-app-00000000-0}"/>
+    <!-- 모든 인코더가 공유하는 인스턴스 상수(ECS 중첩 + legacy). service.node.name 은 여기서 항상 싣는다. -->
+    <property name="COMMON_FIELDS"
+              value='{"ecs":{"version":"9.0.0"},"service":{"name":"${SERVICE_NAME:-unknown-service}","environment":"${mutuus.environment:-local}","node":{"name":"${mutuus.appCode:-APP0}-${mutuus.instanceCode:-INST000}"}},"data_stream":{"type":"logs","namespace":"${mutuus.dataStreamNamespace:-local}"},"appCode":"${mutuus.appCode:-}","instanceCode":"${mutuus.instanceCode:-}"}'/>
+
+    <!-- JSON 콘솔(컨테이너 stdout 수집 1순위) -->
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>${COMMON_FIELDS}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- JSON 롤링 파일(VM/로컬 2순위). 파일명 = <env>-<app>-<serial>-<pid>.log, 시간+크기 롤링 -->
+    <appender name="JSON_FILE" class="ai.mutuus.common.logging.ClosingRollingFileAppender">
+        <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
+        <rollingPolicy class="ai.mutuus.common.logging.ClosedFileRollingPolicy">
+            <!-- active .log 수집 금지; close 후 공개한 .log.gz만 수집 -->
+            <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyyMMdd-HH}.%i.log.gz</fileNamePattern>
+            <rollInterval>${mutuus.logRollInterval:-${GS_LOG_ROLL_INTERVAL:-PT1H}}</rollInterval>
+            <maxFileSize>${mutuus.logMaxFileSize:-${GS_LOG_MAX_FILE_SIZE:-100MB}}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>${COMMON_FIELDS}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- 운영: 파일 적재를 비동기로 감싸 애플리케이션 스레드 블로킹을 줄인다. -->
+    <appender name="ASYNC_JSON_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>false</neverBlock>
+        <maxFlushTime>0</maxFlushTime>
+        <appender-ref ref="JSON_FILE"/>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON_CONSOLE"/>
+        <appender-ref ref="ASYNC_JSON_FILE"/>
+    </root>
+</configuration>

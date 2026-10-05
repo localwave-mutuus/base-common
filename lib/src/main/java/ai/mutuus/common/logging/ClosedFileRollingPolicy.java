@@ -11,7 +11,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
+import ai.mutuus.common.core.LogFilePolicy;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
@@ -24,11 +25,18 @@ import ch.qos.logback.core.util.FileSize;
 /** 닫힌 파일만 동기 압축하고 원자적으로 공개한다. 순번 장부는 수집·삭제 대상이 아니다. */
 public class ClosedFileRollingPolicy<E> extends RollingPolicyBase implements TriggeringPolicy<E> {
     private static final DateTimeFormatter HOUR = DateTimeFormatter.ofPattern("yyyyMMdd-HH").withZone(ZoneOffset.UTC);
-    private long maxFileSize = 100 * 1024 * 1024;
+    private long maxFileSize = LogFilePolicy.maxFileSize(LogFilePolicy.DEFAULT_MAX_FILE_SIZE);
+    private Duration rollInterval = LogFilePolicy.rollInterval(LogFilePolicy.DEFAULT_ROLL_INTERVAL);
     private Clock clock = Clock.systemUTC();
     private Instant period;
 
-    public void setMaxFileSize(FileSize value) { maxFileSize = value.getSize(); }
+    public void setMaxFileSize(FileSize value) {
+        if (value == null || value.getSize() <= 0) throw new IllegalArgumentException("max-file-size must be positive");
+        maxFileSize = value.getSize();
+    }
+    public void setRollInterval(String value) { rollInterval = LogFilePolicy.rollInterval(value); }
+    public Duration getRollInterval() { return rollInterval; }
+    public long getMaxFileSize() { return maxFileSize; }
     void setClock(Clock value) { clock = value; }
 
     @Override public void start() {
@@ -36,7 +44,8 @@ public class ClosedFileRollingPolicy<E> extends RollingPolicyBase implements Tri
         Path active = Path.of(getActiveFileName());
         try {
             period = (Files.exists(active) && Files.size(active) > 0
-                    ? Files.getLastModifiedTime(active).toInstant() : clock.instant()).truncatedTo(ChronoUnit.HOURS);
+                    ? Files.getLastModifiedTime(active).toInstant() : clock.instant());
+            period = LogFilePolicy.period(period, rollInterval);
             super.start();
         } catch (IOException ex) { addError("로그 굴림 초기화 실패", ex); }
     }
@@ -44,10 +53,13 @@ public class ClosedFileRollingPolicy<E> extends RollingPolicyBase implements Tri
     @Override public String getActiveFileName() { return getParentsRawFileProperty(); }
 
     @Override public boolean isTriggeringEvent(File active, E event) {
-        return !clock.instant().truncatedTo(ChronoUnit.HOURS).equals(period) || active.length() >= maxFileSize;
+        return !LogFilePolicy.period(clock.instant(), rollInterval).equals(period) || active.length() >= maxFileSize;
     }
 
     @Override public void rollover() throws RolloverFailure {
+        // AsyncAppender 정상 종료는 worker를 interrupt한 뒤 잔여 큐를 flush한다.
+        // 이미 전달된 중단 플래그로 FileChannel 잠금/순번 예약이 취소되지 않게 하고 종료 후 복원한다.
+        boolean interrupted = Thread.interrupted();
         Path active = Path.of(getActiveFileName());
         try {
             if (Files.exists(active) && Files.size(active) > 0) {
@@ -73,10 +85,12 @@ public class ClosedFileRollingPolicy<E> extends RollingPolicyBase implements Tri
                     publish(pending, closed);
                 }
             }
-            period = clock.instant().truncatedTo(ChronoUnit.HOURS);
+            period = LogFilePolicy.period(clock.instant(), rollInterval);
         } catch (IOException | RuntimeException ex) {
             addError("LOG_ARCHIVE_FAILED: pending/part 원본 보존; 수집 이름 미공개", ex);
             throw new RolloverFailure("닫힌 로그 공개 실패; 원본/부분 파일 보존", ex);
+        } finally {
+            if (interrupted) Thread.currentThread().interrupt();
         }
     }
 

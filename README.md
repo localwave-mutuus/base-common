@@ -225,3 +225,5 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - [0.2.5 요청·작업 짝 및 닫힌 파일 정책](docs/261005.001.LOG_PAIR_FILES.md)
 
 - [화면 메타데이터 공통화 후속](docs/261005.002.SCREEN_METADATA.md)
+
+- [0.2.6 프로젝트 소유 로그 템플릿과 파일 정책](docs/261005.003.LOG_FILE_POLICY.md)

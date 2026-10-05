@@ -13,6 +13,47 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ClosedFileRollingPolicyTest {
     @TempDir Path directory;
+    @Test void 종료_worker의_중단플래그를_보존하면서_마지막파일을_닫는다() throws Exception {
+        var context = new LoggerContext();
+        context.setMDCAdapter(new ch.qos.logback.classic.util.LogbackMDCAdapter()); context.start();
+        var policy = new ClosedFileRollingPolicy<ILoggingEvent>();
+        var file = appender(context, policy, "local-member-1234abcd-123"); file.start();
+        var logger = context.getLogger("shutdown-interrupt"); logger.addAppender(file); logger.info("last");
+        Thread.currentThread().interrupt();
+        try { file.stop(); assertThat(Thread.currentThread().isInterrupted()).isTrue(); }
+        finally { Thread.interrupted(); context.stop(); }
+        assertThat(closed()).hasSize(1);
+    }
+    @Test void 오분_구간_경계와_종료는_같은_HH에서_순번만_증가한다() throws Exception {
+        String base = "local-member-1234abcd-123";
+        LoggerContext context = new LoggerContext();
+        context.setMDCAdapter(new ch.qos.logback.classic.util.LogbackMDCAdapter());
+        context.start();
+        var policy = new ClosedFileRollingPolicy<ILoggingEvent>();
+        policy.setRollInterval("PT5M");
+        policy.setClock(Clock.fixed(Instant.parse("2026-10-05T10:04:59Z"), ZoneOffset.UTC));
+        var appender = appender(context, policy, base); appender.start();
+        Logger logger = context.getLogger("five-minute"); logger.addAppender(appender);
+        logger.info("before-five"); assertThat(closed()).isEmpty();
+        policy.setClock(Clock.fixed(Instant.parse("2026-10-05T10:05:00Z"), ZoneOffset.UTC));
+        logger.info("at-five"); assertThat(closed()).hasSize(1);
+        policy.setClock(Clock.fixed(Instant.parse("2026-10-05T10:09:59Z"), ZoneOffset.UTC));
+        logger.info("before-ten"); assertThat(closed()).hasSize(1);
+        policy.setClock(Clock.fixed(Instant.parse("2026-10-05T10:10:00Z"), ZoneOffset.UTC));
+        logger.info("at-ten"); assertThat(closed()).hasSize(2);
+        context.stop();
+        assertThat(closed().stream().map(p -> p.getFileName().toString())).containsExactlyInAnyOrder(
+                base + ".20261005-10.0.log.gz", base + ".20261005-10.1.log.gz", base + ".20261005-10.2.log.gz");
+        StringBuilder contents = new StringBuilder();
+        for (Path path : closed()) {
+            try (var gzip = new GZIPInputStream(Files.newInputStream(path))) {
+                contents.append(new String(gzip.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
+            }
+        }
+        assertThat(contents.toString()).containsOnlyOnce("before-five").containsOnlyOnce("at-five")
+                .containsOnlyOnce("before-ten").containsOnlyOnce("at-ten");
+        assertThat(Files.readString(directory.resolve(base + ".log"))).isEmpty();
+    }
     @Test void 크기_시간_종료_굴림은_닫힌_gzip만_공개하고_재시작도_이름을_재사용하지_않는다() throws Exception {
         String base = "local-member-1234abcd-123";
         LoggerContext context = new LoggerContext();

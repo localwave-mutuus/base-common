@@ -11,6 +11,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "mutuus.common.logging")
 public class CommonLoggingProperties {
+    /** 프로젝트별 파일 굴림 정책. 기동 전 EnvironmentPostProcessor가 검증한다. */
+    private File file = new File();
+    public File getFile() { return file; }
+    public void setFile(File value) { file = value; }
+
+    public static class File {
+        private String rollInterval = ai.mutuus.common.core.LogFilePolicy.DEFAULT_ROLL_INTERVAL;
+        private String maxFileSize = ai.mutuus.common.core.LogFilePolicy.DEFAULT_MAX_FILE_SIZE;
+        public String getRollInterval() { return rollInterval; }
+        public void setRollInterval(String value) { rollInterval = value; }
+        public String getMaxFileSize() { return maxFileSize; }
+        public void setMaxFileSize(String value) { maxFileSize = value; }
+    }
 
     /** 액세스 로깅 전체 활성화 여부. */
     private boolean enabled = true;

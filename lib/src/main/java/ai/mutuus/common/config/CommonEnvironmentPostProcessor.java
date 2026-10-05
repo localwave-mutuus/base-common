@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ai.mutuus.common.core.IdGenerator;
+import ai.mutuus.common.core.LogFilePolicy;
 import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;
@@ -41,6 +42,7 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         // 어플리케이션코드(4)/인스턴스구분코드(6) 해석: 미지정 시 도출/생성, 지정 시 포맷 검증.
         // 컨텍스트·로깅 초기화 이전에 확정해 시스템 프로퍼티로 노출(로그 파일명/필드에 사용).
         resolveCodes(environment, defaults);
+        resolveFilePolicy(environment);
 
         // addLast → 최저 우선순위 (애플리케이션 설정이 항상 우선)
         environment.getPropertySources().addLast(new MapPropertySource(SOURCE_NAME, defaults));
@@ -116,6 +118,26 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
 
     private static String blankToNull(String v) {
         return (v == null || v.isBlank()) ? null : v.trim();
+    }
+
+    private void resolveFilePolicy(ConfigurableEnvironment environment) {
+        String interval = fileValue(environment, "GS_LOG_ROLL_INTERVAL", "roll-interval",
+                environment.getProperty("mutuus.log.roll-interval", LogFilePolicy.DEFAULT_ROLL_INTERVAL));
+        String size = fileValue(environment, "GS_LOG_MAX_FILE_SIZE", "max-file-size", LogFilePolicy.DEFAULT_MAX_FILE_SIZE);
+        String normalizedInterval = LogFilePolicy.rollInterval(interval).toString();
+        long bytes = LogFilePolicy.maxFileSize(size);
+        // env가 프로젝트 YAML보다 우선하며 바인딩과 Logback도 같은 확정값을 사용한다.
+        environment.getPropertySources().addFirst(new MapPropertySource("mutuusLogFilePolicy", Map.of(
+                "mutuus.common.logging.file.roll-interval", normalizedInterval,
+                "mutuus.common.logging.file.max-file-size", bytes + "B")));
+        System.setProperty("mutuus.logRollInterval", normalizedInterval);
+        System.setProperty("mutuus.logMaxFileSize", bytes + "");
+    }
+
+    private String fileValue(ConfigurableEnvironment environment, String env, String key, String fallback) {
+        String override = environment.getProperty(env);
+        if (override != null) return override;
+        return environment.getProperty("mutuus.common.logging.file." + key, fallback);
     }
 
     @Override

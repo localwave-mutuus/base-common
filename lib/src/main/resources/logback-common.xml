@@ -34,9 +34,10 @@
     <appender name="JSON_FILE" class="ai.mutuus.common.logging.ClosingRollingFileAppender">
         <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
         <rollingPolicy class="ai.mutuus.common.logging.ClosedFileRollingPolicy">
-            <!-- active file 은 비압축(수집 대상), 롤아웃된 파일만 .gz(archive) -->
+            <!-- active .log 수집 금지; close 후 공개한 .log.gz만 수집 -->
             <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyyMMdd-HH}.%i.log.gz</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
+            <rollInterval>${mutuus.logRollInterval:-${GS_LOG_ROLL_INTERVAL:-PT1H}}</rollInterval>
+            <maxFileSize>${mutuus.logMaxFileSize:-${GS_LOG_MAX_FILE_SIZE:-100MB}}</maxFileSize>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>${COMMON_FIELDS}</customFields>
