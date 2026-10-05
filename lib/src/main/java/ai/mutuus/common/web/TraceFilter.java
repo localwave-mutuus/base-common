@@ -58,6 +58,7 @@ public class TraceFilter extends OncePerRequestFilter {
             MDC.put(EcsFields.TRANSACTION_ID, IdGenerator.newTransactionId());
             // service.node.name 은 인스턴스 상수라 logback customFields 로 항상 싣는다(startup 로그 포함).
             populate(HeaderNames.SCREEN_ID, request.getHeader(HeaderNames.SCREEN_ID));
+            ai.mutuus.common.core.ScreenMetadata.fromHeaders(request::getHeader).forEach(this::populate);
             populate(HeaderNames.EVENT_ID, request.getHeader(HeaderNames.EVENT_ID));
             populate(HeaderNames.DEVICE_LEVEL, request.getHeader(HeaderNames.DEVICE_LEVEL));
             populate(HeaderNames.DEVICE_ID, request.getHeader(HeaderNames.DEVICE_ID));

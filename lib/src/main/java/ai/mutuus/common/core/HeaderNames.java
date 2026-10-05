@@ -21,6 +21,10 @@ public final class HeaderNames {
     /** 화면 ID — 메뉴 구조 및 화면 식별. */
     public static final String SCREEN_ID = "X-Screen-Id";
 
+    public static final String SCREEN_CATALOG_VERSION = "X-Screen-Catalog-Version";
+    public static final String BUSINESS_SCREEN_NO = "X-Business-Screen-No";
+    public static final String INTERNAL_SCREEN_ID = "X-Internal-Screen-Id";
+
     /** 이벤트 ID — 화면 내 이벤트 발생 버튼/액션 식별. */
     public static final String EVENT_ID = "X-Event-Id";
 

@@ -33,7 +33,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
         request.setAttribute(STATE_ATTRIBUTE, state);
         response.setHeader(HeaderNames.TRACE_ID, trace);
         accessLogger.httpPair("http.request.in", state.id, trace, request.getMethod(), path,
-                0, 0, "", null, false, props.isIncludeQueryString() ? request.getQueryString() : null);
+                0, 0, "", null, false, props.isIncludeQueryString() ? request.getQueryString() : null, state.screen);
         HttpServletRequestWrapper wrapped = new HttpServletRequestWrapper(request) {
             @Override public AsyncContext startAsync() { return attach(super.startAsync(this, response)); }
             @Override public AsyncContext startAsync(ServletRequest req, ServletResponse res) { return attach(super.startAsync(req, res)); }
@@ -49,12 +49,14 @@ public class AccessLogFilter extends OncePerRequestFilter {
         final HttpServletRequest request;
         final HttpServletResponse response;
         final String id, trace;
+        final java.util.Map<String, String> screen;
         final long started = System.nanoTime();
         final AtomicBoolean finished = new AtomicBoolean();
         volatile boolean async;
         volatile Throwable failure;
         State(HttpServletRequest request, HttpServletResponse response, String id, String trace) {
             this.request = request; this.response = response; this.id = id; this.trace = trace;
+            this.screen = ai.mutuus.common.core.ScreenMetadata.fromHeaders(request::getHeader);
         }
         void finish(String error, int forcedStatus) {
             if (!finished.compareAndSet(false, true)) return;
@@ -71,7 +73,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
             long nanos = System.nanoTime() - started;
             boolean slow = props.getSlowRequestThresholdMillis() > 0 && nanos / 1_000_000 > props.getSlowRequestThresholdMillis();
             accessLogger.httpPair("http.response.out", id, trace, request.getMethod(), request.getRequestURI(),
-                    status, nanos, error, (String) request.getAttribute(USER_ATTRIBUTE), slow, null);
+                    status, nanos, error, (String) request.getAttribute(USER_ATTRIBUTE), slow, null, screen);
         }
         @Override public void onComplete(AsyncEvent event) { finish(null, 0); }
         @Override public void onTimeout(AsyncEvent event) { finish("ASYNC_TIMEOUT", 504); }

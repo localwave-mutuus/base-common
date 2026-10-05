@@ -106,6 +106,12 @@ public class AccessLogger {
     /** MDC 정리/스레드 전환 후에도 필수 짝 필드를 직접 남긴다. */
     public void httpPair(String action, String requestId, String traceId, String method, String path,
                          int status, long nanos, String errorCode, String user, boolean slow, String query) {
+        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query, java.util.Map.of());
+    }
+
+    public void httpPair(String action, String requestId, String traceId, String method, String path,
+                         int status, long nanos, String errorCode, String user, boolean slow, String query,
+                         java.util.Map<String, String> screen) {
         LoggingEventBuilder ev = status >= 500 || slow ? log.atWarn() : log.atInfo();
         boolean error = !errorCode.isEmpty();
         dataset(ev, EcsFields.DATASET_ACCESS)
@@ -122,6 +128,7 @@ public class AccessLogger {
         if (hasText(query)) ev.addKeyValue("httpQuery", query).addKeyValue(EcsFields.URL_QUERY, query);
         if (hasText(user)) ev.addKeyValue("userId", user).addKeyValue(EcsFields.USER_ID, user);
         if (slow) ev.addKeyValue("slow", true);
+        screen.forEach(ev::addKeyValue);
         ev.log(action);
     }
 

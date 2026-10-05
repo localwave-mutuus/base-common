@@ -223,3 +223,5 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - 관측/로깅: 로그 포맷 [260629.001](docs/260629.001.LOG_FORMAT.md) · 케이스 매트릭스 [260701.004](docs/260701.004.LOGGING_CASES.md) · 멱등성 [260702.003](docs/260702.003.IDEMPOTENCY.md)
 
 - [0.2.5 요청·작업 짝 및 닫힌 파일 정책](docs/261005.001.LOG_PAIR_FILES.md)
+
+- [화면 메타데이터 공통화 후속](docs/261005.002.SCREEN_METADATA.md)
