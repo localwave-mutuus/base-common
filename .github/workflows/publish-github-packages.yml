@@ -7,9 +7,16 @@ on:
   workflow_dispatch:
     inputs:
       verify_published_only:
-        description: '이미 게시된 0.2.5의 실패 소비 시험만 재확인(재게시 안 함)'
+        description: '이미 게시된 패키지의 지정 영향 시험만 확인(재게시 안 함)'
         type: boolean
         default: false
+      verification_scope:
+        description: 'consumer-only 영향 시험 범위'
+        type: choice
+        options:
+          - ecs-response
+          - redis
+        default: ecs-response
 
 permissions:
   contents: read
@@ -54,7 +61,7 @@ jobs:
             -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" clean test
 
       - name: Recheck failed published response event assertion
-        if: ${{ inputs.verify_published_only == true }}
+        if: ${{ inputs.verify_published_only == true && inputs.verification_scope != 'redis' }}
         env:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -62,3 +69,21 @@ jobs:
           bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer
           -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer"
           '-Dtest=EcsLoggingIntegrationTest#access_completed*' clean test
+
+      - name: Verify Redis cache and session lifecycle once against published artifacts
+        if: ${{ inputs.verify_published_only == true && inputs.verification_scope == 'redis' }}
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
+            -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" \
+            '-Dtest=RedisCacheIntegrationTest,RedisSessionIntegrationTest' clean test
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          for name in ("RedisCacheIntegrationTest", "RedisSessionIntegrationTest"):
+              report = ET.parse(Path("samples/sample-api/target/surefire-reports") / f"TEST-ai.mutuus.sample.{name}.xml").getroot()
+              assert int(report.get("tests", 0)) == 1, name
+              assert all(int(report.get(k, 0)) == 0 for k in ("skipped", "errors", "failures")), name
+          PY

@@ -18,7 +18,6 @@ import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -35,11 +34,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(properties = "mutuus.common.session.namespace=demo:session")
 @Import(RedisSessionIntegrationTest.TestSecurityConfig.class)
 class RedisSessionIntegrationTest {
-
-    @Container
-    @ServiceConnection("redis")
-    static final GenericContainer<?> REDIS =
-            new GenericContainer<>(DockerImageName.parse("redis:7-alpine")).withExposedPorts(6379);
 
     @Autowired
     @SuppressWarnings("rawtypes")
@@ -65,6 +59,13 @@ class RedisSessionIntegrationTest {
 
     @TestConfiguration
     static class TestSecurityConfig {
+        // Spring context의 Redis 연결보다 컨테이너가 먼저 종료되는 생명주기 불일치를 방지한다.
+        @Bean
+        @ServiceConnection("redis")
+        GenericContainer<?> redis() {
+            return new GenericContainer<>(DockerImageName.parse("redis:7-alpine")).withExposedPorts(6379);
+        }
+
         @Bean
         JwtDecoder jwtDecoder() {
             return token -> {
