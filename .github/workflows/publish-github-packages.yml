@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      verify_published_only:
+        description: '이미 게시된 0.2.5의 실패 소비 시험만 재확인(재게시 안 함)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -28,15 +33,18 @@ jobs:
           server-password: MAVEN_PASSWORD
 
       - name: Verify the reactor before publication
+        if: ${{ inputs.verify_published_only != true }}
         run: bash ./mvnw -B clean verify
 
       - name: Publish verified reactor artifacts
+        if: ${{ inputs.verify_published_only != true }}
         run: bash ./mvnw -B -Pgithub -DskipTests deploy
         env:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify sample-api consumes the published package
+        if: ${{ inputs.verify_published_only != true }}
         env:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -44,3 +52,13 @@ jobs:
           rm -rf "$RUNNER_TEMP/m2-consumer"
           bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
             -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" clean test
+
+      - name: Recheck failed published response event assertion
+        if: ${{ inputs.verify_published_only == true }}
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer
+          -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer"
+          '-Dtest=EcsLoggingIntegrationTest#access_completed*' clean test
