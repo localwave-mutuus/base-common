@@ -1,6 +1,7 @@
 package ai.mutuus.sample;
 
 import java.time.Instant;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 /**
  * 소비 서비스가 캐시 스타터+Redis 를 얹고 {@code mutuus.common.cache.enabled=true} 로 켜면, 라이브러리
@@ -65,8 +67,11 @@ class RedisCacheIntegrationTest {
         String key = "itest-key-" + UUID.randomUUID();
         String redisKey = "itest:cache:demo::" + key;
         Map<String, Object> first = cacheDemoService.compute(key);
+        // Spring Data Redis 4.x/Lettuce의 기본 put은 비동기다. 첫 쓰기 완료만 기다리며
+        // compute를 재호출해 MISS를 덮지 않는다. 미저장/쓰기 실패는 제한 시간 후 FAIL이다.
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() ->
+                assertThat(cache.get(key, Map.class)).as("첫 비동기 쓰기의 Redis 저장 완료").isEqualTo(first));
         Map<String, Object> second = cacheDemoService.compute(key); // 캐시 히트 → 재계산 없음
-        // 두 compute 사이에 Redis 진단을 끼우지 않아 즉시 HIT 검증을 지연시키지 않는다.
         assertThat(second).isEqualTo(first);
         assertThat(redisTemplate.hasKey(redisKey)).as("첫 호출이 정확한 프리픽스 키에 저장됨").isTrue();
         assertThat(redisTemplate.getExpire(redisKey)).as("첫 저장 TTL이 양수").isPositive();
