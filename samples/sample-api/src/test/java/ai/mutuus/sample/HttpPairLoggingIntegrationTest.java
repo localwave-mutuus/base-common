@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = {"spring.config.name=pair-test", "spring.application.name=pair-test",
         "mutuus.common.service-short-name=app", "mutuus.common.logging.environment=local",
-        "mutuus.common.session.enabled=false", "spring.main.banner-mode=off"})
+        "mutuus.common.session.enabled=false", "spring.main.banner-mode=off", "wave18.pair-test=true"})
 class HttpPairLoggingIntegrationTest {
     @LocalServerPort int port;
     static final CountDownLatch entered = new CountDownLatch(1), disconnected = new CountDownLatch(1);
@@ -89,6 +89,7 @@ class HttpPairLoggingIntegrationTest {
         return event.getKeyValuePairs().stream().filter(p -> p.key.equals(key)).map(p -> p.value).findFirst().orElse(null);
     }
     @Configuration(proxyBeanMethods = false)
+    @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name = "wave18.pair-test", havingValue = "true")
     @EnableAutoConfiguration(excludeName = {"org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
         "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration",
         "ai.mutuus.common.persistence.JpaAuditingAutoConfiguration",
