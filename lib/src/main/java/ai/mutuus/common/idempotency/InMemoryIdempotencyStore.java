@@ -62,4 +62,11 @@ public class InMemoryIdempotencyStore implements IdempotencyStore {
     public void remove(String key) {
         map.remove(key);
     }
+
+    @Override
+    public boolean removeIfCompleted(String key, IdempotencyRecord expected) {
+        Entry observed = map.get(key);
+        return expected != null && expected.completed() && observed != null
+                && observed.record() == expected && map.remove(key, observed);
+    }
 }

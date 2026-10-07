@@ -29,4 +29,12 @@ public interface IdempotencyStore {
     /** Remove a reserved or completed record. Default no-op keeps existing custom implementations compatible. */
     default void remove(String key) {
     }
+
+    /**
+     * 관측한 완료 응답만 원자적으로 삭제한다. 기존 transient 캐시의 재시도용 CAS이며,
+     * 새 예약/다른 완료 응답을 지우면 안 된다. 미지원 구현은 fail-closed로 false를 반환한다.
+     */
+    default boolean removeIfCompleted(String key, IdempotencyRecord expected) {
+        return false;
+    }
 }

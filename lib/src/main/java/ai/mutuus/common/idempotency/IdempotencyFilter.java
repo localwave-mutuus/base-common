@@ -50,31 +50,37 @@ public class IdempotencyFilter extends OncePerRequestFilter {
         }
 
         String fingerprint = fingerprint(request);
-        IdempotencyRecord existing = store.find(key);
-        if (existing != null) {
-            if (fingerprintMismatch(existing, fingerprint)) {
-                conflict(response, "fingerprint-mismatch");
-                return;
+        boolean reserved = false;
+        // legacy transient 응답의 CAS 삭제 및 예약 경쟁을 유한 횟수만 재확인한다.
+        for (int attempt = 0; attempt < 3; attempt++) {
+            IdempotencyRecord existing = store.find(key);
+            if (existing != null) {
+                if (fingerprintMismatch(existing, fingerprint)) {
+                    conflict(response, "fingerprint-mismatch");
+                    return;
+                }
+                if (!existing.completed()) {
+                    conflict(response, "in-progress");
+                    return;
+                }
+                if (!transientFailure(existing.status())) {
+                    replay(response, existing);
+                    return;
+                }
+                // 무조건 remove는 다른 retry의 in-progress 예약을 지울 수 있으므로 금지한다.
+                if (!store.removeIfCompleted(key, existing)) {
+                    conflict(response, "transient-release-unconfirmed");
+                    return;
+                }
+                continue;
             }
-            if (existing.completed()) {
-                replay(response, existing);       // 첫 응답 재방
-            } else {
-                conflict(response, "in-progress");               // 처리 중 중복
+            if (store.reserve(key, props.getTtl(), fingerprint)) {
+                reserved = true;
+                break;
             }
-            return;
         }
-        // in-progress 마커 원자적 등록. 실패(경쟁)면 재확인.
-        if (!store.reserve(key, props.getTtl(), fingerprint)) {
-            IdempotencyRecord r = store.find(key);
-            if (r != null && fingerprintMismatch(r, fingerprint)) {
-                conflict(response, "fingerprint-mismatch");
-                return;
-            }
-            if (r != null && r.completed()) {
-                replay(response, r);
-            } else {
-                conflict(response, "in-progress");
-            }
+        if (!reserved) {
+            conflict(response, "in-progress");
             return;
         }
 
@@ -82,8 +88,13 @@ public class IdempotencyFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper cached = new ContentCachingResponseWrapper(response);
         try {
             filterChain.doFilter(request, cached);
-            store.complete(key, IdempotencyRecord.completed(
-                    fingerprint, cached.getStatus(), cached.getContentType(), cached.getContentAsByteArray()), props.getTtl());
+            if (transientFailure(cached.getStatus())) {
+                // 확인된 HTTP 일시 실패를 완료 응답으로 고착시키지 않는다. 같은 키 재시도 허용.
+                store.remove(key);
+            } else {
+                store.complete(key, IdempotencyRecord.completed(
+                        fingerprint, cached.getStatus(), cached.getContentType(), cached.getContentAsByteArray()), props.getTtl());
+            }
             cached.copyBodyToResponse();
         } catch (ServletException | IOException | RuntimeException | Error ex) {
             store.remove(key);
@@ -112,6 +123,10 @@ public class IdempotencyFilter extends OncePerRequestFilter {
 
     private boolean fingerprintMismatch(IdempotencyRecord record, String fingerprint) {
         return record.fingerprint() != null && !record.fingerprint().equals(fingerprint);
+    }
+
+    private static boolean transientFailure(int status) {
+        return status >= 500 && status <= 599 || status == 408 || status == 429;
     }
 
     private String fingerprint(HttpServletRequest request) {
