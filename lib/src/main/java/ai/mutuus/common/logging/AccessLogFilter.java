@@ -4,6 +4,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.IdGenerator;
+import ai.mutuus.common.core.RequestIds;
+import ai.mutuus.common.core.TraceContext;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.springframework.core.Ordered;
@@ -31,6 +33,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
         request.setAttribute(TRACE_ATTRIBUTE, trace);
         State state = new State(request, response, UUID.randomUUID().toString(), trace);
         request.setAttribute(STATE_ATTRIBUTE, state);
+        request.setAttribute(RequestIds.HTTP_ATTRIBUTE, state.id);
         response.setHeader(HeaderNames.TRACE_ID, trace);
         accessLogger.httpPair("http.request.in", state.id, trace, request.getMethod(), path,
                 0, 0, "", null, false, props.isIncludeQueryString() ? request.getQueryString() : null, state.screen);
@@ -41,9 +44,15 @@ public class AccessLogFilter extends OncePerRequestFilter {
                 state.async = true; context.addListener(state); return context;
             }
         };
+        String previousRequestId = RequestIds.current();
+        TraceContext.put(RequestIds.CONTEXT_KEY, state.id);
         try { chain.doFilter(wrapped, response); }
         catch (IOException | ServletException | RuntimeException | Error ex) { state.failure = ex; throw ex; }
-        finally { if (!state.async) state.finish(null, 0); }
+        finally {
+            if (!state.async) state.finish(null, 0);
+            TraceContext.remove(RequestIds.CONTEXT_KEY);
+            TraceContext.put(RequestIds.CONTEXT_KEY, previousRequestId);
+        }
     }
     private final class State implements AsyncListener {
         final HttpServletRequest request;

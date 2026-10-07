@@ -7,6 +7,7 @@ import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.IdGenerator;
 import ai.mutuus.common.core.StringUtils;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.core.RequestIds;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +51,7 @@ public class TraceFilter extends OncePerRequestFilter {
             String spanId = IdGenerator.newSpanId();
 
             populate(HeaderNames.TRACE_ID, traceId);
+            populate(RequestIds.CONTEXT_KEY, (String) request.getAttribute(RequestIds.HTTP_ATTRIBUTE));
             populate(HeaderNames.SPAN_ID, spanId);
             // ECS MDC alias(스칼라 keyword) — 로깅 렌더 전용. 전파/헤더는 위 X-* 유지.
             // transaction.id 는 이 요청 1건 식별(요청당 1회, span 과 구분). MDC 는 finally 의 clear 로 정리.

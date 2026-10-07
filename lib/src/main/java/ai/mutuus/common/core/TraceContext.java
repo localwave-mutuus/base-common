@@ -28,6 +28,10 @@ public final class TraceContext {
         return Optional.ofNullable(HOLDER.get().get(key));
     }
 
+    public static void remove(String key) {
+        HOLDER.get().remove(key);
+    }
+
     public static Map<String, String> snapshot() {
         return Map.copyOf(HOLDER.get());
     }
