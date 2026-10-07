@@ -25,7 +25,7 @@ class ActionLoggingNonWebTest {
                     .run(context -> {
                         assertThat(context).hasSingleBean(ActionLogger.class).doesNotHaveBean("actionCompletionHandler");
                         context.getBean(ActionLogger.class).record(new ActionRecord("batch.reconcile", ActionRecord.Outcome.FAILURE,
-                                "OWNER_FAILED", "invocation-1", "run-1", null, List.of("member-1"), "invocation-trace"));
+                                "OWNER_FAILED", "invocation-1", "run-1", null, List.of("member-1"), "bb6a90ed-22cf-4311-a980-2c27e13d05af"));
                     });
             assertThat(captured.list).hasSize(1);
             assertThat(captured.list.getFirst().getKeyValuePairs()).anyMatch(p -> p.key.equals("actorId") && p.value == null)

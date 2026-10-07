@@ -1,7 +1,7 @@
 package ai.mutuus.common.logging;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.ArrayList;
 import ai.mutuus.common.core.RequestIds;
 import ai.mutuus.common.core.TraceContext;
 
@@ -12,23 +12,19 @@ public record ActionRecord(String action, Outcome outcome, String errorCode, Str
     public enum Outcome { SUCCESS, FAILURE }
 
     public ActionRecord {
-        if (action == null || !action.matches("[a-z][a-z0-9]*(?:[._-][a-z0-9]+){1,15}") || action.length() > 128)
-            throw new IllegalArgumentException("fixed action code required");
-        Objects.requireNonNull(outcome, "outcome required");
-        if (outcome == Outcome.SUCCESS && errorCode != null)
-            throw new IllegalArgumentException("SUCCESS errorCode must be null");
-        if (outcome == Outcome.FAILURE && (errorCode == null || !errorCode.matches("[A-Z][A-Z0-9_]{0,79}")))
-            throw new IllegalArgumentException("fixed FAILURE errorCode required");
-        checkId(requestId); checkId(operationId); checkId(actorId); checkId(traceId);
-        relatedMemberIds = List.copyOf(Objects.requireNonNull(relatedMemberIds, "relatedMemberIds required"));
-        relatedMemberIds.forEach(ActionRecord::checkRequiredId);
+        requestId = safeId(requestId); operationId = safeId(operationId); actorId = safeId(actorId);
+        traceId = safeTraceId(traceId);
+        relatedMemberIds = safeMembers(relatedMemberIds);
     }
 
     /** 호출 스레드의 requestId/traceId를 캡처한다. actorId는 owner가 검증한 memberId만 전달한다. */
     public static ActionRecord capture(String action, Outcome outcome, String errorCode,
                                        String operationId, String actorId, List<String> relatedMemberIds) {
-        return new ActionRecord(action, outcome, errorCode, RequestIds.current(), operationId,
-                actorId, relatedMemberIds, TraceContext.traceId());
+        String requestId = null, traceId = null;
+        try { requestId = RequestIds.current(); traceId = TraceContext.traceId(); }
+        catch (Throwable ignored) { /* 로깅 컨텍스트 실패는 업무에 전파하지 않는다. */ }
+        return new ActionRecord(action, outcome, errorCode, requestId, operationId,
+                actorId, relatedMemberIds, traceId);
     }
 
     ActionRecord rolledBack() {
@@ -36,12 +32,28 @@ public record ActionRecord(String action, Outcome outcome, String errorCode, Str
                 "TRANSACTION_ROLLED_BACK", requestId, operationId, actorId, relatedMemberIds, traceId);
     }
 
-    private static void checkRequiredId(String id) {
-        Objects.requireNonNull(id, "memberId required"); checkId(id);
+    boolean validForLogging() {
+        return action != null && action.length() <= 128 && action.matches("[a-z][a-z0-9]*(?:[._-][a-z0-9]+){1,15}")
+                && outcome != null && (outcome == Outcome.SUCCESS ? errorCode == null
+                : errorCode != null && errorCode.length() <= 80 && errorCode.matches("[A-Z][A-Z0-9_]{0,79}"));
     }
 
-    private static void checkId(String id) {
-        if (id != null && !id.matches("[A-Za-z0-9][A-Za-z0-9._:-]{0,127}"))
-            throw new IllegalArgumentException("opaque identifier required");
+    static String safeId(String id) {
+        return id != null && id.length() <= 128 && id.matches("[A-Za-z0-9][A-Za-z0-9._:-]{0,127}") ? id : null;
+    }
+
+    /** common 32 hex 또는 batch UUID 형식만 허용한다. 불신 헤더 원문은 버린다. */
+    static String safeTraceId(String id) {
+        return id != null && (id.length() == 32 && id.matches("[a-fA-F0-9]{32}")
+                || id.length() == 36 && id.matches("[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")) ? id : null;
+    }
+
+    private static List<String> safeMembers(List<String> members) {
+        if (members == null) return List.of();
+        try {
+            var safe = new ArrayList<String>();
+            for (String id : members) if (safeId(id) != null) safe.add(id);
+            return List.copyOf(safe);
+        } catch (Throwable ignored) { return List.of(); }
     }
 }

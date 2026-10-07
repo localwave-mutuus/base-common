@@ -113,7 +113,7 @@ class ActionLoggerTest {
 
     @Test void async_snapshot_ids_and_related_members_remain_structured_json_array() throws Exception {
         TraceContext.put(RequestIds.CONTEXT_KEY, "request-original");
-        TraceContext.put(HeaderNames.TRACE_ID, "trace-original");
+        TraceContext.put(HeaderNames.TRACE_ID, "d6b0cb92b6c64b73b5c3a301e2098fea");
         var members = new ArrayList<>(List.of("member-2", "member-3"));
         var snapshot = new ActionRecord("member.signup", ActionRecord.Outcome.SUCCESS, null, RequestIds.current(),
                 "operation-1", "member-1", members, TraceContext.traceId());
@@ -121,7 +121,7 @@ class ActionLoggerTest {
         members.clear(); TraceContext.clear();
         try (var executor = Executors.newSingleThreadExecutor()) { executor.submit(() -> bound.record(snapshot)).get(); }
         assertThat(field(0, "requestId")).isEqualTo("request-original");
-        assertThat(field(0, "trace.id")).isEqualTo("trace-original");
+        assertThat(field(0, "trace.id")).isEqualTo("d6b0cb92b6c64b73b5c3a301e2098fea");
         var encoder = new LogstashEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
         try {
             var json = JsonMapper.builder().build().readTree(new String(encoder.encode(captured.list.getFirst()), StandardCharsets.UTF_8));
@@ -133,7 +133,7 @@ class ActionLoggerTest {
             assertThat(json.get("errorCode")).isNull();
             assertThat(json.has("@timestamp")).isTrue();
         } finally { encoder.stop(); }
-        assertThatThrownBy(() -> bound.record(snapshot)).isInstanceOf(IllegalStateException.class);
+        assertThatCode(() -> bound.record(snapshot)).doesNotThrowAnyException();
     }
 
     @Test void propagation_and_autoconfiguration_reuse_context_without_inferring_actor() throws Exception {
