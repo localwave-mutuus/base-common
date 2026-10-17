@@ -18,6 +18,7 @@ public final class EcsFields {
     // --- MDC alias (스칼라 keyword) ---
     public static final String TRACE_ID = "trace.id";
     public static final String SPAN_ID = "span.id";
+    public static final String PARENT_ID = "parent.id";
     public static final String TRANSACTION_ID = "transaction.id";
     public static final String USER_ID = "user.id";
     public static final String SERVICE_NODE_NAME = "service.node.name";

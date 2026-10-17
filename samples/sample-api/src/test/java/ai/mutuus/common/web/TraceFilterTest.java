@@ -2,6 +2,7 @@ package ai.mutuus.common.web;
 
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.core.TraceHeaders;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -17,6 +18,37 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TraceFilterTest {
 
     private final TraceFilter filter = new TraceFilter("TEST", "INST01");
+
+    @Test
+    void 상위_span과_W3C_trace를_수용하고_새_로컬_span을_기록한다() throws Exception {
+        var request = new MockHttpServletRequest();
+        request.addHeader("traceparent", "00-1234567890abcdef1234567890abcdef-1234567890abcdef-00");
+        var response = new MockHttpServletResponse();
+        filter.doFilter(request, response, (req, res) -> {
+            assertThat(MDC.get("trace.id")).isEqualTo("1234567890abcdef1234567890abcdef");
+            assertThat(MDC.get("parent.id")).isEqualTo("1234567890abcdef");
+            assertThat(MDC.get("span.id")).isEqualTo(TraceContext.get(HeaderNames.SPAN_ID).orElseThrow())
+                    .hasSize(16).isNotEqualTo("1234567890abcdef");
+            assertThat(TraceHeaders.outbound(true).get("traceparent")).endsWith("-00");
+        });
+        assertThat(response.getHeader(HeaderNames.TRACE_ID)).isEqualTo("1234567890abcdef1234567890abcdef");
+        assertThat(MDC.getCopyOfContextMap()).isNullOrEmpty();
+        assertThat(TraceContext.snapshot()).isEmpty();
+    }
+
+    @Test
+    void 레거시_상위_span도_보존하고_예외_시_정리한다() {
+        var request = new MockHttpServletRequest();
+        request.addHeader(HeaderNames.TRACE_ID, "legacy-trace");
+        request.addHeader(HeaderNames.SPAN_ID, "legacy-parent");
+        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
+                filter.doFilter(request, new MockHttpServletResponse(), (req, res) -> {
+                    assertThat(MDC.get("parent.id")).isEqualTo("legacy-parent");
+                    throw new jakarta.servlet.ServletException("test");
+                })).isInstanceOf(jakarta.servlet.ServletException.class);
+        assertThat(TraceContext.snapshot()).isEmpty();
+        assertThat(MDC.getCopyOfContextMap()).isNullOrEmpty();
+    }
 
     @AfterEach
     void tearDown() {

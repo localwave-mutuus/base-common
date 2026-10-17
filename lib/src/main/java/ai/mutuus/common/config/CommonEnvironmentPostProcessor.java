@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ai.mutuus.common.core.IdGenerator;
 import ai.mutuus.common.core.LogFilePolicy;
+import ai.mutuus.common.core.TraceHeaders;
 import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;
@@ -37,6 +38,10 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         defaults.put("spring.http.client.read-timeout", "10s");
         // 공통 모듈 기본값
         defaults.put("mutuus.common.tracing-enabled", "true");
+        defaults.put(TraceHeaders.W3C_ENABLED, "true");
+        // 비웹 java.net.http 정적 헬퍼도 YAML/env 토글을 따른다. 원래 키를 덮어쓰지는 않는다.
+        System.setProperty(TraceHeaders.W3C_RUNTIME_PROPERTY,
+                environment.getProperty(TraceHeaders.W3C_ENABLED, "true"));
         defaults.put("mutuus.common.default-locale", "ko-KR");
 
         // 어플리케이션코드(4)/인스턴스구분코드(6) 해석: 미지정 시 도출/생성, 지정 시 포맷 검증.

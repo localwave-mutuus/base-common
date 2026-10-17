@@ -28,8 +28,9 @@ public class CommonPayloadLoggingAutoConfiguration {
     /** 입력 파라미터 출력 함수(기본 구현). 소비자가 재정의하면 비활성. */
     @Bean
     @ConditionalOnMissingBean
-    public RequestPayloadLogger requestPayloadLogger(ObjectProvider<SensitiveDataMasker> masker) {
-        return new DefaultRequestPayloadLogger(masker.getIfAvailable());
+    public RequestPayloadLogger requestPayloadLogger(ObjectProvider<SensitiveDataMasker> masker,
+                                                      PayloadLoggingProperties props) {
+        return new DefaultRequestPayloadLogger(masker.getIfAvailable(), props);
     }
 
     /** 리턴값 출력 함수(기본 구현). 소비자가 재정의하면 비활성. */

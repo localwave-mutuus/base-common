@@ -13,6 +13,22 @@ class CommonEnvironmentPostProcessorTest {
     private final CommonEnvironmentPostProcessor processor = new CommonEnvironmentPostProcessor();
 
     @Test
+    void 비웹_JavaHttp도_애플리케이션_W3C_비활성_설정을_받는다() {
+        String key = ai.mutuus.common.core.TraceHeaders.W3C_RUNTIME_PROPERTY;
+        String previous = System.getProperty(key);
+        try {
+            var env = new StandardEnvironment();
+            env.getPropertySources().addFirst(new MapPropertySource("applicationConfig",
+                    Map.of("mutuus.common.tracing.w3c", "false")));
+            processor.postProcessEnvironment(env, null);
+            assertThat(System.getProperty(key)).isEqualTo("false");
+            assertThat(env.getProperty("mutuus.common.tracing.w3c")).isEqualTo("false");
+        } finally {
+            if (previous == null) System.clearProperty(key); else System.setProperty(key, previous);
+        }
+    }
+
+    @Test
     void 컨벤션_기본값을_Environment에_주입한다() {
         var env = new StandardEnvironment();
 

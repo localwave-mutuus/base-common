@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.StringJoiner;
 
 import ai.mutuus.common.core.HeaderNames;
-import ai.mutuus.common.core.IdGenerator;
+import ai.mutuus.common.core.TraceHeaders;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.springframework.http.HttpRequest;
@@ -16,8 +16,8 @@ import org.springframework.http.client.ClientHttpResponse;
 
 /**
  * 아웃바운드 호출(RestClient/RestTemplate)에 e2e 헤더를 자동 부착한다.
- * <p>현재 {@link TraceContext}의 추적/화면/이벤트/단말/사용자 헤더를 하위 API로 전파하며, span ID는 호출 구간마다
- * 새로 발급한다. <b>보안</b>: 대상 호스트가 신뢰 allowlist({@code mutuus.common.propagation.allowed-hosts}) 밖이면
+ * <p>현재 {@link TraceContext}의 추적/화면/이벤트/단말/사용자 헤더를 하위 API로 전파하며, 현재 span ID를
+ * 다음 서비스의 parent로 보낸다. <b>보안</b>: 대상 호스트가 신뢰 allowlist({@code mutuus.common.propagation.allowed-hosts}) 밖이면
  * 식별/민감 헤더({@link HeaderNames#IDENTITY})는 <b>부착하지 않고</b>({@code security.propagation.blocked} 기록)
  * 상관용(trace/span/locale)만 전파해 외부로의 사용자·내부 토폴로지 유출을 막는다. allowlist 가 비어 있으면 전부 전파(하위호환).
  */
@@ -25,6 +25,7 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
 
     private final List<String> allowedHosts;
     private final SecurityAuditLogger securityAuditLogger;
+    private final boolean w3c;
 
     /** 하위호환 기본 — allowlist 없음(전부 전파), 감사 로깅 무동작. */
     public HeaderPropagationInterceptor() {
@@ -32,8 +33,13 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
     }
 
     public HeaderPropagationInterceptor(List<String> allowedHosts, SecurityAuditLogger securityAuditLogger) {
+        this(allowedHosts, securityAuditLogger, true);
+    }
+
+    public HeaderPropagationInterceptor(List<String> allowedHosts, SecurityAuditLogger securityAuditLogger, boolean w3c) {
         this.allowedHosts = allowedHosts == null ? List.of() : List.copyOf(allowedHosts);
         this.securityAuditLogger = securityAuditLogger;
+        this.w3c = w3c;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
         StringJoiner dropped = new StringJoiner(",");
         for (String name : HeaderNames.PROPAGATED) {
             if (HeaderNames.SPAN_ID.equals(name)) {
-                continue; // span 은 구간마다 새로 발급
+                continue; // 상관키는 아래 공통 헬퍼로 한 번에 처리
             }
             if (!trusted && HeaderNames.IDENTITY.contains(name)) {
                 if (TraceContext.get(name).isPresent()) {
@@ -59,8 +65,8 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
         if (dropped.length() > 0) {
             securityAuditLogger.propagationBlocked(host, dropped.toString());
         }
-        // 하위 호출 구간 식별을 위한 신규 span
-        headers.set(HeaderNames.SPAN_ID, IdGenerator.newSpanId());
+        headers.remove(TraceHeaders.TRACEPARENT);
+        TraceHeaders.outbound(w3c).forEach(headers::set);
         return execution.execute(request, body);
     }
 

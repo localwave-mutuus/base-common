@@ -20,6 +20,31 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class TraceContextPropagationTest {
 
+    @Test
+    void TaskDecorator는_parent와_span을_복원하고_실패해도_작업스레드_이전값으로_돌린다() throws Exception {
+        TraceContext.put("parent.id", "parent-submitter");
+        TraceContext.put(HeaderNames.SPAN_ID, "span-submitter");
+        MDC.put("parent.id", "parent-submitter");
+        MDC.put("span.id", "span-submitter");
+        Runnable task = new TraceContextTaskDecorator().decorate(() -> {
+            assertThat(TraceContext.get("parent.id")).contains("parent-submitter");
+            assertThat(TraceContext.get(HeaderNames.SPAN_ID)).contains("span-submitter");
+            assertThat(MDC.get("parent.id")).isEqualTo("parent-submitter");
+            assertThat(MDC.get("span.id")).isEqualTo("span-submitter");
+            throw new IllegalStateException("expected");
+        });
+        try (ExecutorService pool = Executors.newSingleThreadExecutor()) {
+            pool.submit(() -> {
+                TraceContext.put("parent.id", "parent-worker");
+                MDC.put("span.id", "span-worker");
+            }).get();
+            org.assertj.core.api.Assertions.assertThatThrownBy(() -> pool.submit(task).get())
+                    .hasCauseInstanceOf(IllegalStateException.class);
+            assertThat(pool.submit(() -> TraceContext.get("parent.id").orElse(null)).get()).isEqualTo("parent-worker");
+            assertThat(pool.submit(() -> MDC.get("span.id")).get()).isEqualTo("span-worker");
+        }
+    }
+
     @AfterEach
     void tearDown() {
         TraceContext.clear();

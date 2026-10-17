@@ -2,6 +2,10 @@ package ai.mutuus.common.payload;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.SensitiveDataMasker;
@@ -23,13 +27,21 @@ public class DefaultRequestPayloadLogger implements RequestPayloadLogger {
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
 
     private final SensitiveDataMasker masker;
+    private final PayloadLoggingProperties props;
+    private static final Set<String> SENSITIVE_HEADERS = Set.of(
+            "authorization", "proxy-authorization", "cookie", "set-cookie");
 
     public DefaultRequestPayloadLogger() {
         this(null);
     }
 
     public DefaultRequestPayloadLogger(SensitiveDataMasker masker) {
+        this(masker, new PayloadLoggingProperties());
+    }
+
+    public DefaultRequestPayloadLogger(SensitiveDataMasker masker, PayloadLoggingProperties props) {
         this.masker = masker;
+        this.props = props;
     }
 
     @Override
@@ -39,6 +51,13 @@ public class DefaultRequestPayloadLogger implements RequestPayloadLogger {
                 .addKeyValue("event", "request.payload")           // 이벤트 종류(입력)
                 .addKeyValue("httpMethod", request.getMethod())    // GET/POST 등
                 .addKeyValue("httpPath", request.getRequestURI()); // 요청 경로
+        Map<String, String> headers = new LinkedHashMap<>();
+        for (String name : props.getAllowedHeaders()) {
+            if (name == null || SENSITIVE_HEADERS.contains(name.toLowerCase(Locale.ROOT))) continue;
+            String value = request.getHeader(name);
+            if (value != null) headers.put(name, value.substring(0, Math.min(value.length(), 512)));
+        }
+        if (!headers.isEmpty()) ev.addKeyValue("requestHeaders", headers);
         // 쿼리스트링은 존재할 때만 필드 추가(빈 값 노이즈 방지)
         if (request.getQueryString() != null && !request.getQueryString().isBlank()) {
             ev.addKeyValue("httpQuery", request.getQueryString());

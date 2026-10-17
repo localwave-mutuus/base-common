@@ -25,6 +25,27 @@ class AccessLogFilterTest {
     private ListAppender<ILoggingEvent> appender;
     private Logger logger;
 
+    @Test
+    void 접근로그는_MDC정리_후에도_같은_span과_parent를_남긴다() throws Exception {
+        var request = new MockHttpServletRequest("GET", "/api/orders");
+        request.addHeader("traceparent", "00-1234567890abcdef1234567890abcdef-1234567890abcdef-01");
+        var response = new MockHttpServletResponse();
+        String[] span = new String[1];
+        filter.doFilter(request, response, (req, res) ->
+                new ai.mutuus.common.web.TraceFilter("TEST", "INST01").doFilter(req, res, (r, s) -> {
+                    span[0] = org.slf4j.MDC.get("span.id");
+                    assertThat(org.slf4j.MDC.get("parent.id")).isEqualTo("1234567890abcdef");
+                }));
+        assertThat(span[0]).hasSize(16).isNotEqualTo("1234567890abcdef");
+        assertThat(appender.list).hasSize(2);
+        for (var event : appender.list) {
+            assertThat(kv(event)).containsEntry("trace.id", "1234567890abcdef1234567890abcdef")
+                    .containsEntry("span.id", span[0]).containsEntry("parent.id", "1234567890abcdef");
+        }
+        assertThat(org.slf4j.MDC.getCopyOfContextMap()).isNullOrEmpty();
+        assertThat(ai.mutuus.common.core.TraceContext.snapshot()).isEmpty();
+    }
+
     @BeforeEach
     void setUp() {
         logger = (Logger) LoggerFactory.getLogger(AccessLogger.LOGGER_NAME);

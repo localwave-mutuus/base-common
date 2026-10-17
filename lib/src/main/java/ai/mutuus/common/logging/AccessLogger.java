@@ -112,6 +112,13 @@ public class AccessLogger {
     public void httpPair(String action, String requestId, String traceId, String method, String path,
                          int status, long nanos, String errorCode, String user, boolean slow, String query,
                          java.util.Map<String, String> screen) {
+        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query,
+                screen, null, null);
+    }
+
+    public void httpPair(String action, String requestId, String traceId, String method, String path,
+                         int status, long nanos, String errorCode, String user, boolean slow, String query,
+                         java.util.Map<String, String> screen, String spanId, String parentId) {
         LoggingEventBuilder ev = status >= 500 || slow ? log.atWarn() : log.atInfo();
         boolean error = !errorCode.isEmpty();
         dataset(ev, EcsFields.DATASET_ACCESS)
@@ -128,6 +135,8 @@ public class AccessLogger {
         if (hasText(query)) ev.addKeyValue("httpQuery", query).addKeyValue(EcsFields.URL_QUERY, query);
         if (hasText(user)) ev.addKeyValue("userId", user).addKeyValue(EcsFields.USER_ID, user);
         if (slow) ev.addKeyValue("slow", true);
+        if (hasText(spanId)) ev.addKeyValue(EcsFields.SPAN_ID, spanId);
+        if (hasText(parentId)) ev.addKeyValue(EcsFields.PARENT_ID, parentId);
         screen.forEach(ev::addKeyValue);
         ev.log(action);
     }

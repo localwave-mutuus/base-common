@@ -11,6 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 /**
  * 컨트롤러 입출력 본문 로깅 필터.
@@ -47,6 +48,11 @@ public class PayloadLoggingFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (props.getMode() == PayloadLoggingProperties.Mode.ERROR_ONLY) {
+            logErrorsOnly(request, response, filterChain);
+            return;
+        }
+
         // 요청 본문은 스트림이라 한 번 읽으면 소진된다 → 캐싱 래퍼로 감싸 "진입 로깅"과 "컨트롤러"가 모두 읽게 한다.
         CachedBodyHttpServletRequest cachedRequest = new CachedBodyHttpServletRequest(request);
         // 응답 본문도 실제로 쓰이면서 버퍼에 캐싱되도록 감싼다(뒤에서 로깅 후 원본으로 복원).
@@ -60,10 +66,35 @@ public class PayloadLoggingFilter extends OncePerRequestFilter {
             filterChain.doFilter(cachedRequest, cachedResponse);
         } finally {
             // ③ 종료: 리턴값(응답 본문) 출력 — 예외로 빠져나가도 반드시 남기려 finally 에 둔다.
-            responseLogger.onResponse(cachedRequest, cachedResponse.getStatus(),
-                    bodyToLog(cachedResponse.getContentType(), cachedResponse.getContentAsByteArray()));
-            // 캐싱만 하고 원본에 쓰지 않으면 클라이언트가 빈 본문을 받는다 → 반드시 복원(필수).
-            cachedResponse.copyBodyToResponse();
+            try {
+                responseLogger.onResponse(cachedRequest, cachedResponse.getStatus(),
+                        bodyToLog(cachedResponse.getContentType(), cachedResponse.getContentAsByteArray()));
+            } finally {
+                // 로거가 실패해도 실제 응답 본문은 복원한다.
+                cachedResponse.copyBodyToResponse();
+            }
+        }
+    }
+
+    private void logErrorsOnly(HttpServletRequest request, HttpServletResponse response,
+                               FilterChain chain) throws ServletException, IOException {
+        // 성공 요청도 결과가 나올 때까지 최대 4KiB만 보관한다. 원본 스트림은 그대로 소비한다.
+        ContentCachingRequestWrapper cachedRequest = new ContentCachingRequestWrapper(request, props.getMaxBodyBytes());
+        BoundedPayloadResponseWrapper cachedResponse = new BoundedPayloadResponseWrapper(response, props.getMaxBodyBytes());
+        boolean failed = false;
+        try {
+            chain.doFilter(cachedRequest, cachedResponse);
+        } catch (IOException | ServletException | RuntimeException | Error ex) {
+            failed = true;
+            throw ex;
+        } finally {
+            cachedResponse.flushWriter();
+            if (failed || cachedResponse.getStatus() >= 400) {
+                requestLogger.onRequest(cachedRequest,
+                        bodyToLog(cachedRequest.getContentType(), cachedRequest.getContentAsByteArray()));
+                responseLogger.onResponse(cachedRequest, failed ? 500 : cachedResponse.getStatus(),
+                        bodyToLog(cachedResponse.getContentType(), cachedResponse.capturedBody()));
+            }
         }
     }
 
@@ -75,15 +106,15 @@ public class PayloadLoggingFilter extends OncePerRequestFilter {
         }
         // 바이너리(이미지/파일 등)는 텍스트로 남기면 로그가 깨지고 무의미 → 크기만 표기
         if (!isLoggableContentType(contentType)) {
-            return "(content-type 제외: " + contentType + ", " + body.length + " bytes)";
+            return null;
         }
         int max = props.getMaxBodyBytes();
-        // 임계치 이하면 전체를 UTF-8 로 디코딩
-        if (body.length <= max) {
-            return new String(body, StandardCharsets.UTF_8);
+        // 잘린 다중 바이트 문자의 대체문자까지 포함해 UTF-8 출력 상한을 지킨다.
+        String result = new String(body, 0, Math.min(body.length, max), StandardCharsets.UTF_8);
+        while (result.getBytes(StandardCharsets.UTF_8).length > max) {
+            result = result.substring(0, result.length() - 1);
         }
-        // 초과분은 잘라내고 얼마나 잘렸는지 표기(로그 폭주/비용 방지)
-        return new String(body, 0, max, StandardCharsets.UTF_8) + "...(truncated " + (body.length - max) + " bytes)";
+        return result;
     }
 
     private boolean isLoggableContentType(String contentType) {

@@ -1,6 +1,7 @@
 package ai.mutuus.common.logging;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -39,9 +40,10 @@ public class CommonLoggingAutoConfiguration {
 
         @Bean
         public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistration(
-                AccessLogger accessLogger, CommonLoggingProperties props) {
+                AccessLogger accessLogger, CommonLoggingProperties props,
+                @Value("${mutuus.common.tracing.w3c:true}") boolean w3c) {
             FilterRegistrationBean<AccessLogFilter> reg =
-                    new FilterRegistrationBean<>(new AccessLogFilter(accessLogger, props));
+                    new FilterRegistrationBean<>(new AccessLogFilter(accessLogger, props, w3c));
             reg.setOrder(Ordered.HIGHEST_PRECEDENCE); // 보안보다 먼저
             reg.setAsyncSupported(true);
             reg.addUrlPatterns("/*");

@@ -43,9 +43,10 @@ public class CommonWebAutoConfiguration {
             @Value("${mutuus.common.instance-code:}") String instanceCode,
             // 인입 X-User-Id 신뢰 여부(기본 미신뢰). 값은 mutuus.common.security.* 소속이지만 여기선 원시
             // 프로퍼티로만 읽어 web→security 패키지 결합을 만들지 않는다.
-            @Value("${mutuus.common.security.trust-forwarded-user:false}") boolean trustForwardedUser) {
+            @Value("${mutuus.common.security.trust-forwarded-user:false}") boolean trustForwardedUser,
+            @Value("${mutuus.common.tracing.w3c:true}") boolean w3c) {
         FilterRegistrationBean<TraceFilter> reg =
-                new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode, trustForwardedUser));
+                new FilterRegistrationBean<>(new TraceFilter(appCode, instanceCode, trustForwardedUser, w3c));
         reg.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         reg.setAsyncSupported(true);
         reg.addUrlPatterns("/*");
@@ -54,9 +55,10 @@ public class CommonWebAutoConfiguration {
 
     @Bean
     public HeaderPropagationInterceptor headerPropagationInterceptor(
-            CommonPropagationProperties props, ObjectProvider<SecurityAuditLogger> securityAuditLogger) {
+            CommonPropagationProperties props, ObjectProvider<SecurityAuditLogger> securityAuditLogger,
+            @Value("${mutuus.common.tracing.w3c:true}") boolean w3c) {
         return new HeaderPropagationInterceptor(
-                props.getAllowedHosts(), securityAuditLogger.getIfAvailable(SecurityAuditLogger::new));
+                props.getAllowedHosts(), securityAuditLogger.getIfAvailable(SecurityAuditLogger::new), w3c);
     }
 
     /** X-Locale 헤더 우선, 없으면 Accept-Language 사용. 앱이 자체 정의하면 그것을 따른다. */

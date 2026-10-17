@@ -7,6 +7,7 @@ import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.IdGenerator;
 import ai.mutuus.common.core.StringUtils;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.core.TraceHeaders;
 import ai.mutuus.common.core.RequestIds;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,6 +30,7 @@ public class TraceFilter extends OncePerRequestFilter {
     private final String appCode;
     private final String instanceCode;
     private final boolean trustForwardedUser;
+    private final boolean w3c;
 
     /** 어플리케이션코드/인스턴스구분코드는 구동 시 확정된 상수다(CommonEnvironmentPostProcessor 해석). */
     public TraceFilter(String appCode, String instanceCode) {
@@ -36,19 +38,27 @@ public class TraceFilter extends OncePerRequestFilter {
     }
 
     public TraceFilter(String appCode, String instanceCode, boolean trustForwardedUser) {
+        this(appCode, instanceCode, trustForwardedUser, true);
+    }
+
+    public TraceFilter(String appCode, String instanceCode, boolean trustForwardedUser, boolean w3c) {
         this.appCode = appCode;
         this.instanceCode = instanceCode;
         this.trustForwardedUser = trustForwardedUser;
+        this.w3c = w3c;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            String traceId = StringUtils.defaultIfBlank(
-                    (String) request.getAttribute(HeaderNames.HTTP_PAIR_TRACE_ATTR),
-                    StringUtils.defaultIfBlank(request.getHeader(HeaderNames.TRACE_ID), IdGenerator.newTraceId()));
-            String spanId = IdGenerator.newSpanId();
+            TraceHeaders.Inbound inbound = (TraceHeaders.Inbound) request.getAttribute(TraceHeaders.REQUEST_ATTRIBUTE);
+            if (inbound == null) {
+                inbound = TraceHeaders.inbound(request::getHeader, w3c);
+                request.setAttribute(TraceHeaders.REQUEST_ATTRIBUTE, inbound);
+            }
+            String traceId = inbound.traceId();
+            String spanId = inbound.spanId();
 
             populate(HeaderNames.TRACE_ID, traceId);
             populate(RequestIds.CONTEXT_KEY, (String) request.getAttribute(RequestIds.HTTP_ATTRIBUTE));
@@ -57,6 +67,13 @@ public class TraceFilter extends OncePerRequestFilter {
             // transaction.id 는 이 요청 1건 식별(요청당 1회, span 과 구분). MDC 는 finally 의 clear 로 정리.
             MDC.put(EcsFields.TRACE_ID, traceId);
             MDC.put(EcsFields.SPAN_ID, spanId);
+            if (inbound.parentId() != null) {
+                MDC.put(EcsFields.PARENT_ID, inbound.parentId());
+                TraceContext.put(EcsFields.PARENT_ID, inbound.parentId());
+            }
+            TraceContext.put(TraceHeaders.W3C_ENABLED, Boolean.toString(w3c));
+            if (w3c) TraceContext.put(TraceHeaders.TRACEPARENT,
+                    "00-" + traceId + "-" + spanId + "-" + inbound.flags());
             MDC.put(EcsFields.TRANSACTION_ID, IdGenerator.newTransactionId());
             // service.node.name 은 인스턴스 상수라 logback customFields 로 항상 싣는다(startup 로그 포함).
             populate(HeaderNames.SCREEN_ID, request.getHeader(HeaderNames.SCREEN_ID));
