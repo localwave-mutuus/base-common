@@ -40,6 +40,7 @@ public final class CanonicalLogSnapshot {
         var identity = VerifiedIdentityContext.current();
         result.putAll(identity.fields());
         result.putAll(ai.mutuus.common.core.TelemetryMetadata.current());
+        result.putAll(ai.mutuus.common.core.TelemetryScope.jobMetadata());
         result.put("golmok.scope", ai.mutuus.common.core.TelemetryScope.current());
         HINTS.forEach((header, field) -> TraceContext.get(header).filter(CanonicalLogSnapshot::safeHint)
                 .ifPresent(value -> result.put(field, value)));

@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Clock;
 import java.util.*;
 
 /** 단일 JSON 정본을 제한된 크기/깊이로 읽는다. 외부 참조·다형성·원격 로딩을 지원하지 않는다. */
@@ -20,8 +21,9 @@ public final class TelemetryFieldRegistry {
     private static final Set<String> CONDITIONS = Set.of("all", "request", "authenticated", "http", "failure", "exception", "job",
             "payload", "audit", "method", "domain_event", "message", "screen", "owner", "supplied");
     private static final Set<String> FIELD_KEYS = Set.of("name", "meaning", "type", "tier", "scope", "aliases", "alias_until",
-            "sensitivity", "owner", "structuredInput", "protected", "metadata", "array", "when", "discardAliases", "mdcInput");
+            "input_accept_until", "sensitivity", "owner", "structuredInput", "protected", "metadata", "array", "when", "discardAliases", "mdcInput");
     private final int version;
+    private final Clock clock;
     private final Map<String, Field> fields;
     private final Map<String, Alias> aliases;
     private final Set<String> structuredInputFields, protectedFields, metadataFields, discardedAliases, mdcInputFields;
@@ -29,10 +31,10 @@ public final class TelemetryFieldRegistry {
 
     public record Field(String name, String meaning, String type, String tier, String when, String owner,
                         boolean structuredInput, boolean protectedField, boolean metadata, boolean array,
-                        List<String> scope, String sensitivity, List<String> aliases, String aliasUntil, boolean mdcInput) {
+                        List<String> scope, String sensitivity, List<String> aliases, String aliasUntil, boolean mdcInput, String inputAcceptUntil) {
         public Field { scope = List.copyOf(scope); aliases = List.copyOf(aliases); }
     }
-    public record Alias(String name, String canonicalName, String mode, String removeAfter) { }
+    public record Alias(String name, String canonicalName, String mode, String removeAfter, String inputAcceptUntil) { }
 
     private static final class DefaultRegistry {
         static final TelemetryFieldRegistry INSTANCE = readDefault();
@@ -45,7 +47,8 @@ public final class TelemetryFieldRegistry {
     }
     public static TelemetryFieldRegistry load() { return DefaultRegistry.INSTANCE; }
 
-    private TelemetryFieldRegistry(int version, Map<String, Field> fields, Map<String, Alias> aliases) {
+    private TelemetryFieldRegistry(int version, Map<String, Field> fields, Map<String, Alias> aliases, Clock clock) {
+        this.clock = Objects.requireNonNull(clock);
         this.version = version;
         this.fields = Collections.unmodifiableMap(new LinkedHashMap<>(fields));
         this.aliases = Collections.unmodifiableMap(new LinkedHashMap<>(aliases));
@@ -65,7 +68,17 @@ public final class TelemetryFieldRegistry {
         this.protectedFields = Collections.unmodifiableSet(protect);
         this.metadataFields = Collections.unmodifiableSet(metadata);
         this.discardedAliases = Collections.unmodifiableSet(discard);
-        this.normalizationAliases = Collections.unmodifiableMap(normalize);
+        // 소비자가 static final Map으로 보관해도 get/순회 때 현재 날짜를 검사한다.
+        this.normalizationAliases = Collections.unmodifiableMap(new AbstractMap<>() {
+            @Override public String get(Object key) {
+                return key instanceof String name && legacyInputAccepted(name) ? normalize.get(name) : null;
+            }
+            @Override public Set<Entry<String, String>> entrySet() {
+                Map<String, String> accepted = new LinkedHashMap<>();
+                normalize.forEach((name, canonical) -> { if (legacyInputAccepted(name)) accepted.put(name, canonical); });
+                return Collections.unmodifiableMap(accepted).entrySet();
+            }
+        });
         this.mdcInputFields = Collections.unmodifiableSet(mdc);
     }
 
@@ -79,7 +92,8 @@ public final class TelemetryFieldRegistry {
     public Set<String> mdcInputFields() { return mdcInputFields; }
     public Map<String, String> normalizationAliases() { return normalizationAliases; }
 
-    public static TelemetryFieldRegistry from(InputStream input) {
+    public static TelemetryFieldRegistry from(InputStream input) { return from(input, Clock.systemUTC()); }
+    public static TelemetryFieldRegistry from(InputStream input, Clock clock) {
         Objects.requireNonNull(input, "registry input");
         try {
             byte[] data = input.readNBytes(1_048_577);
@@ -104,11 +118,17 @@ public final class TelemetryFieldRegistry {
                 require(name.matches("@timestamp|[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*"), "Invalid canonical field name");
                 List<String> scope = strings(source, "scope", false), names = strings(source, "aliases", true);
                 String until = text(source, "alias_until");
-                require(LocalDate.parse(until).toString().equals(until), "Invalid alias removal review date");
+                require(LocalDate.parse(until).toString().equals(until), "Invalid alias output cutover date");
+                require(source.containsKey("input_accept_until"), "Missing input_accept_until");
+                String inputUntil = source.get("input_accept_until") == null ? null : text(source, "input_accept_until");
+                if (inputUntil != null) {
+                    LocalDate end = LocalDate.parse(inputUntil);
+                    require(end.toString().equals(inputUntil) && !end.isBefore(LocalDate.parse(until)), "Invalid legacy input acceptance date");
+                }
                 String when = source.containsKey("when") ? text(source, "when") : "supplied";
                 Field field = new Field(name, text(source, "meaning"), text(source, "type"), text(source, "tier"), when,
                         text(source, "owner"), bool(source, "structuredInput"), bool(source, "protected"), bool(source, "metadata"),
-                        bool(source, "array"), scope, text(source, "sensitivity"), names, until, bool(source, "mdcInput"));
+                        bool(source, "array"), scope, text(source, "sensitivity"), names, until, bool(source, "mdcInput"), inputUntil);
                 require(TYPES.contains(field.type()) && TIERS.contains(field.tier()) && CONDITIONS.contains(field.when())
                         && Set.of("common", "adapter", "collector").contains(field.owner()) && SCOPES.containsAll(scope)
                         && Set.of("none", "mask", "opt_in").contains(field.sensitivity()), "Invalid telemetry field classification");
@@ -118,21 +138,32 @@ public final class TelemetryFieldRegistry {
                 require(fields.putIfAbsent(name, field) == null && fields.size() <= 512, "Duplicate or excess telemetry fields");
                 List<String> discard = source.containsKey("discardAliases") ? strings(source, "discardAliases", true) : List.of();
                 require(names.containsAll(discard), "discardAliases must be a subset of aliases");
-                for (String alias : names) addAlias(aliases, alias, name, discard.contains(alias) ? "discard" : "normalize", until);
+                for (String alias : names) addAlias(aliases, alias, name, discard.contains(alias) ? "discard" : "normalize", until, inputUntil);
             }
             require(!fields.isEmpty(), "Empty telemetry registry");
             for (String name : fields.keySet()) {
                 require(!aliases.containsKey(name), "Canonical field cannot be an alias");
                 for (String other : fields.keySet()) require(!other.startsWith(name + "."), "Canonical scalar/object prefix collision");
             }
-            return new TelemetryFieldRegistry((Integer) root.get("version"), fields, aliases);
+            return new TelemetryFieldRegistry((Integer) root.get("version"), fields, aliases, clock);
         } catch (IllegalArgumentException ex) { throw ex; }
         catch (Exception ex) { throw new IllegalArgumentException("Invalid or unsafe telemetry field registry", ex); }
     }
-    private static void addAlias(Map<String, Alias> aliases, String name, String target, String mode, String until) {
+    private static void addAlias(Map<String, Alias> aliases, String name, String target, String mode, String until, String inputUntil) {
         require(name.matches("@timestamp|[A-Za-z_][A-Za-z0-9_.-]{0,127}"), "Invalid alias name");
-        require(aliases.putIfAbsent(name, new Alias(name, target, mode, until)) == null && aliases.size() <= 1024,
+        require(aliases.putIfAbsent(name, new Alias(name, target, mode, until, inputUntil)) == null && aliases.size() <= 1024,
                 "Duplicate or excess aliases");
+    }
+
+    /** null은 승인된 legacy 입력 수용 중이다. 종료일 당일까지 허용하고 다음 UTC 날짜부터 거부한다. */
+    public boolean legacyInputAccepted(String name) {
+        Alias alias = aliases.get(name);
+        return alias != null && (alias.inputAcceptUntil() == null
+                || !LocalDate.now(clock).isAfter(LocalDate.parse(alias.inputAcceptUntil())));
+    }
+    /** 빌드/adapter 경계에서 만료 입력의 수용을 명시 검증한다. */
+    public void requireLegacyInputAccepted(String name) {
+        require(legacyInputAccepted(name), "Expired or unknown legacy telemetry input: " + name);
     }
 
     /** 발생 경로의 이름 관문. 타입·충족률 검증은 빌드 시험/생성 규칙으로 수행한다. */
@@ -197,6 +228,7 @@ public final class TelemetryFieldRegistry {
             case VALUE_NUMBER_INT -> parser.getIntValue();
             case VALUE_TRUE -> true;
             case VALUE_FALSE -> false;
+            case VALUE_NULL -> null;
             default -> throw new IllegalArgumentException("Unsupported registry JSON token");
         };
     }

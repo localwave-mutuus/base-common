@@ -54,11 +54,15 @@ public final class TelemetryRegistryGenerator {
             rules.add(rule);
         }
         docs.append("\n실제 OpenSearch 템플릿/수집기 생성은 700 gen_from_registry.py 소유다. 이 디렉터리의 매핑은 비배포 preview다.\n");
-        docs.append("\n## 입력 별칭\n\n출력 매핑에는 별칭을 만들지 않는다. removeAfter는 검토 목표이며 자동 삭제 시점이 아니다.\n\n")
-                .append("| 입력 별칭 | canonical 필드 | 처리 | 제거 검토 목표 |\n|---|---|---|---|\n");
+        docs.append("\n## 입력 별칭\n\n출력 매핑에는 별칭을 만들지 않는다. alias_until은 정본 출력 전환일이다. input_accept_until=null은 승인된 구 입력 수용 중이며 날짜가 정해지면 그 날짜 다음 날부터 수용하지 않는다.\n\n")
+                .append("| 입력 별칭 | canonical 필드 | 처리 | 출력 전환일 | 입력 수용 종료일 |\n|---|---|---|---|---|\n");
+        List<Map<String, Object>> legacyInputs = new ArrayList<>();
         for (var alias : registry.aliases().values()) {
             docs.append("| ").append(escape(alias.name())).append(" | ").append(escape(alias.canonicalName()))
-                    .append(" | ").append(alias.mode()).append(" | ").append(alias.removeAfter()).append(" |\n");
+                    .append(" | ").append(alias.mode()).append(" | ").append(alias.removeAfter())
+                    .append(" | ").append(alias.inputAcceptUntil() == null ? "수용 중(null)" : alias.inputAcceptUntil()).append(" |\n");
+            legacyInputs.add(ordered("name", alias.name(), "canonical", alias.canonicalName(), "mode", alias.mode(),
+                    "alias_until", alias.removeAfter(), "input_accept_until", alias.inputAcceptUntil()));
         }
         docs.append("\n## 채움률 판정\n\nall은 생성 로그 전체, request는 golmok.scope=request, authenticated는 golmok.auth.state=authenticated를 분모로 쓴다. ")
                 .append("나머지 조건은 owner의 독립 실행 manifest를 분모로 사용한다. 필드가 존재하는 문서만 세어 분모를 줄이지 않는다. ")
@@ -72,7 +76,7 @@ public final class TelemetryRegistryGenerator {
         template.put("_meta", ordered("registry_version", registry.version(), "generated_from", "common-platform/log-fields.v2.json", "purpose", "preview_only_700_owns_deployable_template"));
         template.put("template", Map.of("mappings", mappings));
         writeJson(outputDirectory.resolve("opensearch-template.preview.json"), template);
-        writeJson(outputDirectory.resolve("fill-rate-rules.json"), ordered("registry_version", registry.version(), "rules", rules));
+        writeJson(outputDirectory.resolve("fill-rate-rules.json"), ordered("registry_version", registry.version(), "rules", rules, "legacy_inputs", legacyInputs));
         Files.writeString(outputDirectory.resolve("fields.md"), docs.toString(), StandardCharsets.UTF_8);
     }
 
@@ -135,7 +139,8 @@ public final class TelemetryRegistryGenerator {
             json.writeEndObject();
         } else if (value instanceof Iterable<?> values) {
             json.writeStartArray(); for (Object item : values) write(json, item); json.writeEndArray();
-        } else if (value instanceof Boolean flag) json.writeBoolean(flag);
+        } else if (value == null) json.writeNull();
+        else if (value instanceof Boolean flag) json.writeBoolean(flag);
         else if (value instanceof Integer number) json.writeNumber(number);
         else json.writeString(value.toString());
     }

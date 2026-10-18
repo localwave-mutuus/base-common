@@ -100,6 +100,37 @@ class OtelFieldRegistryContractTest {
                 .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("subset");
     }
 
+    @Test void legacyInputDeadlineIsIndependentAndRecheckedAcrossMidnight() {
+        var observed = new java.util.concurrent.atomic.AtomicReference<>(java.time.Instant.parse("2000-01-01T12:00:00Z"));
+        java.time.Clock clock = new java.time.Clock() {
+            public java.time.ZoneId getZone() { return java.time.ZoneOffset.UTC; }
+            public java.time.Clock withZone(java.time.ZoneId zone) { return this; }
+            public java.time.Instant instant() { return observed.get(); }
+        };
+        String open = registryJson(field("canonical.name", "keyword", "[\"oldName\"]", "[]"));
+        String limited = open.replace("\"input_accept_until\":null", "\"input_accept_until\":\"2000-01-02\"");
+        var registry = TelemetryFieldRegistry.from(input(limited), clock);
+        Map<String, String> retained = registry.normalizationAliases();
+        assertThat(retained).containsEntry("oldName", "canonical.name");
+        observed.set(java.time.Instant.parse("2000-01-02T23:59:59Z"));
+        registry.requireLegacyInputAccepted("oldName");
+        assertThat(retained.get("oldName")).isEqualTo("canonical.name");
+        observed.set(java.time.Instant.parse("2000-01-03T00:00:00Z"));
+        assertThat(retained.get("oldName")).isNull();
+        assertThat(retained.entrySet()).isEmpty();
+        assertThat(retained.containsKey("oldName")).isFalse();
+        assertThatThrownBy(() -> registry.requireLegacyInputAccepted("oldName"))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Expired");
+        assertThatThrownBy(() -> registry.validateSnapshot(Map.of("oldName", "output")))
+                .isInstanceOf(IllegalArgumentException.class);
+        var noDeadline = TelemetryFieldRegistry.from(input(open), clock);
+        assertThat(noDeadline.normalizationAliases()).containsEntry("oldName", "canonical.name");
+        assertThat(noDeadline.fields().get("canonical.name").inputAcceptUntil()).isNull();
+        assertThatThrownBy(() -> TelemetryFieldRegistry.from(input(open.replace("\"input_accept_until\":null,", ""))))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Missing input_accept_until");
+        assertThatThrownBy(() -> TelemetryFieldRegistry.from(input(limited.replace("2000-01-02", "1999-12-31"))))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("acceptance date");
+    }
     @Test void unsafeOrAmbiguousRegistryInputsFailClosed() {
         String minimal = registryJson(field("canonical.name", "keyword", "[]", "[]"));
         assertThatThrownBy(() -> TelemetryFieldRegistry.from(input(minimal.replace("\"version\":1", "\"version\":1,\"version\":2"))))
@@ -124,6 +155,6 @@ class OtelFieldRegistryContractTest {
     private static String field(String name, String type, String aliases, String discard) {
         return "{\"name\":\"" + name + "\",\"type\":\"" + type + "\",\"tier\":\"optional\",\"meaning\":\"테스트 필드\","
                 + "\"scope\":[\"request\"],\"aliases\":" + aliases + ",\"discardAliases\":" + discard + ","
-                + "\"alias_until\":\"2000-01-01\",\"sensitivity\":\"none\",\"owner\":\"common\",\"structuredInput\":true}";
+                + "\"alias_until\":\"2000-01-01\",\"input_accept_until\":null,\"sensitivity\":\"none\",\"owner\":\"common\",\"structuredInput\":true}";
     }
 }

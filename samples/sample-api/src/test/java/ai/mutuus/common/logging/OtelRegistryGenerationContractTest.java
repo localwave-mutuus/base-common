@@ -58,7 +58,12 @@ class OtelRegistryGenerationContractTest {
             else if (!List.of("request", "authenticated").contains(field.when()))
                 assertThat(denominator).containsEntry("source", "owner_manifest").containsEntry("condition", field.when());
         }
+        List<Map<String, Object>> legacyInputs = (List<Map<String, Object>>) rates.get("legacy_inputs");
+        assertThat(legacyInputs).hasSize(registry.aliases().size());
         for (var alias : registry.aliases().values()) {
+            var generated = legacyInputs.stream().filter(item -> alias.name().equals(item.get("name"))).findFirst().orElseThrow();
+            assertThat(generated).containsEntry("alias_until", alias.removeAfter())
+                    .containsEntry("input_accept_until", alias.inputAcceptUntil());
             assertThat(registry.fields()).doesNotContainKey(alias.name());
             var aliasMapping = mapping(properties, alias.name());
             if (aliasMapping != null) {
