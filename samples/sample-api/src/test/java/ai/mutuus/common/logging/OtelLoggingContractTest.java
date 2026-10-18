@@ -63,7 +63,8 @@ class OtelLoggingContractTest {
     @AfterEach void cleanup() {
         logger.detachAppender(snapshot); snapshot.stop();
         logger.setLevel(previousLevel); logger.setAdditive(previousAdditivity);
-        MDC.clear(); provider.close(); GlobalOpenTelemetry.resetForTest();
+        MDC.clear(); ai.mutuus.common.core.TraceContext.clear();
+        provider.close(); GlobalOpenTelemetry.resetForTest();
     }
     private Scope span() {
         return Span.wrap(SpanContext.create(TRACE, SPAN, TraceFlags.getSampled(), TraceState.getDefault())).makeCurrent();

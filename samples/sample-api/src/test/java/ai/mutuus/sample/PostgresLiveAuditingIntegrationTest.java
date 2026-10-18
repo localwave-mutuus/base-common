@@ -4,8 +4,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import ai.mutuus.common.core.HeaderNames;
-import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import ai.mutuus.sample.persistence.SampleNote;
 import ai.mutuus.sample.persistence.SampleNoteRepository;
 import ai.mutuus.sample.support.LiveInfra;
@@ -34,7 +33,7 @@ import static org.assertj.core.api.Assertions.within;
  *
  * <p>생성 경로(시각/주체)에 더해 <b>수정 경로</b>까지 본다: 다른 사용자로 엔티티를 수정하면
  * {@code updated_by}/{@code updated_at} 만 갱신되고 {@code created_*} 는 불변이어야 한다
- * (라이브러리의 {@code @LastModified*} + TraceContext 주체 동작을 실 DB 왕복으로 확인).
+ * (라이브러리의 {@code @LastModified*} + 검증된 인증 주체 동작을 실 DB 왕복으로 확인).
  */
 @SpringBootTest
 @EnabledIf(value = "ai.mutuus.sample.support.LiveInfra#postgresReachable",
@@ -58,52 +57,55 @@ class PostgresLiveAuditingIntegrationTest {
     @AfterEach
     void tearDown() {
         repository.deleteAll(); // 이 테스트가 만든 행만 정리(스키마는 Flyway 관리라 유지) — 공유 실 DB 오염 방지
-        TraceContext.clear();
     }
 
     @Test
     void 실_Postgres에서_생성_감사가_기록되고_재조회로_영속이_확인된다() {
-        TraceContext.put(HeaderNames.USER_ID, "u-pg");
+        try (var identity = TelemetryTestEvents.identity("u-pg", "app")) {
 
-        SampleNote saved = repository.saveAndFlush(new SampleNote("on postgres"));
-        Instant createdAt = saved.getCreatedAt();
+            SampleNote saved = repository.saveAndFlush(new SampleNote("on postgres"));
+            Instant createdAt = saved.getCreatedAt();
 
-        assertThat(createdAt).isNotNull();
-        assertThat(saved.getCreatedBy()).isEqualTo("u-pg");
-        assertThat(saved.getUpdatedBy()).isEqualTo("u-pg");
+            assertThat(createdAt).isNotNull();
+            assertThat(saved.getCreatedBy()).isEqualTo("u-pg");
+            assertThat(saved.getUpdatedBy()).isEqualTo("u-pg");
 
-        SampleNote reloaded = repository.findById(saved.getId()).orElseThrow();
-        assertThat(reloaded.getCreatedBy()).isEqualTo("u-pg");
-        // Postgres timestamptz 는 마이크로초로 반올림 저장하므로 JVM nanos 와는 동등하지 않다.
-        // 같은 시각이 왕복됐음만 확인(밀리초 허용).
-        assertThat(reloaded.getCreatedAt()).isCloseTo(createdAt, within(1, ChronoUnit.MILLIS));
+            SampleNote reloaded = repository.findById(saved.getId()).orElseThrow();
+            assertThat(reloaded.getCreatedBy()).isEqualTo("u-pg");
+            // Postgres timestamptz 는 마이크로초로 반올림 저장하므로 JVM nanos 와는 동등하지 않다.
+            // 같은 시각이 왕복됐음만 확인(밀리초 허용).
+            assertThat(reloaded.getCreatedAt()).isCloseTo(createdAt, within(1, ChronoUnit.MILLIS));
+        }
     }
 
     @Test
     void 수정시_수정_주체와_시각만_갱신되고_생성_감사는_불변이다() {
-        TraceContext.put(HeaderNames.USER_ID, "u-create");
-        SampleNote saved = repository.saveAndFlush(new SampleNote("v1"));
+        SampleNote saved;
+        try (var identity = TelemetryTestEvents.identity("u-create", "app")) {
+            saved = repository.saveAndFlush(new SampleNote("v1"));
+        }
         Long id = saved.getId();
         Instant createdAt = saved.getCreatedAt();
         Instant firstUpdatedAt = saved.getUpdatedAt();
 
         // 다른 사용자가 수정 → UPDATE 유발
-        TraceContext.put(HeaderNames.USER_ID, "u-modifier");
-        saved.setText("v2");
-        SampleNote updated = repository.saveAndFlush(saved);
+        try (var identity = TelemetryTestEvents.identity("u-modifier", "app")) {
+            saved.setText("v2");
+            SampleNote updated = repository.saveAndFlush(saved);
 
-        // 생성 감사는 불변 (createdAt 은 merge 시 DB 에서 다시 읽혀 마이크로초 정밀도라 밀리초 허용)
-        assertThat(updated.getCreatedBy()).isEqualTo("u-create");
-        assertThat(updated.getCreatedAt()).isCloseTo(createdAt, within(1, ChronoUnit.MILLIS));
-        // 수정 감사만 갱신
-        assertThat(updated.getUpdatedBy()).isEqualTo("u-modifier");
-        assertThat(updated.getUpdatedAt()).isAfterOrEqualTo(firstUpdatedAt);
+            // 생성 감사는 불변 (createdAt 은 merge 시 DB 에서 다시 읽혀 마이크로초 정밀도라 밀리초 허용)
+            assertThat(updated.getCreatedBy()).isEqualTo("u-create");
+            assertThat(updated.getCreatedAt()).isCloseTo(createdAt, within(1, ChronoUnit.MILLIS));
+            // 수정 감사만 갱신
+            assertThat(updated.getUpdatedBy()).isEqualTo("u-modifier");
+            assertThat(updated.getUpdatedAt()).isAfterOrEqualTo(firstUpdatedAt);
 
-        // 실 DB 왕복으로도 동일
-        SampleNote reloaded = repository.findById(id).orElseThrow();
-        assertThat(reloaded.getCreatedBy()).isEqualTo("u-create");
-        assertThat(reloaded.getUpdatedBy()).isEqualTo("u-modifier");
-        assertThat(reloaded.getText()).isEqualTo("v2");
+            // 실 DB 왕복으로도 동일
+            SampleNote reloaded = repository.findById(id).orElseThrow();
+            assertThat(reloaded.getCreatedBy()).isEqualTo("u-create");
+            assertThat(reloaded.getUpdatedBy()).isEqualTo("u-modifier");
+            assertThat(reloaded.getText()).isEqualTo("v2");
+        }
     }
 
     @TestConfiguration
