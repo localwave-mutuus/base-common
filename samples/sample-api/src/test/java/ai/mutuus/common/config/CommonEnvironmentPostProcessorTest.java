@@ -7,10 +7,34 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.StandardEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CommonEnvironmentPostProcessorTest {
 
     private final CommonEnvironmentPostProcessor processor = new CommonEnvironmentPostProcessor();
+
+    @Test
+    void 강제_굴림은_기본_300초이며_env가_YAML보다_우선하고_0으로_끈다() {
+        String internal = "mutuus.logForceRollSeconds";
+        String previous = System.getProperty(internal);
+        try {
+            var defaults = new StandardEnvironment();
+            processor.postProcessEnvironment(defaults, null);
+            assertThat(defaults.getProperty("mutuus.common.logging.file.force-roll-seconds")).isEqualTo("300");
+            assertThat(System.getProperty(internal)).isEqualTo("300");
+            var override = new StandardEnvironment();
+            override.getPropertySources().addFirst(new MapPropertySource("applicationConfig", Map.of(
+                    "mutuus.common.logging.file.force-roll-seconds", "120", "GS_LOG_FORCE_ROLL_SECONDS", "0")));
+            processor.postProcessEnvironment(override, null);
+            assertThat(override.getProperty("mutuus.common.logging.file.force-roll-seconds")).isEqualTo("0");
+            assertThat(System.getProperty(internal)).isEqualTo("0");
+            var invalid = new StandardEnvironment();
+            invalid.getPropertySources().addFirst(new MapPropertySource("invalid", Map.of("GS_LOG_FORCE_ROLL_SECONDS", "-1")));
+            assertThatThrownBy(() -> processor.postProcessEnvironment(invalid, null)).isInstanceOf(IllegalArgumentException.class);
+        } finally {
+            if (previous == null) System.clearProperty(internal); else System.setProperty(internal, previous);
+        }
+    }
 
     @Test
     void 비웹_JavaHttp도_애플리케이션_W3C_비활성_설정을_받는다() {

@@ -224,4 +224,6 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 
 # 0.4.0 schema v2
 
+0.4.1은 유휴 서비스의 닫힌 파일 공개 타이머를 추가한다. `GS_LOG_FORCE_ROLL_SECONDS` 기본300초·0비활성화이며 파일명과 schema v2는 유지한다. [조용한 서비스 로그 회전 안내](docs/261019.001.QUIET_LOG_ROLLOVER.md).
+
 전환 계약과 필수 설정: [OpenTelemetry 0.4.0 실행 안내](docs/261018.001.OTEL_04_RC.md).

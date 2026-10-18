@@ -130,14 +130,18 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
         String interval = fileValue(environment, "GS_LOG_ROLL_INTERVAL", "roll-interval",
                 environment.getProperty("mutuus.log.roll-interval", LogFilePolicy.DEFAULT_ROLL_INTERVAL));
         String size = fileValue(environment, "GS_LOG_MAX_FILE_SIZE", "max-file-size", LogFilePolicy.DEFAULT_MAX_FILE_SIZE);
+        long forceRollSeconds = LogFilePolicy.forceRollSeconds(fileValue(environment,
+                "GS_LOG_FORCE_ROLL_SECONDS", "force-roll-seconds", LogFilePolicy.DEFAULT_FORCE_ROLL_SECONDS));
         String normalizedInterval = LogFilePolicy.rollInterval(interval).toString();
         long bytes = LogFilePolicy.maxFileSize(size);
         // env가 프로젝트 YAML보다 우선하며 바인딩과 Logback도 같은 확정값을 사용한다.
         environment.getPropertySources().addFirst(new MapPropertySource("mutuusLogFilePolicy", Map.of(
                 "mutuus.common.logging.file.roll-interval", normalizedInterval,
-                "mutuus.common.logging.file.max-file-size", bytes + "B")));
+                "mutuus.common.logging.file.max-file-size", bytes + "B",
+                "mutuus.common.logging.file.force-roll-seconds", Long.toString(forceRollSeconds))));
         System.setProperty("mutuus.logRollInterval", normalizedInterval);
         System.setProperty("mutuus.logMaxFileSize", bytes + "");
+        System.setProperty("mutuus.logForceRollSeconds", Long.toString(forceRollSeconds));
     }
 
     private String fileValue(ConfigurableEnvironment environment, String env, String key, String fallback) {

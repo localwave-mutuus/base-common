@@ -10,12 +10,25 @@ import java.util.regex.Pattern;
 public final class LogFilePolicy {
     public static final String DEFAULT_ROLL_INTERVAL = "PT1H";
     public static final String DEFAULT_MAX_FILE_SIZE = "100MB";
+    public static final String DEFAULT_FORCE_ROLL_SECONDS = "300";
     private static final Duration MIN = Duration.ofMinutes(1);
     private static final Duration MAX = Duration.ofHours(24);
     private static final long HOUR_NANOS = Duration.ofHours(1).toNanos();
     private static final Pattern SIZE = Pattern.compile("([0-9]+)\\s*(B|KB|MB|GB|TB)?", Pattern.CASE_INSENSITIVE);
 
     private LogFilePolicy() { }
+
+    /** 유휴 서비스도 닫힌 파일을 공개하는 주기. 0은 타이머 비활성화다. */
+    public static long forceRollSeconds(String value) {
+        try {
+            long seconds = Long.parseLong(value.trim());
+            if (seconds < 0) throw new IllegalArgumentException();
+            return seconds;
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException("mutuus.common.logging.file.force-roll-seconds (GS_LOG_FORCE_ROLL_SECONDS): "
+                    + "0 이상의 정수(초) 필요; 기본 300, 0은 비활성화", ex);
+        }
+    }
 
     public static Duration rollInterval(String value) {
         try {
