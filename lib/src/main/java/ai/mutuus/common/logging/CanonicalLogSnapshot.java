@@ -14,52 +14,17 @@ import java.util.*;
 public final class CanonicalLogSnapshot {
     static final String SNAPSHOT_KEY = "__common_platform_snapshot_v2";
     static final String CONTEXT_KEY = "__common_platform_completion_context";
-    private static final Set<String> CONTEXT_FIELDS = Set.of("user.id", "golmok.identity.realm", "golmok.auth.state",
-            "golmok.identity.source",
-            "trace.id", "span.id", "trace.flags", "parent.id", "golmok.scope", "golmok.request.id",
-            "golmok.application.code", "golmok.instance.code", "golmok.screen.id", "golmok.ui.event.id",
-            "golmok.device.level", "golmok.locale", "golmok.screen.catalog_version", "golmok.screen.business_no",
-            "golmok.screen.internal_id", "operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id");
-    private static final Set<String> METADATA_FIELDS = Set.of("operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id");
-    private static final Set<String> ALLOWED = Set.of(
-            "event.action", "event.dataset", "event.category", "event.type", "event.outcome", "event.duration",
-            "http.request.method", "http.response.status_code", "http.route", "url.path",
-            "error.code", "error.type", "error.message", "error.stack_trace", "operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id",
-            "golmok.scope", "golmok.screen.id", "session.id", "golmok.device.pseudo_id",
-            "golmok.auth.state", "golmok.identity.realm", "golmok.identity.source", "user.id", "trace.id", "span.id", "trace.flags", "parent.id",
-            "job.name", "golmok.executor.id", "code.namespace", "code.function", "rule.name", "url.query", "url.full", "url.domain",
-            "http.request.mime_type", "http.response.mime_type", "http.request.body.content", "http.request.body.bytes",
-            "http.response.body.content", "http.response.body.bytes", "http.request.headers",
-            "mutuus.payload.truncated", "mutuus.security.disposition", "mutuus.method.args", "mutuus.method.return",
-            "mutuus.domain_event.id", "mutuus.domain_event.type", "golmok.slow",
-            "golmok.request.id", "golmok.application.code", "golmok.instance.code", "golmok.ui.event.id",
-            "golmok.device.level", "golmok.screen.catalog_version", "golmok.screen.business_no", "golmok.screen.internal_id",
-            "golmok.locale", "golmok.actor.id", "golmok.related_member.ids", "golmok.diagnostic.code",
-            "golmok.security.reason", "golmok.security.principal", "golmok.security.claimed_user_id",
-            "golmok.security.authenticated_user_id", "golmok.security.roles_claim_path", "golmok.security.target_host",
-            "golmok.security.dropped_headers", "golmok.security.subject", "golmok.security.detail", "golmok.security.event");
-    private static final Map<String, String> UNIQUE_ALIASES = Map.ofEntries(
-            Map.entry("requestId", "golmok.request.id"), Map.entry("actorId", "golmok.actor.id"),
-            Map.entry("relatedMemberIds", "golmok.related_member.ids"), Map.entry("diagnosticCode", "golmok.diagnostic.code"),
-            Map.entry("slow", "golmok.slow"), Map.entry("reason", "golmok.security.reason"),
-            Map.entry("principal", "golmok.security.principal"), Map.entry("claimedUserId", "golmok.security.claimed_user_id"),
-            Map.entry("authenticatedUserId", "golmok.security.authenticated_user_id"),
-            Map.entry("rolesClaimPath", "golmok.security.roles_claim_path"), Map.entry("targetHost", "golmok.security.target_host"),
-            Map.entry("droppedHeaders", "golmok.security.dropped_headers"), Map.entry("subject", "golmok.security.subject"),
-            Map.entry("detail", "golmok.security.detail"), Map.entry("securityEvent", "golmok.security.event"),
-            Map.entry("requestHeaders", "http.request.headers"), Map.entry("errorCode", "error.code"));
+    private static final TelemetryFieldRegistry REGISTRY = TelemetryFieldRegistry.load();
+    private static final Set<String> CONTEXT_FIELDS = REGISTRY.protectedFields();
+    private static final Set<String> METADATA_FIELDS = REGISTRY.metadataFields();
+    private static final Set<String> ALLOWED = REGISTRY.structuredInputFields();
+    private static final Map<String, String> UNIQUE_ALIASES = REGISTRY.normalizationAliases();
     private static final Map<String, String> HINTS = Map.ofEntries(
             Map.entry(HeaderNames.SCREEN_ID, "golmok.screen.id"), Map.entry(HeaderNames.EVENT_ID, "golmok.ui.event.id"),
             Map.entry(HeaderNames.DEVICE_LEVEL, "golmok.device.level"), Map.entry(HeaderNames.LOCALE, "golmok.locale"),
             Map.entry(HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version"),
             Map.entry(HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no"),
             Map.entry(HeaderNames.INTERNAL_SCREEN_ID, "golmok.screen.internal_id"));
-    private static final Set<String> LEGACY_MDC = Set.of("trace_id", "span_id", "trace_flags", "transaction.id",
-            "userId", "app", "appCode", "instanceCode", "env", "service.environment", "data_stream.namespace",
-            "httpMethod", "httpStatus", "httpPath", "status", "durationMs", "errorCode", "outcome", "event",
-            "event.value", "url.value", "level", "level_value", "logger_name", "stack_trace", "@timestamp", "event.id",
-            "service.name", "service.instance.id", "service.version", "deployment.environment.name", "log.level",
-            "log.severity_number", "log.logger", "golmok.schema.version");
     private static final Set<String> LEGACY_HEADER_MDC = Set.copyOf(Arrays.asList(HeaderNames.PROPAGATED));
 
     private CanonicalLogSnapshot() { }
@@ -110,6 +75,7 @@ public final class CanonicalLogSnapshot {
         var mdc = event.getMDCPropertyMap();
         for (String key : List.of("golmok.screen.id", "session.id", "golmok.device.pseudo_id"))
             putNonblank(flat, key, mdc.get(key));
+        captureApprovedMdc(mdc, flat);
         captureUnknownMdc(mdc, flat);
         if (event.getKeyValuePairs() != null) {
             for (KeyValuePair pair : event.getKeyValuePairs()) {
@@ -137,14 +103,18 @@ public final class CanonicalLogSnapshot {
             flat.put("error.stack_trace", ThrowableProxyUtil.asString(event.getThrowableProxy()));
         }
         if ("mutuus.security_audit".equals(flat.get("event.dataset"))) {
-            Object address = event.getKeyValuePairs() == null ? null : event.getKeyValuePairs().stream()
+            Object address = event.getKeyValuePairs() == null ? flat.get("client.ip") : event.getKeyValuePairs().stream()
                     .filter(pair -> "client.ip".equals(pair.key) || "clientIp".equals(pair.key))
-                    .map(pair -> pair.value).filter(Objects::nonNull).findFirst().orElse(null);
+                    .map(pair -> pair.value).filter(Objects::nonNull).findFirst().orElse(flat.get("client.ip"));
             if (address instanceof String ip && ip.matches("(?:[0-9]{1,3}\\.){3}[0-9]{1,3}"))
                 flat.put("client.ip", ip.substring(0, ip.lastIndexOf('.') + 1) + "0");
             else if (address instanceof String ip && ip.matches("[0-9a-fA-F:]+") && ip.contains(":"))
                 flat.put("client.ip", "::");
+            else flat.remove("client.ip");
+        } else {
+            flat.remove("client.ip");
         }
+        REGISTRY.validateNames(flat);
         return Collections.unmodifiableMap(flat);
     }
 
@@ -179,12 +149,43 @@ public final class CanonicalLogSnapshot {
     }
     private static boolean safeHint(String value) { return value.length() <= 64 && value.matches("[A-Za-z0-9_.:-]+"); }
 
+    /** 레지스트리가 명시 승인한 업무 메타데이터만 MDC 입력으로 읽는다. 인증/trace/헤더에서 추정하지 않는다. */
+    private static void captureApprovedMdc(Map<String, String> mdc, Map<String, Object> flat) {
+        for (String canonical : REGISTRY.mdcInputFields()) {
+            String raw = mdc.get(canonical);
+            if (raw == null) {
+                for (var alias : UNIQUE_ALIASES.entrySet()) {
+                    if (canonical.equals(alias.getValue()) && mdc.containsKey(alias.getKey())) { raw = mdc.get(alias.getKey()); break; }
+                }
+            }
+            if (raw == null) continue;
+            Object normalized = approvedMdcValue(REGISTRY.fields().get(canonical), raw);
+            if (normalized != null) flat.put(canonical, normalized);
+            else flat.remove(canonical);
+        }
+    }
+    private static Object approvedMdcValue(TelemetryFieldRegistry.Field field, String raw) {
+        if (!field.array()) return raw.matches("[A-Za-z0-9_.:-]{1,128}") ? raw : null;
+        if (raw.length() > 16384) return null;
+        try (com.fasterxml.jackson.core.JsonParser json = new com.fasterxml.jackson.core.JsonFactory().createParser(raw)) {
+            if (json.nextToken() != com.fasterxml.jackson.core.JsonToken.START_ARRAY) return null;
+            List<String> ids = new ArrayList<>();
+            while (json.nextToken() != com.fasterxml.jackson.core.JsonToken.END_ARRAY) {
+                if (json.currentToken() != com.fasterxml.jackson.core.JsonToken.VALUE_STRING || ids.size() == 64) return null;
+                String id = json.getText();
+                if (!id.matches("[A-Za-z0-9_.:-]{1,128}")) return null;
+                ids.add(id);
+            }
+            return json.nextToken() == null ? List.copyOf(ids) : null;
+        } catch (java.io.IOException invalid) { return null; }
+    }
+
     /** P0 v1.1: 미검토 MDC는 원문 값을 읽지 않고 허용된 키와 검토대기 표식만 보존한다. */
     private static void captureUnknownMdc(Map<String, String> mdc, Map<String, Object> flat) {
         int unknown = 0;
         Map<String, Object> attributes = new LinkedHashMap<>();
         for (String key : mdc.keySet()) {
-            if (key != null && (LEGACY_HEADER_MDC.contains(key) || HINTS.containsKey(key) || ALLOWED.contains(key) || LEGACY_MDC.contains(key)
+            if (key != null && (LEGACY_HEADER_MDC.contains(key) || HINTS.containsKey(key) || REGISTRY.fields().containsKey(key) || REGISTRY.discardedAliases().contains(key)
                     || UNIQUE_ALIASES.containsKey(key))) continue;
             unknown++;
             String name = key != null && key.matches("[A-Za-z0-9_.-]{1,64}") ? key : "invalid_key";

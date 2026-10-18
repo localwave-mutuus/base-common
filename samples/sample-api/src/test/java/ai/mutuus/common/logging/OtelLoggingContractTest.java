@@ -306,6 +306,7 @@ class OtelLoggingContractTest {
         return request;
     }
     private Map<String, String> fields(ILoggingEvent event) throws IOException {
+        TelemetryFieldRegistry.load().validateSnapshot(CanonicalLogSnapshot.snapshot(event));
         Map<String, String> flat = new LinkedHashMap<>();
         try (JsonParser json = new JsonFactory().createParser(encoder.encode(event))) {
             assertThat(json.nextToken()).isEqualTo(JsonToken.START_OBJECT);

@@ -7,13 +7,13 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.4.0-rc.1</version>
+        <version>0.4.0-rc.2</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform</artifactId>
-    <version>0.4.0-rc.1</version>
+    <version>0.4.0-rc.2</version>
     <packaging>jar</packaging>
     <name>common-platform</name>
     <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>
@@ -155,6 +155,25 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.6.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-telemetry-contract</id>
+                        <phase>process-classes</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                            <mainClass>ai.mutuus.common.logging.TelemetryRegistryGenerator</mainClass>
+                            <classpathScope>compile</classpathScope>
+                            <arguments>
+                                <argument>${project.build.outputDirectory}/common-platform/generated</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
