@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- schema v2 정본. root는 snapshot fanout 한 개만 참조한다. OTel agent logback-appender 자동 계측은 꺼서 LogsBridge 중복 전송을 막는다. -->
+<included>
+    <property name="LOG_DIR" value="${mutuus.logDirectory:-${LOG_DIR:-logs}}"/>
+    <property name="LOG_FILE_BASE" value="${mutuus.logFileBase:-local-app-00000000-0}"/>
+
+
+
+
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ai.mutuus.common.logging.CommonJsonEncoder"/>
+    </appender>
+
+
+    <appender name="JSON_FILE" class="ai.mutuus.common.logging.ClosingRollingFileAppender">
+        <file>${LOG_DIR}/${LOG_FILE_BASE}.log</file>
+        <rollingPolicy class="ai.mutuus.common.logging.ClosedFileRollingPolicy">
+
+            <fileNamePattern>${LOG_DIR}/${LOG_FILE_BASE}.%d{yyyyMMdd-HH}.%i.log.gz</fileNamePattern>
+            <rollInterval>${mutuus.logRollInterval:-${GS_LOG_ROLL_INTERVAL:-PT1H}}</rollInterval>
+            <maxFileSize>${mutuus.logMaxFileSize:-${GS_LOG_MAX_FILE_SIZE:-100MB}}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ai.mutuus.common.logging.CommonJsonEncoder"/>
+    </appender>
+
+
+    <appender name="ASYNC_JSON_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>false</neverBlock>
+        <maxFlushTime>0</maxFlushTime>
+        <appender-ref ref="JSON_FILE"/>
+    </appender>
+
+    <!-- event.id와 검증 신원/trace를 비동기 큐 진입 전에 고정한다. -->
+    <appender name="COMMON_SNAPSHOT" class="ai.mutuus.common.logging.SnapshotAppender">
+        <appender-ref ref="JSON_CONSOLE"/>
+        <appender-ref ref="ASYNC_JSON_FILE"/>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="COMMON_SNAPSHOT"/>
+    </root>
+</included>

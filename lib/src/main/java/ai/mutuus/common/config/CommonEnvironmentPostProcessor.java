@@ -27,7 +27,8 @@ public class CommonEnvironmentPostProcessor implements EnvironmentPostProcessor,
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Map<String, Object> defaults = new HashMap<>();
         // 관측/추적 기본값
-        defaults.put("management.tracing.sampling.probability", "1.0");
+        // The Java agent is the sole SDK/provider owner; Boot must not create a second provider.
+        defaults.put("management.tracing.enabled", "false");
         defaults.put("management.endpoints.web.exposure.include", "health,info,metrics,prometheus");
         // 다국어 기본값
         defaults.put("spring.messages.basename", "messages/messages");

@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.StringJoiner;
 
 import ai.mutuus.common.core.HeaderNames;
-import ai.mutuus.common.core.TraceHeaders;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.springframework.http.HttpRequest;
@@ -15,19 +14,15 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * 아웃바운드 호출(RestClient/RestTemplate)에 e2e 헤더를 자동 부착한다.
- * <p>현재 {@link TraceContext}의 추적/화면/이벤트/단말/사용자 헤더를 하위 API로 전파하며, 현재 span ID를
- * 다음 서비스의 parent로 보낸다. <b>보안</b>: 대상 호스트가 신뢰 allowlist({@code mutuus.common.propagation.allowed-hosts}) 밖이면
- * 식별/민감 헤더({@link HeaderNames#IDENTITY})는 <b>부착하지 않고</b>({@code security.propagation.blocked} 기록)
- * 상관용(trace/span/locale)만 전파해 외부로의 사용자·내부 토폴로지 유출을 막는다. allowlist 가 비어 있으면 전부 전파(하위호환).
+ * 승인한 내부 호스트에 화면/로케일 힌트를 전파한다. Java agent가 CLIENT span과 W3C 전파를 소유한다.
+ * <p>커스텀 trace/span/user 주장은 전달하지 않는다. 식별 헤더 차단은 값 없이 감사 이벤트에 남긴다.
  */
 public class HeaderPropagationInterceptor implements ClientHttpRequestInterceptor {
 
     private final List<String> allowedHosts;
     private final SecurityAuditLogger securityAuditLogger;
-    private final boolean w3c;
 
-    /** 하위호환 기본 — allowlist 없음(전부 전파), 감사 로깅 무동작. */
+    /** allowlist 미지정 시 식별 메타데이터 전파를 허용하지 않는다. */
     public HeaderPropagationInterceptor() {
         this(List.of(), new SecurityAuditLogger());
     }
@@ -39,7 +34,6 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
     public HeaderPropagationInterceptor(List<String> allowedHosts, SecurityAuditLogger securityAuditLogger, boolean w3c) {
         this.allowedHosts = allowedHosts == null ? List.of() : List.copyOf(allowedHosts);
         this.securityAuditLogger = securityAuditLogger;
-        this.w3c = w3c;
     }
 
     @Override
@@ -50,31 +44,30 @@ public class HeaderPropagationInterceptor implements ClientHttpRequestIntercepto
         boolean trusted = isTrusted(host);
 
         StringJoiner dropped = new StringJoiner(",");
-        for (String name : HeaderNames.PROPAGATED) {
-            if (HeaderNames.SPAN_ID.equals(name)) {
-                continue; // 상관키는 아래 공통 헬퍼로 한 번에 처리
+        if (!trusted) {
+            for (String name : HeaderNames.IDENTITY) {
+                if (headers.containsHeader(name) || TraceContext.get(name).isPresent()) dropped.add(name);
             }
-            if (!trusted && HeaderNames.IDENTITY.contains(name)) {
-                if (TraceContext.get(name).isPresent()) {
-                    dropped.add(name); // 신뢰 밖 호스트엔 식별 헤더 미부착
-                }
-                continue;
+        }
+        // Agent creates the CLIENT span and injects W3C headers. Never inject a SERVER span
+        // or turn an unverified user/header assertion into downstream identity.
+        headers.remove(HeaderNames.USER_ID);
+        headers.remove(HeaderNames.TRACE_ID);
+        headers.remove(HeaderNames.SPAN_ID);
+        if (trusted) {
+            for (String name : List.of(HeaderNames.SCREEN_ID, HeaderNames.LOCALE)) {
+                TraceContext.get(name).ifPresent(v -> headers.set(name, v));
             }
-            TraceContext.get(name).ifPresent(v -> headers.set(name, v));
+        } else {
+            for (String name : HeaderNames.IDENTITY) headers.remove(name);
+            if (dropped.length() > 0) securityAuditLogger.propagationBlocked(host, dropped.toString());
         }
-        if (dropped.length() > 0) {
-            securityAuditLogger.propagationBlocked(host, dropped.toString());
-        }
-        headers.remove(TraceHeaders.TRACEPARENT);
-        TraceHeaders.outbound(w3c).forEach(headers::set);
         return execution.execute(request, body);
     }
 
-    /** allowlist 가 비면 모두 신뢰(하위호환). 지정 시 정확 일치 또는 {@code .suffix} 접미 일치(대소문자 무시). */
+    /** 정확 일치 또는 하위 도메인 일치, 빈 allowlist는 fail-closed. */
     private boolean isTrusted(String host) {
-        if (allowedHosts.isEmpty()) {
-            return true;
-        }
+        if (allowedHosts.isEmpty()) return false;
         if (host == null) {
             return false;
         }

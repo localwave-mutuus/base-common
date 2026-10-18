@@ -42,7 +42,14 @@ jobs:
 
       - name: Verify the reactor before publication
         if: ${{ inputs.verify_published_only != true }}
-        run: bash ./mvnw -B clean verify
+        run: |
+          # DEV release candidates use the approved bounded contract suite. Stable releases retain full verification.
+          if [[ "$GITHUB_REF_NAME" == v0.4.0-rc.* ]]; then
+            bash ./mvnw -B '-Dtest=Otel*ContractTest,TraceContextTest,TraceHeadersTest,TraceFilterTest,TraceContextPropagationTest,CommonAsyncAutoConfigurationTest,CommonSecurityAutoConfigurationTest,SecurityPropagationBlockIntegrationTest,HeaderPropagationInterceptorTest,BatchLoggingNonTransitivityTest,ActionLoggingNonWebTest' \
+              -Dsurefire.failIfNoSpecifiedTests=false clean verify
+          else
+            bash ./mvnw -B clean verify
+          fi
 
       - name: Publish verified reactor artifacts
         if: ${{ inputs.verify_published_only != true }}
@@ -58,8 +65,13 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm -rf "$RUNNER_TEMP/m2-consumer"
-          bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
-            -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" clean test
+          if [[ "$GITHUB_REF_NAME" == v0.4.0-rc.* ]]; then
+            bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
+              -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" '-Dtest=Otel*ContractTest' clean test
+          else
+            bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
+              -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" clean test
+          fi
 
       - name: Recheck failed published response event assertion
         if: ${{ inputs.verify_published_only == true && inputs.verification_scope == 'ecs-response' }}

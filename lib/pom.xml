@@ -7,13 +7,13 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0-rc.1</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-rc.1</version>
     <packaging>jar</packaging>
     <name>common-platform</name>
     <description>AI backend common library (telemetry/logging/trace/session/i18n/auth/util)</description>
@@ -94,15 +94,12 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!-- 0.4 core TraceContext requires the small API even for direct lib consumers.
+             Only the API is transitive: the agent owns SDK/exporters. -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-            <optional>true</optional>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>${opentelemetry.version}</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>

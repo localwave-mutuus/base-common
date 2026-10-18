@@ -14,13 +14,13 @@ class TraceContextTest {
     }
 
     @Test
-    void put한_값을_traceId_userId_단축접근자로_읽는다() {
+    void 임의로_설정한_traceId_userId는_무시한다() {
         TraceContext.put(HeaderNames.TRACE_ID, "t-1");
         TraceContext.put(HeaderNames.USER_ID, "u-9");
 
-        assertThat(TraceContext.traceId()).isEqualTo("t-1");
-        assertThat(TraceContext.userId()).isEqualTo("u-9");
-        assertThat(TraceContext.get(HeaderNames.TRACE_ID)).contains("t-1");
+        assertThat(TraceContext.traceId()).isNull();
+        assertThat(TraceContext.userId()).isNull();
+        assertThat(TraceContext.get(HeaderNames.TRACE_ID)).isEmpty();
     }
 
     @Test
@@ -37,10 +37,10 @@ class TraceContextTest {
 
     @Test
     void snapshot은_불변_복사본이다() {
-        TraceContext.put(HeaderNames.TRACE_ID, "t-1");
+        TraceContext.put(HeaderNames.SCREEN_ID, "screen-1");
         var snapshot = TraceContext.snapshot();
 
-        assertThat(snapshot).containsEntry(HeaderNames.TRACE_ID, "t-1");
+        assertThat(snapshot).containsEntry(HeaderNames.SCREEN_ID, "screen-1");
         assertThatThrownBy(() -> snapshot.put("x", "y"))
                 .isInstanceOf(UnsupportedOperationException.class);
     }

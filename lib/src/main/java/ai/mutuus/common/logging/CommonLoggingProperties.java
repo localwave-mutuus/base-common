@@ -29,10 +29,10 @@ public class CommonLoggingProperties {
     private boolean enabled = true;
 
     /**
-     * 로그 필드 포맷. {@link LogFormat#DUAL}(기본) 이면 기존 필드 + ECS 필드를 함께 남긴다(전환기).
-     * ECS 로 완전 이관 후 {@link LogFormat#ECS}, 되돌리려면 {@link LogFormat#LEGACY}.
+     * 기본은 canonical 필드 공급용 ECS다. LEGACY/DUAL은 호출부 소스 호환을 위해 유지하며,
+     * 공통 인코더의 schema v2 출력은 이 설정과 무관하게 한 가지다.
      */
-    private LogFormat format = LogFormat.DUAL;
+    private LogFormat format = LogFormat.ECS;
 
     /** 배포 환경(local/dev/stage/prod). ECS {@code service.environment}/{@code data_stream.namespace} 의 근거. */
     private String environment;

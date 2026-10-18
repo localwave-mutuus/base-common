@@ -3,10 +3,12 @@ package ai.mutuus.common.core;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import io.opentelemetry.api.trace.Span;
 
 /**
- * 요청 단위 e2e 추적 컨텍스트.
- * <p>ThreadLocal 기반으로 추적ID/화면ID/이벤트ID/단말정보/사용자 등을 보관한다.
+ * OTel 현재 span 및 검증된 사용자 문맥의 호환 facade.
+ * <p>업무 힌트만 ThreadLocal로 보관하며 추적/사용자 식별자는 임의 값으로 덮어쓸 수 없다.
  * 가상 스레드 및 비동기({@code @Async}) 전파 시에는
  * {@code ai.mutuus.common.async.TraceContextPropagation} 와 함께 사용한다.
  */
@@ -19,12 +21,16 @@ public final class TraceContext {
     }
 
     public static void put(String key, String value) {
-        if (value != null) {
+        if (value != null && !HeaderNames.TRACE_ID.equals(key) && !HeaderNames.SPAN_ID.equals(key)
+                && !HeaderNames.USER_ID.equals(key)) {
             HOLDER.get().put(key, value);
         }
     }
 
     public static Optional<String> get(String key) {
+        if (HeaderNames.TRACE_ID.equals(key)) return Optional.ofNullable(traceId());
+        if (HeaderNames.SPAN_ID.equals(key)) return Optional.ofNullable(spanId());
+        if (HeaderNames.USER_ID.equals(key)) return Optional.ofNullable(userId());
         return Optional.ofNullable(HOLDER.get().get(key));
     }
 
@@ -33,7 +39,11 @@ public final class TraceContext {
     }
 
     public static Map<String, String> snapshot() {
-        return Map.copyOf(HOLDER.get());
+        Map<String, String> result = new HashMap<>(HOLDER.get());
+        if (traceId() != null) result.put(HeaderNames.TRACE_ID, traceId());
+        if (spanId() != null) result.put(HeaderNames.SPAN_ID, spanId());
+        if (userId() != null) result.put(HeaderNames.USER_ID, userId());
+        return Map.copyOf(result);
     }
 
     /**
@@ -49,11 +59,17 @@ public final class TraceContext {
     }
 
     public static String traceId() {
-        return get(HeaderNames.TRACE_ID).orElse(null);
+        var context = Span.current().getSpanContext();
+        return context.isValid() ? context.getTraceId() : null;
+    }
+
+    public static String spanId() {
+        var context = Span.current().getSpanContext();
+        return context.isValid() ? context.getSpanId() : null;
     }
 
     public static String userId() {
-        return get(HeaderNames.USER_ID).orElse(null);
+        return VerifiedIdentityContext.currentUserId();
     }
 
     public static void clear() {

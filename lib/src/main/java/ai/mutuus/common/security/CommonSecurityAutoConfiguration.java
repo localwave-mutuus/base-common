@@ -28,7 +28,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 
 /**
  * 공통 보안 자동 구성.
@@ -47,7 +47,8 @@ public class CommonSecurityAutoConfiguration {
                                                          CommonSecurityProperties props,
                                                          JwtAuthenticationConverter jwtAuthenticationConverter,
                                                          ObjectProvider<AccessLogger> accessLogger,
-                                                         ObjectProvider<SecurityAuditLogger> securityAuditLogger)
+                                                         ObjectProvider<SecurityAuditLogger> securityAuditLogger,
+                                                         AuthenticationIdentityAdapter identityAdapter)
             throws Exception {
         // 액세스/보안감사 로깅이 비활성(빈 없음)이면 무동작 로거로 폴백
         AccessLogger logger = accessLogger.getIfAvailable(AccessLogger::new);
@@ -83,9 +84,16 @@ public class CommonSecurityAutoConfiguration {
                         .accessDeniedHandler(deniedHandler)
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)))
                 // 인증 확정 후 실제 주체를 추적/로깅 컨텍스트에 반영 + 인입 X-User-Id 위장 탐지
-                .addFilterAfter(new AuthenticatedUserContextFilter(audit, props.isTrustForwardedUser()),
-                        AuthorizationFilter.class);
+                .addFilterBefore(new AuthenticatedUserContextFilter(audit, identityAdapter),
+                        ExceptionTranslationFilter.class);
         return http.build();
+    }
+
+    /** Verified JWT subject by default; applications with other principals supply an explicit adapter. */
+    @Bean
+    @ConditionalOnMissingBean(AuthenticationIdentityAdapter.class)
+    public AuthenticationIdentityAdapter authenticationIdentityAdapter() {
+        return new JwtSubjectIdentityAdapter();
     }
 
     /** 보안 응답 헤더(하드닝, opt-in) — 활성 시 Referrer-Policy·Permissions-Policy·CSP(설정 시)를 응답에 추가. */

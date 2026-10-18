@@ -19,7 +19,7 @@
     -->
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform-parent</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-rc.1</version>
     <packaging>pom</packaging>
     <name>common-platform-parent</name>
     <description>common-platform 게시 모듈 공용 부모 — 게시 좌표·배포 정책·공통 버전 단일 관리</description>
@@ -32,6 +32,7 @@
         <github.packages.owner>localwave-mutuus</github.packages.owner>
         <github.packages.repository>base-common</github.packages.repository>
         <!-- 라이브러리가 노출하는 optional 3rd-party 버전(소비자 BOM 과 동일 출처) -->
+        <opentelemetry.version>1.62.0</opentelemetry.version>
         <logstash-encoder.version>8.0</logstash-encoder.version>
         <springdoc.version>3.0.3</springdoc.version>
         <spring-modulith.version>2.1.0</spring-modulith.version>

@@ -1,0 +1,210 @@
+package ai.mutuus.common.logging;
+
+import ai.mutuus.common.core.VerifiedIdentityContext;
+import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.core.HeaderNames;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.ThrowableProxyUtil;
+import io.opentelemetry.api.trace.Span;
+import org.slf4j.event.KeyValuePair;
+
+import java.util.*;
+
+/** 비동기 큐에 넘기기 전에 고정하는 schema v2 이벤트. MDC 전체나 사용자 헤더는 복제하지 않는다. */
+public final class CanonicalLogSnapshot {
+    static final String SNAPSHOT_KEY = "__common_platform_snapshot_v2";
+    static final String CONTEXT_KEY = "__common_platform_completion_context";
+    private static final Set<String> CONTEXT_FIELDS = Set.of("user.id", "golmok.identity.realm", "golmok.auth.state",
+            "golmok.identity.source",
+            "trace.id", "span.id", "trace.flags", "parent.id", "golmok.scope", "golmok.request.id",
+            "golmok.application.code", "golmok.instance.code", "golmok.screen.id", "golmok.ui.event.id",
+            "golmok.device.level", "golmok.locale", "golmok.screen.catalog_version", "golmok.screen.business_no",
+            "golmok.screen.internal_id", "operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id");
+    private static final Set<String> METADATA_FIELDS = Set.of("operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id");
+    private static final Set<String> ALLOWED = Set.of(
+            "event.action", "event.dataset", "event.category", "event.type", "event.outcome", "event.duration",
+            "http.request.method", "http.response.status_code", "http.route", "url.path",
+            "error.code", "error.type", "error.message", "error.stack_trace", "operation.id", "execution.id", "golmok.attempt.id", "golmok.message.event.id",
+            "golmok.scope", "golmok.screen.id", "session.id", "golmok.device.pseudo_id",
+            "golmok.auth.state", "golmok.identity.realm", "golmok.identity.source", "user.id", "trace.id", "span.id", "trace.flags", "parent.id",
+            "job.name", "golmok.executor.id", "code.namespace", "code.function", "rule.name", "url.query", "url.full", "url.domain",
+            "http.request.mime_type", "http.response.mime_type", "http.request.body.content", "http.request.body.bytes",
+            "http.response.body.content", "http.response.body.bytes", "http.request.headers",
+            "mutuus.payload.truncated", "mutuus.security.disposition", "mutuus.method.args", "mutuus.method.return",
+            "mutuus.domain_event.id", "mutuus.domain_event.type", "golmok.slow",
+            "golmok.request.id", "golmok.application.code", "golmok.instance.code", "golmok.ui.event.id",
+            "golmok.device.level", "golmok.screen.catalog_version", "golmok.screen.business_no", "golmok.screen.internal_id",
+            "golmok.locale", "golmok.actor.id", "golmok.related_member.ids", "golmok.diagnostic.code",
+            "golmok.security.reason", "golmok.security.principal", "golmok.security.claimed_user_id",
+            "golmok.security.authenticated_user_id", "golmok.security.roles_claim_path", "golmok.security.target_host",
+            "golmok.security.dropped_headers", "golmok.security.subject", "golmok.security.detail", "golmok.security.event");
+    private static final Map<String, String> UNIQUE_ALIASES = Map.ofEntries(
+            Map.entry("requestId", "golmok.request.id"), Map.entry("actorId", "golmok.actor.id"),
+            Map.entry("relatedMemberIds", "golmok.related_member.ids"), Map.entry("diagnosticCode", "golmok.diagnostic.code"),
+            Map.entry("slow", "golmok.slow"), Map.entry("reason", "golmok.security.reason"),
+            Map.entry("principal", "golmok.security.principal"), Map.entry("claimedUserId", "golmok.security.claimed_user_id"),
+            Map.entry("authenticatedUserId", "golmok.security.authenticated_user_id"),
+            Map.entry("rolesClaimPath", "golmok.security.roles_claim_path"), Map.entry("targetHost", "golmok.security.target_host"),
+            Map.entry("droppedHeaders", "golmok.security.dropped_headers"), Map.entry("subject", "golmok.security.subject"),
+            Map.entry("detail", "golmok.security.detail"), Map.entry("securityEvent", "golmok.security.event"),
+            Map.entry("requestHeaders", "http.request.headers"), Map.entry("errorCode", "error.code"));
+    private static final Map<String, String> HINTS = Map.ofEntries(
+            Map.entry(HeaderNames.SCREEN_ID, "golmok.screen.id"), Map.entry(HeaderNames.EVENT_ID, "golmok.ui.event.id"),
+            Map.entry(HeaderNames.DEVICE_LEVEL, "golmok.device.level"), Map.entry(HeaderNames.LOCALE, "golmok.locale"),
+            Map.entry(HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version"),
+            Map.entry(HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no"),
+            Map.entry(HeaderNames.INTERNAL_SCREEN_ID, "golmok.screen.internal_id"));
+    private static final Set<String> LEGACY_MDC = Set.of("trace_id", "span_id", "trace_flags", "transaction.id",
+            "userId", "app", "appCode", "instanceCode", "env", "service.environment", "data_stream.namespace",
+            "httpMethod", "httpStatus", "httpPath", "status", "durationMs", "errorCode", "outcome", "event",
+            "event.value", "url.value", "level", "level_value", "logger_name", "stack_trace", "@timestamp", "event.id",
+            "service.name", "service.instance.id", "service.version", "deployment.environment.name", "log.level",
+            "log.severity_number", "log.logger", "golmok.schema.version");
+    private static final Set<String> LEGACY_HEADER_MDC = Set.copyOf(Arrays.asList(HeaderNames.PROPAGATED));
+
+    private CanonicalLogSnapshot() { }
+
+    public static Map<String, Object> context() {
+        Map<String, Object> result = new LinkedHashMap<>();
+        var span = Span.current().getSpanContext();
+        if (span.isValid()) {
+            result.put("trace.id", span.getTraceId());
+            result.put("span.id", span.getSpanId());
+            result.put("trace.flags", Byte.toUnsignedInt(span.getTraceFlags().asByte()));
+        }
+        var identity = VerifiedIdentityContext.current();
+        result.putAll(identity.fields());
+        result.putAll(ai.mutuus.common.core.TelemetryMetadata.current());
+        result.put("golmok.scope", ai.mutuus.common.core.TelemetryScope.current());
+        HINTS.forEach((header, field) -> TraceContext.get(header).filter(CanonicalLogSnapshot::safeHint)
+                .ifPresent(value -> result.put(field, value)));
+        TraceContext.get(ai.mutuus.common.core.RequestIds.CONTEXT_KEY).ifPresent(value -> result.put("golmok.request.id", value));
+        putNonblank(result, "golmok.application.code", System.getProperty("mutuus.appCode"));
+        putNonblank(result, "golmok.instance.code", System.getProperty("mutuus.instanceCode"));
+        return Map.copyOf(result);
+    }
+
+    static Map<String, Object> requestMetadata(java.util.function.Function<String, String> reader) {
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        for (String header : List.of(HeaderNames.SCREEN_ID, HeaderNames.EVENT_ID, HeaderNames.DEVICE_LEVEL, HeaderNames.LOCALE)) {
+            String value = reader.apply(header);
+            if (value != null && safeHint(value)) metadata.put(HINTS.get(header), value);
+        }
+        ai.mutuus.common.core.ScreenMetadata.fromHeaders(reader).forEach((header, value) -> metadata.put(HINTS.get(header), value));
+        return Map.copyOf(metadata);
+    }
+
+    /** 단말의 MDC 키는 읽지 않는다. 실제 OTel Context와 검증된 신원만 출처로 사용한다. */
+    static Map<String, Object> capture(ILoggingEvent event) {
+        Map<String, Object> flat = new LinkedHashMap<>();
+        flat.put("@timestamp", event.getInstant().toString());
+        flat.put("event.id", UUID.randomUUID().toString());
+        flat.put("golmok.schema.version", 2);
+        flat.put("message", event.getFormattedMessage());
+        flat.put("log.level", event.getLevel().levelStr.toLowerCase(Locale.ROOT));
+        flat.put("log.severity_number", severity(event.getLevel().toInt()));
+        flat.put("log.logger", event.getLoggerName());
+        flat.putAll(CommonLogResource.current());
+        flat.putAll(context());
+        // 전파된 부가 메타데이터도 명시 허용 목록만 읽는다. 신원·trace는 MDC로 덮어쓸 수 없다.
+        var mdc = event.getMDCPropertyMap();
+        for (String key : List.of("golmok.screen.id", "session.id", "golmok.device.pseudo_id"))
+            putNonblank(flat, key, mdc.get(key));
+        captureUnknownMdc(mdc, flat);
+        if (event.getKeyValuePairs() != null) {
+            for (KeyValuePair pair : event.getKeyValuePairs()) {
+                if (ALLOWED.contains(pair.key) && !CONTEXT_FIELDS.contains(pair.key) && pair.value != null)
+                    flat.put(pair.key, freeze(pair.value));
+                if (METADATA_FIELDS.contains(pair.key) && pair.value != null)
+                    flat.putIfAbsent(pair.key, freeze(pair.value));
+                String canonical = UNIQUE_ALIASES.get(pair.key);
+                if (canonical != null && pair.value != null) flat.putIfAbsent(canonical, freeze(pair.value));
+                if ("golmok.scope".equals(pair.key) && Set.of("request", "job", "lifecycle", "collector").contains(pair.value))
+                    flat.put(pair.key, pair.value);
+                if (CONTEXT_KEY.equals(pair.key) && pair.value instanceof Map<?, ?> snapshot) {
+                    CONTEXT_FIELDS.forEach(flat::remove);
+                    snapshot.forEach((key, value) -> { if (CONTEXT_FIELDS.contains(key) && value != null)
+                        flat.put(key.toString(), freeze(value)); });
+                }
+            }
+        }
+        // 구 facade에서 들어온 잘못된 ID는 OTel ID인 것처럼 출력하지 않는다.
+        if (!validId(flat.get("trace.id"), 32)) flat.remove("trace.id");
+        if (!validId(flat.get("span.id"), 16)) flat.remove("span.id");
+        if (!validId(flat.get("parent.id"), 16)) flat.remove("parent.id");
+        if (event.getThrowableProxy() != null) {
+            flat.put("error.type", event.getThrowableProxy().getClassName());
+            flat.put("error.stack_trace", ThrowableProxyUtil.asString(event.getThrowableProxy()));
+        }
+        if ("mutuus.security_audit".equals(flat.get("event.dataset"))) {
+            Object address = event.getKeyValuePairs() == null ? null : event.getKeyValuePairs().stream()
+                    .filter(pair -> "client.ip".equals(pair.key) || "clientIp".equals(pair.key))
+                    .map(pair -> pair.value).filter(Objects::nonNull).findFirst().orElse(null);
+            if (address instanceof String ip && ip.matches("(?:[0-9]{1,3}\\.){3}[0-9]{1,3}"))
+                flat.put("client.ip", ip.substring(0, ip.lastIndexOf('.') + 1) + "0");
+            else if (address instanceof String ip && ip.matches("[0-9a-fA-F:]+") && ip.contains(":"))
+                flat.put("client.ip", "::");
+        }
+        return Collections.unmodifiableMap(flat);
+    }
+
+    static Map<String, Object> snapshot(ILoggingEvent event) {
+        if (event.getKeyValuePairs() != null) {
+            for (KeyValuePair pair : event.getKeyValuePairs()) {
+                if (SNAPSHOT_KEY.equals(pair.key) && pair.value instanceof Map<?, ?> map) {
+                    @SuppressWarnings("unchecked") Map<String, Object> snapshot = (Map<String, Object>) map;
+                    return snapshot;
+                }
+            }
+        }
+        throw new IllegalStateException("CommonJsonEncoder requires SnapshotAppender before async dispatch");
+    }
+
+    private static Object freeze(Object value) {
+        if (value instanceof String || value instanceof Boolean) return value;
+        if (value instanceof Number number) {
+            if (number instanceof Byte || number instanceof Short || number instanceof Integer || number instanceof Long
+                    || number instanceof Float || number instanceof Double || number instanceof java.math.BigInteger
+                    || number instanceof java.math.BigDecimal) return number;
+            // AtomicLong 같은 변경 가능한 Number도 발생 시점 값으로 고정한다.
+            return number.longValue();
+        }
+        if (value instanceof Collection<?> values) return values.stream().map(CanonicalLogSnapshot::freeze).toList();
+        if (value instanceof Map<?, ?> values) {
+            Map<String, Object> result = new LinkedHashMap<>();
+            values.forEach((key, item) -> { if (key != null && item != null) result.put(key.toString(), freeze(item)); });
+            return Collections.unmodifiableMap(result);
+        }
+        return String.valueOf(value);
+    }
+    private static boolean safeHint(String value) { return value.length() <= 64 && value.matches("[A-Za-z0-9_.:-]+"); }
+
+    /** P0 v1.1: 미검토 MDC는 원문 값을 읽지 않고 허용된 키와 검토대기 표식만 보존한다. */
+    private static void captureUnknownMdc(Map<String, String> mdc, Map<String, Object> flat) {
+        int unknown = 0;
+        Map<String, Object> attributes = new LinkedHashMap<>();
+        for (String key : mdc.keySet()) {
+            if (key != null && (LEGACY_HEADER_MDC.contains(key) || HINTS.containsKey(key) || ALLOWED.contains(key) || LEGACY_MDC.contains(key)
+                    || UNIQUE_ALIASES.containsKey(key))) continue;
+            unknown++;
+            String name = key != null && key.matches("[A-Za-z0-9_.-]{1,64}") ? key : "invalid_key";
+            if (attributes.size() < 16) attributes.put(name, "REDACTED_UNREVIEWED");
+        }
+        flat.put("golmok.attributes.unmapped_count", unknown);
+        if (!attributes.isEmpty()) flat.put("attributes", Collections.unmodifiableMap(attributes));
+    }
+
+    static boolean validId(Object value, int length) {
+        return value instanceof String id && id.matches("[0-9a-f]{" + length + "}") && !id.matches("0+");
+    }
+    private static void putNonblank(Map<String, Object> map, String key, String value) {
+        if (value != null && !value.isBlank()) map.put(key, value);
+    }
+    private static int severity(int level) {
+        if (level >= 40000) return 17;
+        if (level >= 30000) return 13;
+        if (level >= 20000) return 9;
+        if (level >= 10000) return 5;
+        return 1;
+    }
+}

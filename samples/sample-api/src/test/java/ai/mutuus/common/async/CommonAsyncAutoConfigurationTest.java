@@ -19,29 +19,31 @@ class CommonAsyncAutoConfigurationTest {
             .withConfiguration(AutoConfigurations.of(CommonAsyncAutoConfiguration.class));
 
     @Test
-    void 기본적으로_추적전파_TaskDecorator가_등록된다() {
-        runner.run(ctx -> {
+    void 명시적_opt_in이면_TaskDecorator가_등록된다() {
+        runner.withPropertyValues("mutuus.common.async.context-decorator-enabled=true").run(ctx -> {
             assertThat(ctx).hasSingleBean(TaskDecorator.class);
             assertThat(ctx.getBean(TaskDecorator.class)).isInstanceOf(TraceContextTaskDecorator.class);
         });
     }
 
     @Test
-    void tracing_enabled가_false면_등록되지_않는다() {
-        runner.withPropertyValues("mutuus.common.tracing-enabled=false")
+    void agent_기본경로는_중복_decorator를_등록하지_않는다() {
+        runner
                 .run(ctx -> assertThat(ctx).doesNotHaveBean(TaskDecorator.class));
     }
 
     @Test
     void TaskDecorator_클래스가_없으면_자동구성_전체가_비활성화된다() {
-        runner.withClassLoader(new FilteredClassLoader(TaskDecorator.class))
+        runner.withPropertyValues("mutuus.common.async.context-decorator-enabled=true")
+                .withClassLoader(new FilteredClassLoader(TaskDecorator.class))
                 .run(ctx -> assertThat(ctx).doesNotHaveBean("traceContextTaskDecorator"));
     }
 
     @Test
     void 소비_서비스가_자체_TaskDecorator를_정의하면_그것을_사용한다() {
         TaskDecorator custom = runnable -> runnable;
-        runner.withBean("customDecorator", TaskDecorator.class, () -> custom)
+        runner.withPropertyValues("mutuus.common.async.context-decorator-enabled=true")
+                .withBean("customDecorator", TaskDecorator.class, () -> custom)
                 .run(ctx -> {
                     assertThat(ctx).hasSingleBean(TaskDecorator.class);
                     assertThat(ctx.getBean(TaskDecorator.class)).isSameAs(custom);

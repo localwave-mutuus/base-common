@@ -1,12 +1,15 @@
 package ai.mutuus.common.security;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
-import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
-import ai.mutuus.common.core.StringUtils;
-import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.core.VerifiedIdentityContext;
+import ai.mutuus.common.core.VerifiedIdentityContext.Identity;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Scope;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,49 +20,75 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * 인증 완료 후 실제 인증 주체(JWT subject 등)를 추적/로깅 컨텍스트에 반영하고, 인입 {@code X-User-Id}(신뢰 불가)
- * 위장을 탐지한다.
- * <p>보안 필터 체인의 {@code AuthorizationFilter} 뒤에 배치되어 인증이 확정된 시점에 동작한다.
- * 인입 헤더 {@code X-User-Id}(게이트웨이 전파값) 대신 <b>검증된 인증 주체</b>를 우선시하여 이후 모든 로그와
- * {@code TraceContext.userId()}(→ 감사 created_by)에 반영한다.
- * <ul>
- *   <li>인증됨 + 주장값({@link TraceFilter#CLAIMED_USER_ATTR})이 주체와 <b>다름</b> → {@code security.identity.mismatch}(ERROR)</li>
- *   <li>미인증 + 주장값 존재 + 미신뢰 → {@code security.identity.header_ignored}(WARN, 위장값 폐기)</li>
- * </ul>
- * <p>정리는 최외곽 {@code TraceFilter} 의 {@code finally}(MDC/TraceContext clear)가 담당한다.
+/** 인증 이후 ExceptionTranslationFilter 앞에 두어 인증된 403도 검증 사용자로 기록한다.
+ * <p>실제 인증 체인에 명시 등록한다. Servlet 필터 이중 등록을 피한다.
  */
 public class AuthenticatedUserContextFilter extends OncePerRequestFilter {
-
     private final SecurityAuditLogger securityAuditLogger;
-    private final boolean trustForwardedUser;
+    private final AuthenticationIdentityAdapter identityAdapter;
 
-    public AuthenticatedUserContextFilter(SecurityAuditLogger securityAuditLogger, boolean trustForwardedUser) {
-        this.securityAuditLogger = securityAuditLogger;
-        this.trustForwardedUser = trustForwardedUser;
+    /** 호환용 생성자. 전달된 사용자 헤더 신뢰 설정은 폐기하고 검증 JWT만 사용한다. */
+    public AuthenticatedUserContextFilter(SecurityAuditLogger audit, boolean trustForwardedUser) {
+        this(audit, new JwtSubjectIdentityAdapter());
+    }
+
+    public AuthenticatedUserContextFilter(SecurityAuditLogger audit, AuthenticationIdentityAdapter adapter) {
+        this.securityAuditLogger = Objects.requireNonNull(audit);
+        this.identityAdapter = Objects.requireNonNull(adapter);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        boolean authenticated = auth != null && auth.isAuthenticated()
-                && !(auth instanceof AnonymousAuthenticationToken);
-        String claimed = (String) request.getAttribute(HeaderNames.CLAIMED_USER_ATTR);
-
-        if (authenticated && StringUtils.hasText(auth.getName())) {
-            String principal = auth.getName();
-            TraceContext.put(HeaderNames.USER_ID, principal); // 검증된 주체가 위장값보다 우선
-            MDC.put(HeaderNames.USER_ID, principal);
-            MDC.put(EcsFields.USER_ID, principal); // ECS alias(로깅 렌더 전용)
-            if (StringUtils.hasText(claimed) && !claimed.equals(principal)) {
-                securityAuditLogger.identityMismatch(request.getRequestURI(), request.getRemoteAddr(),
-                        claimed, principal); // 신원 위·변조 시도
+                                    FilterChain chain) throws ServletException, IOException {
+        Identity identity = resolveIdentity();
+        Map<String, String> previousMdc = MDC.getCopyOfContextMap();
+        request.setAttribute(VerifiedIdentityContext.REQUEST_ATTRIBUTE, identity);
+        try (Scope ignored = VerifiedIdentityContext.makeCurrent(identity)) {
+            applyMdc(identity);
+            applySpan(identity);
+            String claimed = (String) request.getAttribute(HeaderNames.CLAIMED_USER_ATTR);
+            if (claimed != null && !claimed.isBlank()) {
+                if (identity.userId() != null && !claimed.equals(identity.userId())) {
+                    securityAuditLogger.identityMismatch(request.getRequestURI(), request.getRemoteAddr(),
+                            claimed, identity.userId());
+                } else if (identity.userId() == null) {
+                    securityAuditLogger.identityHeaderIgnored(request.getRequestURI(), request.getRemoteAddr(), claimed);
+                }
             }
-        } else if (StringUtils.hasText(claimed) && !trustForwardedUser) {
-            // 미인증인데 X-User-Id 를 주장 → 위장 시도. 신뢰하지 않으므로 폐기됨을 기록.
-            securityAuditLogger.identityHeaderIgnored(request.getRequestURI(), request.getRemoteAddr(), claimed);
+            try {
+                chain.doFilter(request, response);
+            } finally {
+                // 하위 로그인 성공이나 SecurityContext 변경도 완료 스냅샷에 반영한다.
+                Identity completed = resolveIdentity();
+                if ("anonymous".equals(completed.authState()) && response.getStatus() == 401) {
+                    completed = new Identity(null, null, "failed");
+                }
+                request.setAttribute(VerifiedIdentityContext.REQUEST_ATTRIBUTE, completed);
+                applySpan(completed);
+            }
+        } finally {
+            if (previousMdc == null) MDC.clear(); else MDC.setContextMap(previousMdc);
         }
-        filterChain.doFilter(request, response);
+    }
+
+    private Identity resolveIdentity() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return new Identity(null, null, "anonymous");
+        }
+        // 미지원 principal은 인증 상태만 기록하고 getName을 사용자 ID로 추측하지 않는다.
+        return identityAdapter.resolve(auth).orElseGet(() -> new Identity(null, null, "authenticated"));
+    }
+
+    private static void applyMdc(Identity identity) {
+        MDC.remove(HeaderNames.USER_ID);
+        MDC.remove("user.id");
+        MDC.remove("golmok.identity.realm");
+        identity.fields().forEach(MDC::put);
+    }
+
+    private static void applySpan(Identity identity) {
+        Span span = Span.current();
+        if (span.getSpanContext().isValid()) identity.fields().forEach(span::setAttribute);
     }
 }

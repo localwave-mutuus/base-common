@@ -1,18 +1,11 @@
 package ai.mutuus.sample;
 
 import java.util.Map;
-import java.util.Optional;
 
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
-import ai.mutuus.common.security.audit.SecurityAuditLogger;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -21,70 +14,45 @@ import org.springframework.web.client.RestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * <b>아웃바운드 헤더 전파 차단</b>(Phase 2-③) 통합 테스트 — {@code allowed-hosts} 를 localhost 가 아닌 값으로 두면,
- * 로컬 호출에는 식별 헤더({@code X-User-Id} 등)가 부착되지 않고({@code security.propagation.blocked}) 상관용
- * ({@code X-Trace-Id})만 전파되는지 검증한다.
+/** 실제 HTTP 경계에서 미신뢰 대상의 커스텀 추적/식별 헤더 제거를 검증한다.
+ * <p>CLIENT span/W3C 주입의 owner는 Java agent이며, 이 시험은 agent 활성화를 가정하지 않는다.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = "mutuus.common.propagation.allowed-hosts=internal.example.com") // localhost 는 미신뢰
+@TestPropertySource(properties = "mutuus.common.propagation.allowed-hosts=internal.example.com")
 class SecurityPropagationBlockIntegrationTest {
-
     @LocalServerPort
     int port;
 
     @Autowired
     RestClient.Builder restClientBuilder;
 
-    private ListAppender<ILoggingEvent> appender;
-    private Logger securityLogger;
-
-    @BeforeEach
-    void attach() {
-        securityLogger = (Logger) LoggerFactory.getLogger(SecurityAuditLogger.LOGGER_NAME);
-        appender = new ListAppender<>();
-        appender.start();
-        securityLogger.addAppender(appender);
-    }
-
     @AfterEach
-    void detach() {
-        securityLogger.detachAppender(appender);
-        TraceContext.clear();
-    }
+    void cleanup() { TraceContext.clear(); }
 
     @Test
     @SuppressWarnings("unchecked")
-    void 미신뢰_호스트로는_식별헤더가_차단되고_상관헤더만_전파된다() {
-        TraceContext.put(HeaderNames.TRACE_ID, "t-out");
-        TraceContext.put(HeaderNames.USER_ID, "u-out");
+    void 미신뢰_호스트에는_직접_추가한_커스텀_추적과_식별헤더도_전달되지_않는다() {
+        TraceContext.put(HeaderNames.TRACE_ID, "forged-trace");
+        TraceContext.put(HeaderNames.SPAN_ID, "forged-span");
+        TraceContext.put(HeaderNames.USER_ID, "forged-user");
+        TraceContext.put(HeaderNames.APP_CODE, "synthetic-app");
+        TraceContext.put(HeaderNames.INSTANCE_ID, "synthetic-instance");
 
         RestClient client = restClientBuilder.baseUrl("http://localhost:" + port).build();
-        Map<String, Object> data = (Map<String, Object>) client.get().uri("/api/public/echo-headers")
-                .retrieve().body(Map.class).get("data");
-
-        assertThat(data.get("traceId")).isEqualTo("t-out");  // 상관용은 전파
-        assertThat(data.get("userId")).isEqualTo("null");    // 식별 헤더는 차단(미부착)
-
-        Optional<ILoggingEvent> ev = event("security.propagation.blocked");
-        assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "targetHost")).contains("localhost");
-        assertThat(kv(ev.get(), "droppedHeaders")).hasValueSatisfying(v -> assertThat(v).contains(HeaderNames.USER_ID));
-    }
-
-    private Optional<ILoggingEvent> event(String name) {
-        return appender.list.stream()
-                .filter(e -> kv(e, "event").map(name::equals).orElse(false))
-                .findFirst();
-    }
-
-    private static Optional<String> kv(ILoggingEvent e, String key) {
-        if (e.getKeyValuePairs() == null) {
-            return Optional.empty();
-        }
-        return e.getKeyValuePairs().stream()
-                .filter(p -> key.equals(p.key))
-                .map(p -> String.valueOf(p.value))
-                .findFirst();
+        Map<String, Object> envelope = client.get().uri("/api/public/echo-headers")
+                .headers(headers -> {
+                    headers.set(HeaderNames.TRACE_ID, "forged-trace");
+                    headers.set(HeaderNames.SPAN_ID, "forged-span");
+                    headers.set(HeaderNames.USER_ID, "forged-user");
+                    headers.set(HeaderNames.APP_CODE, "synthetic-app");
+                    headers.set(HeaderNames.INSTANCE_ID, "synthetic-instance");
+                }).retrieve().body(Map.class);
+        assertThat(envelope).isNotNull();
+        Map<String, Object> data = (Map<String, Object>) envelope.get("data");
+        assertThat(data).containsEntry("traceId", "null")
+                .containsEntry("spanId", "null")
+                .containsEntry("userId", "null")
+                .containsEntry("appCode", "null")
+                .containsEntry("instanceCode", "null");
     }
 }

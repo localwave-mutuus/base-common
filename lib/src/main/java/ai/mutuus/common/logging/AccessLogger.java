@@ -14,9 +14,9 @@ import org.slf4j.spi.LoggingEventBuilder;
  * API 생명주기 횡단 로깅의 단일 진입점.
  * <p>소비 서비스는 이 클래스를 직접 호출하지 않는다 — 라이브러리의 필터/보안 핸들러/예외 핸들러가
  * 적절한 시점에 호출한다. SLF4J 2 의 fluent API({@code addKeyValue})로 구조화 필드를 남기며,
- * logstash 인코더가 이를 JSON 필드로 렌더한다. 추적ID/사용자 등은 이미 MDC 에 있어 자동 포함된다.
+ * 공통 snapshot 인코더가 canonical JSON으로 렌더한다. 실제 OTel span/검증 사용자 문맥은 발생 시점에 고정한다.
  * <p>로거 이름은 {@code ai.mutuus.common.access} — 소비 측에서 레벨을 개별 제어할 수 있다.
- * <p><b>ECS 전환</b>: {@link LogFormat} 에 따라 기존 필드/ECS 필드/둘 다({@code DUAL}, 기본)를 남긴다.
+ * <p>{@link LogFormat}은 호출부 호환용이며 기본은 ECS다. 공통 인코더 출력은 schema v2 한 가지다.
  * 요청 접근/응답은 {@code mutuus.access}, 예외는 {@code mutuus.error} dataset 으로 분리한다(로거가 직접 명시).
  */
 public class AccessLogger {
@@ -31,11 +31,31 @@ public class AccessLogger {
     private final LogFormat format;
 
     public AccessLogger() {
-        this(LogFormat.DUAL);
+        this(LogFormat.ECS);
     }
 
     public AccessLogger(LogFormat format) {
-        this.format = format == null ? LogFormat.DUAL : format;
+        this.format = format == null ? LogFormat.ECS : format;
+    }
+
+    /** span/인증 scope 종료 전 고정한 불변 문맥으로 비동기 종료에서도 동일 schema를 기록한다. */
+    public void serverComplete(String method, String path, String route, int status, long nanos,
+                               String errorCode, boolean slow, java.util.Map<String, Object> snapshot) {
+        var event = status >= 500 || slow ? log.atWarn() : log.atInfo();
+        dataset(event, EcsFields.DATASET_ACCESS)
+                .addKeyValue("event.action", "http.server.complete")
+                .addKeyValue("event.category", CAT_WEB)
+                .addKeyValue("event.type", TYPE_ACCESS)
+                .addKeyValue("event.outcome", status >= 400 ? "failure" : "success")
+                .addKeyValue("event.duration", nanos)
+                .addKeyValue("http.request.method", method)
+                .addKeyValue("http.response.status_code", status)
+                .addKeyValue("url.path", path)
+                .addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, java.util.Map.copyOf(snapshot));
+        if (route != null) event.addKeyValue("http.route", route);
+        if (slow) event.addKeyValue("golmok.slow", true);
+        if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
+        event.log("http.server.complete");
     }
 
     /** 요청 수신(핸들러 진입 전). 호출 시스템/단말 정보(where)를 함께 남긴다. */
@@ -237,7 +257,7 @@ public class AccessLogger {
         return status >= 400 ? EcsFields.OUTCOME_FAILURE : EcsFields.OUTCOME_SUCCESS;
     }
 
-    /** 사용자 식별(legacy {@code userId}). ECS {@code user.id} 는 MDC alias 로 자동 포함되므로 legacy 모드에서만 싣는다. */
+    /** legacy 호출부 호환용 사용자 식별. canonical user.id는 검증된 Context snapshot에서 공급한다. */
     private LoggingEventBuilder addUser(LoggingEventBuilder ev) {
         if (format.legacy()) {
             String user = TraceContext.userId();

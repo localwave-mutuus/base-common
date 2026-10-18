@@ -5,6 +5,11 @@ import java.util.concurrent.Callable;
 
 import ai.mutuus.common.core.TraceContext;
 import org.slf4j.MDC;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.context.Context;
+import io.opentelemetry.context.Scope;
 
 /**
  * {@link TraceContext}/SLF4J {@code MDC} 를 스레드 경계 너머로 전파하는 유틸.
@@ -13,7 +18,7 @@ import org.slf4j.MDC;
  * <b>실제 실행 스레드</b>에서 복원하고, 작업이 끝나면 실행 스레드의 이전 상태로 원복한다
  * (풀 스레드 재사용 시 컨텍스트 누수 방지).
  *
- * <p>Spring 비동기 실행기에는 {@link TraceContextTaskDecorator} 를 통해 자동 적용되며,
+ * <p>agent 자동 전파가 없는 Spring 실행기는 opt-in {@link TraceContextTaskDecorator} 를 사용하며,
  * 직접 만든 스레드 풀에는 {@code executor.submit(TraceContextPropagation.wrap(task))} 처럼 쓴다.
  */
 public final class TraceContextPropagation {
@@ -23,18 +28,36 @@ public final class TraceContextPropagation {
 
     /** 제출 스레드의 추적 컨텍스트를 입혀 실행하도록 {@link Callable} 을 감싼다. */
     public static <T> Callable<T> wrap(Callable<T> task) {
+        Context captured = Context.current();
         Map<String, String> trace = TraceContext.snapshot();
         Map<String, String> mdc = MDC.getCopyOfContextMap();
         return () -> {
             Map<String, String> prevTrace = TraceContext.snapshot();
             Map<String, String> prevMdc = MDC.getCopyOfContextMap();
-            apply(trace, mdc);
-            try {
+            try (Scope ignored = captured.makeCurrent()) {
+                apply(trace, mdc);
                 return task.call();
             } finally {
                 apply(prevTrace, prevMdc);
             }
         };
+    }
+
+    /** agent가 모르는 업무 경계에만 사용한다. 일반 실행기 전파에는 wrap을 사용한다. */
+    public static <T> Callable<T> wrapBusiness(String name, Callable<T> task) {
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("name required");
+        return wrap(() -> {
+            Span span = GlobalOpenTelemetry.getTracer("ai.mutuus.common")
+                    .spanBuilder(name).startSpan();
+            try (Scope ignored = span.makeCurrent()) {
+                return task.call();
+            } catch (Exception | Error failure) {
+                span.setStatus(StatusCode.ERROR);
+                throw failure;
+            } finally {
+                span.end();
+            }
+        });
     }
 
     /** 제출 스레드의 추적 컨텍스트를 입혀 실행하도록 {@link Runnable} 을 감싼다. */

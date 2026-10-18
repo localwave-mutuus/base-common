@@ -23,7 +23,8 @@ public final class ActionLogger {
     public void record(ActionRecord record) {
         try {
             if (!valid(record)) return;
-            completion.complete(status -> finish(record, status));
+            var snapshot = CanonicalLogSnapshot.context();
+            completion.complete(status -> finish(record, status, snapshot));
         } catch (Throwable ignored) { diagnostic("ACTION_LOG_FAILED", record == null ? null : record.requestId()); }
     }
 
@@ -46,11 +47,11 @@ public final class ActionLogger {
         return bound;
     }
 
-    private void finish(ActionRecord record, ActionCompletionHandler.Status status) {
+    private void finish(ActionRecord record, ActionCompletionHandler.Status status, java.util.Map<String, Object> snapshot) {
         try {
             if (status == null || status == ActionCompletionHandler.Status.UNKNOWN)
                 diagnostic("ACTION_COMPLETION_UNCONFIRMED", record.requestId());
-            else write(status == ActionCompletionHandler.Status.ROLLED_BACK ? record.rolledBack() : record);
+            else write(status == ActionCompletionHandler.Status.ROLLED_BACK ? record.rolledBack() : record, snapshot);
         } catch (Throwable ignored) { diagnostic("ACTION_LOG_FAILED", record == null ? null : record.requestId()); }
     }
 
@@ -76,6 +77,7 @@ public final class ActionLogger {
     /** TX callback과 async 확정 결과의 도착 순서에 의존하지 않고 한 번만 기록한다. */
     public final class BoundAction {
         private final String requestId, traceId;
+        private final java.util.Map<String, Object> snapshot = CanonicalLogSnapshot.context();
         private ActionRecord result;
         private ActionCompletionHandler.Status status;
         private boolean emitted;
@@ -105,16 +107,17 @@ public final class ActionLogger {
         private void emitIfReady() {
             if (!emitted && result != null && status != null) {
                 emitted = true;
-                finish(result, status);
+                finish(result, status, snapshot);
             }
         }
     }
 
-    private void write(ActionRecord record) {
+    private void write(ActionRecord record, java.util.Map<String, Object> snapshot) {
         withSafeTrace(() -> {
         var log = LoggerFactory.getLogger(LOGGER_NAME);
         var event = record.outcome() == ActionRecord.Outcome.SUCCESS ? log.atInfo() : log.atWarn();
-        event.addKeyValue("action", record.action()).addKeyValue("outcome", record.outcome().name())
+        event.addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, snapshot)
+                .addKeyValue("action", record.action()).addKeyValue("outcome", record.outcome().name())
                 .addKeyValue("errorCode", record.errorCode()).addKeyValue("requestId", record.requestId())
                 .addKeyValue("operationId", record.operationId()).addKeyValue("actorId", record.actorId())
                 .addKeyValue("relatedMemberIds", record.relatedMemberIds())

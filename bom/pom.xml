@@ -7,7 +7,7 @@
     <parent>
         <groupId>ai.mutuus.common</groupId>
         <artifactId>common-platform-parent</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0-rc.1</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -21,13 +21,13 @@
         <dependencyManagement><dependencies>
           <dependency>
             <groupId>ai.mutuus.common</groupId><artifactId>common-platform-bom</artifactId>
-            <version>0.3.0</version><type>pom</type><scope>import</scope>
+            <version>0.4.0-rc.1</version><type>pom</type><scope>import</scope>
           </dependency>
         </dependencies></dependencyManagement>
     -->
     <groupId>ai.mutuus.common</groupId>
     <artifactId>common-platform-bom</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-rc.1</version>
     <packaging>pom</packaging>
     <name>common-platform-bom</name>
     <description>common-platform 아티팩트 + 소비자가 흔히 추가하는 optional 의존성의 버전을 한 곳에서 관리하는 BOM</description>
@@ -36,6 +36,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>${opentelemetry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Spring Modulith — 소비 서비스가 모듈러 모놀리스(모듈=바운디드 컨텍스트)로 구성 시 버전 없이
                  spring-modulith-* (starter-core·events-jpa·observability 등)을 추가할 수 있도록 BOM 을 import.
                  버전은 common-platform-parent 의 ${spring-modulith.version} 단일 출처. -->

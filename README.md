@@ -227,3 +227,7 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 - [화면 메타데이터 공통화 후속](docs/261005.002.SCREEN_METADATA.md)
 
 - [0.2.6 프로젝트 소유 로그 템플릿과 파일 정책](docs/261005.003.LOG_FILE_POLICY.md)
+
+# 0.4 DEV 시험판
+
+전환 계약과 필수 설정: [OpenTelemetry 0.4 RC 안내](docs/261018.001.OTEL_04_RC.md).
