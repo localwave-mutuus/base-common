@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 소비 서비스가 주입받는 {@code RestClient.Builder}(Boot 자동구성)로 만든 클라이언트가,
- * 별도 설정 없이 라이브러리의 {@code HeaderPropagationInterceptor}를 통해 아웃바운드 호출에
- * 추적 헤더를 자동 전파하는지 실서버(RANDOM_PORT)로 검증한다.
- * <p>{@code X-Span-Id}는 전파하지 않고 호출 구간마다 새로 발급되는 것도 확인한다.
+ * 라이브러리 인터셉터가 agent의 HTTP span/전파 소유권과 경쟁하지 않는지 실서버로 검증한다.
+ * <p>이 JVM에는 agent가 없으므로 현재 SDK span이 있어도 HTTP trace/user 헤더를 직접 만들지 않는다.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(OutboundPropagationIntegrationTest.TestSecurityConfig.class)
@@ -44,21 +43,21 @@ class OutboundPropagationIntegrationTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    void RestClient_호출에_추적헤더가_자동_전파되고_span은_새로_발급된다() {
-        TraceContext.put(HeaderNames.TRACE_ID, "t-out");
-        TraceContext.put(HeaderNames.USER_ID, "u-out");
-        TraceContext.put(HeaderNames.SPAN_ID, "s-old");   // 전파되면 안 되는 값(새 span으로 대체되어야 함)
+    void RestClient_인터셉터가_agent없이_추적이나_사용자헤더를_발명하지_않는다() {
+        try (var span = TelemetryTestEvents.span("outbound-owner");
+             var identity = TelemetryTestEvents.identity("u-out", "member")) {
 
-        RestClient client = restClientBuilder.baseUrl("http://localhost:" + port).build();
-        Map<String, Object> envelope = client.get().uri("/api/public/echo-headers")
-                .retrieve().body(Map.class);
+            RestClient client = restClientBuilder.baseUrl("http://localhost:" + port).build();
+            Map<String, Object> envelope = client.get().uri("/api/public/echo-headers")
+                    .retrieve().body(Map.class);
 
-        assertThat(envelope).isNotNull();
-        Map<String, Object> echoed = (Map<String, Object>) envelope.get("data");
-        assertThat(echoed.get("traceId")).isEqualTo("t-out");
-        assertThat(echoed.get("userId")).isEqualTo("u-out");
-        // span은 새로 발급 → 존재하고, 입력값/누락("null")이 아니어야 한다.
-        assertThat(echoed.get("spanId")).isNotNull().isNotEqualTo("s-old").isNotEqualTo("null");
+            assertThat(envelope).isNotNull();
+            Map<String, Object> echoed = (Map<String, Object>) envelope.get("data");
+            assertThat(echoed.get("traceId")).isEqualTo("null");
+            assertThat(echoed.get("userId")).isEqualTo("null");
+            assertThat(echoed.get("spanId")).isEqualTo("null");
+            assertThat(TraceContext.traceId()).isEqualTo(span.traceId());
+        }
     }
 
     @TestConfiguration

@@ -58,7 +58,7 @@ class HttpClientLoggingIntegrationTest {
         ILoggingEvent ev = event("http.client.completed");
         // ECS
         assertThat(raw(ev, "event.dataset")).isEqualTo("mutuus.http_client");
-        assertThat(raw(ev, "data_stream.dataset")).isEqualTo("mutuus.http_client");
+        assertThat(raw(ev, "data_stream.dataset")).isNull();
         assertThat(raw(ev, "event.outcome")).isEqualTo("success");
         assertThat(raw(ev, "http.request.method")).isEqualTo("GET");
         assertThat(raw(ev, "url.domain")).isEqualTo("localhost");
@@ -67,9 +67,9 @@ class HttpClientLoggingIntegrationTest {
         assertThat((Long) raw(ev, "event.duration")).isGreaterThan(0L);
         // url.full 은 쿼리 제외(scheme://host:port/path)
         assertThat(String.valueOf(raw(ev, "url.full"))).contains("/api/public/echo-headers").doesNotContain("?");
-        // legacy 병존(dual)
-        assertThat(raw(ev, "event")).isEqualTo("http.client.completed");
-        assertThat(raw(ev, "httpStatus")).isEqualTo(200);
+        // 정본 이외의 중복 입력/출력은 남기지 않는다.
+        assertThat(raw(ev, "event")).isNull();
+        assertThat(raw(ev, "httpStatus")).isNull();
     }
 
     private ILoggingEvent event(String action) {

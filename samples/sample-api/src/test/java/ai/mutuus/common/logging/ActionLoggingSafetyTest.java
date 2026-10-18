@@ -15,7 +15,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.read.ListAppender;
 import ch.qos.logback.core.spi.FilterReply;
-import net.logstash.logback.encoder.LogstashEncoder;
+import ch.qos.logback.classic.spi.LoggingEvent;
+import org.slf4j.event.KeyValuePair;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -71,11 +72,13 @@ class ActionLoggingSafetyTest {
                     .anyMatch(p -> p.key.equals("event.dataset") && p.value.equals("mutuus.action"))).hasSize(1);
             var confirmed = captured.list.stream().filter(event -> event.getKeyValuePairs().stream()
                     .anyMatch(p -> p.key.equals("event.dataset") && p.value.equals("mutuus.action"))).findFirst().orElseThrow();
-            assertThat(confirmed.getKeyValuePairs()).anyMatch(p -> p.key.equals("requestId") && p.value.equals(requestId))
-                    .anyMatch(p -> p.key.equals("outcome") && p.value.equals("SUCCESS"));
-            var encoder = new LogstashEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
+            assertThat(confirmed.getKeyValuePairs()).anyMatch(p -> p.key.equals("golmok.request.id") && p.value.equals(requestId))
+                    .anyMatch(p -> p.key.equals("event.outcome") && p.value.equals("success"));
+            var encoder = new CommonJsonEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
             try {
                 for (var event : captured.list) {
+                    if (event.getKeyValuePairs().stream().noneMatch(pair -> pair.key.equals(CanonicalLogSnapshot.SNAPSHOT_KEY)))
+                        ((LoggingEvent) event).addKeyValuePair(new KeyValuePair(CanonicalLogSnapshot.SNAPSHOT_KEY, CanonicalLogSnapshot.capture(event)));
                     String json = new String(encoder.encode(event), StandardCharsets.UTF_8);
                     assertThat(json).doesNotContain("UNTRUSTED_TRACE", "PRIVATE_TRACE_VALUE", "invalid raw@action", "private message", "PRIVATE_EXCEPTION_MESSAGE");
                 }

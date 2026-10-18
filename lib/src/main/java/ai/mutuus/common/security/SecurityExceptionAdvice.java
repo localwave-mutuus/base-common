@@ -6,6 +6,7 @@ import ai.mutuus.common.exception.CommonErrorCode;
 import ai.mutuus.common.exception.ErrorCode;
 import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
+import ai.mutuus.common.logging.HandledExceptionMetadata;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -41,10 +42,11 @@ public class SecurityExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex,
                                                                 HttpServletRequest request) {
+        HandledExceptionMetadata.record(request, ex);
         ErrorCode code = CommonErrorCode.FORBIDDEN;
         String detail = messages.get(code.messageKey());
         securityAuditLogger.authzDenied(request.getRequestURI(), request.getRemoteAddr(),
-                currentPrincipal(), ex.getMessage());
+                currentPrincipal(), ex.getMessage(), ex);
         return ResponseEntity.status(code.status())
                 .body(ApiResponse.error(code.code(), detail, ApiError.of(code.code(), detail)));
     }

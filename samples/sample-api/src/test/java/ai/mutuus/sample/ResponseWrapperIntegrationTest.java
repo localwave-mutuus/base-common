@@ -1,4 +1,5 @@
 package ai.mutuus.sample;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,15 @@ class ResponseWrapperIntegrationTest {
     /** W1: 평범한 객체(Map) 반환 → {code:OK, data:{...}} 표준 봉투로 자동 래핑. */
     @Test
     void W1_평범한객체_자동래핑() throws Exception {
-        mockMvc.perform(get("/demo/wrap"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value("OK"))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.wrapped").value(true))
-                .andExpect(jsonPath("$.data.value").value(42))
-                .andExpect(jsonPath("$.traceId").exists());
+        try (var span = TelemetryTestEvents.span("wrapped-response")) {
+            mockMvc.perform(get("/demo/wrap"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value("OK"))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.wrapped").value(true))
+                    .andExpect(jsonPath("$.data.value").value(42))
+                    .andExpect(jsonPath("$.traceId").value(span.traceId()));
+        }
     }
 
     /** W2: 이미 ApiResponse 인 엔드포인트는 이중 래핑되지 않는다($.data.data 없음). */

@@ -36,6 +36,7 @@ class AccessLoggingIntegrationTest {
     MockMvc mockMvc;
 
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture snapshotCapture;
     private Logger accessLogger;
 
     @BeforeEach
@@ -43,12 +44,12 @@ class AccessLoggingIntegrationTest {
         accessLogger = (Logger) LoggerFactory.getLogger("ai.mutuus.common.access");
         appender = new ListAppender<>();
         appender.start();
-        accessLogger.addAppender(appender);
+        snapshotCapture = ai.mutuus.common.logging.TelemetryTestEvents.attach(accessLogger, appender);
     }
 
     @AfterEach
     void detachAppender() {
-        accessLogger.detachAppender(appender);
+        snapshotCapture.close();
     }
 
     @Test
@@ -58,8 +59,7 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isOk());
 
         assertThat(eventStatusTuples())
-                .contains(tuple("http.request.in", 0))
-                .contains(tuple("http.response.out", 200));
+                .containsExactly(tuple("http.server.complete", 200));
     }
 
     @Test
@@ -67,7 +67,7 @@ class AccessLoggingIntegrationTest {
         mockMvc.perform(get("/api/secure/me")).andExpect(status().isUnauthorized());
 
         assertThat(events()).contains("auth.failure");
-        assertThat(eventStatusTuples()).contains(tuple("http.response.out", 401));
+        assertThat(eventStatusTuples()).contains(tuple("http.server.complete", 401));
     }
 
     @Test
@@ -77,7 +77,7 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isNotFound());
 
         assertThat(events()).contains("error.business");
-        assertThat(eventStatusTuples()).contains(tuple("http.response.out", 404));
+        assertThat(eventStatusTuples()).contains(tuple("http.server.complete", 404));
     }
 
     @Test
@@ -89,26 +89,22 @@ class AccessLoggingIntegrationTest {
                 .andExpect(status().isOk());
 
         ILoggingEvent completed = appender.list.stream()
-                .filter(e -> "http.response.out".equals(kv(e).get("event")))
+                .filter(e -> "http.server.complete".equals(kv(e).get("event.action")))
                 .findFirst().orElseThrow();
-        assertThat(kv(completed)).containsEntry("userId", "user-1");
+        assertThat(kv(completed)).containsEntry("user.id", "user-1");
     }
 
     private List<String> events() {
-        return appender.list.stream().map(e -> String.valueOf(kv(e).get("event"))).toList();
+        return appender.list.stream().map(e -> String.valueOf(kv(e).get("event.action"))).toList();
     }
 
     private List<org.assertj.core.groups.Tuple> eventStatusTuples() {
         return appender.list.stream()
-                .map(e -> tuple(kv(e).get("event"), kv(e).get("httpStatus")))
+                .map(e -> tuple(kv(e).get("event.action"), kv(e).get("http.response.status_code")))
                 .toList();
     }
 
     private Map<String, Object> kv(ILoggingEvent ev) {
-        List<KeyValuePair> pairs = ev.getKeyValuePairs();
-        if (pairs == null) {
-            return Map.of();
-        }
-        return pairs.stream().collect(Collectors.toMap(p -> p.key, p -> p.value));
+        return ai.mutuus.common.logging.TelemetryTestEvents.fields(ev);
     }
 }

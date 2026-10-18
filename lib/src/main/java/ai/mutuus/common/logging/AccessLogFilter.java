@@ -112,6 +112,12 @@ public class AccessLogFilter extends OncePerRequestFilter {
                 failed.put("golmok.auth.state", "failed");
                 snapshot = Map.copyOf(failed);
             }
+            String exceptionType = failure != null ? failure.getClass().getName() : HandledExceptionMetadata.errorType(request);
+            if (exceptionType != null) {
+                Map<String, Object> completion = new LinkedHashMap<>(snapshot);
+                completion.put("error.type", exceptionType);
+                snapshot = Map.copyOf(completion);
+            }
             long nanos = System.nanoTime() - started;
             boolean slow = props.getSlowRequestThresholdMillis() > 0 && nanos / 1_000_000 > props.getSlowRequestThresholdMillis();
             Object template = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);

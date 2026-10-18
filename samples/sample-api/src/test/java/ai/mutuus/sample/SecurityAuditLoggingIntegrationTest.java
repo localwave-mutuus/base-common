@@ -61,9 +61,9 @@ class SecurityAuditLoggingIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.authn.failed");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "httpPath")).contains("/api/secure/whoami");
-        assertThat(kv(ev.get(), "clientIp")).isPresent();
-        assertThat(kv(ev.get(), "securityEvent")).contains("true");
+        assertThat(kv(ev.get(), "url.path")).contains("/api/secure/whoami");
+        assertThat(kv(ev.get(), "client.ip")).isPresent();
+        assertThat(kv(ev.get(), "golmok.security.event")).contains("true");
     }
 
     @Test
@@ -76,8 +76,8 @@ class SecurityAuditLoggingIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.authz.denied");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "httpPath")).contains("/api/admin/ping");
-        assertThat(kv(ev.get(), "principal")).contains("alice"); // 검증된 주체가 로그에 남는다
+        assertThat(kv(ev.get(), "url.path")).contains("/api/admin/ping");
+        assertThat(kv(ev.get(), "golmok.security.principal")).contains("alice"); // 검증된 주체가 로그에 남는다
     }
 
     @Test
@@ -104,7 +104,7 @@ class SecurityAuditLoggingIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.identity.header_ignored");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "clientIp")).isPresent();
+        assertThat(kv(ev.get(), "client.ip")).isPresent();
     }
 
     @Test
@@ -118,7 +118,7 @@ class SecurityAuditLoggingIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.identity.mismatch");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "authenticatedUserId")).contains("alice");
+        assertThat(kv(ev.get(), "golmok.security.authenticated_user_id")).contains("alice");
     }
 
     @Test
@@ -131,7 +131,7 @@ class SecurityAuditLoggingIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.authz.no_authorities");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "subject")).contains("noroles");
+        assertThat(kv(ev.get(), "golmok.security.subject")).contains("noroles");
     }
 
     @Test
@@ -153,7 +153,7 @@ class SecurityAuditLoggingIntegrationTest {
 
     private Optional<ILoggingEvent> event(String name) {
         return appender.list.stream()
-                .filter(e -> kv(e, "event").map(name::equals).orElse(false))
+                .filter(e -> kv(e, "event.action").map(name::equals).orElse(false))
                 .findFirst();
     }
 

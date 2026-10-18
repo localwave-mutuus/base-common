@@ -3,8 +3,8 @@ package ai.mutuus.sample;
 import java.time.Instant;
 import java.util.List;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import ai.mutuus.sample.persistence.SampleNote;
 import ai.mutuus.sample.persistence.SampleNoteRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -40,14 +40,15 @@ class PersistenceAuditingIntegrationTest {
 
     @Test
     void 저장시_감사_시각이_채워지고_생성_수정자는_TraceContext_사용자다() {
-        TraceContext.put(HeaderNames.USER_ID, "u-audit");
+        try (var identity = TelemetryTestEvents.identity("u-audit", "member")) {
 
-        SampleNote saved = repository.saveAndFlush(new SampleNote("hello"));
+            SampleNote saved = repository.saveAndFlush(new SampleNote("hello"));
 
-        assertThat(saved.getCreatedAt()).isNotNull();
-        assertThat(saved.getUpdatedAt()).isNotNull();
-        assertThat(saved.getCreatedBy()).isEqualTo("u-audit");
-        assertThat(saved.getUpdatedBy()).isEqualTo("u-audit");
+            assertThat(saved.getCreatedAt()).isNotNull();
+            assertThat(saved.getUpdatedAt()).isNotNull();
+            assertThat(saved.getCreatedBy()).isEqualTo("u-audit");
+            assertThat(saved.getUpdatedBy()).isEqualTo("u-audit");
+        }
     }
 
     @Test

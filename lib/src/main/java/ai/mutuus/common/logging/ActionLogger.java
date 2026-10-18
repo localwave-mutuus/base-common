@@ -1,9 +1,7 @@
 package ai.mutuus.common.logging;
 
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import ai.mutuus.common.core.EcsFields;
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.RequestIds;
 import ai.mutuus.common.core.TraceContext;
 
@@ -57,12 +55,12 @@ public final class ActionLogger {
 
     private void diagnostic(String code, String requestId) {
         try {
-            withSafeTrace(() -> LoggerFactory.getLogger(LOGGER_NAME).atWarn()
+            LoggerFactory.getLogger(LOGGER_NAME).atWarn()
                 .addKeyValue("event.dataset", "mutuus.action_diagnostic")
                 .addKeyValue("event.action", "action.logging.diagnostic")
-                .addKeyValue("diagnosticCode", code)
-                .addKeyValue("requestId", ActionRecord.safeId(requestId))
-                .log("action logging diagnostic"));
+                .addKeyValue("golmok.diagnostic.code", code)
+                .addKeyValue("golmok.request.id", ActionRecord.safeId(requestId))
+                .log("action logging diagnostic");
         } catch (Throwable ignored) { /* 진단 writer도 실패하면 중단한다. raw 값/예외를 재출력하지 않는다. */ }
     }
 
@@ -113,33 +111,16 @@ public final class ActionLogger {
     }
 
     private void write(ActionRecord record, java.util.Map<String, Object> snapshot) {
-        withSafeTrace(() -> {
         var log = LoggerFactory.getLogger(LOGGER_NAME);
         var event = record.outcome() == ActionRecord.Outcome.SUCCESS ? log.atInfo() : log.atWarn();
         event.addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, snapshot)
-                .addKeyValue("action", record.action()).addKeyValue("outcome", record.outcome().name())
-                .addKeyValue("errorCode", record.errorCode()).addKeyValue("requestId", record.requestId())
-                .addKeyValue("operationId", record.operationId()).addKeyValue("actorId", record.actorId())
-                .addKeyValue("relatedMemberIds", record.relatedMemberIds())
-                .addKeyValue(EcsFields.TRACE_ID, record.traceId())
+                .addKeyValue("golmok.request.id", record.requestId())
+                .addKeyValue("golmok.actor.id", record.actorId())
+                .addKeyValue("golmok.related_member.ids", record.relatedMemberIds())
                 .addKeyValue(EcsFields.EVENT_DATASET, "mutuus.action")
                 .addKeyValue(EcsFields.EVENT_ACTION, record.action())
                 .addKeyValue(EcsFields.EVENT_OUTCOME, record.outcome() == ActionRecord.Outcome.SUCCESS ? "success" : "failure")
                 .addKeyValue(EcsFields.ERROR_CODE, record.errorCode())
                 .addKeyValue("operation.id", record.operationId()).log(record.action());
-        });
-    }
-
-    /** encoder가 MDC에서 불신 trace를 다시 출력하지 않도록 해당 호출 중에만 제거한다. */
-    private static void withSafeTrace(Runnable write) {
-        String trace = MDC.get(EcsFields.TRACE_ID), header = MDC.get(HeaderNames.TRACE_ID);
-        try {
-            if (ActionRecord.safeTraceId(trace) == null) MDC.remove(EcsFields.TRACE_ID);
-            if (ActionRecord.safeTraceId(header) == null) MDC.remove(HeaderNames.TRACE_ID);
-            write.run();
-        } finally {
-            if (trace == null) MDC.remove(EcsFields.TRACE_ID); else MDC.put(EcsFields.TRACE_ID, trace);
-            if (header == null) MDC.remove(HeaderNames.TRACE_ID); else MDC.put(HeaderNames.TRACE_ID, header);
-        }
     }
 }

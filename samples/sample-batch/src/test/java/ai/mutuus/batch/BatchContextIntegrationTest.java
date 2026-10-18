@@ -63,9 +63,11 @@ class BatchContextIntegrationTest {
     }
 
     @Test
-    void 배치가_추적_컨텍스트를_직접_채우고_i18n을_해석한다() {
+    void 배치가_i18n을_해석하고_작업_문맥을_닫는다() {
         String message = job.run(Locale.KOREAN);
         assertThat(message).isEqualTo("리소스를 찾을 수 없습니다.");
-        assertThat(TraceContext.traceId()).isNotBlank();
+        // agent 없는 비웹 소비자는 ID를 만들지 않으며 작업 문맥을 누출하지 않는다.
+        assertThat(TraceContext.traceId()).isNull();
+        assertThat(ai.mutuus.common.core.TelemetryMetadata.current()).isEmpty();
     }
 }

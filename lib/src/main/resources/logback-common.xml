@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><included><!-- 호환 진입점. 정본 리소스는 이 고유 경로 한 개다. --><include resource="common-platform/logback/common.xml"/></included>

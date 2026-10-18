@@ -197,7 +197,7 @@ public class DemoCaseController {
                         "ai.mutuus.sample.demo.ParamsDemoController#body", 200, null),
                 new DemoCase("logfile", "파일 로그 보기 (<앱>-<인스턴스>.log)", "GET", "/demo/logfile", null,
                         "현재 로그 파일 경로와 마지막 줄(JSON: appCode/instanceCode/traceId 포함). 다른 케이스 몇 번 호출 후 확인.",
-                        "lib/src/main/resources/logback-common.xml", 200, null));
+                        "lib/src/main/resources/common-platform/logback/common.xml", 200, null));
     }
 
     // ---------------------------------------------------------------------

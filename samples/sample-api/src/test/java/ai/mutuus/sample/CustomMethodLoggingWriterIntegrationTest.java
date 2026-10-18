@@ -73,16 +73,16 @@ class CustomMethodLoggingWriterIntegrationTest {
                 .andExpect(status().isOk());
 
         // method.enter 의 args 는 마스킹돼 원본 숫자가 남지 않는다.
-        String args = keyValue("method.enter", "args");
+        String args = keyValue("method.enter", "mutuus.method.args");
         assertThat(args).contains("[REDACTED]").doesNotContain("9876543210");
         // method.exit 의 return 도 동일하게 마스킹된다.
-        String ret = keyValue("method.exit", "return");
+        String ret = keyValue("method.exit", "mutuus.method.return");
         assertThat(ret).contains("[REDACTED]").doesNotContain("9876543210");
     }
 
     private String keyValue(String event, String key) {
         return appender.list.stream()
-                .filter(e -> event.equals(kv(e, "event")))
+                .filter(e -> event.equals(kv(e, "event.action")))
                 .map(e -> kv(e, key))
                 .filter(v -> v != null)
                 .findFirst().orElseThrow(() -> new AssertionError("이벤트 없음: " + event));
@@ -120,19 +120,19 @@ class CustomMethodLoggingWriterIntegrationTest {
 
         @Override
         public void onEnter(String type, String method, Object[] args) {
-            emit("method.enter", type, method, "args", mask(Arrays.deepToString(args)), "controller method enter");
+            emit("method.enter", type, method, "mutuus.method.args", mask(Arrays.deepToString(args)), "controller method enter");
         }
 
         @Override
         public void onExit(String type, String method, Object result) {
-            emit("method.exit", type, method, "return", mask(String.valueOf(result)), "controller method exit");
+            emit("method.exit", type, method, "mutuus.method.return", mask(String.valueOf(result)), "controller method exit");
         }
 
         private void emit(String event, String type, String method, String valueKey, String value, String msg) {
             LoggingEventBuilder ev = log.atInfo()
-                    .addKeyValue("event", event)
-                    .addKeyValue("class", type)
-                    .addKeyValue("method", method)
+                    .addKeyValue("event.action", event)
+                    .addKeyValue("code.namespace", type)
+                    .addKeyValue("code.function", method)
                     .addKeyValue(valueKey, value);
             ev.log(msg);
         }

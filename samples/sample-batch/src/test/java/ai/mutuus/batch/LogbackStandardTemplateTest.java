@@ -5,6 +5,8 @@ import java.time.Duration;
 import java.util.zip.GZIPInputStream;
 import ai.mutuus.common.logging.ClosedFileRollingPolicy;
 import ai.mutuus.common.logging.ClosingRollingFileAppender;
+import ai.mutuus.common.logging.SnapshotAppender;
+import ai.mutuus.common.logging.CommonJsonEncoder;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.status.Status;
@@ -14,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class LogbackStandardTemplateTest {
     @TempDir Path directory;
-    @Test void 비웹_소비자가_표준_전체XML을_복사해_크기값을_바꾸고_종료하면_닫힌파일만_공개한다() throws Exception {
+    @Test void 비웹_소비자가_정본_include를_사용해_종료하면_닫힌파일만_공개한다() throws Exception {
         LoggerContext context = new LoggerContext();
         context.setMDCAdapter(new ch.qos.logback.classic.util.LogbackMDCAdapter());
         context.putProperty("mutuus.logDirectory", directory.toString());
@@ -28,8 +30,16 @@ class LogbackStandardTemplateTest {
         JoranConfigurator configurator = new JoranConfigurator(); configurator.setContext(context);
         configurator.doConfigure(projectFile.toFile()); context.start();
         var root = context.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-        var async = (ch.qos.logback.classic.AsyncAppender) root.getAppender("ASYNC_JSON_FILE");
+        var rootAppenders = root.iteratorForAppenders();
+        assertThat(rootAppenders.hasNext()).isTrue();
+        assertThat(rootAppenders.next().getName()).isEqualTo("COMMON_SNAPSHOT");
+        assertThat(rootAppenders.hasNext()).isFalse();
+        var snapshot = (SnapshotAppender) root.getAppender("COMMON_SNAPSHOT");
+        assertThat(snapshot).isNotNull();
+        var async = (ch.qos.logback.classic.AsyncAppender) snapshot.getAppender("ASYNC_JSON_FILE");
+        assertThat(async).isNotNull();
         var file = (ClosingRollingFileAppender<?>) async.getAppender("JSON_FILE");
+        assertThat(file.getEncoder()).isInstanceOf(CommonJsonEncoder.class);
         var policy = (ClosedFileRollingPolicy<?>) file.getRollingPolicy();
         assertThat(policy.getRollInterval()).isEqualTo(Duration.ofMinutes(5));
         assertThat(policy.getMaxFileSize()).isEqualTo(1);

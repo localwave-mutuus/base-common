@@ -24,14 +24,12 @@ public class DomainEventLogger {
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
     private static final List<String> TYPE_INFO = List.of("info");
 
-    private final LogFormat format;
-
     public DomainEventLogger() {
-        this(LogFormat.DUAL);
+        this(LogFormat.ECS);
     }
 
     public DomainEventLogger(LogFormat format) {
-        this.format = format == null ? LogFormat.DUAL : format;
+        // 호출 시그니처와 무관하게 schema v2 정본만 기록한다.
     }
 
     /** 이벤트 발행(publish) 지점. */
@@ -46,19 +44,11 @@ public class DomainEventLogger {
 
     private void write(String action, DomainEvent<?> event) {
         LoggingEventBuilder ev = log.atInfo();
-        if (format.legacy()) {
-            ev.addKeyValue("event", action)
-                    .addKeyValue("eventId", event.eventId())
-                    .addKeyValue("eventType", event.type());
-        }
-        if (format.ecs()) {
-            ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_DOMAIN_EVENT)
-                    .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_DOMAIN_EVENT)
-                    .addKeyValue(EcsFields.EVENT_ACTION, action)
-                    .addKeyValue(EcsFields.EVENT_TYPE, TYPE_INFO)
-                    .addKeyValue(EcsFields.MUTUUS_DOMAIN_EVENT_ID, event.eventId())
-                    .addKeyValue(EcsFields.MUTUUS_DOMAIN_EVENT_TYPE, event.type());
-        }
+        ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_DOMAIN_EVENT)
+                .addKeyValue(EcsFields.EVENT_ACTION, action)
+                .addKeyValue(EcsFields.EVENT_TYPE, TYPE_INFO)
+                .addKeyValue(EcsFields.MUTUUS_DOMAIN_EVENT_ID, event.eventId())
+                .addKeyValue(EcsFields.MUTUUS_DOMAIN_EVENT_TYPE, event.type());
         ev.log("domain event " + action);
     }
 }

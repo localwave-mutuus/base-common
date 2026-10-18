@@ -22,6 +22,7 @@ class AccessLoggerTest {
 
     private final AccessLogger accessLogger = new AccessLogger();
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture snapshotCapture;
     private Logger logger;
 
     @BeforeEach
@@ -29,12 +30,12 @@ class AccessLoggerTest {
         logger = (Logger) LoggerFactory.getLogger(AccessLogger.LOGGER_NAME);
         appender = new ListAppender<>();
         appender.start();
-        logger.addAppender(appender);
+        snapshotCapture = ai.mutuus.common.logging.TelemetryTestEvents.attach(logger, appender);
     }
 
     @AfterEach
     void tearDown() {
-        logger.detachAppender(appender);
+        snapshotCapture.close();
         TraceContext.clear();
     }
 
@@ -45,11 +46,11 @@ class AccessLoggerTest {
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.INFO);
         assertThat(kv(ev))
-                .containsEntry("event", "request.received")
-                .containsEntry("httpMethod", "GET")
-                .containsEntry("httpPath", "/api/orders")
-                .containsEntry("httpQuery", "page=1")
-                .containsEntry("clientIp", "10.0.0.1");
+                .containsEntry("event.action", "request.received")
+                .containsEntry("http.request.method", "GET")
+                .containsEntry("url.path", "/api/orders")
+                .containsEntry("url.query", "page=1")
+                .doesNotContainKey("client.ip");
     }
 
     @Test
@@ -59,16 +60,14 @@ class AccessLoggerTest {
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.WARN);
         assertThat(kv(ev))
-                .containsEntry("event", "request.completed")
-                .containsEntry("httpStatus", 500)
-                .containsEntry("durationMs", 12L)
-                // ECS(dual): 운영 주 로그 필드
                 .containsEntry("event.action", "request.completed")
+                .containsEntry("http.response.status_code", 500)
+                // 정본 단일 출력 필드
                 .containsEntry("event.dataset", "mutuus.access")
                 .containsEntry("event.outcome", "failure")
                 .containsEntry("http.response.status_code", 500)
                 .containsEntry("event.duration", 12_000_000L)
-                .containsEntry("client.ip", "10.0.0.1");
+                .doesNotContainKey("client.ip");
     }
 
     @Test
@@ -77,7 +76,7 @@ class AccessLoggerTest {
 
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.WARN);
-        assertThat(kv(ev)).containsEntry("slow", true).containsEntry("httpStatus", 200);
+        assertThat(kv(ev)).containsEntry("golmok.slow", true).containsEntry("http.response.status_code", 200);
     }
 
     @Test
@@ -87,8 +86,8 @@ class AccessLoggerTest {
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.WARN);
         assertThat(kv(ev))
-                .containsEntry("event", "auth.failure")
-                .containsEntry("reason", "expired token");
+                .containsEntry("event.action", "auth.failure")
+                .containsEntry("golmok.security.reason", "expired token");
     }
 
     @Test
@@ -98,19 +97,20 @@ class AccessLoggerTest {
         ILoggingEvent ev = single();
         assertThat(ev.getLevel()).isEqualTo(Level.ERROR);
         assertThat(kv(ev))
-                .containsEntry("event", "error.server")
-                .containsEntry("exception", "java.lang.IllegalStateException");
+                .containsEntry("event.action", "error.server")
+                .containsEntry("error.type", "java.lang.IllegalStateException");
         assertThat(ev.getThrowableProxy()).isNotNull();
         assertThat(ev.getThrowableProxy().getMessage()).isEqualTo("boom");
     }
 
     @Test
-    void TraceContext의_userId가_있으면_userId_필드가_포함된다() {
-        TraceContext.put(HeaderNames.USER_ID, "u-7");
+    void 검증신원_scope가_사용자와_realm을_함께_남긴다() {
+        try (var identity = TelemetryTestEvents.identity("u-7", "member")) {
 
         accessLogger.requestCompleted("GET", "/api/orders", 200, 5L, 5_000_000L, null, false);
 
-        assertThat(kv(single())).containsEntry("userId", "u-7");
+        assertThat(kv(single())).containsEntry("user.id", "u-7").containsEntry("golmok.identity.realm", "member");
+        }
     }
 
     private ILoggingEvent single() {
@@ -120,10 +120,6 @@ class AccessLoggerTest {
     }
 
     private Map<String, Object> kv(ILoggingEvent ev) {
-        List<KeyValuePair> pairs = ev.getKeyValuePairs();
-        if (pairs == null) {
-            return Map.of();
-        }
-        return pairs.stream().collect(Collectors.toMap(p -> p.key, p -> p.value));
+        return TelemetryTestEvents.fields(ev);
     }
 }

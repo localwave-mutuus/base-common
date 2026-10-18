@@ -1,2161 +1,1703 @@
 {
-  "version": 2,
-  "fields": [
-    {
-      "name": "@timestamp",
-      "type": "date_nanos",
-      "tier": "required",
-      "meaning": "로그 이벤트 발생 UTC 시각",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "attributes",
-      "type": "object",
-      "tier": "optional",
-      "meaning": "검토되지 않은 MDC 키의 제한된 표식 객체이며 원문 값은 없음",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "client.ip",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "보안 감사 데이터셋에서만 출력하는 마스킹된 클라이언트 IP",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "clientIp"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": true
-    },
-    {
-      "name": "code.function",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "실행 메서드 이름",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "method",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "code.namespace",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "메서드 또는 컨트롤러의 소속 클래스",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "method",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "deployment.environment.name",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "배포 환경 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "data_stream.namespace",
-        "env",
-        "service.environment"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "adapter",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [
-        "data_stream.namespace",
-        "env",
-        "service.environment"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "error.code",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "표준 오류 분류 코드",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "errorCode"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "failure",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "error.message",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "마스킹 정책을 거친 오류 설명",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "failure",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "error.stack_trace",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "오류 예외 스택 문자열",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "stack_trace"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "failure",
-      "discardAliases": [
-        "stack_trace"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "error.type",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "발생한 예외의 클래스 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "exception",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "event.action",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "로그의 이벤트 또는 업무 동작 종류",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "event",
-        "event.value"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [
-        "event",
-        "event.value"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "event.category",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "이벤트 범주 배열",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": true,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "event.dataset",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "공통 로거 데이터셋",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "event.duration",
-      "type": "long",
-      "tier": "optional",
-      "meaning": "실행 소요 나노초",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "durationMs"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [
-        "durationMs"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "event.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "로그 생성마다 한 번 발급하는 UUID",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "event.outcome",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "관측한 실행 결과",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "outcome"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [
-        "outcome"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "event.type",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "이벤트 분류 배열",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": true,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "execution.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "작업 실행 한 번의 식별자",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": true,
-      "array": false,
-      "when": "message",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.actor.id",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "업무 행위자이며 검증 실행 user.id와 구분",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "actorId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "adapter",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": true
-    },
-    {
-      "name": "golmok.application.code",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "서비스에 부여한 4자 업무 코드",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "appCode"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [
-        "appCode"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.attempt.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "메시지 소비 시도 식별자",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": true,
-      "array": false,
-      "when": "message",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.attributes.unmapped_count",
-      "type": "integer",
-      "tier": "optional",
-      "meaning": "목록 밖 MDC 키 총수이며 표식 16개 제한과 별개",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.auth.state",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "검증된 인증 상태",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.device.level",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "클라이언트 종류",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.device.pseudo_id",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "서비스 adapter가 제공한 설치 가명이며 하드웨어 ID 아님",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "deviceId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "adapter",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": true
-    },
-    {
-      "name": "golmok.diagnostic.code",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "공통 업무 로그 계약의 진단 코드",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "diagnosticCode"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.executor.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "실제 작업을 수행한 workload 식별자",
-      "scope": [
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "adapter",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "job",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.identity.realm",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "검증된 사용자 영역",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "authenticated",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.identity.source",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "검증된 최초 실행자 문맥의 출처",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.instance.code",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "기동 인스턴스 6자 구분 코드",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "instanceCode"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [
-        "instanceCode"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.locale",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "허용 형식의 언어·지역 힌트",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.message.event.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "영속 메시지 식별자이며 로그 event.id와 별개",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": true,
-      "array": false,
-      "when": "message",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.related_member.ids",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "작업 관련·대상 회원 식별자 배열",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "relatedMemberIds"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "adapter",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": true,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": true
-    },
-    {
-      "name": "golmok.request.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "HTTP 수명주기 또는 업무 호출의 요청 상관키",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "requestId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "request",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.schema.version",
-      "type": "integer",
-      "tier": "required",
-      "meaning": "정본 로그 스키마 버전 2",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.scope",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "요청·작업·기동·수집 중 실행 범위",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.screen.business_no",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "검증된 업무 화면 번호",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.screen.catalog_version",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "검증된 화면 카탈로그 버전",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.screen.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "클라이언트가 보고한 화면 식별자",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.screen.internal_id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "검증된 내부 화면 식별자",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.authenticated_user_id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "주장값과 비교한 검증 사용자 ID",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "authenticatedUserId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.claimed_user_id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "마스킹된 미신뢰 사용자 주장값",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "claimedUserId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.detail",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "정책에 따라 정제한 보안 진단 상세",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "detail"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.dropped_headers",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "신뢰 경계에서 제외한 헤더 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "droppedHeaders"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.event",
-      "type": "boolean",
-      "tier": "conditional",
-      "meaning": "보안 감사 이벤트 표시",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "securityEvent"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.principal",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "보안 이벤트의 검증 주체 표시",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "principal"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.reason",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "보안 거부 또는 경고 사유",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "reason"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.roles_claim_path",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "인증 역할을 읽은 claim 경로",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "rolesClaimPath"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.subject",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "인증 adapter가 검증한 subject",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "subject"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.security.target_host",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "전파가 차단된 대상 호스트",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "targetHost"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.slow",
-      "type": "boolean",
-      "tier": "optional",
-      "meaning": "설정된 지연 임계시간 초과 여부",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "slow"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "golmok.ui.event.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "UI 사용자 동작 식별자이며 로그 event.id와 별개",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "screen",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.request.body.bytes",
-      "type": "long",
-      "tier": "conditional",
-      "meaning": "관측한 요청 본문 바이트수",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.request.body.content",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "크기 제한과 마스킹을 거친 요청 본문",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.request.headers",
-      "type": "object",
-      "tier": "conditional",
-      "meaning": "설정된 허용 이름과 마스킹을 거친 요청 헤더 객체",
-      "scope": [
-        "request"
-      ],
-      "aliases": [
-        "requestHeaders"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.request.method",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "HTTP 요청 메서드",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [
-        "httpMethod"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [
-        "httpMethod"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "http.request.mime_type",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "HTTP 요청 MIME 형식",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.response.body.bytes",
-      "type": "long",
-      "tier": "conditional",
-      "meaning": "관측한 응답 본문 바이트수",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.response.body.content",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "크기 제한과 마스킹을 거친 응답 본문",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.response.mime_type",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "HTTP 응답 MIME 형식",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "http.response.status_code",
-      "type": "integer",
-      "tier": "conditional",
-      "meaning": "HTTP 응답 상태 정수",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [
-        "httpStatus",
-        "status"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [
-        "httpStatus",
-        "status"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "http.route",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "정규화된 서버 라우트 템플릿",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "job.name",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "독립 작업 이름",
-      "scope": [
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "job",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "log.level",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "로그 레벨 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "level"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [
-        "level"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "log.logger",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "로그 생성 클래스 또는 로거 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "logger_name"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [
-        "logger_name"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "log.severity_number",
-      "type": "integer",
-      "tier": "optional",
-      "meaning": "OTel 로그 심각도 정수",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "level_value"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [
-        "level_value"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "message",
-      "type": "text",
-      "tier": "required",
-      "meaning": "로거가 생성한 메시지",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.domain_event.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "발행·소비한 도메인 이벤트 봉투 ID",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "domain_event",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.domain_event.type",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "도메인 이벤트 타입",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "domain_event",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.method.args",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "마스킹·길이 제한을 거친 메서드 인자",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "method",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.method.return",
-      "type": "text",
-      "tier": "conditional",
-      "meaning": "마스킹·길이 제한을 거친 반환값",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "method",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.payload.truncated",
-      "type": "boolean",
-      "tier": "conditional",
-      "meaning": "본문 수집 크기 제한에 따른 절단 여부",
-      "scope": [
-        "request"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "opt_in",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "payload",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "mutuus.security.disposition",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "보안 감사의 처분 결과",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "audit",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "operation.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "업무 전체의 작업 상관키",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": true,
-      "array": false,
-      "when": "message",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "parent.id",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "검증 근거가 있는 부모 구간 식별자",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "request",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "rule.name",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "적용된 관측 규칙 이름",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "method",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "service.instance.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "기동 시 정해 agent와 JSON에 함께 공급한 인스턴스 ID",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "adapter",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "service.name",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "배포자가 정한 서비스 이름",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "app"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "adapter",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "all",
-      "discardAliases": [
-        "app"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "service.version",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "배포한 서비스 빌드 버전",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "adapter",
-      "structuredInput": false,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "session.id",
-      "type": "keyword",
-      "tier": "optional",
-      "meaning": "인증 토큰과 독립된 단기 세션 식별자",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "adapter",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "supplied",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "span.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "현재 실행 구간 식별자",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "span_id",
-        "transaction.id"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "request",
-      "discardAliases": [
-        "span_id",
-        "transaction.id"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "trace.flags",
-      "type": "integer",
-      "tier": "conditional",
-      "meaning": "OTel 추적 플래그 정수",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "trace_flags"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "request",
-      "discardAliases": [
-        "trace_flags"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "trace.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "현재 실행의 분산 추적 식별자",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "trace_id"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "request",
-      "discardAliases": [
-        "trace_id"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "url.domain",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "요청 대상 도메인",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "url.full",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "마스킹 정책을 거친 전체 URL",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [
-        "url.value"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [
-        "url.value"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "url.path",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "요청 URL 경로",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [
-        "httpPath"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "none",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [
-        "httpPath"
-      ],
-      "mdcInput": false
-    },
-    {
-      "name": "url.query",
-      "type": "keyword",
-      "tier": "conditional",
-      "meaning": "마스킹 정책을 거친 질의 문자열",
-      "scope": [
-        "request",
-        "job"
-      ],
-      "aliases": [],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": false,
-      "metadata": false,
-      "array": false,
-      "when": "http",
-      "discardAliases": [],
-      "mdcInput": false
-    },
-    {
-      "name": "user.id",
-      "type": "keyword",
-      "tier": "required",
-      "meaning": "검증된 실행 사용자 식별자",
-      "scope": [
-        "request",
-        "job",
-        "lifecycle",
-        "collector"
-      ],
-      "aliases": [
-        "userId"
-      ],
-      "alias_until": "2026-10-18",
-      "input_accept_until": null,
-      "sensitivity": "mask",
-      "owner": "common",
-      "structuredInput": true,
-      "protected": true,
-      "metadata": false,
-      "array": false,
-      "when": "authenticated",
-      "discardAliases": [
-        "userId"
-      ],
-      "mdcInput": false
-    }
-  ]
+    "version":  3,
+    "fields":  [
+                   {
+                       "name":  "@timestamp",
+                       "type":  "date_nanos",
+                       "tier":  "required",
+                       "meaning":  "로그 이벤트 발생 UTC 시각",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "attributes",
+                       "type":  "object",
+                       "tier":  "optional",
+                       "meaning":  "미검토 값을 저장하지 않는 예약 객체; 현재 출력하지 않음",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "client.ip",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "보안 감사 데이터셋에서만 출력하는 마스킹된 클라이언트 IP",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  true
+                   },
+                   {
+                       "name":  "code.function",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "실행 메서드 이름",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "method",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "code.namespace",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "메서드 또는 컨트롤러의 소속 클래스",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "method",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "deployment.environment.name",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "배포 환경 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "adapter",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "error.code",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "표준 오류 분류 코드",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "failure",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "error.message",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹 정책을 거친 오류 설명",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "failure",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "error.stack_trace",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "오류 예외 스택 문자열",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "failure",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "error.type",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "발생한 예외의 클래스 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "exception",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.action",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "로그의 이벤트 또는 업무 동작 종류",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.category",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "이벤트 범주 배열",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  true,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.dataset",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "공통 로거 데이터셋",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.duration",
+                       "type":  "long",
+                       "tier":  "optional",
+                       "meaning":  "실행 소요 나노초",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "로그 생성마다 한 번 발급하는 UUID",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.outcome",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "관측한 실행 결과",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "event.type",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "이벤트 분류 배열",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  true,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "execution.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "작업 실행 한 번의 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  true,
+                       "array":  false,
+                       "when":  "message",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.actor.id",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "업무 행위자이며 검증 실행 user.id와 구분",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  true
+                   },
+                   {
+                       "name":  "golmok.application.code",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "서비스에 부여한 4자 업무 코드",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.attempt.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "메시지 소비 시도 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  true,
+                       "array":  false,
+                       "when":  "message",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.attributes.unmapped_count",
+                       "type":  "integer",
+                       "tier":  "optional",
+                       "meaning":  "목록 밖 MDC 키 총수이며 표식 16개 제한과 별개",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.auth.state",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "검증된 인증 상태",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.device.level",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "클라이언트 종류",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.device.pseudo_id",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "서비스 adapter가 제공한 설치 가명이며 하드웨어 ID 아님",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  true
+                   },
+                   {
+                       "name":  "golmok.diagnostic.code",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "공통 업무 로그 계약의 진단 코드",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.executor.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "실제 작업을 수행한 workload 식별자",
+                       "scope":  [
+                                     "job"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "job",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.identity.realm",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "검증된 사용자 영역",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "authenticated",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.identity.source",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "검증된 최초 실행자 문맥의 출처",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.instance.code",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "기동 인스턴스 6자 구분 코드",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.locale",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "허용 형식의 언어·지역 힌트",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.message.event.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "영속 메시지 식별자이며 로그 event.id와 별개",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  true,
+                       "array":  false,
+                       "when":  "message",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.related_member.ids",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "작업 관련·대상 회원 식별자 배열",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  true,
+                       "when":  "supplied",
+                       "mdcInput":  true
+                   },
+                   {
+                       "name":  "golmok.request.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "HTTP 수명주기 또는 업무 호출의 요청 상관키",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "request",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.schema.version",
+                       "type":  "integer",
+                       "tier":  "required",
+                       "meaning":  "정본 로그 스키마 버전 2",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.scope",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "요청·작업·기동·수집 중 실행 범위",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.screen.business_no",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "검증된 업무 화면 번호",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.screen.catalog_version",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "검증된 화면 카탈로그 버전",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.screen.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "클라이언트가 보고한 화면 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.screen.internal_id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "검증된 내부 화면 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.authenticated_user_id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "주장값과 비교한 검증 사용자 ID",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.claimed_user_id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹된 미신뢰 사용자 주장값",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.detail",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "정책에 따라 정제한 보안 진단 상세",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.dropped_headers",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "신뢰 경계에서 제외한 헤더 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.event",
+                       "type":  "boolean",
+                       "tier":  "conditional",
+                       "meaning":  "보안 감사 이벤트 표시",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.principal",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "보안 이벤트의 검증 주체 표시",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.reason",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "보안 거부 또는 경고 사유",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.roles_claim_path",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "인증 역할을 읽은 claim 경로",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.subject",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "인증 adapter가 검증한 subject",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.security.target_host",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "전파가 차단된 대상 호스트",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.slow",
+                       "type":  "boolean",
+                       "tier":  "optional",
+                       "meaning":  "설정된 지연 임계시간 초과 여부",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.ui.event.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "UI 사용자 동작 식별자이며 로그 event.id와 별개",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "screen",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.request.body.bytes",
+                       "type":  "long",
+                       "tier":  "conditional",
+                       "meaning":  "관측한 요청 본문 바이트수",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.request.body.content",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "크기 제한과 마스킹을 거친 요청 본문",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.request.headers",
+                       "type":  "object",
+                       "tier":  "conditional",
+                       "meaning":  "설정된 허용 이름과 마스킹을 거친 요청 헤더 객체",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.request.method",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "HTTP 요청 메서드",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.request.mime_type",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "HTTP 요청 MIME 형식",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.response.body.bytes",
+                       "type":  "long",
+                       "tier":  "conditional",
+                       "meaning":  "관측한 응답 본문 바이트수",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.response.body.content",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "크기 제한과 마스킹을 거친 응답 본문",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.response.mime_type",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "HTTP 응답 MIME 형식",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.response.status_code",
+                       "type":  "integer",
+                       "tier":  "conditional",
+                       "meaning":  "HTTP 응답 상태 정수",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "http.route",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "정규화된 서버 라우트 템플릿",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "job.name",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "독립 작업 이름",
+                       "scope":  [
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "job",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "log.level",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "로그 레벨 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "log.logger",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "로그 생성 클래스 또는 로거 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "log.severity_number",
+                       "type":  "integer",
+                       "tier":  "optional",
+                       "meaning":  "OTel 로그 심각도 정수",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "message",
+                       "type":  "text",
+                       "tier":  "required",
+                       "meaning":  "로거가 생성한 메시지",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.domain_event.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "발행·소비한 도메인 이벤트 봉투 ID",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "domain_event",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.domain_event.type",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "도메인 이벤트 타입",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "domain_event",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.method.args",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹·길이 제한을 거친 메서드 인자",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "method",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.method.return",
+                       "type":  "text",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹·길이 제한을 거친 반환값",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "method",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.payload.truncated",
+                       "type":  "boolean",
+                       "tier":  "conditional",
+                       "meaning":  "본문 수집 크기 제한에 따른 절단 여부",
+                       "scope":  [
+                                     "request"
+                                 ],
+                       "sensitivity":  "opt_in",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "payload",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "mutuus.security.disposition",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "보안 감사의 처분 결과",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "audit",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "operation.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "업무 전체의 작업 상관키",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  true,
+                       "array":  false,
+                       "when":  "message",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "parent.id",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "검증 근거가 있는 부모 구간 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "request",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "rule.name",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "적용된 관측 규칙 이름",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "method",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "service.instance.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "기동 시 정해 agent와 JSON에 함께 공급한 인스턴스 ID",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "adapter",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "service.name",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "배포자가 정한 서비스 이름",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "adapter",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "all",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "service.version",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "배포한 서비스 빌드 버전",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "adapter",
+                       "structuredInput":  false,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "session.id",
+                       "type":  "keyword",
+                       "tier":  "optional",
+                       "meaning":  "인증 토큰과 독립된 단기 세션 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "span.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "현재 실행 구간 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "request",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "trace.flags",
+                       "type":  "integer",
+                       "tier":  "conditional",
+                       "meaning":  "OTel 추적 플래그 정수",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "request",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "trace.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "현재 실행의 분산 추적 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "request",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "url.domain",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "요청 대상 도메인",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "url.full",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹 정책을 거친 전체 URL",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "url.path",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "요청 URL 경로",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "url.query",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "마스킹 정책을 거친 질의 문자열",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "user.id",
+                       "type":  "keyword",
+                       "tier":  "required",
+                       "meaning":  "검증된 실행 사용자 식별자",
+                       "scope":  [
+                                     "request",
+                                     "job",
+                                     "lifecycle",
+                                     "collector"
+                                 ],
+                       "sensitivity":  "mask",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  true,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "authenticated",
+                       "mdcInput":  false
+                   },
+                   {
+                       "name":  "golmok.merchant.id",
+                       "meaning":  "owner가 확인한 단일 가맹점 엔티티 내부 식별자",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "adapter",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "supplied",
+                       "mdcInput":  true
+                   }
+               ]
 }

@@ -29,19 +29,19 @@ import static org.mockito.Mockito.mock;
 class SecurityConfigAuditorTest {
 
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture capture;
     private Logger securityLogger;
 
     @BeforeEach
     void attach() {
         securityLogger = (Logger) LoggerFactory.getLogger(SecurityAuditLogger.LOGGER_NAME);
         appender = new ListAppender<>();
-        appender.start();
-        securityLogger.addAppender(appender);
+        capture = ai.mutuus.common.logging.TelemetryTestEvents.attach(securityLogger, appender);
     }
 
     @AfterEach
     void detach() {
-        securityLogger.detachAppender(appender);
+        capture.close();
     }
 
     @Test
@@ -178,8 +178,7 @@ class SecurityConfigAuditorTest {
 
     private Optional<ILoggingEvent> event(String name) {
         return appender.list.stream()
-                .filter(e -> e.getKeyValuePairs() != null && e.getKeyValuePairs().stream()
-                        .anyMatch(p -> "event".equals(p.key) && name.equals(p.value)))
+                .filter(e -> name.equals(ai.mutuus.common.logging.TelemetryTestEvents.fields(e).get("event.action")))
                 .findFirst();
     }
 }

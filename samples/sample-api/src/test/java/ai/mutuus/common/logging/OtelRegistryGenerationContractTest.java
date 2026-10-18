@@ -15,7 +15,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** 정본 일치·입력 별칭 출력 금지·독립 분모를 한 번의 생성 계약으로 검증한다. */
+/** 정본 일치·새 형식 전용 출력·독립 분모를 한 번의 생성 계약으로 검증한다. */
 class OtelRegistryGenerationContractTest {
     @TempDir Path temp;
 
@@ -58,21 +58,10 @@ class OtelRegistryGenerationContractTest {
             else if (!List.of("request", "authenticated").contains(field.when()))
                 assertThat(denominator).containsEntry("source", "owner_manifest").containsEntry("condition", field.when());
         }
-        List<Map<String, Object>> legacyInputs = (List<Map<String, Object>>) rates.get("legacy_inputs");
-        assertThat(legacyInputs).hasSize(registry.aliases().size());
-        for (var alias : registry.aliases().values()) {
-            var generated = legacyInputs.stream().filter(item -> alias.name().equals(item.get("name"))).findFirst().orElseThrow();
-            assertThat(generated).containsEntry("alias_until", alias.removeAfter())
-                    .containsEntry("input_accept_until", alias.inputAcceptUntil());
-            assertThat(registry.fields()).doesNotContainKey(alias.name());
-            var aliasMapping = mapping(properties, alias.name());
-            if (aliasMapping != null) {
-                // event 같은 폐기 스칼라 이름은 canonical 객체의 부모 경로로만 존재할 수 있다.
-                assertThat(aliasMapping).as("namespace only " + alias.name())
-                        .containsEntry("type", "object").containsKey("properties");
-            }
-            assertThat(docs).contains("| " + alias.name() + " | ");
-        }
+        assertThat(rates).doesNotContainKeys("legacy_inputs", "aliases", "alias_until", "input_accept_until");
+        assertThat(docs).doesNotContain("alias_until", "input_accept_until", "입력 별칭");
+        assertThat(registry.version()).isEqualTo(3);
+        assertThat(registry.fields()).hasSize(89);
         for (String field : List.of("trace.id", "span.id", "user.id")) {
             var rule = rules.stream().filter(item -> field.equals(item.get("field"))).findFirst().orElseThrow();
             boolean user = "user.id".equals(field);

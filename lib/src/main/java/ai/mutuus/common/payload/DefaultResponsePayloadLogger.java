@@ -33,14 +33,8 @@ public class DefaultResponsePayloadLogger implements ResponsePayloadLogger {
     @Override
     public void onResponse(HttpServletRequest request, int status, String body) {
         // 입력과 동일 로거/스타일. 원 요청 정보(method/path)로 입력 로그와 상관관계를 맞춘다.
-        LoggingEventBuilder ev = log.atInfo()
-                .addKeyValue("event", "response.payload")          // 이벤트 종류(리턴)
-                .addKeyValue("httpMethod", request.getMethod())
-                .addKeyValue("httpPath", request.getRequestURI())
-                .addKeyValue("httpStatus", status);                // 최종 응답 상태코드
-        // ECS(dual): dataset/이벤트/HTTP 필드를 함께 남긴다.
+        LoggingEventBuilder ev = log.atInfo();
         ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_PAYLOAD)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_PAYLOAD)
                 .addKeyValue(EcsFields.EVENT_ACTION, "response.payload")
                 .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
                 .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))
@@ -50,7 +44,6 @@ public class DefaultResponsePayloadLogger implements ResponsePayloadLogger {
         // 응답 본문(정책 적용 후)이 있을 때만 추가. 마스커가 있으면 PII 를 남기기 전에 마스킹.
         if (body != null && !body.isBlank()) {
             String rendered = masker != null ? masker.mask(body) : body;
-            ev.addKeyValue("responseBody", rendered);
             ev.addKeyValue(EcsFields.HTTP_RESPONSE_BODY_CONTENT, rendered)
                     .addKeyValue(EcsFields.HTTP_RESPONSE_BODY_BYTES, body.getBytes(StandardCharsets.UTF_8).length);
         }

@@ -122,16 +122,12 @@ class PayloadLoggingFilterTest {
         request.addHeader("Set-Cookie", "private");
         Logger logger = (Logger) LoggerFactory.getLogger(DefaultRequestPayloadLogger.LOGGER_NAME);
         var appender = new ListAppender<ILoggingEvent>();
-        appender.start();
-        logger.addAppender(appender);
-        try {
+        try (var capture = ai.mutuus.common.logging.TelemetryTestEvents.attach(logger, appender)) {
             new DefaultRequestPayloadLogger(null, props).onRequest(request, "입력");
-            Object headers = appender.list.getFirst().getKeyValuePairs().stream()
-                    .filter(pair -> pair.key.equals("requestHeaders")).findFirst().orElseThrow().value;
+            var snapshot = ai.mutuus.common.logging.TelemetryTestEvents.fields(appender.list.getFirst());
+            Object headers = snapshot.get("http.request.headers");
             assertThat(headers).isEqualTo(Map.of("X-Trace-Id", "trace-ok"));
-        } finally {
-            logger.detachAppender(appender);
-            appender.stop();
+            assertThat(snapshot.toString()).doesNotContain("Bearer private", "private", "Authorization", "Cookie");
         }
     }
 

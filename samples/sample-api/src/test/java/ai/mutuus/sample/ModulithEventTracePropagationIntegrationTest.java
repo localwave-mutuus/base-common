@@ -4,8 +4,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import ai.mutuus.common.event.DomainEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>{@code @EnableAsync} 로 실제 비동기 실행을 강제한다. 전파가 안 되면 리스너 스레드의 {@code TraceContext.traceId()}
  * 는 null 이 된다.
  */
-@SpringBootTest // 기본 MOCK 웹 컨텍스트(보안 체인의 HttpSecurity 필요) — HTTP 호출 없이 이벤트만 발행
+@SpringBootTest(properties = "mutuus.common.async.context-decorator-enabled=true") // agent 없는 소비자 실행기 전파 opt-in
 @Import(ModulithEventTracePropagationIntegrationTest.TestCfg.class)
 class ModulithEventTracePropagationIntegrationTest {
 
@@ -47,13 +47,14 @@ class ModulithEventTracePropagationIntegrationTest {
     @Test
     void 모듈리스너_비동기_수신시_traceId가_전파된다() throws Exception {
         latch = new CountDownLatch(1);
-        TraceContext.put(HeaderNames.TRACE_ID, "t-modulith");
+        try (var span = TelemetryTestEvents.span("modulith-publish")) {
 
-        publisher.publishInTransaction(); // 커밋 후 @ApplicationModuleListener(비동기) 실행
+            publisher.publishInTransaction(); // 커밋 후 @ApplicationModuleListener(비동기) 실행
 
-        assertThat(latch.await(5, TimeUnit.SECONDS)).as("async listener fired").isTrue();
-        assertThat(capturedTraceId.get()).isEqualTo("t-modulith");           // 스레드 경계 넘어 전파됨
-        assertThat(listenerThread.get()).isNotEqualTo(Thread.currentThread().getName()); // 실제 다른(비동기) 스레드
+            assertThat(latch.await(5, TimeUnit.SECONDS)).as("async listener fired").isTrue();
+            assertThat(capturedTraceId.get()).isEqualTo(span.traceId());
+            assertThat(listenerThread.get()).isNotEqualTo(Thread.currentThread().getName()); // 실제 다른(비동기) 스레드
+        }
     }
 
     @TestConfiguration(proxyBeanMethods = false)

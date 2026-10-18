@@ -108,14 +108,14 @@ public final class JobPairLogger {
         }
         private void emit(String action, String outcome, String errorCode, long nanos) {
             var event = outcome.equals("OK") ? log.atInfo() : log.atWarn();
-            event.addKeyValue("event", action).addKeyValue("event.action", action)
+            event.addKeyValue("event.action", action)
                     .addKeyValue("golmok.scope", "job")
-                    .addKeyValue("event.dataset", "mutuus.job").addKeyValue("data_stream.dataset", "mutuus.job")
-                    .addKeyValue("jobExecutionId", id).addKeyValue("execution.id", id)
+                    .addKeyValue("event.dataset", "mutuus.job")
+                    .addKeyValue("execution.id", id)
                     .addKeyValue("job.name", jobName)
                     .addKeyValue("operation.id", operationId == null ? "" : operationId)
-                    .addKeyValue("event.duration", nanos).addKeyValue("durationMs", nanos / 1_000_000)
-                    .addKeyValue("outcome", outcome).addKeyValue("errorCode", errorCode).addKeyValue("error.code", errorCode)
+                    .addKeyValue("event.duration", nanos)
+                    .addKeyValue("error.code", errorCode)
                     .addKeyValue("event.outcome", outcome.equals("OK") ? "success" : "failure").log(action);
         }
     }

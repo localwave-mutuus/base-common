@@ -29,9 +29,8 @@ class ActionRequestIdTest {
         });
         assertThat(RequestIds.current()).isNull(); assertThat(TraceContext.traceId()).isNull();
         var id = (String) request.getAttribute(RequestIds.HTTP_ATTRIBUTE);
-        verify(access).httpPair(eq("http.request.in"), eq(id), anyString(), eq("POST"), eq("/signup"),
-                eq(0), eq(0L), eq(""), isNull(), eq(false), isNull(), anyMap());
-        verify(access).httpPair(eq("http.response.out"), eq(id), anyString(), eq("POST"), eq("/signup"),
-                eq(200), anyLong(), eq(""), isNull(), eq(false), isNull(), anyMap());
+        verify(access).serverComplete(eq("POST"), eq("/{unmatched}"), isNull(), eq(200), anyLong(),
+                eq(""), eq(false), argThat(snapshot -> id.equals(snapshot.get("golmok.request.id"))));
+        verifyNoMoreInteractions(access);
     }
 }

@@ -68,21 +68,21 @@ class PayloadAndEntryLoggingIntegrationTest {
 
         // 진입 시 입력 본문, 종료 시 리턴 본문이 각각 남는다
         assertThat(events(payloadAppender)).contains("request.payload", "response.payload");
-        assertThat(keyValue(payloadAppender, "request.payload", "requestBody")).contains("hi");
-        assertThat(keyValue(payloadAppender, "response.payload", "responseBody")).contains("echoed");
+        assertThat(keyValue(payloadAppender, "request.payload", "http.request.body.content")).contains("hi");
+        assertThat(keyValue(payloadAppender, "response.payload", "http.response.body.content")).contains("echoed");
 
         // 대상(/api/**) 컨트롤러 메서드 진입이 남고, 메서드명이 정확하다
         assertThat(events(controllerAppender)).contains("controller.entry");
-        assertThat(keyValue(controllerAppender, "controller.entry", "method")).isEqualTo("echo");
+        assertThat(keyValue(controllerAppender, "controller.entry", "code.function")).isEqualTo("echo");
     }
 
     private List<String> events(ListAppender<ILoggingEvent> appender) {
-        return appender.list.stream().map(e -> kv(e, "event")).filter(v -> v != null).toList();
+        return appender.list.stream().map(e -> kv(e, "event.action")).filter(v -> v != null).toList();
     }
 
     private String keyValue(ListAppender<ILoggingEvent> appender, String event, String key) {
         return appender.list.stream()
-                .filter(e -> event.equals(kv(e, "event")))
+                .filter(e -> event.equals(kv(e, "event.action")))
                 .map(e -> kv(e, key))
                 .filter(v -> v != null)
                 .findFirst().orElse(null);

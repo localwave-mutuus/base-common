@@ -71,19 +71,19 @@ class EcsLoggingIntegrationTest {
                 .exchange((req, res) -> res.getStatusCode().value());
         assertThat(status).isEqualTo(200);
 
-        ILoggingEvent ev = accessEvent("http.response.out");
+        ILoggingEvent ev = accessEvent("http.server.complete");
         // ECS
-        assertThat(raw(ev, "event.action")).isEqualTo("http.response.out");
+        assertThat(raw(ev, "event.action")).isEqualTo("http.server.complete");
         assertThat(raw(ev, "event.dataset")).isEqualTo("mutuus.access");
-        assertThat(raw(ev, "data_stream.dataset")).isEqualTo("mutuus.access");
+        assertThat(raw(ev, "data_stream.dataset")).isNull();
         assertThat(raw(ev, "event.outcome")).isEqualTo("success");
         assertThat(raw(ev, "http.response.status_code")).isEqualTo(200);
         assertThat(raw(ev, "event.category")).isEqualTo(List.of("web"));
         assertThat(raw(ev, "event.duration")).isInstanceOf(Long.class);
         assertThat((Long) raw(ev, "event.duration")).isGreaterThan(0L);
         // legacy 병존(dual)
-        assertThat(raw(ev, "event")).isEqualTo("http.response.out");
-        assertThat(raw(ev, "httpStatus")).isEqualTo(200);
+        assertThat(raw(ev, "event")).isNull();
+        assertThat(raw(ev, "httpStatus")).isNull();
     }
 
     @Test
@@ -115,8 +115,8 @@ class EcsLoggingIntegrationTest {
         assertThat(raw(ev, "client.ip")).isInstanceOf(String.class);
         assertThat(raw(ev, "mutuus.security.disposition")).isEqualTo("denied");
         // legacy 병존
-        assertThat(raw(ev, "event")).isEqualTo("security.authn.failed");
-        assertThat(raw(ev, "securityEvent")).isEqualTo(true);
+        assertThat(raw(ev, "event")).isNull();
+        assertThat(raw(ev, "golmok.security.event")).isEqualTo(true);
     }
 
     private String base() {

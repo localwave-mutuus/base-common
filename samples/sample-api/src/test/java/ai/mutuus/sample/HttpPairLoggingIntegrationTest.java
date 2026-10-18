@@ -45,7 +45,7 @@ class HttpPairLoggingIntegrationTest {
         AppenderBase<ILoggingEvent> capture = new AppenderBase<>() {
             @Override protected void append(ILoggingEvent event) { event.prepareForDeferredProcessing(); events.add(event); }
         };
-        capture.setContext(logger.getLoggerContext()); capture.start(); logger.addAppender(capture);
+        capture.setContext(logger.getLoggerContext()); capture.start(); var snapshotCapture = ai.mutuus.common.logging.TelemetryTestEvents.attach(logger, capture);
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build();
             int[] expected = {200, 400, 401, 403, 500, 500, 200, 500};
@@ -63,30 +63,26 @@ class HttpPairLoggingIntegrationTest {
             }
             disconnected.countDown();
             long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
-            while (pairs(events).size() < 18 && System.nanoTime() < deadline) Thread.sleep(10);
+            while (pairs(events).size() < 9 && System.nanoTime() < deadline) Thread.sleep(10);
             var pairEvents = pairs(events);
-            assertThat(pairEvents).hasSize(18);
-            for (String path : new String[]{"ok", "bad", "auth", "denied", "server", "exception", "async", "timeout", "disconnect"}) {
-                var pair = pairEvents.stream().filter(e -> ("/pair/" + path).equals(value(e, "url.path"))).toList();
-                assertThat(pair).as(path).hasSize(2);
-                assertThat(value(pair.get(0), "event.action")).isEqualTo("http.request.in");
-                assertThat(value(pair.get(1), "event.action")).isEqualTo("http.response.out");
-                assertThat(value(pair.get(0), "requestId")).isEqualTo(value(pair.get(1), "requestId"));
-                assertThat(value(pair.get(0), "trace.id")).isEqualTo(value(pair.get(1), "trace.id"));
-            }
-            assertThat(pairEvents.stream().filter(e -> "ASYNC_TIMEOUT".equals(value(e, "errorCode"))).count()).isEqualTo(1);
-            assertThat(pairEvents.stream().filter(e -> "CLIENT_DISCONNECT".equals(value(e, "errorCode"))).count()).isEqualTo(1);
-            LogstashEncoder encoder = new LogstashEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
+            assertThat(pairEvents).hasSize(9);
+            assertThat(pairEvents).extracting(event -> value(event, "event.action")).containsOnly("http.server.complete");
+            assertThat(pairEvents).extracting(event -> value(event, "golmok.request.id")).doesNotHaveDuplicates().doesNotContainNull();
+            assertThat(pairEvents).extracting(event -> value(event, "url.path")).containsOnly("/{unmatched}");
+            assertThat(pairEvents).extracting(event -> value(event, "http.response.status_code"))
+                    .containsExactlyInAnyOrder(200, 400, 401, 403, 500, 500, 200, 504, 499);            assertThat(pairEvents.stream().filter(e -> "ASYNC_TIMEOUT".equals(value(e, "error.code"))).count()).isEqualTo(1);
+            assertThat(pairEvents.stream().filter(e -> "CLIENT_DISCONNECT".equals(value(e, "error.code"))).count()).isEqualTo(1);
+            ai.mutuus.common.logging.CommonJsonEncoder encoder = new ai.mutuus.common.logging.CommonJsonEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
             Path output = Path.of("target/wave18/http-pairs.jsonl"); Files.createDirectories(output.getParent());
             try (var stream = Files.newOutputStream(output)) { for (var event : pairEvents) stream.write(encoder.encode(event)); }
             encoder.stop();
-        } finally { logger.detachAppender(capture); capture.stop(); disconnected.countDown(); }
+        } finally { snapshotCapture.close(); capture.stop(); disconnected.countDown(); }
     }
     static List<ILoggingEvent> pairs(List<ILoggingEvent> events) {
-        return events.stream().filter(e -> List.of("http.request.in", "http.response.out").contains(value(e, "event.action"))).toList();
+        return events.stream().filter(e -> List.of("http.server.complete").contains(value(e, "event.action"))).toList();
     }
     static Object value(ILoggingEvent event, String key) {
-        return event.getKeyValuePairs().stream().filter(p -> p.key.equals(key)).map(p -> p.value).findFirst().orElse(null);
+        return ai.mutuus.common.logging.TelemetryTestEvents.fields(event).get(key);
     }
     @Configuration(proxyBeanMethods = false)
     @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name = "wave18.pair-test", havingValue = "true")

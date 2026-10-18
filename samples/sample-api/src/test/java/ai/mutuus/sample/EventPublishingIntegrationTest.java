@@ -2,8 +2,8 @@ package ai.mutuus.sample;
 
 import java.util.Map;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import ai.mutuus.common.event.ApplicationEventPublisherAdapter;
 import ai.mutuus.common.event.DomainEvent;
 import ai.mutuus.common.event.EventPublisher;
@@ -41,15 +41,16 @@ class EventPublishingIntegrationTest {
 
     @Test
     void 발행하면_리스너가_같은_봉투를_받고_추적ID가_실린다() {
-        TraceContext.put(HeaderNames.TRACE_ID, "evt-trace");
+        try (var span = TelemetryTestEvents.span("publish-event")) {
 
-        DomainEvent<?> published = eventPublisher.publish("test.event", Map.of("k", "v"));
+            DomainEvent<?> published = eventPublisher.publish("test.event", Map.of("k", "v"));
 
-        DomainEvent<?> received = recorder.last(); // in-process 동기 전달 → 이미 수신됨
-        assertThat(received).isNotNull();
-        assertThat(received.eventId()).isEqualTo(published.eventId());
-        assertThat(received.type()).isEqualTo("test.event");
-        assertThat(received.traceId()).isEqualTo("evt-trace");
-        assertThat(received.payload()).isEqualTo(Map.of("k", "v"));
+            DomainEvent<?> received = recorder.last(); // in-process 동기 전달 → 이미 수신됨
+            assertThat(received).isNotNull();
+            assertThat(received.eventId()).isEqualTo(published.eventId());
+            assertThat(received.type()).isEqualTo("test.event");
+            assertThat(received.traceId()).isEqualTo(span.traceId());
+            assertThat(received.payload()).isEqualTo(Map.of("k", "v"));
+        }
     }
 }

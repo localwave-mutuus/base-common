@@ -11,7 +11,10 @@ import ai.mutuus.common.core.TraceContext;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import net.logstash.logback.encoder.LogstashEncoder;
+import ch.qos.logback.classic.spi.LoggingEvent;
+import org.slf4j.event.KeyValuePair;
+import io.opentelemetry.api.trace.*;
+import io.opentelemetry.context.Scope;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,9 +60,9 @@ class ActionLoggerTest {
         });
         tx.executeWithoutResult(status -> writer.record(result(ActionRecord.Outcome.FAILURE, "OWNER_REJECTED")));
         assertThat(captured.list).hasSize(2);
-        assertThat(field(0, "outcome")).isEqualTo("SUCCESS");
-        assertThat(field(1, "outcome")).isEqualTo("FAILURE");
-        assertThat(field(1, "errorCode")).isEqualTo("OWNER_REJECTED");
+        assertThat(field(0, "event.outcome")).isEqualTo("success");
+        assertThat(field(1, "event.outcome")).isEqualTo("failure");
+        assertThat(field(1, "error.code")).isEqualTo("OWNER_REJECTED");
     }
 
     @Test void rollback_only_required_participation_emits_once_after_outer_completion() {
@@ -69,8 +72,8 @@ class ActionLoggerTest {
             assertThat(captured.list).isEmpty();
         })).isInstanceOf(UnexpectedRollbackException.class);
         assertThat(captured.list).hasSize(1);
-        assertThat(field(0, "outcome")).isEqualTo("FAILURE");
-        assertThat(field(0, "errorCode")).isEqualTo("TRANSACTION_ROLLED_BACK");
+        assertThat(field(0, "event.outcome")).isEqualTo("failure");
+        assertThat(field(0, "error.code")).isEqualTo("TRANSACTION_ROLLED_BACK");
     }
 
     @Test void outer_binding_does_not_claim_success_when_requires_new_commits_but_outer_rolls_back() {
@@ -82,14 +85,14 @@ class ActionLoggerTest {
             assertThat(captured.list).isEmpty(); outer.setRollbackOnly();
         });
         assertThat(captured.list).hasSize(1);
-        assertThat(field(0, "outcome")).isEqualTo("FAILURE");
+        assertThat(field(0, "event.outcome")).isEqualTo("failure");
     }
 
     @Test void explicit_owner_error_is_preserved_on_rollback() {
         tx.executeWithoutResult(status -> {
             writer.record(result(ActionRecord.Outcome.FAILURE, "OWNER_REJECTED")); status.setRollbackOnly();
         });
-        assertThat(field(0, "errorCode")).isEqualTo("OWNER_REJECTED");
+        assertThat(field(0, "error.code")).isEqualTo("OWNER_REJECTED");
     }
 
     @Test void no_tx_is_immediate_unknown_is_diagnostic_only_and_callback_is_once() {
@@ -106,34 +109,39 @@ class ActionLoggerTest {
             TransactionSynchronizationManager.setActualTransactionActive(false);
         }
         assertThat(captured.list).hasSize(2);
-        assertThat(field(0, "outcome")).isEqualTo("FAILURE");
+        assertThat(field(0, "event.outcome")).isEqualTo("failure");
         assertThat(field(1, "event.dataset")).isEqualTo("mutuus.action_diagnostic");
-        assertThat(captured.list.get(1).getKeyValuePairs()).noneMatch(p -> p.key.equals("outcome") || p.key.equals("event.outcome"));
+        assertThat(captured.list.get(1).getKeyValuePairs()).noneMatch(p -> p.key.equals("event.outcome") || p.key.equals("event.outcome"));
     }
 
     @Test void async_snapshot_ids_and_related_members_remain_structured_json_array() throws Exception {
         TraceContext.put(RequestIds.CONTEXT_KEY, "request-original");
-        TraceContext.put(HeaderNames.TRACE_ID, "d6b0cb92b6c64b73b5c3a301e2098fea");
+        try (Scope ignored = Span.wrap(SpanContext.create("d6b0cb92b6c64b73b5c3a301e2098fea",
+                "1234567890abcdef", TraceFlags.getSampled(), TraceState.getDefault())).makeCurrent()) {
         var members = new ArrayList<>(List.of("member-2", "member-3"));
         var snapshot = new ActionRecord("member.signup", ActionRecord.Outcome.SUCCESS, null, RequestIds.current(),
                 "operation-1", "member-1", members, TraceContext.traceId());
         var bound = tx.execute(status -> writer.bind());
         members.clear(); TraceContext.clear();
         try (var executor = Executors.newSingleThreadExecutor()) { executor.submit(() -> bound.record(snapshot)).get(); }
-        assertThat(field(0, "requestId")).isEqualTo("request-original");
-        assertThat(field(0, "trace.id")).isEqualTo("d6b0cb92b6c64b73b5c3a301e2098fea");
-        var encoder = new LogstashEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
+        assertThat(field(0, "golmok.request.id")).isEqualTo("request-original");
+        assertThat(((java.util.Map<?, ?>) field(0, CanonicalLogSnapshot.CONTEXT_KEY)).get("trace.id"))
+                .isEqualTo("d6b0cb92b6c64b73b5c3a301e2098fea");
+        var event = captured.list.getFirst();
+        if (event.getKeyValuePairs().stream().noneMatch(pair -> pair.key.equals(CanonicalLogSnapshot.SNAPSHOT_KEY)))
+            ((LoggingEvent) event).addKeyValuePair(new KeyValuePair(CanonicalLogSnapshot.SNAPSHOT_KEY, CanonicalLogSnapshot.capture(event)));
+        var encoder = new CommonJsonEncoder(); encoder.setContext(logger.getLoggerContext()); encoder.start();
         try {
             var json = JsonMapper.builder().build().readTree(new String(encoder.encode(captured.list.getFirst()), StandardCharsets.UTF_8));
-            assertThat(json.get("relatedMemberIds").isArray()).isTrue();
-            assertThat(json.get("relatedMemberIds").size()).isEqualTo(2);
-            assertThat(json.get("actorId").asText()).isEqualTo("member-1");
-            assertThat(json.get("event.outcome").asText()).isEqualTo("success");
-            // 기존 LogstashEncoder는 null key-value를 생략한다(업무 값 자체는 null).
-            assertThat(json.get("errorCode")).isNull();
+            assertThat(json.path("golmok").path("related_member").path("ids").isArray()).isTrue();
+            assertThat(json.path("golmok").path("related_member").path("ids").size()).isEqualTo(2);
+            assertThat(json.path("golmok").path("actor").path("id").asText()).isEqualTo("member-1");
+            assertThat(json.path("event").path("outcome").asText()).isEqualTo("success");
+            assertThat(json.path("error").has("code")).isFalse();
             assertThat(json.has("@timestamp")).isTrue();
         } finally { encoder.stop(); }
         assertThatCode(() -> bound.record(snapshot)).doesNotThrowAnyException();
+        }
     }
 
     @Test void propagation_and_autoconfiguration_reuse_context_without_inferring_actor() throws Exception {

@@ -38,13 +38,7 @@ public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
         // 진입: 역직렬화된 실제 인자 배열을 문자열로(절단). 필터/인터셉터가 못 보는 "메서드 인자"가 여기서 보인다.
         String args0 = render(Arrays.deepToString(args));
         log.atInfo()
-                .addKeyValue("event", "method.enter")
-                .addKeyValue("class", type)
-                .addKeyValue("method", method)
-                .addKeyValue("args", args0)
-                // ECS(dual)
                 .addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_METHOD)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_METHOD)
                 .addKeyValue(EcsFields.EVENT_ACTION, "method.enter")
                 .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
                 .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))
@@ -59,13 +53,7 @@ public class DefaultMethodLoggingWriter implements MethodLoggingWriter {
         // 종료: 리턴 객체(직렬화 전)를 문자열로(절단).
         String ret = render(String.valueOf(result));
         log.atInfo()
-                .addKeyValue("event", "method.exit")
-                .addKeyValue("class", type)
-                .addKeyValue("method", method)
-                .addKeyValue("return", ret)
-                // ECS(dual)
                 .addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_METHOD)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_METHOD)
                 .addKeyValue(EcsFields.EVENT_ACTION, "method.exit")
                 .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
                 .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))

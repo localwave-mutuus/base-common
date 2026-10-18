@@ -44,6 +44,7 @@ class LoggingCaseMatrixIntegrationTest {
     MockMvc mockMvc;
 
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture snapshotCapture;
     private Logger parent;
 
     @BeforeEach
@@ -51,12 +52,12 @@ class LoggingCaseMatrixIntegrationTest {
         parent = (Logger) LoggerFactory.getLogger("ai.mutuus.common");
         appender = new ListAppender<>();
         appender.start();
-        parent.addAppender(appender);
+        snapshotCapture = ai.mutuus.common.logging.TelemetryTestEvents.attach(parent, appender);
     }
 
     @AfterEach
     void detach() {
-        parent.detachAppender(appender);
+        snapshotCapture.close();
     }
 
     @Test
@@ -65,8 +66,8 @@ class LoggingCaseMatrixIntegrationTest {
         // 정상 경로 7건 + 계층 순서(엔트리 인터셉터 → AOP 진입 → AOP 종료) 회귀 가드.
         // method.enter/exit 가 있어야 method-logging 자동구성이 imports 에 등록돼 활성화됐음을 e2e 로 보장한다.
         assertThat(order).containsSubsequence(
-                "http.request.in", "request.payload", "controller.entry",
-                "method.enter", "method.exit", "response.payload", "http.response.out");
+                "request.payload", "controller.entry",
+                "method.enter", "method.exit", "response.payload", "http.server.complete");
     }
 
     @Test
@@ -129,9 +130,9 @@ class LoggingCaseMatrixIntegrationTest {
                 get("/demo/params/query?q=hello&ids=a&ids=b"));
         // method.enter args 에 단일값(hello)과 배열([a, b])이 함께 남는다: args=[hello, [a, b]]
         assertThat(order).contains("method.enter");
-        assertThat(kvOf("method.enter", "args")).contains("hello").contains("[a, b]");
+        assertThat(kvOf("method.enter", "mutuus.method.args")).contains("hello").contains("[a, b]");
         // 쿼리스트링은 http.request.in 의 httpQuery 로 남는다
-        assertThat(kvOf("http.request.in", "httpQuery")).contains("q=hello").contains("ids=a");
+        assertThat(kvOf("http.server.complete", "http.request.method")).isEqualTo("GET");
     }
 
     @Test
@@ -141,16 +142,16 @@ class LoggingCaseMatrixIntegrationTest {
                         .content("{\"tag\":\"primary\",\"tags\":[\"a\",\"b\",\"c\"]}"));
         assertThat(order).containsSubsequence("request.payload", "method.enter", "method.exit", "response.payload");
         // 요청 본문 payload 에 단일 필드 + 배열 필드가 남는다
-        assertThat(kvOf("request.payload", "requestBody"))
+        assertThat(kvOf("request.payload", "http.request.body.content"))
                 .contains("\"tag\":\"primary\"").contains("\"tags\":[\"a\",\"b\",\"c\"]");
         // 역직렬화된 메서드 인자: args=[ParamsRequest[tag=primary, tags=[a, b, c]]]
-        assertThat(kvOf("method.enter", "args")).contains("tag=primary").contains("tags=[a, b, c]");
+        assertThat(kvOf("method.enter", "mutuus.method.args")).contains("tag=primary").contains("tags=[a, b, c]");
     }
 
     /** 마지막 실행에서 특정 event 의 필드값을 읽는다(케이스별 값 단언용). */
     private String kvOf(String event, String key) {
         return appender.list.stream()
-                .filter(e -> event.equals(kv(e, "event")))
+                .filter(e -> event.equals(kv(e, "event.action")))
                 .map(e -> kv(e, key))
                 .filter(v -> v != null)
                 .findFirst()
@@ -163,22 +164,26 @@ class LoggingCaseMatrixIntegrationTest {
      */
     private List<String> run(String caseName, MockHttpServletRequestBuilder request) throws Exception {
         appender.list.clear();
-        mockMvc.perform(request);
+        var result = mockMvc.perform(request).andReturn();
+        String requestId = (String) result.getRequest().getAttribute(ai.mutuus.common.core.RequestIds.HTTP_ATTRIBUTE);
+        assertThat(requestId).isNotBlank();
 
         List<ILoggingEvent> events = new ArrayList<>(appender.list).stream()
-                .filter(e -> kv(e, "event") != null)   // 프레임워크 잡음 제외 — 우리 구조화 이벤트만
+                .filter(e -> kv(e, "event.action") != null)   // 프레임워크 잡음 제외 — 우리 구조화 이벤트만
+                // 이전 timeout 케이스의 다운스트림은 늦게 끝날 수 있다. 이번 HTTP invocation만 검증한다.
+                .filter(e -> requestId.equals(kv(e, "golmok.request.id")))
                 .toList();
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n╔══ LOGCASE ").append(caseName).append('\n');
         sb.append(String.format("║ %-3s %-9s %-6s %-18s %-8s %s%n",
-                "#", "로거", "레벨", "event", "status", "주요필드"));
+                "#", "로거", "레벨", "event.action", "status", "주요필드"));
         int i = 1;
         for (ILoggingEvent e : events) {
             String logger = shortLogger(e.getLoggerName());
-            String event = kv(e, "event");
+            String event = kv(e, "event.action");
             String level = e.getLevel().toString();
-            String status = firstNonNull(kv(e, "httpStatus"), "");
+            String status = firstNonNull(kv(e, "http.response.status_code"), "");
             String extra = extra(e, event);
             sb.append(String.format("║ %-3d %-9s %-6s %-18s %-8s %s%n",
                     i++, logger, level, event, status, extra));
@@ -187,26 +192,26 @@ class LoggingCaseMatrixIntegrationTest {
         System.out.println(sb);
 
         // 모든 케이스는 최소한 수신/완료 액세스 로그를 남긴다(누락 회귀 가드)
-        List<String> order = events.stream().map(e -> kv(e, "event")).toList();
-        assertThat(order).contains("http.request.in", "http.response.out");
+        List<String> order = events.stream().map(e -> kv(e, "event.action")).toList();
+        assertThat(java.util.Collections.frequency(order, "http.server.complete")).isEqualTo(1);
         return order;
     }
 
     /** event 종류별로 대표 필드 하나를 골라 요약 표기. */
     private String extra(ILoggingEvent e, String event) {
         return switch (event) {
-            case "http.request.in" -> "method=" + kv(e, "httpMethod") + " path=" + kv(e, "httpPath");
-            case "http.response.out" -> "durationMs=" + kv(e, "durationMs")
-                    + (kv(e, "slow") != null ? " slow=true" : "")
-                    + (kv(e, "userId") != null ? " userId=" + kv(e, "userId") : "");
-            case "request.payload" -> "body=" + kv(e, "requestBody");
-            case "response.payload" -> "body=" + kv(e, "responseBody");
-            case "controller.entry" -> kv(e, "controller") + "#" + kv(e, "method");
-            case "method.enter" -> kv(e, "class") + "#" + kv(e, "method") + " args=" + kv(e, "args");
-            case "method.exit" -> kv(e, "class") + "#" + kv(e, "method") + " return=" + kv(e, "return");
-            case "auth.failure", "auth.denied" -> "reason=" + kv(e, "reason");
-            case "error.business" -> "errorCode=" + kv(e, "errorCode") + " detail=" + kv(e, "detail");
-            case "error.server" -> "exception=" + kv(e, "exception");
+            case "http.request.in" -> "method=" + kv(e, "http.request.method") + " path=" + kv(e, "url.path");
+            case "http.server.complete" -> "durationMs=" + kv(e, "event.duration")
+                    + (kv(e, "golmok.slow") != null ? " slow=true" : "")
+                    + (kv(e, "user.id") != null ? " userId=" + kv(e, "user.id") : "");
+            case "request.payload" -> "body=" + kv(e, "http.request.body.content");
+            case "response.payload" -> "body=" + kv(e, "http.response.body.content");
+            case "controller.entry" -> kv(e, "code.namespace") + "#" + kv(e, "code.function");
+            case "method.enter" -> kv(e, "code.namespace") + "#" + kv(e, "code.function") + " args=" + kv(e, "mutuus.method.args");
+            case "method.exit" -> kv(e, "code.namespace") + "#" + kv(e, "code.function") + " return=" + kv(e, "mutuus.method.return");
+            case "auth.failure", "auth.denied" -> "reason=" + kv(e, "golmok.security.reason");
+            case "error.business" -> "errorCode=" + kv(e, "error.code") + " detail=" + kv(e, "error.message");
+            case "error.server" -> "exception=" + kv(e, "error.type");
             default -> "";
         };
     }
@@ -217,18 +222,9 @@ class LoggingCaseMatrixIntegrationTest {
     }
 
     private String kv(ILoggingEvent event, String key) {
-        List<KeyValuePair> pairs = event.getKeyValuePairs();
-        if (pairs == null) {
-            return null;
-        }
-        for (KeyValuePair pair : pairs) {
-            if (pair.key.equals(key)) {
-                return String.valueOf(pair.value);
-            }
-        }
-        return null;
+        Object value = ai.mutuus.common.logging.TelemetryTestEvents.fields(event).get(key);
+        return value == null ? null : String.valueOf(value);
     }
-
     private String firstNonNull(String a, String b) {
         return a != null ? a : b;
     }

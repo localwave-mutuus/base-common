@@ -2,8 +2,8 @@ package ai.mutuus.common.event;
 
 import java.util.Map;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,16 +22,18 @@ class DomainEventTest {
 
     @Test
     void of는_현재_TraceContext로_봉투를_채운다() {
-        TraceContext.replace(Map.of(HeaderNames.TRACE_ID, "t-123", HeaderNames.USER_ID, "u-1"));
+        try (var span = TelemetryTestEvents.span("domain-event");
+             var identity = TelemetryTestEvents.identity("u-1", "member")) {
 
-        DomainEvent<Map<String, Object>> event = DomainEvent.of("order.created", Map.of("id", 7));
+            DomainEvent<Map<String, Object>> event = DomainEvent.of("order.created", Map.of("id", 7));
 
-        assertThat(event.eventId()).isNotBlank();
-        assertThat(event.type()).isEqualTo("order.created");
-        assertThat(event.occurredAt()).isNotNull();
-        assertThat(event.traceId()).isEqualTo("t-123");
-        assertThat(event.userId()).isEqualTo("u-1");
-        assertThat(event.payload()).isEqualTo(Map.of("id", 7));
+            assertThat(event.eventId()).isNotBlank();
+            assertThat(event.type()).isEqualTo("order.created");
+            assertThat(event.occurredAt()).isNotNull();
+            assertThat(event.traceId()).isEqualTo(span.traceId());
+            assertThat(event.userId()).isEqualTo("u-1");
+            assertThat(event.payload()).isEqualTo(Map.of("id", 7));
+        }
     }
 
     @Test

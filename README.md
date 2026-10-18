@@ -130,11 +130,11 @@ management:
 
 ```xml
 <configuration>
-  <include resource="logback-common.xml"/>
+  <include resource="common-platform/logback/common.xml"/>
 </configuration>
 ```
 
-`logback-common.xml` 은 **JSON 콘솔 + 파일** appender 를 제공한다.
+`common-platform/logback/common.xml` 은 **JSON 콘솔 + 파일** appender 를 제공한다.
 - 파일명: `<어플리케이션코드>-<인스턴스구분코드>.log` (크기 100MB + 일자 롤링, `${LOG_DIR:-logs}` 디렉터리).
 - 모든 로그에 추적키(`X-Trace-Id`)·`appCode`·`instanceCode`·`service` 필드가 포함된다.
 - **JSON 인코더는 optional**. 스타터(`common-platform-starter-web`/`-batch`)를 쓰면 자동 포함되고, 라이브러리만 직접 참조하는 경우에만 추가한다:
@@ -145,26 +145,20 @@ management:
   </dependency>
   ```
 
-어플리케이션코드(4자리)·인스턴스구분코드(6자리)는 `mutuus.common.app-code`/`instance-code` 로 지정하며,
-미지정 시 각각 서비스명에서 도출/구동 시 자동 생성된다. 두 코드는 응답·아웃바운드 헤더(`X-App-Code`/`X-Instance-Id`)와 로그 파일명에 쓰인다.
+업무용 앱·인스턴스 코드는 `golmok.application.code`·`golmok.instance.code`로 기록한다. 추적 Resource의 `service.instance.id`는 배포 owner가 별도로 공급한다.
 
-## 커스텀 헤더(e2e 정보 계층)
+## 추적과 요청 힌트
 
-| 헤더 | 의미 |
+HTTP 추적은 W3C `traceparent`/`tracestate`와 현재 OpenTelemetry Span을 사용한다. Java agent가 HTTP/JDBC 계측과 자동 전파를 맡는다. 공통 `TraceFilter`는 허용된 화면·이벤트·단말 수준·로케일 힌트를 보관한다. 사용자 ID는 인증 adapter가 검증한 주체에서 받는다.
+
+| 헤더 | 사용 |
 |------|------|
-| `X-Trace-Id` | 트랜잭션 글로벌 추적 ID(UUID) |
-| `X-Span-Id` | 호출 구간 ID |
-| `X-Screen-Id` | 화면 ID (메뉴/화면 식별) |
-| `X-Event-Id` | 화면 내 이벤트(버튼/액션) 식별 |
-| `X-Device-Level` | 단말 수준 (WEB/ANDROID/IOS 등) |
-| `X-Device-Id` | 단말 고유 식별자 |
-| `X-User-Id` | 인증 사용자 ID |
-| `X-Locale` | 사용자 로케일(다국어) |
-| `X-App-Code` | 어플리케이션코드(숫자/영문 4자리) — 호출 주체 앱 식별 |
-| `X-Instance-Id` | 인스턴스구분코드(숫자/영문 6자리) — 호출 주체 인스턴스 식별 |
+| `traceparent`, `tracestate` | W3C 추적 문맥 |
+| 응답 `X-Trace-Id` | 현재 SDK trace ID(32자리 hex) 조회 지원 |
+| `X-Screen-Id`, `X-Event-Id` | 화면·UI 이벤트 힌트 |
+| `X-Device-Level`, `X-Locale` | 허용 목록에 맞는 단말 수준·로케일 |
 
-`TraceFilter` 가 인입 시 추출→MDC/TraceContext 적재, `HeaderPropagationInterceptor` 가
-아웃바운드 호출(RestClient)에 자동 부착 → API 간 추적 체인 연결.
+`service.instance.id`는 배포 owner가 기동 직전 정해 Resource와 JSON 양쪽에 같은 값을 공급한다. 앱/인스턴스 업무 코드는 별도 `golmok.application.code`/`golmok.instance.code` 필드다. 자세한 실행 설정은 [0.4.0 안내](docs/261018.001.OTEL_04_RC.md)를 따른다.
 
 ## 테스트
 
@@ -228,6 +222,6 @@ cd samples/sample-batch && ../../mvnw clean test    # 비웹 소비자만 (web/s
 
 - [0.2.6 프로젝트 소유 로그 템플릿과 파일 정책](docs/261005.003.LOG_FILE_POLICY.md)
 
-# 0.4 DEV 시험판
+# 0.4.0 schema v2
 
-전환 계약과 필수 설정: [OpenTelemetry 0.4 RC 안내](docs/261018.001.OTEL_04_RC.md).
+전환 계약과 필수 설정: [OpenTelemetry 0.4.0 실행 안내](docs/261018.001.OTEL_04_RC.md).

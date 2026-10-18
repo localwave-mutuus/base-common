@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import ai.mutuus.common.logging.AccessLogger;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
+import ai.mutuus.common.logging.HandledExceptionMetadata;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,9 +35,10 @@ public class LoggingAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        accessLogger.accessDenied(request.getRequestURI(), accessDeniedException.getMessage());
+        HandledExceptionMetadata.record(request, accessDeniedException);
+        accessLogger.accessDenied(request.getRequestURI(), accessDeniedException.getMessage(), accessDeniedException);
         securityAuditLogger.authzDenied(request.getRequestURI(), request.getRemoteAddr(),
-                currentPrincipal(), accessDeniedException.getMessage());
+                currentPrincipal(), accessDeniedException.getMessage(), accessDeniedException);
         delegate.handle(request, response, accessDeniedException);
     }
 

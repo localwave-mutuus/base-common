@@ -47,28 +47,16 @@ public class DefaultRequestPayloadLogger implements RequestPayloadLogger {
     @Override
     public void onRequest(HttpServletRequest request, String body) {
         // SLF4J 2 fluent API 로 구조화 필드를 쌓는다(logstash 인코더가 각 addKeyValue 를 JSON 필드로 렌더).
-        LoggingEventBuilder ev = log.atInfo()
-                .addKeyValue("event", "request.payload")           // 이벤트 종류(입력)
-                .addKeyValue("httpMethod", request.getMethod())    // GET/POST 등
-                .addKeyValue("httpPath", request.getRequestURI()); // 요청 경로
+        LoggingEventBuilder ev = log.atInfo();
         Map<String, String> headers = new LinkedHashMap<>();
         for (String name : props.getAllowedHeaders()) {
             if (name == null || SENSITIVE_HEADERS.contains(name.toLowerCase(Locale.ROOT))) continue;
             String value = request.getHeader(name);
             if (value != null) headers.put(name, value.substring(0, Math.min(value.length(), 512)));
         }
-        if (!headers.isEmpty()) ev.addKeyValue("requestHeaders", headers);
-        // 쿼리스트링은 존재할 때만 필드 추가(빈 값 노이즈 방지)
-        if (request.getQueryString() != null && !request.getQueryString().isBlank()) {
-            ev.addKeyValue("httpQuery", request.getQueryString());
-        }
-        // 본문 해석의 근거가 되는 Content-Type 을 함께 남긴다
-        if (request.getContentType() != null) {
-            ev.addKeyValue("contentType", request.getContentType());
-        }
-        // ECS(dual): dataset/이벤트/HTTP 필드를 함께 남긴다(로거 호출부에서 직접 명시 — MDC 로 못 싣는 타입 포함).
+        if (!headers.isEmpty()) ev.addKeyValue("http.request.headers", headers);
+        // schema v2 정본 키만 기록한다.
         ev.addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_PAYLOAD)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_PAYLOAD)
                 .addKeyValue(EcsFields.EVENT_ACTION, "request.payload")
                 .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
                 .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))
@@ -84,7 +72,6 @@ public class DefaultRequestPayloadLogger implements RequestPayloadLogger {
         // 마스커가 있으면 PII(카드/주민번호 등)를 로그에 남기기 전에 마스킹한다.
         if (body != null && !body.isBlank()) {
             String rendered = masker != null ? masker.mask(body) : body;
-            ev.addKeyValue("requestBody", rendered);
             ev.addKeyValue(EcsFields.HTTP_REQUEST_BODY_CONTENT, rendered)
                     .addKeyValue(EcsFields.HTTP_REQUEST_BODY_BYTES, body.getBytes(StandardCharsets.UTF_8).length);
         }

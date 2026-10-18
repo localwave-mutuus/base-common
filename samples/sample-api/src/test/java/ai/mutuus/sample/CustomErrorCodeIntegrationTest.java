@@ -1,4 +1,5 @@
 package ai.mutuus.sample;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +38,18 @@ class CustomErrorCodeIntegrationTest {
     /** S2+S4: 소비자 커스텀 코드 → 커스텀 status(409)/code + 표준 봉투(traceId/success/error). */
     @Test
     void S2_소비자_커스텀코드_409_표준봉투() throws Exception {
-        mockMvc.perform(get("/demo/error/custom").header("X-Locale", "ko"))
-                .andExpect(status().isConflict())
-                .andExpect(header().string("X-Trace-Id", org.hamcrest.Matchers.notNullValue()))
-                .andExpect(jsonPath("$.code").value("ORDER_ALREADY_SHIPPED"))
-                .andExpect(jsonPath("$.error.code").value("ORDER_ALREADY_SHIPPED"))
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.traceId").exists())
-                .andExpect(jsonPath("$.timestamp").exists())
-                // S3(ko): 커스텀 코드의 메시지가 소비자 번들(sample-messages_ko)에서 해석됨
-                .andExpect(jsonPath("$.message").value("이미 배송이 시작된 주문입니다."));
+        try (var span = TelemetryTestEvents.span("custom-error")) {
+            mockMvc.perform(get("/demo/error/custom").header("X-Locale", "ko"))
+                    .andExpect(status().isConflict())
+                    .andExpect(header().string("X-Trace-Id", span.traceId()))
+                    .andExpect(jsonPath("$.code").value("ORDER_ALREADY_SHIPPED"))
+                    .andExpect(jsonPath("$.error.code").value("ORDER_ALREADY_SHIPPED"))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.traceId").value(span.traceId()))
+                    .andExpect(jsonPath("$.timestamp").exists())
+                    // S3(ko): 커스텀 코드의 메시지가 소비자 번들(sample-messages_ko)에서 해석됨
+                    .andExpect(jsonPath("$.message").value("이미 배송이 시작된 주문입니다."));
+        }
     }
 
     /** S3(en): 소비자 커스텀 코드의 i18n 이 로케일별로 해석됨. */

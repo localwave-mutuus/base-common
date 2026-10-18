@@ -1,7 +1,7 @@
 package ai.mutuus.common.persistence;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +21,9 @@ class TraceContextAuditorAwareTest {
 
     @Test
     void TraceContext에_사용자가_있으면_그_값을_감사주체로_반환한다() {
-        TraceContext.put(HeaderNames.USER_ID, "u-42");
-        assertThat(auditorAware.getCurrentAuditor()).contains("u-42");
+        try (var identity = TelemetryTestEvents.identity("u-42", "member")) {
+            assertThat(auditorAware.getCurrentAuditor()).contains("u-42");
+        }
     }
 
     @Test

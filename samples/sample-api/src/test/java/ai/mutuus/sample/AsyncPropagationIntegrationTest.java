@@ -2,8 +2,8 @@ package ai.mutuus.sample;
 
 import java.util.concurrent.CompletableFuture;
 
-import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.TraceContext;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * {@code applicationTaskExecutor} 에 자동 적용되어, {@code @Async} 경계 너머로도
  * 추적ID가 유지되는지(소비 서비스 무설정) 검증한다.
  */
-@SpringBootTest
+@SpringBootTest(properties = "mutuus.common.async.context-decorator-enabled=true")
 @Import(AsyncPropagationIntegrationTest.AsyncTestConfig.class)
 class AsyncPropagationIntegrationTest {
 
@@ -35,11 +35,12 @@ class AsyncPropagationIntegrationTest {
 
     @Test
     void Async_경계를_넘어도_traceId가_전파된다() throws Exception {
-        TraceContext.put(HeaderNames.TRACE_ID, "t-e2e");
+        try (var span = TelemetryTestEvents.span("async-boundary")) {
 
-        CompletableFuture<String> future = worker.traceIdInAsyncThread();
+            CompletableFuture<String> future = worker.traceIdInAsyncThread();
 
-        assertThat(future.get()).isEqualTo("t-e2e");
+            assertThat(future.get()).isEqualTo(span.traceId());
+        }
     }
 
     @EnableAsync

@@ -74,7 +74,7 @@ class OtelLoggingContractTest {
     @Test void immutableSnapshotAndSameEventIdReachFileAndOtlpAfterScopeCleanup() throws Exception {
         try (Scope traced = span(); Scope user = identity()) {
             MDC.put("X-User-Id", "forged"); MDC.put("authorization", "secret");
-            logger.atInfo().addKeyValue("user.id", "forged-kv").addKeyValue("httpStatus", 999).log("hello");
+            logger.atInfo().addKeyValue("user.id", "forged-kv").addKeyValue("unregistered.field", 999).log("hello");
             logger.info("second");
             logger.debug("disabled");
         }
@@ -87,7 +87,7 @@ class OtelLoggingContractTest {
         assertThat(first.get("event.id")).isNotEqualTo(fields(collector.list.get(1)).get("event.id"));
         assertThat(encoder.encode(collector.list.getFirst())).isEqualTo(encoder.encode(collector.list.getFirst()));
         assertThat(new String(encoder.encode(collector.list.getFirst()), StandardCharsets.UTF_8))
-                .doesNotContain("forged", "secret", "httpStatus", "X-User", "transaction", "logger_name", "level_value");
+                .doesNotContain("forged", "secret", "unregistered.field", "X-User", "transaction", "logger_name", "level_value");
         var exported = exporter.getFinishedLogRecordItems();
         assertThat(exported).hasSize(2);
         assertThat(exported.getFirst().getAttributes().get(AttributeKey.stringKey("event.id"))).isEqualTo(first.get("event.id"));
@@ -187,23 +187,25 @@ class OtelLoggingContractTest {
     @Test void uniqueCommonFieldsSurviveWithoutAliasDuplication() throws Exception {
         var members = new java.util.ArrayList<>(java.util.List.of("target-1"));
         var headers = new LinkedHashMap<String, String>(); headers.put("content-type", "application/json");
+        var previousContext = ai.mutuus.common.core.TraceContext.snapshot();
+        ai.mutuus.common.core.TraceContext.put(ai.mutuus.common.core.RequestIds.CONTEXT_KEY, "request-42");
         try (Scope traced = span(); Scope user = identity()) {
             logger.atInfo().addKeyValue("event.dataset", "mutuus.security_audit")
                     .addKeyValue("event.action", "security.identity.mismatch")
-                    .addKeyValue("reason", "rejected").addKeyValue("principal", "audit-principal")
-                    .addKeyValue("claimedUserId", "***tail").addKeyValue("authenticatedUserId", "verified-42")
-                    .addKeyValue("rolesClaimPath", "roles").addKeyValue("targetHost", "internal.example")
-                    .addKeyValue("droppedHeaders", "X-User-Id").addKeyValue("subject", "subject-id")
-                    .addKeyValue("securityEvent", true).addKeyValue("mutuus.security.disposition", "suspected")
-                    .addKeyValue("client.ip", "192.168.1.42").addKeyValue("actorId", "actor-42")
-                    .addKeyValue("relatedMemberIds", members).addKeyValue("diagnosticCode", "DIAG")
-                    .addKeyValue("requestId", "request-42").addKeyValue("job.name", "sync")
+                    .addKeyValue("golmok.security.reason", "rejected").addKeyValue("golmok.security.principal", "audit-principal")
+                    .addKeyValue("golmok.security.claimed_user_id", "***tail").addKeyValue("golmok.security.authenticated_user_id", "verified-42")
+                    .addKeyValue("golmok.security.roles_claim_path", "roles").addKeyValue("golmok.security.target_host", "internal.example")
+                    .addKeyValue("golmok.security.dropped_headers", "X-User-Id").addKeyValue("golmok.security.subject", "subject-id")
+                    .addKeyValue("golmok.security.event", true).addKeyValue("mutuus.security.disposition", "suspected")
+                    .addKeyValue("client.ip", "192.168.1.42").addKeyValue("golmok.actor.id", "actor-42")
+                    .addKeyValue("golmok.related_member.ids", members).addKeyValue("golmok.diagnostic.code", "DIAG")
+                    .addKeyValue("job.name", "sync")
                     .addKeyValue("code.namespace", "example.Controller").addKeyValue("code.function", "method")
                     .addKeyValue("rule.name", "rule-1").addKeyValue("http.request.mime_type", "application/json")
                     .addKeyValue("http.response.mime_type", "application/json")
                     .addKeyValue("http.request.body.content", "MASKED").addKeyValue("http.request.body.bytes", 6)
                     .addKeyValue("http.response.body.content", "MASKED").addKeyValue("http.response.body.bytes", 6)
-                    .addKeyValue("requestHeaders", headers).addKeyValue("mutuus.payload.truncated", true)
+                    .addKeyValue("http.request.headers", headers).addKeyValue("mutuus.payload.truncated", true)
                     .addKeyValue("mutuus.method.args", "MASKED_ARGS").addKeyValue("mutuus.method.return", "MASKED_RETURN")
                     .addKeyValue("mutuus.domain_event.id", "domain-42").addKeyValue("mutuus.domain_event.type", "Created")
                     .addKeyValue("url.query", "safe=1").addKeyValue("url.full", "https://internal.example/safe")
@@ -266,8 +268,8 @@ class OtelLoggingContractTest {
         MDC.put("custom_unreviewed", "RAW_CUSTOM_MUST_NOT_APPEAR");
         MDC.put("invalid raw key", "RAW_INVALID_MUST_NOT_APPEAR");
         MDC.put("X-Unreviewed", "RAW_UNKNOWN_HEADER_MUST_NOT_APPEAR");
-        MDC.put("trace_id", "ffffffffffffffffffffffffffffffff");
-        MDC.put("span_id", "ffffffffffffffff");
+        MDC.put("unreviewed_trace", "ffffffffffffffffffffffffffffffff");
+        MDC.put("unreviewed_span", "ffffffffffffffff");
         MDC.put("X-User-Id", "forged-user");
         try (Scope traced = span(); Scope user = identity()) {
             logger.atInfo().addKeyValue("golmok.executor.id", "worker-42").log("P0 schema contract");
@@ -275,21 +277,17 @@ class OtelLoggingContractTest {
         Map<String, String> json = fields(collector.list.getFirst());
         assertThat(json).containsEntry("golmok.schema.version", "2").containsEntry("trace.id", TRACE)
                 .containsEntry("span.id", SPAN).containsEntry("golmok.scope", "request")
-                .containsEntry("golmok.executor.id", "worker-42").containsEntry("golmok.attributes.unmapped_count", "4")
-                .containsEntry("attributes.password_secret_key", "REDACTED_UNREVIEWED")
-                .containsEntry("attributes.custom_unreviewed", "REDACTED_UNREVIEWED")
-                .containsEntry("attributes.invalid_key", "REDACTED_UNREVIEWED")
-                .containsEntry("attributes.X-Unreviewed", "REDACTED_UNREVIEWED")
+                .containsEntry("golmok.executor.id", "worker-42").containsEntry("golmok.attributes.unmapped_count", "7")
                 .containsKeys("@timestamp", "event.id", "service.name", "deployment.environment.name", "log.level");
         assertThat(json.entrySet().stream().filter(item -> item.getKey().startsWith("attributes.")).toList())
-                .hasSize(4).allMatch(item -> item.getValue().equals("REDACTED_UNREVIEWED"));
+                .isEmpty();
         var record = exporter.getFinishedLogRecordItems().getFirst();
         assertThat(record.getAttributes().get(AttributeKey.longKey("golmok.schema.version"))).isEqualTo(2L);
-        assertThat(record.getAttributes().get(AttributeKey.longKey("golmok.attributes.unmapped_count"))).isEqualTo(4L);
+        assertThat(record.getAttributes().get(AttributeKey.longKey("golmok.attributes.unmapped_count"))).isEqualTo(7L);
         assertThat(record.getAttributes().get(AttributeKey.stringKey("event.id"))).isEqualTo(json.get("event.id"));
         assertThat(new String(encoder.encode(collector.list.getFirst()), StandardCharsets.UTF_8)).contains("\"version\":2")
-                .doesNotContain("invalid raw key", "RAW_PASSWORD", "RAW_CUSTOM", "RAW_INVALID", "RAW_UNKNOWN_HEADER", "forged-user");
-        assertThat(record.getAttributes().toString()).doesNotContain("invalid raw key",
+                .doesNotContain("password_secret_key", "custom_unreviewed", "invalid raw key", "X-Unreviewed", "RAW_PASSWORD", "RAW_CUSTOM", "RAW_INVALID", "RAW_UNKNOWN_HEADER", "forged-user");
+        assertThat(record.getAttributes().toString()).doesNotContain("password_secret_key", "custom_unreviewed", "invalid raw key", "X-Unreviewed",
                 "RAW_PASSWORD", "RAW_CUSTOM", "RAW_INVALID", "RAW_UNKNOWN_HEADER", "forged-user");
         MDC.clear();
         for (int index = 0; index < 35; index++) MDC.put("unreviewed_" + index, "RAW_VALUE");
@@ -297,7 +295,7 @@ class OtelLoggingContractTest {
         logger.info("bounded unknown metadata");
         Map<String, String> bounded = fields(collector.list.getLast());
         assertThat(bounded).containsEntry("golmok.attributes.unmapped_count", "37");
-        assertThat(bounded.keySet().stream().filter(key -> key.startsWith("attributes.")).count()).isEqualTo(16L);
+        assertThat(bounded.keySet().stream().filter(key -> key.startsWith("attributes.")).count()).isZero();
     }
     private AccessLogFilter filter() { return new AccessLogFilter(new AccessLogger(), new CommonLoggingProperties()); }
     private MockHttpServletRequest request() {

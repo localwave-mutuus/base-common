@@ -34,19 +34,19 @@ class SecurityJwtAudienceIntegrationTest {
     int port;
 
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture capture;
     private Logger securityLogger;
 
     @BeforeEach
     void attach() {
         securityLogger = (Logger) LoggerFactory.getLogger(SecurityAuditLogger.LOGGER_NAME);
         appender = new ListAppender<>();
-        appender.start();
-        securityLogger.addAppender(appender);
+        capture = ai.mutuus.common.logging.TelemetryTestEvents.attach(securityLogger, appender);
     }
 
     @AfterEach
     void detach() {
-        securityLogger.detachAppender(appender);
+        capture.close();
     }
 
     @Test
@@ -68,8 +68,8 @@ class SecurityJwtAudienceIntegrationTest {
 
         Optional<ILoggingEvent> ev = event("security.jwt.rejected");
         assertThat(ev).isPresent();
-        assertThat(kv(ev.get(), "errorCode")).contains("invalid_token");
-        assertThat(kv(ev.get(), "reason")).hasValueSatisfying(r -> assertThat(r).containsIgnoringCase("audience"));
+        assertThat(kv(ev.get(), "error.code")).contains("invalid_token");
+        assertThat(kv(ev.get(), "golmok.security.reason")).hasValueSatisfying(r -> assertThat(r).containsIgnoringCase("audience"));
     }
 
     private String base() {
@@ -78,17 +78,12 @@ class SecurityJwtAudienceIntegrationTest {
 
     private Optional<ILoggingEvent> event(String name) {
         return appender.list.stream()
-                .filter(e -> kv(e, "event").map(name::equals).orElse(false))
+                .filter(e -> kv(e, "event.action").map(name::equals).orElse(false))
                 .findFirst();
     }
 
     private static Optional<String> kv(ILoggingEvent e, String key) {
-        if (e.getKeyValuePairs() == null) {
-            return Optional.empty();
-        }
-        return e.getKeyValuePairs().stream()
-                .filter(p -> key.equals(p.key))
-                .map(p -> String.valueOf(p.value))
-                .findFirst();
+        return Optional.ofNullable(ai.mutuus.common.logging.TelemetryTestEvents.fields(e).get(key))
+                .map(String::valueOf);
     }
 }

@@ -18,14 +18,12 @@ public final class CanonicalLogSnapshot {
     private static final Set<String> CONTEXT_FIELDS = REGISTRY.protectedFields();
     private static final Set<String> METADATA_FIELDS = REGISTRY.metadataFields();
     private static final Set<String> ALLOWED = REGISTRY.structuredInputFields();
-    private static final Map<String, String> UNIQUE_ALIASES = REGISTRY.normalizationAliases();
     private static final Map<String, String> HINTS = Map.ofEntries(
             Map.entry(HeaderNames.SCREEN_ID, "golmok.screen.id"), Map.entry(HeaderNames.EVENT_ID, "golmok.ui.event.id"),
             Map.entry(HeaderNames.DEVICE_LEVEL, "golmok.device.level"), Map.entry(HeaderNames.LOCALE, "golmok.locale"),
             Map.entry(HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version"),
             Map.entry(HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no"),
             Map.entry(HeaderNames.INTERNAL_SCREEN_ID, "golmok.screen.internal_id"));
-    private static final Set<String> LEGACY_HEADER_MDC = Set.copyOf(Arrays.asList(HeaderNames.PROPAGATED));
 
     private CanonicalLogSnapshot() { }
 
@@ -84,8 +82,6 @@ public final class CanonicalLogSnapshot {
                     flat.put(pair.key, freeze(pair.value));
                 if (METADATA_FIELDS.contains(pair.key) && pair.value != null)
                     flat.putIfAbsent(pair.key, freeze(pair.value));
-                String canonical = UNIQUE_ALIASES.get(pair.key);
-                if (canonical != null && pair.value != null) flat.putIfAbsent(canonical, freeze(pair.value));
                 if ("golmok.scope".equals(pair.key) && Set.of("request", "job", "lifecycle", "collector").contains(pair.value))
                     flat.put(pair.key, pair.value);
                 if (CONTEXT_KEY.equals(pair.key) && pair.value instanceof Map<?, ?> snapshot) {
@@ -105,7 +101,7 @@ public final class CanonicalLogSnapshot {
         }
         if ("mutuus.security_audit".equals(flat.get("event.dataset"))) {
             Object address = event.getKeyValuePairs() == null ? flat.get("client.ip") : event.getKeyValuePairs().stream()
-                    .filter(pair -> "client.ip".equals(pair.key) || "clientIp".equals(pair.key))
+                    .filter(pair -> "client.ip".equals(pair.key))
                     .map(pair -> pair.value).filter(Objects::nonNull).findFirst().orElse(flat.get("client.ip"));
             if (address instanceof String ip && ip.matches("(?:[0-9]{1,3}\\.){3}[0-9]{1,3}"))
                 flat.put("client.ip", ip.substring(0, ip.lastIndexOf('.') + 1) + "0");
@@ -154,11 +150,6 @@ public final class CanonicalLogSnapshot {
     private static void captureApprovedMdc(Map<String, String> mdc, Map<String, Object> flat) {
         for (String canonical : REGISTRY.mdcInputFields()) {
             String raw = mdc.get(canonical);
-            if (raw == null) {
-                for (var alias : UNIQUE_ALIASES.entrySet()) {
-                    if (canonical.equals(alias.getValue()) && mdc.containsKey(alias.getKey())) { raw = mdc.get(alias.getKey()); break; }
-                }
-            }
             if (raw == null) continue;
             Object normalized = approvedMdcValue(REGISTRY.fields().get(canonical), raw);
             if (normalized != null) flat.put(canonical, normalized);
@@ -181,19 +172,13 @@ public final class CanonicalLogSnapshot {
         } catch (java.io.IOException invalid) { return null; }
     }
 
-    /** P0 v1.1: 미검토 MDC는 원문 값을 읽지 않고 허용된 키와 검토대기 표식만 보존한다. */
+    /** 정본 밖 MDC는 키·값 모두 출력하지 않는다. 미등록 키의 총수만 기록한다. */
     private static void captureUnknownMdc(Map<String, String> mdc, Map<String, Object> flat) {
         int unknown = 0;
-        Map<String, Object> attributes = new LinkedHashMap<>();
         for (String key : mdc.keySet()) {
-            if (key != null && (LEGACY_HEADER_MDC.contains(key) || HINTS.containsKey(key) || REGISTRY.fields().containsKey(key) || REGISTRY.discardedAliases().contains(key)
-                    || UNIQUE_ALIASES.containsKey(key))) continue;
-            unknown++;
-            String name = key != null && key.matches("[A-Za-z0-9_.-]{1,64}") ? key : "invalid_key";
-            if (attributes.size() < 16) attributes.put(name, "REDACTED_UNREVIEWED");
+            if (!REGISTRY.fields().containsKey(key)) unknown++;
         }
         flat.put("golmok.attributes.unmapped_count", unknown);
-        if (!attributes.isEmpty()) flat.put("attributes", Collections.unmodifiableMap(attributes));
     }
 
     static boolean validId(Object value, int length) {

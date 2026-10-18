@@ -1,283 +1,132 @@
 package ai.mutuus.common.logging;
 
 import java.util.List;
-
+import java.util.Map;
+import java.util.Set;
 import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.LogFormat;
-import ai.mutuus.common.core.TraceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
 
-/**
- * API 생명주기 횡단 로깅의 단일 진입점.
- * <p>소비 서비스는 이 클래스를 직접 호출하지 않는다 — 라이브러리의 필터/보안 핸들러/예외 핸들러가
- * 적절한 시점에 호출한다. SLF4J 2 의 fluent API({@code addKeyValue})로 구조화 필드를 남기며,
- * 공통 snapshot 인코더가 canonical JSON으로 렌더한다. 실제 OTel span/검증 사용자 문맥은 발생 시점에 고정한다.
- * <p>로거 이름은 {@code ai.mutuus.common.access} — 소비 측에서 레벨을 개별 제어할 수 있다.
- * <p>{@link LogFormat}은 호출부 호환용이며 기본은 ECS다. 공통 인코더 출력은 schema v2 한 가지다.
- * 요청 접근/응답은 {@code mutuus.access}, 예외는 {@code mutuus.error} dataset 으로 분리한다(로거가 직접 명시).
- */
+/** API 생명주기 로그의 canonical 단일 출력. 신원/trace는 실제 OTel Context snapshot에서 공급한다. */
 public class AccessLogger {
-
     public static final String LOGGER_NAME = "ai.mutuus.common.access";
-
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
     private static final List<String> CAT_WEB = List.of("web");
-    private static final List<String> TYPE_ACCESS = List.of("access");
-    private static final List<String> TYPE_ERROR = List.of("error");
+    private static final List<String> TYPE_ACCESS = List.of("access"), TYPE_ERROR = List.of("error");
+    public AccessLogger() { }
+    /** 생성자 인자는 호출부 호환용이며 모든 포맷에서 canonical 필드만 출력한다. */
+    public AccessLogger(LogFormat format) { }
 
-    private final LogFormat format;
-
-    public AccessLogger() {
-        this(LogFormat.ECS);
-    }
-
-    public AccessLogger(LogFormat format) {
-        this.format = format == null ? LogFormat.ECS : format;
-    }
-
-    /** span/인증 scope 종료 전 고정한 불변 문맥으로 비동기 종료에서도 동일 schema를 기록한다. */
+    /** 보안 scope 종료 전 고정한 문맥으로 요청 완료를 한 번 기록한다. */
     public void serverComplete(String method, String path, String route, int status, long nanos,
-                               String errorCode, boolean slow, java.util.Map<String, Object> snapshot) {
+                               String errorCode, boolean slow, Map<String, Object> snapshot) {
         var event = status >= 500 || slow ? log.atWarn() : log.atInfo();
-        dataset(event, EcsFields.DATASET_ACCESS)
-                .addKeyValue("event.action", "http.server.complete")
-                .addKeyValue("event.category", CAT_WEB)
-                .addKeyValue("event.type", TYPE_ACCESS)
-                .addKeyValue("event.outcome", status >= 400 ? "failure" : "success")
-                .addKeyValue("event.duration", nanos)
-                .addKeyValue("http.request.method", method)
-                .addKeyValue("http.response.status_code", status)
-                .addKeyValue("url.path", path)
-                .addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, java.util.Map.copyOf(snapshot));
+        dataset(event, EcsFields.DATASET_ACCESS).addKeyValue("event.action", "http.server.complete")
+                .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS)
+                .addKeyValue("event.outcome", outcome(status)).addKeyValue("event.duration", nanos)
+                .addKeyValue("http.request.method", method).addKeyValue("http.response.status_code", status)
+                .addKeyValue("url.path", path).addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, Map.copyOf(snapshot));
         if (route != null) event.addKeyValue("http.route", route);
         if (slow) event.addKeyValue("golmok.slow", true);
         if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
+        if (snapshot.get("error.type") instanceof String type) event.addKeyValue("error.type", type);
         event.log("http.server.complete");
     }
-
-    /** 요청 수신(핸들러 진입 전). 호출 시스템/단말 정보(where)를 함께 남긴다. */
     public void requestReceived(String method, String path, String query, String clientIp) {
-        LoggingEventBuilder ev = log.atInfo();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "request.received")
-                    .addKeyValue("httpMethod", method)
-                    .addKeyValue("httpPath", path);
-            if (hasText(query)) {
-                ev.addKeyValue("httpQuery", query);
-            }
-            if (clientIp != null) {
-                ev.addKeyValue("clientIp", clientIp);
-            }
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ACCESS)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "request.received")
-                    .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB)
-                    .addKeyValue(EcsFields.EVENT_TYPE, TYPE_ACCESS)
-                    .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, method)
-                    .addKeyValue(EcsFields.URL_PATH, path);
-            if (hasText(query)) {
-                ev.addKeyValue(EcsFields.URL_QUERY, query);
-            }
-            if (clientIp != null) {
-                ev.addKeyValue(EcsFields.CLIENT_IP, clientIp);
-            }
-        }
-        addDevice(addUser(ev)).log("API request received");
+        var event = dataset(log.atInfo(), EcsFields.DATASET_ACCESS).addKeyValue("event.action", "request.received")
+                .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS)
+                .addKeyValue("http.request.method", method).addKeyValue("url.path", path);
+        if (hasText(query)) event.addKeyValue("url.query", query);
+        if (clientIp != null) event.addKeyValue("client.ip", clientIp);
+        event.log("API request received");
     }
-
-    /**
-     * 응답 완료(상태/소요시간). 5xx 또는 느린 요청은 WARN. 운영 대시보드의 중심 이벤트로,
-     * {@code client.ip}·{@code event.outcome}·{@code event.duration}(nanos)까지 남긴다.
-     */
     public void requestCompleted(String method, String path, int status, long durationMillis,
                                  long durationNanos, String clientIp, boolean slow) {
-        LoggingEventBuilder ev = (status >= 500 || slow) ? log.atWarn() : log.atInfo();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "request.completed")
-                    .addKeyValue("httpMethod", method)
-                    .addKeyValue("httpPath", path)
-                    .addKeyValue("httpStatus", status)
-                    .addKeyValue("durationMs", durationMillis);
-            if (slow) {
-                ev.addKeyValue("slow", true);
-            }
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ACCESS)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "request.completed")
-                    .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB)
-                    .addKeyValue(EcsFields.EVENT_TYPE, TYPE_ACCESS)
-                    .addKeyValue(EcsFields.EVENT_OUTCOME, outcome(status))
-                    .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, method)
-                    .addKeyValue(EcsFields.URL_PATH, path)
-                    .addKeyValue(EcsFields.HTTP_RESPONSE_STATUS_CODE, status)
-                    .addKeyValue(EcsFields.EVENT_DURATION, durationNanos);
-            if (clientIp != null) {
-                ev.addKeyValue(EcsFields.CLIENT_IP, clientIp);
-            }
-        }
-        addUser(ev).log("API request completed");
+        var event = dataset(status >= 500 || slow ? log.atWarn() : log.atInfo(), EcsFields.DATASET_ACCESS)
+                .addKeyValue("event.action", "request.completed").addKeyValue("event.category", CAT_WEB)
+                .addKeyValue("event.type", TYPE_ACCESS).addKeyValue("event.outcome", outcome(status))
+                .addKeyValue("http.request.method", method).addKeyValue("url.path", path)
+                .addKeyValue("http.response.status_code", status).addKeyValue("event.duration", durationNanos);
+        if (clientIp != null) event.addKeyValue("client.ip", clientIp);
+        if (slow) event.addKeyValue("golmok.slow", true);
+        event.log("API request completed");
     }
-
-    /** MDC 정리/스레드 전환 후에도 필수 짝 필드를 직접 남긴다. */
     public void httpPair(String action, String requestId, String traceId, String method, String path,
                          int status, long nanos, String errorCode, String user, boolean slow, String query) {
-        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query, java.util.Map.of());
+        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query, Map.of());
     }
-
+    public void httpPair(String action, String requestId, String traceId, String method, String path,
+                         int status, long nanos, String errorCode, String user, boolean slow, String query, Map<String, String> screen) {
+        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query, screen, null, null);
+    }
     public void httpPair(String action, String requestId, String traceId, String method, String path,
                          int status, long nanos, String errorCode, String user, boolean slow, String query,
-                         java.util.Map<String, String> screen) {
-        httpPair(action, requestId, traceId, method, path, status, nanos, errorCode, user, slow, query,
-                screen, null, null);
+                         Map<String, String> screen, String spanId, String parentId) {
+        var event = dataset(status >= 500 || slow ? log.atWarn() : log.atInfo(), EcsFields.DATASET_ACCESS)
+                .addKeyValue("event.action", action).addKeyValue("golmok.request.id", requestId)
+                .addKeyValue("http.request.method", method).addKeyValue("url.path", path)
+                .addKeyValue("http.response.status_code", status).addKeyValue("event.duration", nanos)
+                .addKeyValue("event.outcome", hasText(errorCode) ? "failure" : "success")
+                .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS);
+        if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
+        if (hasText(query)) event.addKeyValue("url.query", query);
+        if (slow) event.addKeyValue("golmok.slow", true);
+        // 구 인자의 trace/span/user는 신뢰하지 않는다. 실제 OTel/검증 사용자 Context만 출력한다.
+        screen.forEach((key, value) -> {
+            String canonical = switch (key) {
+                case HeaderNames.SCREEN_ID -> "golmok.screen.id";
+                case HeaderNames.SCREEN_CATALOG_VERSION -> "golmok.screen.catalog_version";
+                case HeaderNames.BUSINESS_SCREEN_NO -> "golmok.screen.business_no";
+                case HeaderNames.INTERNAL_SCREEN_ID -> "golmok.screen.internal_id";
+                default -> key;
+            };
+            if (Set.of("golmok.screen.id", "golmok.screen.catalog_version", "golmok.screen.business_no", "golmok.screen.internal_id")
+                    .contains(canonical)) event.addKeyValue(canonical, value);
+        });
+        event.log(action);
     }
-
-    public void httpPair(String action, String requestId, String traceId, String method, String path,
-                         int status, long nanos, String errorCode, String user, boolean slow, String query,
-                         java.util.Map<String, String> screen, String spanId, String parentId) {
-        LoggingEventBuilder ev = status >= 500 || slow ? log.atWarn() : log.atInfo();
-        boolean error = !errorCode.isEmpty();
-        dataset(ev, EcsFields.DATASET_ACCESS)
-                .addKeyValue("event", action).addKeyValue(EcsFields.EVENT_ACTION, action)
-                .addKeyValue("requestId", requestId).addKeyValue(EcsFields.TRACE_ID, traceId)
-                .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, method).addKeyValue(EcsFields.URL_PATH, path)
-                .addKeyValue(EcsFields.HTTP_RESPONSE_STATUS_CODE, status)
-                .addKeyValue(EcsFields.EVENT_DURATION, nanos).addKeyValue("durationMs", nanos / 1_000_000)
-                .addKeyValue("status", status).addKeyValue("outcome", error ? "ERROR" : "OK")
-                .addKeyValue("errorCode", errorCode).addKeyValue(EcsFields.ERROR_CODE, errorCode)
-                .addKeyValue(EcsFields.EVENT_OUTCOME, error ? EcsFields.OUTCOME_FAILURE : EcsFields.OUTCOME_SUCCESS)
-                .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB).addKeyValue(EcsFields.EVENT_TYPE, TYPE_ACCESS);
-        if (format.legacy()) ev.addKeyValue("httpMethod", method).addKeyValue("httpPath", path).addKeyValue("httpStatus", status);
-        if (hasText(query)) ev.addKeyValue("httpQuery", query).addKeyValue(EcsFields.URL_QUERY, query);
-        if (hasText(user)) ev.addKeyValue("userId", user).addKeyValue(EcsFields.USER_ID, user);
-        if (slow) ev.addKeyValue("slow", true);
-        if (hasText(spanId)) ev.addKeyValue(EcsFields.SPAN_ID, spanId);
-        if (hasText(parentId)) ev.addKeyValue(EcsFields.PARENT_ID, parentId);
-        screen.forEach(ev::addKeyValue);
-        ev.log(action);
+    public void authFailure(String path, String reason) { authFailure(path, reason, null); }
+    public void authFailure(String path, String reason, Throwable exception) {
+        var event = failure(EcsFields.DATASET_ACCESS, "auth.failure", path);
+        exceptionType(event, exception);
+        if (hasText(reason)) event.addKeyValue("golmok.security.reason", reason);
+        event.log("Authentication failed");
     }
-
-    /** 인증 실패(401) — 토큰 없음/만료/위조 등. */
-    public void authFailure(String path, String reason) {
-        LoggingEventBuilder ev = log.atWarn();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "auth.failure")
-                    .addKeyValue("httpPath", path)
-                    .addKeyValue("reason", reason);
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ACCESS)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "auth.failure")
-                    .addKeyValue(EcsFields.EVENT_OUTCOME, EcsFields.OUTCOME_FAILURE)
-                    .addKeyValue(EcsFields.URL_PATH, path);
-        }
-        ev.log("Authentication failed");
+    public void accessDenied(String path, String reason) { accessDenied(path, reason, null); }
+    public void accessDenied(String path, String reason, Throwable exception) {
+        var event = failure(EcsFields.DATASET_ACCESS, "auth.denied", path);
+        exceptionType(event, exception);
+        if (hasText(reason)) event.addKeyValue("golmok.security.reason", reason);
+        event.log("Access denied");
     }
-
-    /** 인가 거부(403) — 인증은 됐으나 권한 부족. */
-    public void accessDenied(String path, String reason) {
-        LoggingEventBuilder ev = log.atWarn();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "auth.denied")
-                    .addKeyValue("httpPath", path)
-                    .addKeyValue("reason", reason);
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ACCESS)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "auth.denied")
-                    .addKeyValue(EcsFields.EVENT_OUTCOME, EcsFields.OUTCOME_FAILURE)
-                    .addKeyValue(EcsFields.URL_PATH, path);
-        }
-        addUser(ev).log("Access denied");
+    public void businessError(String errorCode, String path, String detail) { businessError(errorCode, path, detail, null); }
+    /** 처리된 예외는 클래스만 추가한다. 새 cause/스택이나 응답 정보를 노출하지 않는다. */
+    public void businessError(String errorCode, String path, String detail, Throwable exception) {
+        var event = failure(EcsFields.DATASET_ERROR, "error.business", path)
+                .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ERROR)
+                .addKeyValue("error.code", errorCode).addKeyValue("error.message", detail);
+        exceptionType(event, exception); event.log("Business error");
     }
-
-    /** 비즈니스 예외(4xx) — 정상 흐름의 예상된 예외. {@code mutuus.error} dataset. */
-    public void businessError(String errorCode, String path, String detail) {
-        LoggingEventBuilder ev = log.atWarn();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "error.business")
-                    .addKeyValue("errorCode", errorCode)
-                    .addKeyValue("httpPath", path)
-                    .addKeyValue("detail", detail);
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ERROR)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "error.business")
-                    .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB)
-                    .addKeyValue(EcsFields.EVENT_TYPE, TYPE_ERROR)
-                    .addKeyValue(EcsFields.EVENT_OUTCOME, EcsFields.OUTCOME_FAILURE)
-                    .addKeyValue(EcsFields.ERROR_CODE, errorCode)
-                    .addKeyValue(EcsFields.ERROR_MESSAGE, detail)
-                    .addKeyValue(EcsFields.URL_PATH, path);
-        }
-        addUser(ev).log("Business error");
-    }
-
-    /** 처리되지 않은 서버 예외(5xx) — 스택트레이스 포함. */
-    public void serverError(String path, Throwable ex) {
-        serverError(path, null, ex);
-    }
-
-    /** 처리되지 않은 서버 예외(5xx) — 오류 코드/타입/스택트레이스 포함. {@code mutuus.error} dataset. */
+    public void serverError(String path, Throwable ex) { serverError(path, null, ex); }
+    /** 기존 서버 오류의 cause/스택 정책은 그대로 유지한다. */
     public void serverError(String path, String errorCode, Throwable ex) {
-        LoggingEventBuilder ev = log.atError();
-        if (format.legacy()) {
-            ev.addKeyValue("event", "error.server")
-                    .addKeyValue("httpPath", path)
-                    .addKeyValue("exception", ex.getClass().getName());
-        }
-        if (format.ecs()) {
-            dataset(ev, EcsFields.DATASET_ERROR)
-                    .addKeyValue(EcsFields.EVENT_ACTION, "error.server")
-                    .addKeyValue(EcsFields.EVENT_CATEGORY, CAT_WEB)
-                    .addKeyValue(EcsFields.EVENT_TYPE, TYPE_ERROR)
-                    .addKeyValue(EcsFields.EVENT_OUTCOME, EcsFields.OUTCOME_FAILURE)
-                    .addKeyValue(EcsFields.ERROR_TYPE, ex.getClass().getName())
-                    .addKeyValue(EcsFields.URL_PATH, path);
-            if (hasText(errorCode)) {
-                ev.addKeyValue(EcsFields.ERROR_CODE, errorCode);
-            }
-        }
-        // 스택트레이스는 인코더가 렌더한다(logstash 기본 stack_trace → ingest 에서 error.stack_trace 로 정규화).
-        addUser(ev).setCause(ex).log("Unhandled server error");
+        var event = dataset(log.atError(), EcsFields.DATASET_ERROR).addKeyValue("event.action", "error.server")
+                .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ERROR)
+                .addKeyValue("event.outcome", "failure").addKeyValue("error.type", ex.getClass().getName()).addKeyValue("url.path", path);
+        if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
+        event.setCause(ex).log("Unhandled server error");
     }
-
-    /** {@code event.dataset} + {@code data_stream.dataset}(수집기 라우팅) 을 함께 명시(dataset per-logger). */
-    private static LoggingEventBuilder dataset(LoggingEventBuilder ev, String dataset) {
-        return ev.addKeyValue(EcsFields.EVENT_DATASET, dataset)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, dataset);
+    private static LoggingEventBuilder failure(String dataset, String action, String path) {
+        return dataset(log.atWarn(), dataset).addKeyValue("event.action", action)
+                .addKeyValue("event.outcome", "failure").addKeyValue("url.path", path);
     }
-
-    /** HTTP 상태코드 → ECS outcome(4xx/5xx=failure). */
-    private static String outcome(int status) {
-        return status >= 400 ? EcsFields.OUTCOME_FAILURE : EcsFields.OUTCOME_SUCCESS;
+    private static void exceptionType(LoggingEventBuilder event, Throwable exception) {
+        if (exception != null) event.addKeyValue("error.type", exception.getClass().getName());
     }
-
-    /** legacy 호출부 호환용 사용자 식별. canonical user.id는 검증된 Context snapshot에서 공급한다. */
-    private LoggingEventBuilder addUser(LoggingEventBuilder ev) {
-        if (format.legacy()) {
-            String user = TraceContext.userId();
-            if (user != null) {
-                ev.addKeyValue("userId", user);
-            }
-        }
-        return ev;
-    }
-
-    /** 호출 시스템/단말 식별(where) — legacy 필드(ECS 표준 외라 유지). */
-    private LoggingEventBuilder addDevice(LoggingEventBuilder ev) {
-        if (format.legacy()) {
-            TraceContext.get(HeaderNames.DEVICE_LEVEL).ifPresent(v -> ev.addKeyValue("deviceLevel", v));
-            TraceContext.get(HeaderNames.DEVICE_ID).ifPresent(v -> ev.addKeyValue("deviceId", v));
-        }
-        return ev;
-    }
-
-    private static boolean hasText(String s) {
-        return s != null && !s.isBlank();
-    }
+    private static LoggingEventBuilder dataset(LoggingEventBuilder event, String dataset) { return event.addKeyValue("event.dataset", dataset); }
+    private static String outcome(int status) { return status >= 400 ? "failure" : "success"; }
+    private static boolean hasText(String value) { return value != null && !value.isBlank(); }
 }

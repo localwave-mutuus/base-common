@@ -29,15 +29,15 @@ import org.junit.jupiter.api.io.TempDir;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** 실제 Joran include, 단일 fanout, 비동기 파일 종료까지 두 공개 리소스 경로를 소비자에서 검증한다. */
+/** 정본 Joran include, 단일 fanout, 비동기 파일 종료를 소비자에서 검증한다. */
 class OtelLogbackResourceContractTest {
     @TempDir
     Path temp;
 
     @Test
-    void 정본과_호환_alias는_각각_순환없이_한개의_파일이벤트를_쓴다() throws Exception {
-        for (String resource : List.of("common-platform/logback/common.xml", "logback-common.xml")) {
-            Path directory = Files.createDirectory(temp.resolve(resource.startsWith("common-platform") ? "canonical" : "alias"));
+    void 정본_include는_순환없이_한개의_파일이벤트를_쓴다() throws Exception {
+        for (String resource : List.of("common-platform/logback/common.xml")) {
+            Path directory = Files.createDirectory(temp.resolve("canonical"));
             LoggerContext context = new LoggerContext();
             context.setName("resource-contract-" + directory.getFileName());
             context.setMDCAdapter(new LogbackMDCAdapter());

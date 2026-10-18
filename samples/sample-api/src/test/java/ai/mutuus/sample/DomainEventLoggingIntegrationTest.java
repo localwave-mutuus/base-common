@@ -49,16 +49,15 @@ class DomainEventLoggingIntegrationTest {
 
     @Test
     void 발행과_소비가_domain_event_dataset으로_ECS로그를_남긴다() {
-        TraceContext.put(HeaderNames.TRACE_ID, "evt-ecs-trace");
 
         eventPublisher.publish("test.ecs.event", Map.of("k", "v"));
 
         ILoggingEvent published = event("domain_event.published");
         assertThat(raw(published, "event.dataset")).isEqualTo("mutuus.domain_event");
-        assertThat(raw(published, "data_stream.dataset")).isEqualTo("mutuus.domain_event");
+        assertThat(raw(published, "data_stream.dataset")).isNull();
         assertThat(raw(published, "mutuus.domain_event.type")).isEqualTo("test.ecs.event");
         assertThat(raw(published, "mutuus.domain_event.id")).isInstanceOf(String.class);
-        assertThat(raw(published, "event")).isEqualTo("domain_event.published"); // legacy 병존
+        assertThat(raw(published, "event")).isNull();
 
         ILoggingEvent consumed = event("domain_event.consumed");
         assertThat(raw(consumed, "event.dataset")).isEqualTo("mutuus.domain_event");

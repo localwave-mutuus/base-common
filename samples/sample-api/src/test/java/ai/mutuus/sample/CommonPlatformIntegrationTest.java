@@ -2,6 +2,7 @@ package ai.mutuus.sample;
 
 import java.time.Instant;
 import java.util.List;
+import ai.mutuus.common.logging.TelemetryTestEvents;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,33 +37,38 @@ class CommonPlatformIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    // --- 1) 추적: TraceFilter가 인입 X-Trace-Id를 보존하고 컨텍스트/응답헤더에 싣는다 ---
+    // --- 1) 응답의 추적 ID는 SDK의 현재 span에서만 읽는다. ---
     @Test
-    void 인입_traceId가_응답헤더와_컨텍스트에_전파된다() throws Exception {
-        mockMvc.perform(get("/api/public/hello").header("X-Trace-Id", "trace-abc"))
-                .andExpect(status().isOk())
-                .andExpect(header().string("X-Trace-Id", "trace-abc"))
-                .andExpect(jsonPath("$.traceId").value("trace-abc"));
+    void 현재_span의_traceId가_응답헤더와_API봉투에_실린다() throws Exception {
+        try (var span = TelemetryTestEvents.span("http-response")) {
+            mockMvc.perform(get("/api/public/hello"))
+                    .andExpect(status().isOk())
+                    .andExpect(header().string("X-Trace-Id", span.traceId()))
+                    .andExpect(jsonPath("$.traceId").value(span.traceId()));
+        }
     }
 
     @Test
-    void traceId가_없으면_새로_생성되어_응답헤더에_담긴다() throws Exception {
+    void SDK_span이_없으면_traceId를_발명하지_않는다() throws Exception {
         mockMvc.perform(get("/api/public/hello"))
                 .andExpect(status().isOk())
-                .andExpect(header().exists("X-Trace-Id"));
+                .andExpect(header().doesNotExist("X-Trace-Id"))
+                .andExpect(jsonPath("$.traceId").doesNotExist());
     }
 
     // --- 2) 예외: 전역 핸들러가 ApiResponse 오류 봉투 + traceId 를 반환 ---
     // --- 3) i18n: X-Locale 헤더에 따라 메시지가 로케일별로 해석됨 ---
     @Test
     void 비즈니스예외는_ApiResponse오류봉투로_변환되고_X_Locale로_다국어된다() throws Exception {
-        mockMvc.perform(get("/api/public/boom").header("X-Locale", "en"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("NOT_FOUND"))
-                .andExpect(jsonPath("$.message").value("Resource not found."))
-                .andExpect(jsonPath("$.error.code").value("NOT_FOUND"))
-                .andExpect(jsonPath("$.data").doesNotExist())
-                .andExpect(jsonPath("$.traceId").exists());
+        try (var span = TelemetryTestEvents.span("business-error")) {
+            mockMvc.perform(get("/api/public/boom").header("X-Locale", "en"))
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("$.code").value("NOT_FOUND"))
+                    .andExpect(jsonPath("$.message").value("Resource not found."))
+                    .andExpect(jsonPath("$.error.code").value("NOT_FOUND"))
+                    .andExpect(jsonPath("$.data").doesNotExist())
+                    .andExpect(jsonPath("$.traceId").value(span.traceId()));
+        }
 
         mockMvc.perform(get("/api/public/boom").header("X-Locale", "ko"))
                 .andExpect(status().isNotFound())

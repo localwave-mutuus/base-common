@@ -27,8 +27,8 @@ public final class TelemetryRegistryGenerator {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> rules = new ArrayList<>();
         StringBuilder docs = new StringBuilder("# 로그 필드 정본\n\n")
-                .append("log-fields.v2.json에서 생성했다. canonical 이름만 출력하며 별칭은 입력 정규화/폐기 전용이다. ")
-                .append("배열도 OpenSearch에서는 원소 타입으로 매핑한다. attributes는 런타임에서 제한하는 비색인 사전이다.\n\n")
+                .append("log-fields.v2.json에서 생성했다. 정본 이름으로만 입력·출력한다. ")
+                .append("배열도 OpenSearch에서는 원소 타입으로 매핑한다. 미등록 MDC는 원문 키·값을 출력하지 않고 건수만 집계한다.\n\n")
                 .append("| 필드 | 의미 | 타입 | 배열 | 등급 | 분모 조건 | scope | 보호 | 채우는 owner |\n")
                 .append("|---|---|---|---|---|---|---|---|---|\n");
         for (var field : registry.fields().values()) {
@@ -54,16 +54,6 @@ public final class TelemetryRegistryGenerator {
             rules.add(rule);
         }
         docs.append("\n실제 OpenSearch 템플릿/수집기 생성은 700 gen_from_registry.py 소유다. 이 디렉터리의 매핑은 비배포 preview다.\n");
-        docs.append("\n## 입력 별칭\n\n출력 매핑에는 별칭을 만들지 않는다. alias_until은 정본 출력 전환일이다. input_accept_until=null은 승인된 구 입력 수용 중이며 날짜가 정해지면 그 날짜 다음 날부터 수용하지 않는다.\n\n")
-                .append("| 입력 별칭 | canonical 필드 | 처리 | 출력 전환일 | 입력 수용 종료일 |\n|---|---|---|---|---|\n");
-        List<Map<String, Object>> legacyInputs = new ArrayList<>();
-        for (var alias : registry.aliases().values()) {
-            docs.append("| ").append(escape(alias.name())).append(" | ").append(escape(alias.canonicalName()))
-                    .append(" | ").append(alias.mode()).append(" | ").append(alias.removeAfter())
-                    .append(" | ").append(alias.inputAcceptUntil() == null ? "수용 중(null)" : alias.inputAcceptUntil()).append(" |\n");
-            legacyInputs.add(ordered("name", alias.name(), "canonical", alias.canonicalName(), "mode", alias.mode(),
-                    "alias_until", alias.removeAfter(), "input_accept_until", alias.inputAcceptUntil()));
-        }
         docs.append("\n## 채움률 판정\n\nall은 생성 로그 전체, request는 golmok.scope=request, authenticated는 golmok.auth.state=authenticated를 분모로 쓴다. ")
                 .append("나머지 조건은 owner의 독립 실행 manifest를 분모로 사용한다. 필드가 존재하는 문서만 세어 분모를 줄이지 않는다. ")
                 .append("optional은 필수 100% 판정 대상이 아니다. 값이 없으면 가짜 값으로 채우지 않는다. ")
@@ -76,7 +66,7 @@ public final class TelemetryRegistryGenerator {
         template.put("_meta", ordered("registry_version", registry.version(), "generated_from", "common-platform/log-fields.v2.json", "purpose", "preview_only_700_owns_deployable_template"));
         template.put("template", Map.of("mappings", mappings));
         writeJson(outputDirectory.resolve("opensearch-template.preview.json"), template);
-        writeJson(outputDirectory.resolve("fill-rate-rules.json"), ordered("registry_version", registry.version(), "rules", rules, "legacy_inputs", legacyInputs));
+        writeJson(outputDirectory.resolve("fill-rate-rules.json"), ordered("registry_version", registry.version(), "rules", rules));
         Files.writeString(outputDirectory.resolve("fields.md"), docs.toString(), StandardCharsets.UTF_8);
     }
 

@@ -22,18 +22,9 @@ public class DefaultControllerEntryHandler implements ControllerEntryHandler {
     @Override
     public void onEntry(HandlerMethod handlerMethod, HttpServletRequest request) {
         // 진입한 컨트롤러의 식별정보를 구조화 필드로 남긴다(추적ID/appCode 는 MDC 자동 포함).
-        String controller = handlerMethod.getBeanType().getSimpleName();
         String method = handlerMethod.getMethod().getName();
         log.atInfo()
-                .addKeyValue("event", "controller.entry")
-                .addKeyValue("controller", controller)                                  // 클래스명
-                .addKeyValue("method", method)                                          // 메서드명
-                .addKeyValue("package", handlerMethod.getBeanType().getPackageName())   // 패키지
-                .addKeyValue("httpMethod", request.getMethod())
-                .addKeyValue("httpPath", request.getRequestURI())
-                // ECS(dual)
                 .addKeyValue(EcsFields.EVENT_DATASET, EcsFields.DATASET_CONTROLLER)
-                .addKeyValue(EcsFields.DATA_STREAM_DATASET, EcsFields.DATASET_CONTROLLER)
                 .addKeyValue(EcsFields.EVENT_ACTION, "controller.entry")
                 .addKeyValue(EcsFields.EVENT_CATEGORY, List.of("web"))
                 .addKeyValue(EcsFields.EVENT_TYPE, List.of("info"))

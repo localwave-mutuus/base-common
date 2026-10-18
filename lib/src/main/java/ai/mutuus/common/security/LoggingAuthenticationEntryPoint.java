@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import ai.mutuus.common.logging.AccessLogger;
 import ai.mutuus.common.security.audit.SecurityAuditLogger;
+import ai.mutuus.common.logging.HandledExceptionMetadata;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,15 +36,16 @@ public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        accessLogger.authFailure(request.getRequestURI(), authException.getMessage());
+        HandledExceptionMetadata.record(request, authException);
+        accessLogger.authFailure(request.getRequestURI(), authException.getMessage(), authException);
         // 토큰 검증 실패(서명/만료/issuer/audience)는 security.jwt.rejected 로 사유를 분류, 그 외(토큰 없음 등)는 authn.failed
         if (authException instanceof OAuth2AuthenticationException oae) {
             OAuth2Error err = oae.getError();
             securityAuditLogger.jwtRejected(request.getRequestURI(), request.getRemoteAddr(),
-                    err.getErrorCode(), err.getDescription());
+                    err.getErrorCode(), err.getDescription(), authException);
         } else {
             securityAuditLogger.authnFailed(request.getRequestURI(), request.getRemoteAddr(),
-                    authException.getMessage());
+                    authException.getMessage(), authException);
         }
         delegate.commence(request, response, authException);
     }

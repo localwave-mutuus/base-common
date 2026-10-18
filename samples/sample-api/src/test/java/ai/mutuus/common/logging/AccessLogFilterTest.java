@@ -23,40 +23,42 @@ class AccessLogFilterTest {
     private final CommonLoggingProperties props = new CommonLoggingProperties();
     private final AccessLogFilter filter = new AccessLogFilter(new AccessLogger(), props);
     private ListAppender<ILoggingEvent> appender;
+    private ai.mutuus.common.logging.TelemetryTestEvents.Capture snapshotCapture;
     private Logger logger;
 
     @Test
-    void 접근로그는_MDC정리_후에도_같은_span과_parent를_남긴다() throws Exception {
-        var request = new MockHttpServletRequest("GET", "/api/orders");
-        request.addHeader("traceparent", "00-1234567890abcdef1234567890abcdef-1234567890abcdef-01");
-        var response = new MockHttpServletResponse();
-        String[] span = new String[1];
-        filter.doFilter(request, response, (req, res) ->
-                new ai.mutuus.common.web.TraceFilter("TEST", "INST01").doFilter(req, res, (r, s) -> {
-                    span[0] = org.slf4j.MDC.get("span.id");
-                    assertThat(org.slf4j.MDC.get("parent.id")).isEqualTo("1234567890abcdef");
-                }));
-        assertThat(span[0]).hasSize(16).isNotEqualTo("1234567890abcdef");
-        assertThat(appender.list).hasSize(2);
-        for (var event : appender.list) {
-            assertThat(kv(event)).containsEntry("trace.id", "1234567890abcdef1234567890abcdef")
-                    .containsEntry("span.id", span[0]).containsEntry("parent.id", "1234567890abcdef");
+    void 접근로그는_실제_SDK_span을_컨텍스트_정리뒤에도_한번_남긴다() throws Exception {
+        var remote = io.opentelemetry.api.trace.Span.wrap(io.opentelemetry.api.trace.SpanContext.createFromRemoteParent(
+                "1234567890abcdef1234567890abcdef", "1234567890abcdef",
+                io.opentelemetry.api.trace.TraceFlags.getSampled(), io.opentelemetry.api.trace.TraceState.getDefault()));
+        String trace, span;
+        try (var traced = TelemetryTestEvents.span("server", io.opentelemetry.context.Context.root().with(remote))) {
+            trace = traced.traceId(); span = traced.spanId();
+            assertThat(((io.opentelemetry.sdk.trace.ReadableSpan) traced.span()).getParentSpanContext().getSpanId()).isEqualTo("1234567890abcdef");
+            var request = new MockHttpServletRequest("GET", "/api/orders");
+            request.addHeader("X-Trace-Id", "forged");
+            filter.doFilter(request, new MockHttpServletResponse(), (req, res) ->
+                    new ai.mutuus.common.web.TraceFilter("TEST", "INST01").doFilter(req, res, (r, s) -> {
+                        assertThat(ai.mutuus.common.core.TraceContext.traceId()).isEqualTo(trace);
+                    }));
         }
-        assertThat(org.slf4j.MDC.getCopyOfContextMap()).isNullOrEmpty();
+        assertThat(appender.list).hasSize(1);
+        assertThat(kv(appender.list.getFirst())).containsEntry("trace.id", trace).containsEntry("span.id", span)
+                .containsEntry("event.action", "http.server.complete");
         assertThat(ai.mutuus.common.core.TraceContext.snapshot()).isEmpty();
+        assertThat(io.opentelemetry.api.trace.Span.current().getSpanContext().isValid()).isFalse();
     }
-
     @BeforeEach
     void setUp() {
         logger = (Logger) LoggerFactory.getLogger(AccessLogger.LOGGER_NAME);
         appender = new ListAppender<>();
         appender.start();
-        logger.addAppender(appender);
+        snapshotCapture = ai.mutuus.common.logging.TelemetryTestEvents.attach(logger, appender);
     }
 
     @AfterEach
     void tearDown() {
-        logger.detachAppender(appender);
+        snapshotCapture.close();
     }
 
     @Test
@@ -69,10 +71,10 @@ class AccessLogFilterTest {
         filter.doFilter(request, response, new MockFilterChain());
 
         List<String> events = events();
-        assertThat(events).containsExactly("http.request.in", "http.response.out");
-        assertThat(kv(appender.list.get(1)))
-                .containsEntry("httpStatus", 200)
-                .containsKey("durationMs");
+        assertThat(events).containsExactly("http.server.complete");
+        assertThat(kv(appender.list.getFirst()))
+                .containsEntry("http.response.status_code", 200)
+                .containsKey("event.duration");
     }
 
     @Test
@@ -101,20 +103,16 @@ class AccessLogFilterTest {
             // 필터는 예외를 전파하되 finally 에서 completed 를 남겨야 한다
         }
 
-        assertThat(events()).containsExactly("http.request.in", "http.response.out");
+        assertThat(events()).containsExactly("http.server.complete");
     }
 
     private List<String> events() {
         return appender.list.stream()
-                .map(e -> String.valueOf(kv(e).get("event")))
+                .map(e -> String.valueOf(kv(e).get("event.action")))
                 .toList();
     }
 
     private Map<String, Object> kv(ILoggingEvent ev) {
-        List<KeyValuePair> pairs = ev.getKeyValuePairs();
-        if (pairs == null) {
-            return Map.of();
-        }
-        return pairs.stream().collect(Collectors.toMap(p -> p.key, p -> p.value));
+        return TelemetryTestEvents.fields(ev);
     }
 }

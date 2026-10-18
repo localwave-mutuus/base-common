@@ -6,6 +6,7 @@ import ai.mutuus.common.api.ApiError;
 import ai.mutuus.common.api.ApiResponse;
 import ai.mutuus.common.i18n.MessageResolver;
 import ai.mutuus.common.logging.AccessLogger;
+import ai.mutuus.common.logging.HandledExceptionMetadata;
 import java.net.SocketTimeoutException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleBusiness(BusinessException ex, HttpServletRequest request) {
         ErrorCode code = ex.getErrorCode();
         String detail = messages.get(code.messageKey(), ex.getArgs());
-        return clientError(code, detail, List.of(), request);
+        return clientError(code, detail, List.of(), request, ex);
     }
 
     /** 요청 본문 검증 실패(@Valid). 필드별 사유를 함께 반환한다. */
@@ -59,7 +60,7 @@ public class GlobalExceptionHandler {
                 .map(fe -> new ApiError.FieldError(fe.getField(), fe.getDefaultMessage()))
                 .toList();
         return clientError(CommonErrorCode.VALIDATION_ERROR,
-                messages.get(CommonErrorCode.VALIDATION_ERROR.messageKey()), fieldErrors, request);
+                messages.get(CommonErrorCode.VALIDATION_ERROR.messageKey()), fieldErrors, request, ex);
     }
 
     /** 허용되지 않은 HTTP 메서드. */
@@ -67,7 +68,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex,
                                                                     HttpServletRequest request) {
         return clientError(CommonErrorCode.METHOD_NOT_ALLOWED,
-                messages.get(CommonErrorCode.METHOD_NOT_ALLOWED.messageKey()), List.of(), request);
+                messages.get(CommonErrorCode.METHOD_NOT_ALLOWED.messageKey()), List.of(), request, ex);
     }
 
     /** 지원하지 않는 미디어 타입. */
@@ -75,7 +76,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleMediaType(HttpMediaTypeNotSupportedException ex,
                                                              HttpServletRequest request) {
         return clientError(CommonErrorCode.UNSUPPORTED_MEDIA_TYPE,
-                messages.get(CommonErrorCode.UNSUPPORTED_MEDIA_TYPE.messageKey()), List.of(), request);
+                messages.get(CommonErrorCode.UNSUPPORTED_MEDIA_TYPE.messageKey()), List.of(), request, ex);
     }
 
     /** 매핑되지 않은 경로/정적 리소스 없음. */
@@ -83,7 +84,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleNotFound(NoResourceFoundException ex,
                                                             HttpServletRequest request) {
         return clientError(CommonErrorCode.NOT_FOUND,
-                messages.get(CommonErrorCode.NOT_FOUND.messageKey()), List.of(), request);
+                messages.get(CommonErrorCode.NOT_FOUND.messageKey()), List.of(), request, ex);
     }
 
     /** 잘못된 포맷으로 들어온 요청 본문(파싱 불가 JSON 등) → 400 MALFORMED. */
@@ -91,7 +92,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleMalformed(HttpMessageNotReadableException ex,
                                                              HttpServletRequest request) {
         return clientError(CommonErrorCode.MALFORMED_REQUEST,
-                messages.get(CommonErrorCode.MALFORMED_REQUEST.messageKey()), List.of(), request);
+                messages.get(CommonErrorCode.MALFORMED_REQUEST.messageKey()), List.of(), request, ex);
     }
 
     /**
@@ -104,6 +105,7 @@ public class GlobalExceptionHandler {
                                                            HttpServletRequest request) {
         ErrorCode code = isTimeout(ex)
                 ? CommonErrorCode.GATEWAY_TIMEOUT : CommonErrorCode.EXTERNAL_API_ERROR;
+        HandledExceptionMetadata.record(request, ex);
         accessLogger.serverError(request.getRequestURI(), code.code(), ex);
         String detail = messages.get(code.messageKey());
         return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
@@ -126,6 +128,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex, HttpServletRequest request) {
         ErrorCode code = CommonErrorCode.INTERNAL_ERROR;
+        HandledExceptionMetadata.record(request, ex);
         accessLogger.serverError(request.getRequestURI(), code.code(), ex);
         String detail = messages.get(code.messageKey());
         return ResponseEntity.status(code.status()).body(ApiResponse.error(code.code(), detail, errorOf(code, detail, ex)));
@@ -140,8 +143,9 @@ public class GlobalExceptionHandler {
     /** 4xx 공통 처리: WARN 로깅 + 표준 봉투 반환. */
     private ResponseEntity<ApiResponse<Void>> clientError(ErrorCode code, String detail,
                                                           List<ApiError.FieldError> fieldErrors,
-                                                          HttpServletRequest request) {
-        accessLogger.businessError(code.code(), request.getRequestURI(), detail);
+                                                          HttpServletRequest request, Throwable ex) {
+        HandledExceptionMetadata.record(request, ex);
+        accessLogger.businessError(code.code(), request.getRequestURI(), detail, ex);
         ApiResponse<Void> body = ApiResponse.error(code.code(), detail, ApiError.of(code.code(), detail, fieldErrors));
         return ResponseEntity.status(code.status()).body(body);
     }

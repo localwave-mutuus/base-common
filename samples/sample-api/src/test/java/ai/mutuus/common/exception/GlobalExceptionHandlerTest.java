@@ -34,7 +34,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void BusinessException은_ErrorCode_status_code_i18n메시지_traceId를_담은_ApiResponse로_변환된다() {
         LocaleContextHolder.setLocale(Locale.KOREAN);
-        TraceContext.put(HeaderNames.TRACE_ID, "t-1");
+        try (var traced = ai.mutuus.common.logging.TelemetryTestEvents.span("business-request")) {
 
         ResponseEntity<ApiResponse<Void>> resp = handler.handleBusiness(
                 new BusinessException(CommonErrorCode.NOT_FOUND), new MockHttpServletRequest("GET", "/api/orders/9"));
@@ -46,8 +46,9 @@ class GlobalExceptionHandlerTest {
         assertThat(body.message()).isEqualTo("리소스를 찾을 수 없습니다.");
         assertThat(body.isSuccess()).isFalse();
         assertThat(body.error().code()).isEqualTo("NOT_FOUND");
-        assertThat(body.traceId()).isEqualTo("t-1");
+        assertThat(body.traceId()).isEqualTo(traced.traceId());
         assertThat(body.timestamp()).isNotNull();
+        }
     }
 
     @Test
