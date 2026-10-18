@@ -28,8 +28,8 @@ class ActionLoggingNonWebTest {
                                 "OWNER_FAILED", "invocation-1", "run-1", null, List.of("member-1"), "bb6a90ed-22cf-4311-a980-2c27e13d05af"));
                     });
             assertThat(captured.list).hasSize(1);
-            assertThat(captured.list.getFirst().getKeyValuePairs()).anyMatch(p -> p.key.equals("actorId") && p.value == null)
-                    .anyMatch(p -> p.key.equals("relatedMemberIds") && p.value.equals(List.of("member-1")));
+            assertThat(captured.list.getFirst().getKeyValuePairs()).anyMatch(p -> p.key.equals("golmok.actor.id") && p.value == null)
+                    .anyMatch(p -> p.key.equals("golmok.related_member.ids") && p.value.equals(List.of("member-1")));
         } finally { logger.detachAppender(captured); captured.stop(); }
     }
 }
