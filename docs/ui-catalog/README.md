@@ -45,7 +45,7 @@ I-10은 IssueCatalog에도 있지만 menu에는 없다. registry의 issues 구�
 
 `tools/ui-catalog/schema.sql`은 생성기의 정적 계약 부분이다. system/domain 참조, 화면/메뉴/요소 PK, 메뉴→화면·요소→화면 FK, 대체 코드 FK, system·kind·value·catalog_version 별칭 UNIQUE, 조회 인덱스를 포함한다. P00 결정 `note01M59ESZRF662BPHFTPRQ680R5`에 따라 screen/menu/element는 각각 **screen_code / menu_code / element_code 단일 PK**다. 표준코드 정체성은 재사용하지 않으며 버전 수명은 introduced_version·retired_version 열로 기록한다. 화면의 도입·폐기 버전은 정본 값을 사용한다. 현재 메뉴는 최초 도입 목록이므로 도입 버전은 catalogVersion, 폐기 버전은 NULL로 출력한다. 이후 메뉴 수명 변경 시 정본 필드를 먼저 확장해야 한다. 버전별 화면·메뉴·요소 스냅샷 행을 복합 PK로 중복 보관하지 않는다. 별칭·메뉴의 system이 대상 화면 system과 같은지도 FK로 강제한다.
 
-환경별 활성 버전은 ui_catalog_activation(environment PK, catalog_version FK)로 분리한 제안이며 행은 생성하지 않는다. 적용시각도 채우지 않는다. 기존 admin.issue_codes·issue 표는 건드리지 않는다. ui_element는 빈 스키마 계약만 있고 요소명·클릭 코드는 추정하지 않는다. 동작 5종 CHECK는 실제 action 열이 도입되는 B2 이후에 적용한다. 애플리케이션 계정 SELECT 전용 원칙만 명시하며 실제 계정·GRANT·권한은 B3가 확인한다. 이 텍스트는 DB에 접속하거나 적용한 적이 없다.
+환경별 활성 버전은 ui_catalog_activation(environment PK, catalog_version FK)로 분리한 제안이며 행은 생성하지 않는다. 적용시각도 채우지 않는다. 기존 admin.issue_codes·issue 표는 건드리지 않는다. ui_element는 요소 역할표 계약의 locator/evidence_json을 보존하며 현재 TAX 확정 locator 역할 28건을 등록했다(15건 locator 확인 대기). 요소명·클릭 코드는 추정하지 않는다. 동작 5종 CHECK는 실제 action 열이 도입되는 B2 이후에 적용한다. 애플리케이션 계정 SELECT 전용 원칙만 명시하며 실제 계정·GRANT·권한은 B3가 확인한다. 이 텍스트는 DB에 접속하거나 적용한 적이 없다.
 
 ## 갱신과 되돌리기
 
@@ -54,3 +54,7 @@ I-10은 IssueCatalog에도 있지만 menu에는 없다. registry의 issues 구�
 3. 폐기는 삭제·재사용 대신 RETIRED, retiredVersion, replacement로 남긴다. 별칭도 과거 버전에서 제거하지 않는다. 모호값은 근거가 생기기 전 단일화하지 않는다. catalogVersion을 올리고 생성물 diff·diagnostics·사용자 목록을 함께 검토한다.
 4. B6가 후속으로 버전 변경/과거 코드 재사용/생성물 diff CI를 맡는다. 이 생성기는 이전 Git revision을 자동 조회하거나 버전 상승을 판정하지 않는다.
 5. 이 단계 되돌리기는 정본·생성기·생성물·문서를 같은 승인된 이전 revision으로 되돌리는 patch다. B2 소비본은 승인된 이전 버전에 고정한다. 향후 DB 되돌리기는 B3가 활성 버전을 이전 값으로 돌리며 과거 코드와 도입·폐기 기록을 삭제하지 않는다. 여기에서는 Git 커밋·제품 반입·DB 실행을 하지 않는다.
+
+## 요소 입력
+
+확정 역할표 importer·정규화 거절·후속 반입 경계는 [element-input.md](element-input.md)를 따른다. 현재 정본은 1.0.0-bo.3이며 TAX 요소 28건을 등록했다. 화면별 분모·미등록 사유·원문 대조는 [tax-role-map.md](tax-role-map.md)를 따른다.

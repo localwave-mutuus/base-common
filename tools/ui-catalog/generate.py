@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+from elements import validate as validate_elements
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -26,6 +27,10 @@ def resolve(c, system, kind, value, version):
 
 def diagnose(c):
     errors = []
+    try:
+        validate_elements(c.get("elements", []), {s["code"] for s in c["screens"]})
+    except ValueError as exc:
+        errors.append(str(exc))
     def unique(rows, key, label):
         for value, count in sorted(Counter(key(r) for r in rows).items()):
             if count > 1:
@@ -107,6 +112,7 @@ def ordered(c):
     for table in ('systems','domains','screens','menus','aliases'):
         key=alias_key if table=='aliases' else (lambda r:(r['system'],r['code'])) if table=='domains' else (lambda r:r['code'])
         result[table]=sorted(c[table],key=key)
+    if 'elements' in c: result['elements']=sorted(c['elements'],key=lambda e:e['code'])
     return result
 
 def render_sql(c):
@@ -123,6 +129,7 @@ def render_sql(c):
     insert('ui_screen',['screen_code','system_code','domain_code','name','kind','route_template','business_number','implementation','owner_team','status','replacement_code','introduced_version','retired_version'],[(s['code'],*[s[k] for k in ['system','domain','name','kind','route','businessNumber','implementation','owner','status','replacement','introducedVersion','retiredVersion']]) for s in c['screens']])
     insert('ui_menu',['menu_code','system_code','domain_code','parent_code','name','sort_order','target_screen_code','status','introduced_version','retired_version'],[(m['code'],*[m[k] for k in ['system','domain','parent','name','order','target','status']],version,None) for m in c['menus']])
     insert('ui_code_alias',['system_code','alias_kind','alias_value','catalog_version','screen_code','status','candidates_json','reason'],[(a['system'],a['kind'],a['value'],a['version'],a['target'],a['status'],json.dumps(sorted(a['candidates']),ensure_ascii=False),a.get('reason')) for a in c['aliases']])
+    insert('ui_element',['element_code','screen_code','name','element_kind','status','introduced_version','locator','evidence_json'],[(e['code'],e['screen'],e['role'],'ACTION_ROLE','CONFIRMED',e['introducedVersion'],e['locator'],json.dumps(dict(e['evidence'], **{k:e[k] for k in ('rawRole','sourceScreen','actionToken') if k in e}),ensure_ascii=False,sort_keys=True)) for e in c.get('elements',[])])
     return q
 
 def render(c):
@@ -131,11 +138,13 @@ def render(c):
     version=c['catalogVersion']; header=f'GENERATED — DO NOT EDIT. catalogVersion={version}; catalogDigest=sha256:{dg}'
     ts='// '+header+'\n'
     ts+='export const CATALOG_VERSION = '+js(version)+' as const;\nexport const CATALOG_DIGEST = '+js(dg)+' as const;\n'
-    for table,name in [('screens','SCREENS'),('menus','MENUS'),('aliases','ALIASES')]:
-        ts+='export const '+name+' = '+js(c[table])+' as const;\n'
+    for table,name in [('screens','SCREENS'),('menus','MENUS'),('aliases','ALIASES'),('elements','ELEMENTS')]:
+        ts+='export const '+name+' = '+js(c.get(table,[]))+' as const;\n'
     ts+='export const SCREEN_CODES = '+js({s['code']:s['code'] for s in c['screens']})+' as const;\n'
     ts+='export const MENU_CODES = '+js({m['code']:m['code'] for m in c['menus']})+' as const;\n'
     ts+='export type ScreenCode = typeof SCREENS[number]["code"];\nexport type MenuCode = typeof MENUS[number]["code"];\nexport type Alias = typeof ALIASES[number];\n'
+    ts+='export const ELEMENT_CODES = '+js({e['code']:e['code'] for e in c.get('elements',[])})+' as const;\n'
+    ts+='export const SCREEN_ELEMENTS = '+js({s['code']:[e['code'] for e in c.get('elements',[]) if e['screen']==s['code']] for s in c['screens']})+' as const;\nexport type ElementCode = typeof ELEMENTS[number]["code"];\n' if c.get('elements') else 'export const SCREEN_ELEMENTS = '+js({s['code']:[] for s in c['screens']})+' as const;\nexport type ElementCode = never;\n'
     j='// '+header+'\npackage ai.mutuus.common.uicatalog;\n\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Optional;\n\npublic final class UiCodeAliases {\n  private UiCodeAliases() {}\n'
     j+='  public static final String CATALOG_VERSION = '+java(version)+';\n  public static final String CATALOG_DIGEST = '+java(dg)+';\n'
     j+='  public static final Map<String,String> SYSTEM_MAPPING = Map.ofEntries('+', '.join('Map.entry('+java(k)+','+java(v)+')' for k,v in sorted(c['systemMapping'].items()))+');\n'
@@ -154,12 +163,12 @@ def render(c):
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--catalog',type=Path,default=ROOT/'ui-catalog/catalog.json'); parser.add_argument('--sql-only',action='store_true'); args=parser.parse_args()
     c=json.loads(args.catalog.read_text())
-    if args.sql_only:
-        (ROOT/'generated/ui-catalog/catalog.sql').write_text(render_sql(c),encoding='utf-8')
-        return 0
     d=diagnose(c)
     if d['errors']:
         print(js(d)); return 1
+    if args.sql_only:
+        (ROOT/'generated/ui-catalog/catalog.sql').write_text(render_sql(c),encoding='utf-8')
+        return 0
     outputs=render(c)
     for name,content in outputs.items():
         dest=ROOT/('docs/ui-catalog' if name=='review.md' else 'generated/ui-catalog')/name
