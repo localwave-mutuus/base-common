@@ -1,0 +1,47 @@
+{
+  "ambiguous": [
+    {
+      "candidates": [
+        "BO-ISS-010",
+        "BO-ISS-020"
+      ],
+      "kind": "LEGACY",
+      "reason": "registry의 issues 구현을 I-01/I-20과 공유. 메뉴에 없고 ScreenHost는 메뉴 미등록 ID를 404 처리하므로 유일 대상 미확정.",
+      "status": "AMBIGUOUS",
+      "system": "BO",
+      "target": null,
+      "value": "I-10",
+      "version": "1.0.0-bo.1"
+    }
+  ],
+  "catalogDigest": "587e74f60db13670cbe8688a7469050aab6f1ac5b8418474e2d7c87e27cd4588",
+  "catalogVersion": "1.0.0-bo.1",
+  "coverage": {
+    "denominator": 150,
+    "preserved": 150,
+    "preservedPercent": 100.0,
+    "uniqueResolved": 149
+  },
+  "duplicates": 0,
+  "errors": [],
+  "expected": {
+    "menuAreas": 12,
+    "menuItems": 72,
+    "registry": 69,
+    "standardScreens": 75
+  },
+  "measured": {
+    "menuAreas": 12,
+    "menuItems": 72,
+    "menuWithGuide": 73,
+    "registry": 69,
+    "sourceUnionWithShell": 76,
+    "standardScreens": 75
+  },
+  "planned": 4,
+  "unconfirmed": [
+    "I-10 unique target",
+    "menu semantic item identifiers require user review",
+    "environment active version and operational grants deferred to B3"
+  ]
+}
