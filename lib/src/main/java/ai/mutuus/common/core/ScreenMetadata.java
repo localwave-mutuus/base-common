@@ -2,24 +2,40 @@ package ai.mutuus.common.core;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
-/** 선택 화면 헤더의 로그용 형식 검사. 인증/인가/업무 입력 판정이나 외부 전파에 사용하지 않는다. */
+/** Log-only UI contract; invalid hints are omitted without rejecting the request. */
 public final class ScreenMetadata {
-    private static final Map<String, Pattern> FORMATS = Map.of(
-            HeaderNames.SCREEN_CATALOG_VERSION, Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}\\.[0-9]+"),
-            HeaderNames.BUSINESS_SCREEN_NO, Pattern.compile("[A-Z]{3}-[0-9]{3}"),
-            HeaderNames.INTERNAL_SCREEN_ID, Pattern.compile("GM-SCR-[0-9]{6}"));
     private ScreenMetadata() {}
+    public static final Map<String, String> FIELDS = Map.of(
+            HeaderNames.SCREEN_ID, "golmok.screen.id",
+            HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version",
+            HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no",
+            HeaderNames.UI_ELEMENT_ID, "golmok.ui.element.id",
+            HeaderNames.UI_ACTION, "golmok.ui.action",
+            HeaderNames.EVENT_ID, "golmok.ui.event.id");
 
-    /** 잘못된 값은 로그에서만 생략하며 요청은 그대로 처리한다. 과도한 길이는 로그에 싣지 않는다. */
     public static Map<String, String> fromHeaders(Function<String, String> reader) {
         Map<String, String> values = new LinkedHashMap<>();
-        FORMATS.forEach((name, pattern) -> {
-            String value = reader.apply(name);
-            if (value != null && value.length() <= 64 && pattern.matcher(value).matches()) values.put(name, value);
-        });
+        String version = reader.apply(HeaderNames.SCREEN_CATALOG_VERSION);
+        String screen = UiCodeResolver.screen(reader.apply(HeaderNames.SCREEN_ID), version).orElse(null);
+        if (screen == null) return Map.of();
+        values.put(HeaderNames.SCREEN_ID, screen);
+        values.put(HeaderNames.SCREEN_CATALOG_VERSION, version);
+        String business = reader.apply(HeaderNames.BUSINESS_SCREEN_NO);
+        if (business != null && business.matches("[A-Z]{3}-[0-9]{3}"))
+            values.put(HeaderNames.BUSINESS_SCREEN_NO, business);
+        String element = reader.apply(HeaderNames.UI_ELEMENT_ID);
+        if (element != null && element.length() <= 64 && element.startsWith(screen + "-")
+                && element.substring(screen.length() + 1).matches("[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*"))
+            values.put(HeaderNames.UI_ELEMENT_ID, element);
+        String action = reader.apply(HeaderNames.UI_ACTION);
+        if (action != null && Set.of("view", "press", "submit", "change", "error").contains(action))
+            values.put(HeaderNames.UI_ACTION, action);
+        String event = reader.apply(HeaderNames.EVENT_ID);
+        if (event != null && event.matches("[0-9a-f]{16}") && !event.equals("0000000000000000"))
+            values.put(HeaderNames.EVENT_ID, event);
         return Map.copyOf(values);
     }
 }

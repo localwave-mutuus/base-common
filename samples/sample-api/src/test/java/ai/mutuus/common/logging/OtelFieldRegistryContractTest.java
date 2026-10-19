@@ -88,8 +88,8 @@ class OtelFieldRegistryContractTest {
             assertThatThrownBy(() -> TelemetryFieldRegistry.from(input(registryJson(withCompatibility))))
                     .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Unknown registry property");
         }
-        assertThat(TelemetryFieldRegistry.load().version()).isEqualTo(3);
-        assertThat(TelemetryFieldRegistry.load().fields()).hasSize(89);
+        assertThat(TelemetryFieldRegistry.load().version()).isEqualTo(4);
+        assertThat(TelemetryFieldRegistry.load().fields()).hasSize(90);
     }
 
     @Test void unsafeOrAmbiguousJsonFailsClosed() {

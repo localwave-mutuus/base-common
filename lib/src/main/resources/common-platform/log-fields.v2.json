@@ -1,5 +1,5 @@
 {
-    "version":  3,
+    "version":  4,
     "fields":  [
                    {
                        "name":  "@timestamp",
@@ -744,25 +744,7 @@
                        "name":  "golmok.screen.id",
                        "type":  "keyword",
                        "tier":  "conditional",
-                       "meaning":  "클라이언트가 보고한 화면 식별자",
-                       "scope":  [
-                                     "request",
-                                     "job"
-                                 ],
-                       "sensitivity":  "none",
-                       "owner":  "common",
-                       "structuredInput":  true,
-                       "protected":  true,
-                       "metadata":  false,
-                       "array":  false,
-                       "when":  "screen",
-                       "mdcInput":  false
-                   },
-                   {
-                       "name":  "golmok.screen.internal_id",
-                       "type":  "keyword",
-                       "tier":  "conditional",
-                       "meaning":  "검증된 내부 화면 식별자",
+                       "meaning":  "버전이 일치하는 정본 표준 화면 코드 (별칭은 유일 RESOLVED만 변환)",
                        "scope":  [
                                      "request",
                                      "job"
@@ -1000,7 +982,7 @@
                        "name":  "golmok.ui.event.id",
                        "type":  "keyword",
                        "tier":  "conditional",
-                       "meaning":  "UI 사용자 동작 식별자이며 로그 event.id와 별개",
+                       "meaning":  "UI 동작 root span ID (16 lowercase hex), 요청 CLIENT span 및 로그 event.id와 별개",
                        "scope":  [
                                      "request",
                                      "job"
@@ -1698,6 +1680,8 @@
                        "array":  false,
                        "when":  "supplied",
                        "mdcInput":  true
-                   }
+                   },
+                   {"name": "golmok.ui.element.id", "type": "keyword", "tier": "conditional", "meaning": "표준 화면 코드 접두를 가진 UI 요소 코드; 입력값을 포함하지 않음", "scope": ["request", "job"], "sensitivity": "none", "owner": "common", "structuredInput": true, "protected": true, "metadata": false, "array": false, "when": "screen", "mdcInput": false},
+                   {"name": "golmok.ui.action", "type": "keyword", "tier": "conditional", "meaning": "UI 동작 종류: view/press/submit/change/error", "scope": ["request", "job"], "sensitivity": "none", "owner": "common", "structuredInput": true, "protected": true, "metadata": false, "array": false, "when": "screen", "mdcInput": false}
                ]
 }
