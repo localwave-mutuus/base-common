@@ -58,3 +58,11 @@ I-10은 IssueCatalog에도 있지만 menu에는 없다. registry의 issues 구�
 ## 요소 입력
 
 확정 역할표 importer·정규화 거절·후속 반입 경계는 [element-input.md](element-input.md)를 따른다. 현재 정본은 1.0.0-bo.4이며 TAX 28건·SYS 130건, 합계 158개 요소를 등록했다. 화면별 분모·미등록 사유·원문 대조는 [tax-role-map.md](tax-role-map.md)와 [sys-role-map.md](sys-role-map.md)를 따른다.
+
+## DSH/SUP 확정 추가 (bo.5)
+
+DSH/SUP 분모36 중 locator 확인18 등록, 혼합/미확정18 미등록. SYS130/TAX28 누적 등록은 그대로 보존한다. S-01/S-10은 기존 CNT 화면 귀속이다. [소유팀 검토표](dsh-sup-role-map.md)와 `ui-catalog/inputs/dsh-sup-coverage.json`에 원문 역할·미등록 사유·revision/hash·gate·반복 정책을 보존한다. 기존 성공 검증은 반복하지 않는다.
+
+## 회원 확정 추가 (bo.6)
+
+회원 8화면 분모292 중 동작별 locator 확인 152개 등록, 미확정 140개는 사유·원문을 보존한다. SYS130/TAX28/DSH18 행과 화면 owner는 유지한다. [소유팀 검토표](member-role-map.md) 및 `ui-catalog/inputs/member-coverage.json`에 원문 1:1·화면 귀속·단계·반복 정책·조직 bab24fe/제품 aa0d4f9 근거를 보존한다. 신규 입력 수용만 verify_member.py로 최초 확인하며 이전 성공시험은 반복하지 않는다.

@@ -1,6 +1,6 @@
-// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.4; catalogDigest=sha256:5c66fb78bde50fc1e56bc14ae61d5be4d4210e4f3b5e234095dd49e6afcae99f
-export const CATALOG_VERSION = "1.0.0-bo.4" as const;
-export const CATALOG_DIGEST = "5c66fb78bde50fc1e56bc14ae61d5be4d4210e4f3b5e234095dd49e6afcae99f" as const;
+// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.6; catalogDigest=sha256:ff91f5f3af1b57f7484f2c9028d95c832eed7ea0b76025c2b005e192a90d77d4
+export const CATALOG_VERSION = "1.0.0-bo.6" as const;
+export const CATALOG_DIGEST = "ff91f5f3af1b57f7484f2c9028d95c832eed7ea0b76025c2b005e192a90d77d4" as const;
 export const SCREENS = [
   {
     "businessNumber": "S-01",
@@ -1868,7 +1868,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-010",
     "value": "A-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1877,7 +1877,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "A-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1886,7 +1886,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "A-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1895,7 +1895,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "A-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1904,7 +1904,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "A-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1913,7 +1913,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "A-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1922,7 +1922,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "A-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1931,7 +1931,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "C-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1940,7 +1940,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "C-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1949,7 +1949,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "C-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1958,7 +1958,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "C-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1967,7 +1967,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "C-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1976,7 +1976,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "C-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1985,7 +1985,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "C-31",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -1994,7 +1994,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "C-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2003,7 +2003,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "D-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2012,7 +2012,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "I-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2021,7 +2021,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "I-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2030,7 +2030,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "I-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2039,7 +2039,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "K-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2048,7 +2048,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "K-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2057,7 +2057,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "K-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2066,7 +2066,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "K-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2075,7 +2075,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "K-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2084,7 +2084,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "K-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2093,7 +2093,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "K-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2102,7 +2102,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "M-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2111,7 +2111,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "M-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2120,7 +2120,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "M-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2129,7 +2129,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "M-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2138,7 +2138,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "M-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2147,7 +2147,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "M-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2156,7 +2156,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "M-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2165,7 +2165,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "M-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2174,7 +2174,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "R-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2183,7 +2183,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "S-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2192,7 +2192,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "S-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2201,7 +2201,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "T-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2210,7 +2210,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "T-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2219,7 +2219,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "T-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2228,7 +2228,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "T-12",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2237,7 +2237,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "T-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2246,7 +2246,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "T-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2255,7 +2255,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "T-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2264,7 +2264,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "T-31",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2273,7 +2273,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "T-90",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2282,7 +2282,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "W-00",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2291,7 +2291,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "W-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2300,7 +2300,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "W-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2309,7 +2309,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "W-03",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2318,7 +2318,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "W-04",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2327,7 +2327,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "W-05",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2336,7 +2336,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "X-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2345,7 +2345,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "X-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2354,7 +2354,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "X-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2363,7 +2363,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "X-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2372,7 +2372,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "X-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2381,7 +2381,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "X-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2390,7 +2390,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "Y-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2399,7 +2399,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "Y-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2408,7 +2408,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "Y-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2417,7 +2417,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "Y-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2426,7 +2426,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "Y-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2435,7 +2435,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "Y-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2444,7 +2444,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "Y-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2453,7 +2453,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "Y-70",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2462,7 +2462,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "Y-80",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2471,7 +2471,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "Z-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2480,7 +2480,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "Z-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2489,7 +2489,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "Z-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2498,7 +2498,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "Z-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2507,7 +2507,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "Z-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2516,7 +2516,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-030",
     "value": "SetupGate",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2525,7 +2525,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "guide",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2534,7 +2534,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "login",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [
@@ -2547,7 +2547,7 @@ export const ALIASES = [
     "system": "BO",
     "target": null,
     "value": "I-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2556,7 +2556,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-010",
     "value": "/a-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2565,7 +2565,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "/a-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2574,7 +2574,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "/a-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2583,7 +2583,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "/a-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2592,7 +2592,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "/a-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2601,7 +2601,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "/a-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2610,7 +2610,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "/a-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2619,7 +2619,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "/c-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2628,7 +2628,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "/c-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2637,7 +2637,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "/c-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2646,7 +2646,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "/c-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2655,7 +2655,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "/c-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2664,7 +2664,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "/c-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2673,7 +2673,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "/c-31",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2682,7 +2682,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "/c-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2691,7 +2691,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "/d-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2700,7 +2700,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "/guide",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2709,7 +2709,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "/i-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2718,7 +2718,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "/i-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2727,7 +2727,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "/i-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2736,7 +2736,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "/k-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2745,7 +2745,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "/k-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2754,7 +2754,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "/k-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2763,7 +2763,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "/k-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2772,7 +2772,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "/k-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2781,7 +2781,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "/k-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2790,7 +2790,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "/k-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2799,7 +2799,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "/login",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2808,7 +2808,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "/m-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2817,7 +2817,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "/m-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2826,7 +2826,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "/m-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2835,7 +2835,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "/m-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2844,7 +2844,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "/m-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2853,7 +2853,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "/m-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2862,7 +2862,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "/m-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2871,7 +2871,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "/m-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2880,7 +2880,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "/r-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2889,7 +2889,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "/s-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2898,7 +2898,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "/s-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2907,7 +2907,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "/t-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2916,7 +2916,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "/t-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2925,7 +2925,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "/t-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2934,7 +2934,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "/t-12",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2943,7 +2943,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "/t-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2952,7 +2952,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "/t-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2961,7 +2961,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "/t-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2970,7 +2970,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "/t-31",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2979,7 +2979,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "/t-90",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2988,7 +2988,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "/w-00",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -2997,7 +2997,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "/w-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3006,7 +3006,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "/w-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3015,7 +3015,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "/w-03",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3024,7 +3024,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "/w-04",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3033,7 +3033,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "/w-05",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3042,7 +3042,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "/x-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3051,7 +3051,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "/x-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3060,7 +3060,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "/x-11",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3069,7 +3069,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "/x-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3078,7 +3078,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "/x-21",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3087,7 +3087,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "/x-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3096,7 +3096,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "/y-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3105,7 +3105,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "/y-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3114,7 +3114,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "/y-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3123,7 +3123,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "/y-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3132,7 +3132,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "/y-40",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3141,7 +3141,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "/y-50",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3150,7 +3150,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "/y-60",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3159,7 +3159,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "/y-70",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3168,7 +3168,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "/y-80",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3177,7 +3177,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "/z-01",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3186,7 +3186,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "/z-02",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3195,7 +3195,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "/z-10",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3204,7 +3204,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "/z-20",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   },
   {
     "candidates": [],
@@ -3213,10 +3213,4260 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "/z-30",
-    "version": "1.0.0-bo.4"
+    "version": "1.0.0-bo.6"
   }
 ] as const;
 export const ELEMENTS = [
+  {
+    "actionToken": "archive-content",
+    "behavior": {
+      "gate": "busy 또는 status가 PUBLISHED가 아니면 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "보관으로 이동 → save(archive)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "보관으로 이동 → save(archive)"
+    },
+    "code": "BO-CNT-010-ARCHIVE-CONTENT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-archive\"·editor-archive-reason",
+    "rawRole": "S-01.archive-content",
+    "role": "ARCHIVE-CONTENT",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "change-body",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "본문/답변 입력",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "본문/답변 입력"
+    },
+    "code": "BO-CNT-010-CHANGE-BODY",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"editor-body\"]",
+    "rawRole": "S-01.change-body",
+    "role": "CHANGE-BODY",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "change-publish-at",
+    "behavior": {
+      "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+      "kind": "원문 종류 분류 없음",
+      "label": "예약 발행 시각 입력",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "예약 발행 시각 입력"
+    },
+    "code": "BO-CNT-010-CHANGE-PUBLISH-AT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: input type=datetime-local, data-testid=\"editor-publish-at\"",
+    "rawRole": "S-01.change-publish-at",
+    "role": "CHANGE-PUBLISH-AT",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "change-title",
+    "behavior": {
+      "gate": "제목/질문 입력 (최대 200자)",
+      "kind": "원문 종류 분류 없음",
+      "label": "제목/질문 입력 (최대 200자)",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "제목/질문 입력 (최대 200자)"
+    },
+    "code": "BO-CNT-010-CHANGE-TITLE",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"editor-title\"]",
+    "rawRole": "S-01.change-title",
+    "role": "CHANGE-TITLE",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "open-create",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "새 공지/FAQ 작성 → EMPTY_EDITOR"
+    },
+    "code": "BO-CNT-010-OPEN-CREATE",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"open-create\"]",
+    "rawRole": "S-01.open-create",
+    "role": "OPEN-CREATE",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "publish-content",
+    "behavior": {
+      "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "발행 → save(publish)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "발행 → save(publish)"
+    },
+    "code": "BO-CNT-010-PUBLISH-CONTENT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-publish\"·editor-publish-reason",
+    "rawRole": "S-01.publish-content",
+    "role": "PUBLISH-CONTENT",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "save-draft",
+    "behavior": {
+      "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "신규 임시저장 / 기존 수정 저장 → save(draft)"
+    },
+    "code": "BO-CNT-010-SAVE-DRAFT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-save\"·editor-save-reason",
+    "rawRole": "S-01.save-draft",
+    "role": "SAVE-DRAFT",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "select-category",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "분류 선택, 빈 값은 분류 없음",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "분류 선택, 빈 값은 분류 없음"
+    },
+    "code": "BO-CNT-010-SELECT-CATEGORY",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: select[data-testid=\"editor-category\"]; 대상 options.code",
+    "rawRole": "S-01.select-category",
+    "role": "SELECT-CATEGORY",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "select-pinned",
+    "behavior": {
+      "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+      "kind": "원문 종류 분류 없음",
+      "label": "일반/고정 선택 → pinned=false/true",
+      "notes": "확정; 전용 testid 없음, 새 selector 없음; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "일반/고정 선택 → pinned=false/true"
+    },
+    "code": "BO-CNT-010-SELECT-PINNED",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: !faq 분기 Space.Compact의 Button onClick·aria-pressed, 텍스트 일반/고정",
+    "rawRole": "S-01.select-pinned",
+    "role": "SELECT-PINNED",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "select-visibility",
+    "behavior": {
+      "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+      "kind": "원문 종류 분류 없음",
+      "label": "노출/숨김 선택 → visible=true/false",
+      "notes": "확정; 전용 testid 없음, 새 selector 없음; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "노출/숨김 선택 → visible=true/false"
+    },
+    "code": "BO-CNT-010-SELECT-VISIBILITY",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: !faq 분기 Space.Compact의 Button onClick·aria-pressed, 텍스트 노출/숨김",
+    "rawRole": "S-01.select-visibility",
+    "role": "SELECT-VISIBILITY",
+    "screen": "BO-CNT-010",
+    "sourceScreen": "S-01"
+  },
+  {
+    "actionToken": "archive-content",
+    "behavior": {
+      "gate": "busy 또는 status가 PUBLISHED가 아니면 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "보관으로 이동 → save(archive)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "보관으로 이동 → save(archive)"
+    },
+    "code": "BO-CNT-020-ARCHIVE-CONTENT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-archive\"·editor-archive-reason",
+    "rawRole": "S-10.archive-content",
+    "role": "ARCHIVE-CONTENT",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "change-body",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "본문/답변 입력",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "본문/답변 입력"
+    },
+    "code": "BO-CNT-020-CHANGE-BODY",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"editor-body\"]",
+    "rawRole": "S-10.change-body",
+    "role": "CHANGE-BODY",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "change-title",
+    "behavior": {
+      "gate": "제목/질문 입력 (최대 200자)",
+      "kind": "원문 종류 분류 없음",
+      "label": "제목/질문 입력 (최대 200자)",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "제목/질문 입력 (최대 200자)"
+    },
+    "code": "BO-CNT-020-CHANGE-TITLE",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"editor-title\"]",
+    "rawRole": "S-10.change-title",
+    "role": "CHANGE-TITLE",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "open-create",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "새 공지/FAQ 작성 → EMPTY_EDITOR"
+    },
+    "code": "BO-CNT-020-OPEN-CREATE",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: [data-testid=\"open-create\"]",
+    "rawRole": "S-10.open-create",
+    "role": "OPEN-CREATE",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "publish-content",
+    "behavior": {
+      "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "발행 → save(publish)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "발행 → save(publish)"
+    },
+    "code": "BO-CNT-020-PUBLISH-CONTENT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-publish\"·editor-publish-reason",
+    "rawRole": "S-10.publish-content",
+    "role": "PUBLISH-CONTENT",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "save-draft",
+    "behavior": {
+      "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+      "kind": "원문 종류 분류 없음",
+      "label": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+      "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "신규 임시저장 / 기존 수정 저장 → save(draft)"
+    },
+    "code": "BO-CNT-020-SAVE-DRAFT",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: data-testid=\"editor-save\"·editor-save-reason",
+    "rawRole": "S-10.save-draft",
+    "role": "SAVE-DRAFT",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "select-category",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "분류 선택, 빈 값은 분류 없음",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "분류 선택, 빈 값은 분류 없음"
+    },
+    "code": "BO-CNT-020-SELECT-CATEGORY",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "C: select[data-testid=\"editor-category\"]; 대상 options.code",
+    "rawRole": "S-10.select-category",
+    "role": "SELECT-CATEGORY",
+    "screen": "BO-CNT-020",
+    "sourceScreen": "S-10"
+  },
+  {
+    "actionToken": "toggle-scope-help",
+    "behavior": {
+      "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+      "kind": "원문 종류 분류 없음",
+      "label": "“무엇을 센 숫자인가요?” 펼침/닫힘",
+      "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+      "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0",
+      "trigger": "“무엇을 센 숫자인가요?” 펼침/닫힘"
+    },
+    "code": "BO-DSH-010-TOGGLE-SCOPE-HELP",
+    "evidence": {
+      "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+      "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.5",
+    "locator": "D: `details.d01-help > summary`; 대상 섹션 testId 별도",
+    "rawRole": "D-01.toggle-scope-help",
+    "role": "TOGGLE-SCOPE-HELP",
+    "screen": "BO-DSH-010",
+    "sourceScreen": "D-01"
+  },
+  {
+    "actionToken": "close-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "취소 또는 결과 확인 후 조치 단계 닫기",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "취소 또는 결과 확인 후 조치 단계 닫기"
+    },
+    "code": "BO-MBR-010-CLOSE-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:269,274 / action-close",
+    "rawRole": "M-01.close-action",
+    "role": "CLOSE-ACTION",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "confirm-action-target",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 확인",
+      "label": "미리보기 확인 문구 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "미리보기 확인 문구 입력"
+    },
+    "code": "BO-MBR-010-CONFIRM-ACTION-TARGET",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:373 / action-confirmation-input",
+    "rawRole": "M-01.confirm-action-target",
+    "role": "CONFIRM-ACTION-TARGET",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "execute-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "현재 선택 조치 실행 요청",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 선택 조치 실행 요청"
+    },
+    "code": "BO-MBR-010-EXECUTE-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:288 / action-execute",
+    "rawRole": "M-01.execute-action",
+    "role": "EXECUTE-ACTION",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "input-action-password",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "관리자 본인확인 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "관리자 본인확인 입력"
+    },
+    "code": "BO-MBR-010-INPUT-ACTION-PASSWORD",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:338 / action-password",
+    "rawRole": "M-01.input-action-password",
+    "role": "INPUT-ACTION-PASSWORD",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "input-action-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "조치 사유 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "조치 사유 입력"
+    },
+    "code": "BO-MBR-010-INPUT-ACTION-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:327 / action-reason-text",
+    "rawRole": "M-01.input-action-reason",
+    "role": "INPUT-ACTION-REASON",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "input-pii-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "연락처 열람 사유 입력",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 사유 입력"
+    },
+    "code": "BO-MBR-010-INPUT-PII-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:434 / pii-reason",
+    "rawRole": "M-01.input-pii-reason",
+    "role": "INPUT-PII-REASON",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "next-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "사유 작성 뒤 본인확인 단계로 이동",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사유 작성 뒤 본인확인 단계로 이동"
+    },
+    "code": "BO-MBR-010-NEXT-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:278 / action-next",
+    "rawRole": "M-01.next-action",
+    "role": "NEXT-ACTION",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "open-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "연락처 사유 입력 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 사유 입력 단계 열기"
+    },
+    "code": "BO-MBR-010-OPEN-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:238,419 / pii-open, panel-pii-open",
+    "rawRole": "M-01.open-pii",
+    "role": "OPEN-PII",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "open-revoke-sessions",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "세션 회수 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "세션 회수 검토 단계 열기"
+    },
+    "code": "BO-MBR-010-OPEN-REVOKE-SESSIONS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-모든 로그인 종료",
+    "rawRole": "M-01.open-revoke-sessions",
+    "role": "OPEN-REVOKE-SESSIONS",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "open-suspend",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "이용 정지 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용 정지 검토 단계 열기"
+    },
+    "code": "BO-MBR-010-OPEN-SUSPEND",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-이용 정지",
+    "rawRole": "M-01.open-suspend",
+    "role": "OPEN-SUSPEND",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "open-unsuspend",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "이용 정지 해제 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용 정지 해제 검토 단계 열기"
+    },
+    "code": "BO-MBR-010-OPEN-UNSUSPEND",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-이용 정지 해제",
+    "rawRole": "M-01.open-unsuspend",
+    "role": "OPEN-UNSUSPEND",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "select-action-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "조치 사유 코드 선택",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "조치 사유 코드 선택"
+    },
+    "code": "BO-MBR-010-SELECT-ACTION-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:316 / action-reason-code",
+    "rawRole": "M-01.select-action-reason",
+    "role": "SELECT-ACTION-REASON",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "submit-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "사유를 포함한 연락처 열람 요청",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사유를 포함한 연락처 열람 요청"
+    },
+    "code": "BO-MBR-010-SUBMIT-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:205 / pii-submit",
+    "rawRole": "M-01.submit-pii",
+    "role": "SUBMIT-PII",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "verify-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "본인확인 후 영향 미리보기 요청",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "본인확인 후 영향 미리보기 요청"
+    },
+    "code": "BO-MBR-010-VERIFY-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:283 / action-verify",
+    "rawRole": "M-01.verify-action",
+    "role": "VERIFY-ACTION",
+    "screen": "BO-MBR-010",
+    "sourceScreen": "M-01"
+  },
+  {
+    "actionToken": "close-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "취소 또는 결과 확인 후 조치 단계 닫기",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "취소 또는 결과 확인 후 조치 단계 닫기"
+    },
+    "code": "BO-MBR-020-CLOSE-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:269,274 / action-close",
+    "rawRole": "M-02.close-action",
+    "role": "CLOSE-ACTION",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "confirm-action-target",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 확인",
+      "label": "미리보기 확인 문구 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "미리보기 확인 문구 입력"
+    },
+    "code": "BO-MBR-020-CONFIRM-ACTION-TARGET",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:373 / action-confirmation-input",
+    "rawRole": "M-02.confirm-action-target",
+    "role": "CONFIRM-ACTION-TARGET",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "execute-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "현재 선택 조치 실행 요청",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 선택 조치 실행 요청"
+    },
+    "code": "BO-MBR-020-EXECUTE-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:288 / action-execute",
+    "rawRole": "M-02.execute-action",
+    "role": "EXECUTE-ACTION",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "input-action-password",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "관리자 본인확인 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "관리자 본인확인 입력"
+    },
+    "code": "BO-MBR-020-INPUT-ACTION-PASSWORD",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:338 / action-password",
+    "rawRole": "M-02.input-action-password",
+    "role": "INPUT-ACTION-PASSWORD",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "input-action-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "조치 사유 입력",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "조치 사유 입력"
+    },
+    "code": "BO-MBR-020-INPUT-ACTION-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:327 / action-reason-text",
+    "rawRole": "M-02.input-action-reason",
+    "role": "INPUT-ACTION-REASON",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "input-pii-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "연락처 열람 사유 입력",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 사유 입력"
+    },
+    "code": "BO-MBR-020-INPUT-PII-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:434 / pii-reason",
+    "rawRole": "M-02.input-pii-reason",
+    "role": "INPUT-PII-REASON",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "next-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "사유 작성 뒤 본인확인 단계로 이동",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사유 작성 뒤 본인확인 단계로 이동"
+    },
+    "code": "BO-MBR-020-NEXT-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:278 / action-next",
+    "rawRole": "M-02.next-action",
+    "role": "NEXT-ACTION",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "open-member-process",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "조치 검토 링크·회원 처리 버튼으로 처리 패널 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "조치 검토 링크·회원 처리 버튼으로 처리 패널 열기"
+    },
+    "code": "BO-MBR-020-OPEN-MEMBER-PROCESS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:515,520 / member-process-open",
+    "rawRole": "M-02.open-member-process",
+    "role": "OPEN-MEMBER-PROCESS",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "open-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "연락처 사유 입력 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 사유 입력 단계 열기"
+    },
+    "code": "BO-MBR-020-OPEN-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:238,419 / pii-open, panel-pii-open",
+    "rawRole": "M-02.open-pii",
+    "role": "OPEN-PII",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "open-revoke-sessions",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "세션 회수 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "세션 회수 검토 단계 열기"
+    },
+    "code": "BO-MBR-020-OPEN-REVOKE-SESSIONS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-모든 로그인 종료",
+    "rawRole": "M-02.open-revoke-sessions",
+    "role": "OPEN-REVOKE-SESSIONS",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "open-suspend",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "이용 정지 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용 정지 검토 단계 열기"
+    },
+    "code": "BO-MBR-020-OPEN-SUSPEND",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-이용 정지",
+    "rawRole": "M-02.open-suspend",
+    "role": "OPEN-SUSPEND",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "open-unsuspend",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "이용 정지 해제 검토 단계 열기",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용 정지 해제 검토 단계 열기"
+    },
+    "code": "BO-MBR-020-OPEN-UNSUSPEND",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:410 / action-이용 정지 해제",
+    "rawRole": "M-02.open-unsuspend",
+    "role": "OPEN-UNSUSPEND",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "select-action-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "조치 사유 코드 선택",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "조치 사유 코드 선택"
+    },
+    "code": "BO-MBR-020-SELECT-ACTION-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:316 / action-reason-code",
+    "rawRole": "M-02.select-action-reason",
+    "role": "SELECT-ACTION-REASON",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "submit-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "사유를 포함한 연락처 열람 요청",
+      "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사유를 포함한 연락처 열람 요청"
+    },
+    "code": "BO-MBR-020-SUBMIT-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/index.tsx:205 / pii-submit",
+    "rawRole": "M-02.submit-pii",
+    "role": "SUBMIT-PII",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "verify-action",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "본인확인 후 영향 미리보기 요청",
+      "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "본인확인 후 영향 미리보기 요청"
+    },
+    "code": "BO-MBR-020-VERIFY-ACTION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m02/MemberActionModal.tsx:283 / action-verify",
+    "rawRole": "M-02.verify-action",
+    "role": "VERIFY-ACTION",
+    "screen": "BO-MBR-020",
+    "sourceScreen": "M-02"
+  },
+  {
+    "actionToken": "input-pii-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "개인정보 열람 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "개인정보 열람 사유 입력"
+    },
+    "code": "BO-MBR-030-INPUT-PII-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-reason",
+    "rawRole": "M-10.input-pii-reason",
+    "role": "INPUT-PII-REASON",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "input-reject-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "반려 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "반려 사유 입력"
+    },
+    "code": "BO-MBR-030-INPUT-REJECT-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-reason",
+    "rawRole": "M-10.input-reject-reason",
+    "role": "INPUT-REJECT-REASON",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 승인 요청 확인 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 요청 확인 단계 열기"
+    },
+    "code": "BO-MBR-030-OPEN-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / approve-open",
+    "rawRole": "M-10.open-approve",
+    "role": "OPEN-APPROVE",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-delegation-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "위임장 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "위임장 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-030-OPEN-DELEGATION-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-delegation",
+    "rawRole": "M-10.open-delegation-info",
+    "role": "OPEN-DELEGATION-INFO",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-document-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "서류 정보 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "서류 정보 정보 레이어 열기"
+    },
+    "code": "BO-MBR-030-OPEN-DOCUMENT-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-document",
+    "rawRole": "M-10.open-document-info",
+    "role": "OPEN-DOCUMENT-INFO",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-full-detail",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "M-11 전체 상세 열기",
+      "notes": "ApplicationPanel 공유; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "M-11 전체 상세 열기"
+    },
+    "code": "BO-MBR-030-OPEN-FULL-DETAIL",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/panel.tsx:19 / application-full-detail",
+    "rawRole": "M-10.open-full-detail",
+    "role": "OPEN-FULL-DETAIL",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-history-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "이전 결정 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이전 결정 정보 레이어 열기"
+    },
+    "code": "BO-MBR-030-OPEN-HISTORY-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-history",
+    "rawRole": "M-10.open-history-info",
+    "role": "OPEN-HISTORY-INFO",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "연락처 열람 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 단계 열기"
+    },
+    "code": "BO-MBR-030-OPEN-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:160 / pii-open",
+    "rawRole": "M-10.open-pii",
+    "role": "OPEN-PII",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 반려 요청 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 요청 단계 열기"
+    },
+    "code": "BO-MBR-030-OPEN-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / reject-open",
+    "rawRole": "M-10.open-reject",
+    "role": "OPEN-REJECT",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-rejection-text",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "반려 사유 전체 보기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "반려 사유 전체 보기"
+    },
+    "code": "BO-MBR-030-OPEN-REJECTION-TEXT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:159 / rejection-full-open",
+    "rawRole": "M-10.open-rejection-text",
+    "role": "OPEN-REJECTION-TEXT",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-terms-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "이용약관 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용약관 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-030-OPEN-TERMS-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-terms",
+    "rawRole": "M-10.open-terms-info",
+    "role": "OPEN-TERMS-INFO",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "open-verification-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "확인 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "확인 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-030-OPEN-VERIFICATION-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-verification",
+    "rawRole": "M-10.open-verification-info",
+    "role": "OPEN-VERIFICATION-INFO",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "refresh-decision",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성"
+    },
+    "code": "BO-MBR-030-REFRESH-DECISION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+    "rawRole": "M-10.refresh-decision",
+    "role": "REFRESH-DECISION",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "submit-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 승인 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 결정 접수 요청"
+    },
+    "code": "BO-MBR-030-SUBMIT-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:176 / approve-submit",
+    "rawRole": "M-10.submit-approve",
+    "role": "SUBMIT-APPROVE",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "submit-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "연락처 열람 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 요청"
+    },
+    "code": "BO-MBR-030-SUBMIT-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-submit",
+    "rawRole": "M-10.submit-pii",
+    "role": "SUBMIT-PII",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "submit-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 반려 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 결정 접수 요청"
+    },
+    "code": "BO-MBR-030-SUBMIT-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-submit",
+    "rawRole": "M-10.submit-reject",
+    "role": "SUBMIT-REJECT",
+    "screen": "BO-MBR-030",
+    "sourceScreen": "M-10"
+  },
+  {
+    "actionToken": "back-to-list",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "원래 목록으로; 중복 버튼 동일 역할",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "원래 목록으로; 중복 버튼 동일 역할"
+    },
+    "code": "BO-MBR-040-BACK-TO-LIST",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:145,168 / back-to-m10",
+    "rawRole": "M-11.back-to-list",
+    "role": "BACK-TO-LIST",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "input-pii-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "개인정보 열람 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "개인정보 열람 사유 입력"
+    },
+    "code": "BO-MBR-040-INPUT-PII-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-reason",
+    "rawRole": "M-11.input-pii-reason",
+    "role": "INPUT-PII-REASON",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "input-reject-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "반려 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "반려 사유 입력"
+    },
+    "code": "BO-MBR-040-INPUT-REJECT-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-reason",
+    "rawRole": "M-11.input-reject-reason",
+    "role": "INPUT-REJECT-REASON",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "open-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 승인 요청 확인 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 요청 확인 단계 열기"
+    },
+    "code": "BO-MBR-040-OPEN-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / approve-open",
+    "rawRole": "M-11.open-approve",
+    "role": "OPEN-APPROVE",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "open-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "연락처 열람 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 단계 열기"
+    },
+    "code": "BO-MBR-040-OPEN-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:160 / pii-open",
+    "rawRole": "M-11.open-pii",
+    "role": "OPEN-PII",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "open-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 반려 요청 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 요청 단계 열기"
+    },
+    "code": "BO-MBR-040-OPEN-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / reject-open",
+    "rawRole": "M-11.open-reject",
+    "role": "OPEN-REJECT",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "refresh-decision",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성"
+    },
+    "code": "BO-MBR-040-REFRESH-DECISION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+    "rawRole": "M-11.refresh-decision",
+    "role": "REFRESH-DECISION",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "submit-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 승인 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 결정 접수 요청"
+    },
+    "code": "BO-MBR-040-SUBMIT-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:176 / approve-submit",
+    "rawRole": "M-11.submit-approve",
+    "role": "SUBMIT-APPROVE",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "submit-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "연락처 열람 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 요청"
+    },
+    "code": "BO-MBR-040-SUBMIT-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-submit",
+    "rawRole": "M-11.submit-pii",
+    "role": "SUBMIT-PII",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "submit-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 반려 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 결정 접수 요청"
+    },
+    "code": "BO-MBR-040-SUBMIT-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-submit",
+    "rawRole": "M-11.submit-reject",
+    "role": "SUBMIT-REJECT",
+    "screen": "BO-MBR-040",
+    "sourceScreen": "M-11"
+  },
+  {
+    "actionToken": "input-pii-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "개인정보 열람 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "개인정보 열람 사유 입력"
+    },
+    "code": "BO-MBR-050-INPUT-PII-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-reason",
+    "rawRole": "M-20.input-pii-reason",
+    "role": "INPUT-PII-REASON",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "input-reject-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "반려 사유 입력",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "반려 사유 입력"
+    },
+    "code": "BO-MBR-050-INPUT-REJECT-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-reason",
+    "rawRole": "M-20.input-reject-reason",
+    "role": "INPUT-REJECT-REASON",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 승인 요청 확인 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 요청 확인 단계 열기"
+    },
+    "code": "BO-MBR-050-OPEN-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / approve-open",
+    "rawRole": "M-20.open-approve",
+    "role": "OPEN-APPROVE",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-delegation-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "위임장 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "위임장 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-050-OPEN-DELEGATION-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-delegation",
+    "rawRole": "M-20.open-delegation-info",
+    "role": "OPEN-DELEGATION-INFO",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-document-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "서류 정보 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "서류 정보 정보 레이어 열기"
+    },
+    "code": "BO-MBR-050-OPEN-DOCUMENT-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-document",
+    "rawRole": "M-20.open-document-info",
+    "role": "OPEN-DOCUMENT-INFO",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-full-detail",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "M-11 전체 상세 열기",
+      "notes": "ApplicationPanel 공유; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "M-11 전체 상세 열기"
+    },
+    "code": "BO-MBR-050-OPEN-FULL-DETAIL",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/panel.tsx:19 / application-full-detail",
+    "rawRole": "M-20.open-full-detail",
+    "role": "OPEN-FULL-DETAIL",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-history-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "이전 결정 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이전 결정 정보 레이어 열기"
+    },
+    "code": "BO-MBR-050-OPEN-HISTORY-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-history",
+    "rawRole": "M-20.open-history-info",
+    "role": "OPEN-HISTORY-INFO",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "연락처 열람 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 단계 열기"
+    },
+    "code": "BO-MBR-050-OPEN-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:160 / pii-open",
+    "rawRole": "M-20.open-pii",
+    "role": "OPEN-PII",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "가입 반려 요청 단계 열기",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 요청 단계 열기"
+    },
+    "code": "BO-MBR-050-OPEN-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:166 / reject-open",
+    "rawRole": "M-20.open-reject",
+    "role": "OPEN-REJECT",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-rejection-text",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "반려 사유 전체 보기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "반려 사유 전체 보기"
+    },
+    "code": "BO-MBR-050-OPEN-REJECTION-TEXT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:159 / rejection-full-open",
+    "rawRole": "M-20.open-rejection-text",
+    "role": "OPEN-REJECTION-TEXT",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-terms-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "이용약관 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이용약관 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-050-OPEN-TERMS-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-terms",
+    "rawRole": "M-20.open-terms-info",
+    "role": "OPEN-TERMS-INFO",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "open-verification-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "확인 기록 정보 레이어 열기",
+      "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "확인 기록 정보 레이어 열기"
+    },
+    "code": "BO-MBR-050-OPEN-VERIFICATION-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:178 / application-info-verification",
+    "rawRole": "M-20.open-verification-info",
+    "role": "OPEN-VERIFICATION-INFO",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "refresh-decision",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성"
+    },
+    "code": "BO-MBR-050-REFRESH-DECISION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+    "rawRole": "M-20.refresh-decision",
+    "role": "REFRESH-DECISION",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "submit-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 승인 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 승인 결정 접수 요청"
+    },
+    "code": "BO-MBR-050-SUBMIT-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:176 / approve-submit",
+    "rawRole": "M-20.submit-approve",
+    "role": "SUBMIT-APPROVE",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "submit-pii",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "연락처 열람 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "연락처 열람 요청"
+    },
+    "code": "BO-MBR-050-SUBMIT-PII",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:175 / pii-submit",
+    "rawRole": "M-20.submit-pii",
+    "role": "SUBMIT-PII",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "submit-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "가입 반려 결정 접수 요청",
+      "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "가입 반려 결정 접수 요청"
+    },
+    "code": "BO-MBR-050-SUBMIT-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m11/index.tsx:177 / reject-submit",
+    "rawRole": "M-20.submit-reject",
+    "role": "SUBMIT-REJECT",
+    "screen": "BO-MBR-050",
+    "sourceScreen": "M-20"
+  },
+  {
+    "actionToken": "close-invite-review",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "확인 단계 닫기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "확인 단계 닫기"
+    },
+    "code": "BO-MBR-060-CLOSE-INVITE-REVIEW",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:139 / invite-review-cancel",
+    "rawRole": "M-40.close-invite-review",
+    "role": "CLOSE-INVITE-REVIEW",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "confirm-invite-review",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "현재 검토 종류의 처리 요청",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 검토 종류의 처리 요청"
+    },
+    "code": "BO-MBR-060-CONFIRM-INVITE-REVIEW",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:139 / invite-review-confirm",
+    "rawRole": "M-40.confirm-invite-review",
+    "role": "CONFIRM-INVITE-REVIEW",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "execute-link",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "확인한 회원 연결 실행 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "확인한 회원 연결 실행 요청"
+    },
+    "code": "BO-MBR-060-EXECUTE-LINK",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:621 / m40-link-execute",
+    "rawRole": "M-40.execute-link",
+    "role": "EXECUTE-LINK",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "filter-region",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "지역 검색 입력·지우기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "지역 검색 입력·지우기"
+    },
+    "code": "BO-MBR-060-FILTER-REGION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:526 / m40-filter-region",
+    "rawRole": "M-40.filter-region",
+    "role": "FILTER-REGION",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "filter-status",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "업체 대표 상태 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업체 대표 상태 선택"
+    },
+    "code": "BO-MBR-060-FILTER-STATUS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:529 / m40-filter-status",
+    "rawRole": "M-40.filter-status",
+    "role": "FILTER-STATUS",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "input-activity-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "활동 사유 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활동 사유 입력"
+    },
+    "code": "BO-MBR-060-INPUT-ACTIVITY-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:711 / m40-activity-reason",
+    "rawRole": "M-40.input-activity-reason",
+    "role": "INPUT-ACTIVITY-REASON",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "input-activity-summary",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "활동 요약 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활동 요약 입력"
+    },
+    "code": "BO-MBR-060-INPUT-ACTIVITY-SUMMARY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:707 / m40-activity-summary",
+    "rawRole": "M-40.input-activity-summary",
+    "role": "INPUT-ACTIVITY-SUMMARY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "input-link-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "회원 연결 사유 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "회원 연결 사유 입력"
+    },
+    "code": "BO-MBR-060-INPUT-LINK-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:666 / m40-link-reason",
+    "rawRole": "M-40.input-link-reason",
+    "role": "INPUT-LINK-REASON",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "input-optout-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "수신 제외·해제 사유 입력",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "수신 제외·해제 사유 입력"
+    },
+    "code": "BO-MBR-060-INPUT-OPTOUT-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:129 / invite-optout-reason",
+    "rawRole": "M-40.input-optout-reason",
+    "role": "INPUT-OPTOUT-REASON",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "input-status-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "상태 변경 사유 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "상태 변경 사유 입력"
+    },
+    "code": "BO-MBR-060-INPUT-STATUS-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:743 / m40-status-reason",
+    "rawRole": "M-40.input-status-reason",
+    "role": "INPUT-STATUS-REASON",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "next-page",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "다음 목록 페이지",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "다음 목록 페이지"
+    },
+    "code": "BO-MBR-060-NEXT-PAGE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:568 / m40-page-next",
+    "rawRole": "M-40.next-page",
+    "role": "NEXT-PAGE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-activities-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "활동 기록 보기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활동 기록 보기"
+    },
+    "code": "BO-MBR-060-OPEN-ACTIVITIES-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:749 / m40-info-activities",
+    "rawRole": "M-40.open-activities-info",
+    "role": "OPEN-ACTIVITIES-INFO",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-activity",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "활동 기록 작성 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활동 기록 작성 열기"
+    },
+    "code": "BO-MBR-060-OPEN-ACTIVITY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:592 / m40-activity-open",
+    "rawRole": "M-40.open-activity",
+    "role": "OPEN-ACTIVITY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-invite",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "문자 시험 패널 열기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "문자 시험 패널 열기"
+    },
+    "code": "BO-MBR-060-OPEN-INVITE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:116 / invite-panel-open",
+    "rawRole": "M-40.open-invite",
+    "role": "OPEN-INVITE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-invite-history",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "문자 저장 이력 레이어 열기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "문자 저장 이력 레이어 열기"
+    },
+    "code": "BO-MBR-060-OPEN-INVITE-HISTORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:144 / invite-history-open",
+    "rawRole": "M-40.open-invite-history",
+    "role": "OPEN-INVITE-HISTORY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-nominators-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "지정 근거 보기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "지정 근거 보기"
+    },
+    "code": "BO-MBR-060-OPEN-NOMINATORS-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:749 / m40-info-nominators",
+    "rawRole": "M-40.open-nominators-info",
+    "role": "OPEN-NOMINATORS-INFO",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "open-status",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "상태 변경 작성 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "상태 변경 작성 열기"
+    },
+    "code": "BO-MBR-060-OPEN-STATUS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:595 / m40-status-open",
+    "rawRole": "M-40.open-status",
+    "role": "OPEN-STATUS",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "preview-invite",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "문구·제외 대상 미리보기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "문구·제외 대상 미리보기"
+    },
+    "code": "BO-MBR-060-PREVIEW-INVITE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:127 / invite-preview",
+    "rawRole": "M-40.preview-invite",
+    "role": "PREVIEW-INVITE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "preview-link",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "회원 연결 영향 미리보기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "회원 연결 영향 미리보기"
+    },
+    "code": "BO-MBR-060-PREVIEW-LINK",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:618 / m40-link-preview",
+    "rawRole": "M-40.preview-link",
+    "role": "PREVIEW-LINK",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "previous-page",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "이전 목록 페이지",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "이전 목록 페이지"
+    },
+    "code": "BO-MBR-060-PREVIOUS-PAGE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:565 / m40-page-prev",
+    "rawRole": "M-40.previous-page",
+    "role": "PREVIOUS-PAGE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "refresh-invite-history",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "문자 이력 다시 확인",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "문자 이력 다시 확인"
+    },
+    "code": "BO-MBR-060-REFRESH-INVITE-HISTORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:133 / invite-refresh",
+    "rawRole": "M-40.refresh-invite-history",
+    "role": "REFRESH-INVITE-HISTORY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "reset-filters",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "지역·상태 조건 초기화",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "지역·상태 조건 초기화"
+    },
+    "code": "BO-MBR-060-RESET-FILTERS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:538 / filter-reset",
+    "rawRole": "M-40.reset-filters",
+    "role": "RESET-FILTERS",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "review-invite-check",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "불명·전송 중 결과 확인 검토",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "불명·전송 중 결과 확인 검토"
+    },
+    "code": "BO-MBR-060-REVIEW-INVITE-CHECK",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:135 / invite-check-{id}",
+    "rawRole": "M-40.review-invite-check",
+    "role": "REVIEW-INVITE-CHECK",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "review-invite-retry",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "실패 요청 다시 요청 검토",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "실패 요청 다시 요청 검토"
+    },
+    "code": "BO-MBR-060-REVIEW-INVITE-RETRY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:135 / invite-retry-{id}",
+    "rawRole": "M-40.review-invite-retry",
+    "role": "REVIEW-INVITE-RETRY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "review-invite-send",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "문자 시험 확인 단계 열기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "문자 시험 확인 단계 열기"
+    },
+    "code": "BO-MBR-060-REVIEW-INVITE-SEND",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:127 / invite-send",
+    "rawRole": "M-40.review-invite-send",
+    "role": "REVIEW-INVITE-SEND",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "review-optout",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "수신 제외 설정 확인 단계 열기",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "수신 제외 설정 확인 단계 열기"
+    },
+    "code": "BO-MBR-060-REVIEW-OPTOUT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:130 / invite-optout",
+    "rawRole": "M-40.review-optout",
+    "role": "REVIEW-OPTOUT",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "review-optout-clear",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "수신 제외 해제 검토 열기; 최종 확인 비활성",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "수신 제외 해제 검토 열기; 최종 확인 비활성"
+    },
+    "code": "BO-MBR-060-REVIEW-OPTOUT-CLEAR",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:130 / invite-optout-clear",
+    "rawRole": "M-40.review-optout-clear",
+    "role": "REVIEW-OPTOUT-CLEAR",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "select-activity-type",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "방문·전화·메모 종류 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "방문·전화·메모 종류 선택"
+    },
+    "code": "BO-MBR-060-SELECT-ACTIVITY-TYPE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:699 / m40-activity-type-{value}",
+    "rawRole": "M-40.select-activity-type",
+    "role": "SELECT-ACTIVITY-TYPE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "select-invite-target",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "현재 목록 문자 대상 선택",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 목록 문자 대상 선택"
+    },
+    "code": "BO-MBR-060-SELECT-INVITE-TARGET",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:123 / invite-target-{id}",
+    "rawRole": "M-40.select-invite-target",
+    "role": "SELECT-INVITE-TARGET",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "select-invite-template",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "활성 문자 문구 선택",
+      "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활성 문자 문구 선택"
+    },
+    "code": "BO-MBR-060-SELECT-INVITE-TEMPLATE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/signupInvite.tsx:125 / invite-template",
+    "rawRole": "M-40.select-invite-template",
+    "role": "SELECT-INVITE-TEMPLATE",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "select-target-status",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "변경할 상태 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "변경할 상태 선택"
+    },
+    "code": "BO-MBR-060-SELECT-TARGET-STATUS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:735 / m40-status-{value}",
+    "rawRole": "M-40.select-target-status",
+    "role": "SELECT-TARGET-STATUS",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "submit-activity",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "활동 기록 저장 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "활동 기록 저장 요청"
+    },
+    "code": "BO-MBR-060-SUBMIT-ACTIVITY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:688 / m40-activity-submit",
+    "rawRole": "M-40.submit-activity",
+    "role": "SUBMIT-ACTIVITY",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "submit-status",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "선택 상태 변경 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "선택 상태 변경 요청"
+    },
+    "code": "BO-MBR-060-SUBMIT-STATUS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m40/index.tsx:724 / m40-status-submit",
+    "rawRole": "M-40.submit-status",
+    "role": "SUBMIT-STATUS",
+    "screen": "BO-MBR-060",
+    "sourceScreen": "M-40"
+  },
+  {
+    "actionToken": "approve-privacy",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "다른 관리자 본인확인 후 승인 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "다른 관리자 본인확인 후 승인 요청"
+    },
+    "code": "BO-MBR-070-APPROVE-PRIVACY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:159 / m30-privacy-approve",
+    "rawRole": "M-30.approve-privacy",
+    "role": "APPROVE-PRIVACY",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "confirm-privacy-target",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 확인",
+      "label": "현재 정리 대상·영향 확인 체크",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 정리 대상·영향 확인 체크"
+    },
+    "code": "BO-MBR-070-CONFIRM-PRIVACY-TARGET",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:160 / m30-privacy-confirm-target",
+    "rawRole": "M-30.confirm-privacy-target",
+    "role": "CONFIRM-PRIVACY-TARGET",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "execute-privacy",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "개인정보 단건 정리 실행 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "개인정보 단건 정리 실행 요청"
+    },
+    "code": "BO-MBR-070-EXECUTE-PRIVACY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:161 / m30-privacy-execute",
+    "rawRole": "M-30.execute-privacy",
+    "role": "EXECUTE-PRIVACY",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "input-decision-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "심사 사유 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "심사 사유 입력"
+    },
+    "code": "BO-MBR-070-INPUT-DECISION-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:98 / m30-decision-reason",
+    "rawRole": "M-30.input-decision-reason",
+    "role": "INPUT-DECISION-REASON",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "input-privacy-password",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "관리자 본인확인 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "관리자 본인확인 입력"
+    },
+    "code": "BO-MBR-070-INPUT-PRIVACY-PASSWORD",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:143 / m30-privacy-password",
+    "rawRole": "M-30.input-privacy-password",
+    "role": "INPUT-PRIVACY-PASSWORD",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "input-privacy-reason",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "정리 사유 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "정리 사유 입력"
+    },
+    "code": "BO-MBR-070-INPUT-PRIVACY-REASON",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:142 / m30-privacy-reason",
+    "rawRole": "M-30.input-privacy-reason",
+    "role": "INPUT-PRIVACY-REASON",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "open-approve",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "탈퇴 승인 단계 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "탈퇴 승인 단계 열기"
+    },
+    "code": "BO-MBR-070-OPEN-APPROVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:98 / m30-approve-open",
+    "rawRole": "M-30.open-approve",
+    "role": "OPEN-APPROVE",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "open-member",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "심사 대상 회원 M-02로 이동",
+      "notes": "심사 본문; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "심사 대상 회원 M-02로 이동"
+    },
+    "code": "BO-MBR-070-OPEN-MEMBER",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:95 / m30-identity",
+    "rawRole": "M-30.open-member",
+    "role": "OPEN-MEMBER",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "open-privacy-process",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "정리 대상 선택 패널 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "정리 대상 선택 패널 열기"
+    },
+    "code": "BO-MBR-070-OPEN-PRIVACY-PROCESS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:180 / m30-privacy-select",
+    "rawRole": "M-30.open-privacy-process",
+    "role": "OPEN-PRIVACY-PROCESS",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "open-reject",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "탈퇴 신청 반려 단계 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "탈퇴 신청 반려 단계 열기"
+    },
+    "code": "BO-MBR-070-OPEN-REJECT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:98 / m30-reject-open",
+    "rawRole": "M-30.open-reject",
+    "role": "OPEN-REJECT",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "preview-privacy",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "본인확인 후 대상·영향 조회 및 요청 생성",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "본인확인 후 대상·영향 조회 및 요청 생성"
+    },
+    "code": "BO-MBR-070-PREVIEW-PRIVACY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:144 / m30-privacy-preview",
+    "rawRole": "M-30.preview-privacy",
+    "role": "PREVIEW-PRIVACY",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "read-privacy-result",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "동일 요청 처리 기록 조회",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "동일 요청 처리 기록 조회"
+    },
+    "code": "BO-MBR-070-READ-PRIVACY-RESULT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:162 / m30-privacy-result",
+    "rawRole": "M-30.read-privacy-result",
+    "role": "READ-PRIVACY-RESULT",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "select-privacy-area",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "탈퇴 개인정보 정리 영역 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "탈퇴 개인정보 정리 영역 선택"
+    },
+    "code": "BO-MBR-070-SELECT-PRIVACY-AREA",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:101 / m30-area-privacy",
+    "rawRole": "M-30.select-privacy-area",
+    "role": "SELECT-PRIVACY-AREA",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "select-review-area",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "탈퇴 신청 심사 영역 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "탈퇴 신청 심사 영역 선택"
+    },
+    "code": "BO-MBR-070-SELECT-REVIEW-AREA",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:101 / m30-area-review",
+    "rawRole": "M-30.select-review-area",
+    "role": "SELECT-REVIEW-AREA",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "submit-decision",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "선택된 승인·반려 요청 전송",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "선택된 승인·반려 요청 전송"
+    },
+    "code": "BO-MBR-070-SUBMIT-DECISION",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m30/index.tsx:98 / m30-decision-submit",
+    "rawRole": "M-30.submit-decision",
+    "role": "SUBMIT-DECISION",
+    "screen": "BO-MBR-070",
+    "sourceScreen": "M-30"
+  },
+  {
+    "actionToken": "add-child-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "중분류 추가 작성 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "중분류 추가 작성 열기"
+    },
+    "code": "BO-MBR-080-ADD-CHILD-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:63 / m50-category-add-child",
+    "rawRole": "M-50.add-child-category",
+    "role": "ADD-CHILD-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "add-parent-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "대분류 추가 작성 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "대분류 추가 작성 열기"
+    },
+    "code": "BO-MBR-080-ADD-PARENT-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:63 / m50-category-add-parent",
+    "rawRole": "M-50.add-parent-category",
+    "role": "ADD-PARENT-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "close-editor",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "업체 편집 닫기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업체 편집 닫기"
+    },
+    "code": "BO-MBR-080-CLOSE-EDITOR",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:490 / m50-cancel",
+    "rawRole": "M-50.close-editor",
+    "role": "CLOSE-EDITOR",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "confirm-place",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "상세에서 자진 등록 확인 처리 요청; 목록 버튼과 다른 동작",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "상세에서 자진 등록 확인 처리 요청; 목록 버튼과 다른 동작"
+    },
+    "code": "BO-MBR-080-CONFIRM-PLACE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:458 / m50-confirm-{bn}",
+    "rawRole": "M-50.confirm-place",
+    "role": "CONFIRM-PLACE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "edit-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "업종 편집 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 편집 열기"
+    },
+    "code": "BO-MBR-080-EDIT-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:70 / m50-category-edit-{code}",
+    "rawRole": "M-50.edit-category",
+    "role": "EDIT-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-business-number",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "사업자번호 입력; 수정 모드 비활성",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사업자번호 입력; 수정 모드 비활성"
+    },
+    "code": "BO-MBR-080-INPUT-BUSINESS-NUMBER",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:505 / m50-field-businessNo",
+    "rawRole": "M-50.input-business-number",
+    "role": "INPUT-BUSINESS-NUMBER",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-category-code",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "업종 코드 입력; 기존 코드 비활성",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 코드 입력; 기존 코드 비활성"
+    },
+    "code": "BO-MBR-080-INPUT-CATEGORY-CODE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:75 / m50-category-code",
+    "rawRole": "M-50.input-category-code",
+    "role": "INPUT-CATEGORY-CODE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-category-name",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "업종 이름 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 이름 입력"
+    },
+    "code": "BO-MBR-080-INPUT-CATEGORY-NAME",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:77 / m50-category-name",
+    "rawRole": "M-50.input-category-name",
+    "role": "INPUT-CATEGORY-NAME",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-category-order",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "업종 표시 순서 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 표시 순서 입력"
+    },
+    "code": "BO-MBR-080-INPUT-CATEGORY-ORDER",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:78 / m50-category-order",
+    "rawRole": "M-50.input-category-order",
+    "role": "INPUT-CATEGORY-ORDER",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-note",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "메모 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "메모 입력"
+    },
+    "code": "BO-MBR-080-INPUT-NOTE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:551 / m50-field-note",
+    "rawRole": "M-50.input-note",
+    "role": "INPUT-NOTE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-opened-date",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "개업일 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "개업일 입력"
+    },
+    "code": "BO-MBR-080-INPUT-OPENED-DATE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:536 / m50-field-openedAt",
+    "rawRole": "M-50.input-opened-date",
+    "role": "INPUT-OPENED-DATE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-owner-name",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "대표자 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "대표자 입력"
+    },
+    "code": "BO-MBR-080-INPUT-OWNER-NAME",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:518 / m50-field-ownerName",
+    "rawRole": "M-50.input-owner-name",
+    "role": "INPUT-OWNER-NAME",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-place-name",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "상호 입력",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "상호 입력"
+    },
+    "code": "BO-MBR-080-INPUT-PLACE-NAME",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:509 / m50-field-name",
+    "rawRole": "M-50.input-place-name",
+    "role": "INPUT-PLACE-NAME",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-tax-status",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "세금 상태 입력·제안 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "세금 상태 입력·제안 선택"
+    },
+    "code": "BO-MBR-080-INPUT-TAX-STATUS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:540 / m50-field-taxStatus",
+    "rawRole": "M-50.input-tax-status",
+    "role": "INPUT-TAX-STATUS",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "input-taxation-type",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "과세 유형 입력·제안 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "과세 유형 입력·제안 선택"
+    },
+    "code": "BO-MBR-080-INPUT-TAXATION-TYPE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:545 / m50-field-taxationType",
+    "rawRole": "M-50.input-taxation-type",
+    "role": "INPUT-TAXATION-TYPE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "open-create",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "업체 수동 등록 편집 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업체 수동 등록 편집 열기"
+    },
+    "code": "BO-MBR-080-OPEN-CREATE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:369 / m50-create-open",
+    "rawRole": "M-50.open-create",
+    "role": "OPEN-CREATE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "open-edit",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 진입",
+      "label": "현재 업체 수정 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "현재 업체 수정 열기"
+    },
+    "code": "BO-MBR-080-OPEN-EDIT",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:471 / m50-edit-open",
+    "rawRole": "M-50.open-edit",
+    "role": "OPEN-EDIT",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "open-map",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "지도 링크 새 창 열기; 외부 목적지는 실행·접속하지 않음",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "지도 링크 새 창 열기; 외부 목적지는 실행·접속하지 않음"
+    },
+    "code": "BO-MBR-080-OPEN-MAP",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:499 / m50-map-link",
+    "rawRole": "M-50.open-map",
+    "role": "OPEN-MAP",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "open-place",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "자세히 보기·목록 확인 버튼은 같은 choose로 상세 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "자세히 보기·목록 확인 버튼은 같은 choose로 상세 선택"
+    },
+    "code": "BO-MBR-080-OPEN-PLACE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:399,402 / m50-confirm-{bn}",
+    "rawRole": "M-50.open-place",
+    "role": "OPEN-PLACE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "open-place-info",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "업체정보 파생 근거 레이어 열기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업체정보 파생 근거 레이어 열기"
+    },
+    "code": "BO-MBR-080-OPEN-PLACE-INFO",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:556 / m50-info-open",
+    "rawRole": "M-50.open-place-info",
+    "role": "OPEN-PLACE-INFO",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "reset-filters",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "검색 조건 초기화",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "검색 조건 초기화"
+    },
+    "code": "BO-MBR-080-RESET-FILTERS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:384 / filter-reset",
+    "rawRole": "M-50.reset-filters",
+    "role": "RESET-FILTERS",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "save-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "업종 저장 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 저장 요청"
+    },
+    "code": "BO-MBR-080-SAVE-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:80 / m50-category-save",
+    "rawRole": "M-50.save-category",
+    "role": "SAVE-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "save-place",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "등록 또는 수정 저장 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "등록 또는 수정 저장 요청"
+    },
+    "code": "BO-MBR-080-SAVE-PLACE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:491 / m50-save",
+    "rawRole": "M-50.save-place",
+    "role": "SAVE-PLACE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "search-address",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "주소 검색 호출; 외부 위젯 실행 여부 미확인",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "주소 검색 호출; 외부 위젯 실행 여부 미확인"
+    },
+    "code": "BO-MBR-080-SEARCH-ADDRESS",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:524 / m50-address-search",
+    "rawRole": "M-50.search-address",
+    "role": "SEARCH-ADDRESS",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "search-places",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "사업자번호·상호·주소 검색 입력·지우기",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "사업자번호·상호·주소 검색 입력·지우기"
+    },
+    "code": "BO-MBR-080-SEARCH-PLACES",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:382 / m50-search",
+    "rawRole": "M-50.search-places",
+    "role": "SEARCH-PLACES",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-all-tab",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "전체 업체 탭 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "전체 업체 탭 선택"
+    },
+    "code": "BO-MBR-080-SELECT-ALL-TAB",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:380 / m50-tab-all",
+    "rawRole": "M-50.select-all-tab",
+    "role": "SELECT-ALL-TAB",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-bulk-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "선택 업체에 적용할 업종 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "선택 업체에 적용할 업종 선택"
+    },
+    "code": "BO-MBR-080-SELECT-BULK-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:117 / m50-bulk-category-choice",
+    "rawRole": "M-50.select-bulk-category",
+    "role": "SELECT-BULK-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-bulk-place",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "일괄 업종 변경 대상 체크",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "일괄 업종 변경 대상 체크"
+    },
+    "code": "BO-MBR-080-SELECT-BULK-PLACE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:390 / m50-select-{id}",
+    "rawRole": "M-50.select-bulk-place",
+    "role": "SELECT-BULK-PLACE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-categories-tab",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "업종 체계 탭 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 체계 탭 선택"
+    },
+    "code": "BO-MBR-080-SELECT-CATEGORIES-TAB",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:380 / m50-tab-categories",
+    "rawRole": "M-50.select-categories-tab",
+    "role": "SELECT-CATEGORIES-TAB",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-parent-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "대분류 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "대분류 선택"
+    },
+    "code": "BO-MBR-080-SELECT-PARENT-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:76 / m50-category-parent",
+    "rawRole": "M-50.select-parent-category",
+    "role": "SELECT-PARENT-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "select-pending-tab",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "단순조회",
+      "label": "자진 등록 확인 대기 탭 선택",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "자진 등록 확인 대기 탭 선택"
+    },
+    "code": "BO-MBR-080-SELECT-PENDING-TAB",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/index.tsx:380 / m50-confirm-tab",
+    "rawRole": "M-50.select-pending-tab",
+    "role": "SELECT-PENDING-TAB",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "submit-bulk-category",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 실행",
+      "label": "선택 업체 업종 일괄 변경 요청",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "선택 업체 업종 일괄 변경 요청"
+    },
+    "code": "BO-MBR-080-SUBMIT-BULK-CATEGORY",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:118 / m50-bulk-category-submit",
+    "rawRole": "M-50.submit-bulk-category",
+    "role": "SUBMIT-BULK-CATEGORY",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
+  {
+    "actionToken": "toggle-category-active",
+    "behavior": {
+      "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+      "kind": "위험조치 입력",
+      "label": "업종 사용 여부 체크",
+      "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+      "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca",
+      "trigger": "업종 사용 여부 체크"
+    },
+    "code": "BO-MBR-080-TOGGLE-CATEGORY-ACTIVE",
+    "evidence": {
+      "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+      "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+      "revisionKind": "GIT_COMMIT"
+    },
+    "introducedVersion": "1.0.0-bo.6",
+    "locator": "screens/m50/categoryManagement.tsx:79 / m50-category-active",
+    "rawRole": "M-50.toggle-category-active",
+    "role": "TOGGLE-CATEGORY-ACTIVE",
+    "screen": "BO-MBR-080",
+    "sourceScreen": "M-50"
+  },
   {
     "actionToken": "open-policy",
     "behavior": {
@@ -7100,6 +11350,176 @@ export type ScreenCode = typeof SCREENS[number]["code"];
 export type MenuCode = typeof MENUS[number]["code"];
 export type Alias = typeof ALIASES[number];
 export const ELEMENT_CODES = {
+  "BO-CNT-010-ARCHIVE-CONTENT": "BO-CNT-010-ARCHIVE-CONTENT",
+  "BO-CNT-010-CHANGE-BODY": "BO-CNT-010-CHANGE-BODY",
+  "BO-CNT-010-CHANGE-PUBLISH-AT": "BO-CNT-010-CHANGE-PUBLISH-AT",
+  "BO-CNT-010-CHANGE-TITLE": "BO-CNT-010-CHANGE-TITLE",
+  "BO-CNT-010-OPEN-CREATE": "BO-CNT-010-OPEN-CREATE",
+  "BO-CNT-010-PUBLISH-CONTENT": "BO-CNT-010-PUBLISH-CONTENT",
+  "BO-CNT-010-SAVE-DRAFT": "BO-CNT-010-SAVE-DRAFT",
+  "BO-CNT-010-SELECT-CATEGORY": "BO-CNT-010-SELECT-CATEGORY",
+  "BO-CNT-010-SELECT-PINNED": "BO-CNT-010-SELECT-PINNED",
+  "BO-CNT-010-SELECT-VISIBILITY": "BO-CNT-010-SELECT-VISIBILITY",
+  "BO-CNT-020-ARCHIVE-CONTENT": "BO-CNT-020-ARCHIVE-CONTENT",
+  "BO-CNT-020-CHANGE-BODY": "BO-CNT-020-CHANGE-BODY",
+  "BO-CNT-020-CHANGE-TITLE": "BO-CNT-020-CHANGE-TITLE",
+  "BO-CNT-020-OPEN-CREATE": "BO-CNT-020-OPEN-CREATE",
+  "BO-CNT-020-PUBLISH-CONTENT": "BO-CNT-020-PUBLISH-CONTENT",
+  "BO-CNT-020-SAVE-DRAFT": "BO-CNT-020-SAVE-DRAFT",
+  "BO-CNT-020-SELECT-CATEGORY": "BO-CNT-020-SELECT-CATEGORY",
+  "BO-DSH-010-TOGGLE-SCOPE-HELP": "BO-DSH-010-TOGGLE-SCOPE-HELP",
+  "BO-MBR-010-CLOSE-ACTION": "BO-MBR-010-CLOSE-ACTION",
+  "BO-MBR-010-CONFIRM-ACTION-TARGET": "BO-MBR-010-CONFIRM-ACTION-TARGET",
+  "BO-MBR-010-EXECUTE-ACTION": "BO-MBR-010-EXECUTE-ACTION",
+  "BO-MBR-010-INPUT-ACTION-PASSWORD": "BO-MBR-010-INPUT-ACTION-PASSWORD",
+  "BO-MBR-010-INPUT-ACTION-REASON": "BO-MBR-010-INPUT-ACTION-REASON",
+  "BO-MBR-010-INPUT-PII-REASON": "BO-MBR-010-INPUT-PII-REASON",
+  "BO-MBR-010-NEXT-ACTION": "BO-MBR-010-NEXT-ACTION",
+  "BO-MBR-010-OPEN-PII": "BO-MBR-010-OPEN-PII",
+  "BO-MBR-010-OPEN-REVOKE-SESSIONS": "BO-MBR-010-OPEN-REVOKE-SESSIONS",
+  "BO-MBR-010-OPEN-SUSPEND": "BO-MBR-010-OPEN-SUSPEND",
+  "BO-MBR-010-OPEN-UNSUSPEND": "BO-MBR-010-OPEN-UNSUSPEND",
+  "BO-MBR-010-SELECT-ACTION-REASON": "BO-MBR-010-SELECT-ACTION-REASON",
+  "BO-MBR-010-SUBMIT-PII": "BO-MBR-010-SUBMIT-PII",
+  "BO-MBR-010-VERIFY-ACTION": "BO-MBR-010-VERIFY-ACTION",
+  "BO-MBR-020-CLOSE-ACTION": "BO-MBR-020-CLOSE-ACTION",
+  "BO-MBR-020-CONFIRM-ACTION-TARGET": "BO-MBR-020-CONFIRM-ACTION-TARGET",
+  "BO-MBR-020-EXECUTE-ACTION": "BO-MBR-020-EXECUTE-ACTION",
+  "BO-MBR-020-INPUT-ACTION-PASSWORD": "BO-MBR-020-INPUT-ACTION-PASSWORD",
+  "BO-MBR-020-INPUT-ACTION-REASON": "BO-MBR-020-INPUT-ACTION-REASON",
+  "BO-MBR-020-INPUT-PII-REASON": "BO-MBR-020-INPUT-PII-REASON",
+  "BO-MBR-020-NEXT-ACTION": "BO-MBR-020-NEXT-ACTION",
+  "BO-MBR-020-OPEN-MEMBER-PROCESS": "BO-MBR-020-OPEN-MEMBER-PROCESS",
+  "BO-MBR-020-OPEN-PII": "BO-MBR-020-OPEN-PII",
+  "BO-MBR-020-OPEN-REVOKE-SESSIONS": "BO-MBR-020-OPEN-REVOKE-SESSIONS",
+  "BO-MBR-020-OPEN-SUSPEND": "BO-MBR-020-OPEN-SUSPEND",
+  "BO-MBR-020-OPEN-UNSUSPEND": "BO-MBR-020-OPEN-UNSUSPEND",
+  "BO-MBR-020-SELECT-ACTION-REASON": "BO-MBR-020-SELECT-ACTION-REASON",
+  "BO-MBR-020-SUBMIT-PII": "BO-MBR-020-SUBMIT-PII",
+  "BO-MBR-020-VERIFY-ACTION": "BO-MBR-020-VERIFY-ACTION",
+  "BO-MBR-030-INPUT-PII-REASON": "BO-MBR-030-INPUT-PII-REASON",
+  "BO-MBR-030-INPUT-REJECT-REASON": "BO-MBR-030-INPUT-REJECT-REASON",
+  "BO-MBR-030-OPEN-APPROVE": "BO-MBR-030-OPEN-APPROVE",
+  "BO-MBR-030-OPEN-DELEGATION-INFO": "BO-MBR-030-OPEN-DELEGATION-INFO",
+  "BO-MBR-030-OPEN-DOCUMENT-INFO": "BO-MBR-030-OPEN-DOCUMENT-INFO",
+  "BO-MBR-030-OPEN-FULL-DETAIL": "BO-MBR-030-OPEN-FULL-DETAIL",
+  "BO-MBR-030-OPEN-HISTORY-INFO": "BO-MBR-030-OPEN-HISTORY-INFO",
+  "BO-MBR-030-OPEN-PII": "BO-MBR-030-OPEN-PII",
+  "BO-MBR-030-OPEN-REJECT": "BO-MBR-030-OPEN-REJECT",
+  "BO-MBR-030-OPEN-REJECTION-TEXT": "BO-MBR-030-OPEN-REJECTION-TEXT",
+  "BO-MBR-030-OPEN-TERMS-INFO": "BO-MBR-030-OPEN-TERMS-INFO",
+  "BO-MBR-030-OPEN-VERIFICATION-INFO": "BO-MBR-030-OPEN-VERIFICATION-INFO",
+  "BO-MBR-030-REFRESH-DECISION": "BO-MBR-030-REFRESH-DECISION",
+  "BO-MBR-030-SUBMIT-APPROVE": "BO-MBR-030-SUBMIT-APPROVE",
+  "BO-MBR-030-SUBMIT-PII": "BO-MBR-030-SUBMIT-PII",
+  "BO-MBR-030-SUBMIT-REJECT": "BO-MBR-030-SUBMIT-REJECT",
+  "BO-MBR-040-BACK-TO-LIST": "BO-MBR-040-BACK-TO-LIST",
+  "BO-MBR-040-INPUT-PII-REASON": "BO-MBR-040-INPUT-PII-REASON",
+  "BO-MBR-040-INPUT-REJECT-REASON": "BO-MBR-040-INPUT-REJECT-REASON",
+  "BO-MBR-040-OPEN-APPROVE": "BO-MBR-040-OPEN-APPROVE",
+  "BO-MBR-040-OPEN-PII": "BO-MBR-040-OPEN-PII",
+  "BO-MBR-040-OPEN-REJECT": "BO-MBR-040-OPEN-REJECT",
+  "BO-MBR-040-REFRESH-DECISION": "BO-MBR-040-REFRESH-DECISION",
+  "BO-MBR-040-SUBMIT-APPROVE": "BO-MBR-040-SUBMIT-APPROVE",
+  "BO-MBR-040-SUBMIT-PII": "BO-MBR-040-SUBMIT-PII",
+  "BO-MBR-040-SUBMIT-REJECT": "BO-MBR-040-SUBMIT-REJECT",
+  "BO-MBR-050-INPUT-PII-REASON": "BO-MBR-050-INPUT-PII-REASON",
+  "BO-MBR-050-INPUT-REJECT-REASON": "BO-MBR-050-INPUT-REJECT-REASON",
+  "BO-MBR-050-OPEN-APPROVE": "BO-MBR-050-OPEN-APPROVE",
+  "BO-MBR-050-OPEN-DELEGATION-INFO": "BO-MBR-050-OPEN-DELEGATION-INFO",
+  "BO-MBR-050-OPEN-DOCUMENT-INFO": "BO-MBR-050-OPEN-DOCUMENT-INFO",
+  "BO-MBR-050-OPEN-FULL-DETAIL": "BO-MBR-050-OPEN-FULL-DETAIL",
+  "BO-MBR-050-OPEN-HISTORY-INFO": "BO-MBR-050-OPEN-HISTORY-INFO",
+  "BO-MBR-050-OPEN-PII": "BO-MBR-050-OPEN-PII",
+  "BO-MBR-050-OPEN-REJECT": "BO-MBR-050-OPEN-REJECT",
+  "BO-MBR-050-OPEN-REJECTION-TEXT": "BO-MBR-050-OPEN-REJECTION-TEXT",
+  "BO-MBR-050-OPEN-TERMS-INFO": "BO-MBR-050-OPEN-TERMS-INFO",
+  "BO-MBR-050-OPEN-VERIFICATION-INFO": "BO-MBR-050-OPEN-VERIFICATION-INFO",
+  "BO-MBR-050-REFRESH-DECISION": "BO-MBR-050-REFRESH-DECISION",
+  "BO-MBR-050-SUBMIT-APPROVE": "BO-MBR-050-SUBMIT-APPROVE",
+  "BO-MBR-050-SUBMIT-PII": "BO-MBR-050-SUBMIT-PII",
+  "BO-MBR-050-SUBMIT-REJECT": "BO-MBR-050-SUBMIT-REJECT",
+  "BO-MBR-060-CLOSE-INVITE-REVIEW": "BO-MBR-060-CLOSE-INVITE-REVIEW",
+  "BO-MBR-060-CONFIRM-INVITE-REVIEW": "BO-MBR-060-CONFIRM-INVITE-REVIEW",
+  "BO-MBR-060-EXECUTE-LINK": "BO-MBR-060-EXECUTE-LINK",
+  "BO-MBR-060-FILTER-REGION": "BO-MBR-060-FILTER-REGION",
+  "BO-MBR-060-FILTER-STATUS": "BO-MBR-060-FILTER-STATUS",
+  "BO-MBR-060-INPUT-ACTIVITY-REASON": "BO-MBR-060-INPUT-ACTIVITY-REASON",
+  "BO-MBR-060-INPUT-ACTIVITY-SUMMARY": "BO-MBR-060-INPUT-ACTIVITY-SUMMARY",
+  "BO-MBR-060-INPUT-LINK-REASON": "BO-MBR-060-INPUT-LINK-REASON",
+  "BO-MBR-060-INPUT-OPTOUT-REASON": "BO-MBR-060-INPUT-OPTOUT-REASON",
+  "BO-MBR-060-INPUT-STATUS-REASON": "BO-MBR-060-INPUT-STATUS-REASON",
+  "BO-MBR-060-NEXT-PAGE": "BO-MBR-060-NEXT-PAGE",
+  "BO-MBR-060-OPEN-ACTIVITIES-INFO": "BO-MBR-060-OPEN-ACTIVITIES-INFO",
+  "BO-MBR-060-OPEN-ACTIVITY": "BO-MBR-060-OPEN-ACTIVITY",
+  "BO-MBR-060-OPEN-INVITE": "BO-MBR-060-OPEN-INVITE",
+  "BO-MBR-060-OPEN-INVITE-HISTORY": "BO-MBR-060-OPEN-INVITE-HISTORY",
+  "BO-MBR-060-OPEN-NOMINATORS-INFO": "BO-MBR-060-OPEN-NOMINATORS-INFO",
+  "BO-MBR-060-OPEN-STATUS": "BO-MBR-060-OPEN-STATUS",
+  "BO-MBR-060-PREVIEW-INVITE": "BO-MBR-060-PREVIEW-INVITE",
+  "BO-MBR-060-PREVIEW-LINK": "BO-MBR-060-PREVIEW-LINK",
+  "BO-MBR-060-PREVIOUS-PAGE": "BO-MBR-060-PREVIOUS-PAGE",
+  "BO-MBR-060-REFRESH-INVITE-HISTORY": "BO-MBR-060-REFRESH-INVITE-HISTORY",
+  "BO-MBR-060-RESET-FILTERS": "BO-MBR-060-RESET-FILTERS",
+  "BO-MBR-060-REVIEW-INVITE-CHECK": "BO-MBR-060-REVIEW-INVITE-CHECK",
+  "BO-MBR-060-REVIEW-INVITE-RETRY": "BO-MBR-060-REVIEW-INVITE-RETRY",
+  "BO-MBR-060-REVIEW-INVITE-SEND": "BO-MBR-060-REVIEW-INVITE-SEND",
+  "BO-MBR-060-REVIEW-OPTOUT": "BO-MBR-060-REVIEW-OPTOUT",
+  "BO-MBR-060-REVIEW-OPTOUT-CLEAR": "BO-MBR-060-REVIEW-OPTOUT-CLEAR",
+  "BO-MBR-060-SELECT-ACTIVITY-TYPE": "BO-MBR-060-SELECT-ACTIVITY-TYPE",
+  "BO-MBR-060-SELECT-INVITE-TARGET": "BO-MBR-060-SELECT-INVITE-TARGET",
+  "BO-MBR-060-SELECT-INVITE-TEMPLATE": "BO-MBR-060-SELECT-INVITE-TEMPLATE",
+  "BO-MBR-060-SELECT-TARGET-STATUS": "BO-MBR-060-SELECT-TARGET-STATUS",
+  "BO-MBR-060-SUBMIT-ACTIVITY": "BO-MBR-060-SUBMIT-ACTIVITY",
+  "BO-MBR-060-SUBMIT-STATUS": "BO-MBR-060-SUBMIT-STATUS",
+  "BO-MBR-070-APPROVE-PRIVACY": "BO-MBR-070-APPROVE-PRIVACY",
+  "BO-MBR-070-CONFIRM-PRIVACY-TARGET": "BO-MBR-070-CONFIRM-PRIVACY-TARGET",
+  "BO-MBR-070-EXECUTE-PRIVACY": "BO-MBR-070-EXECUTE-PRIVACY",
+  "BO-MBR-070-INPUT-DECISION-REASON": "BO-MBR-070-INPUT-DECISION-REASON",
+  "BO-MBR-070-INPUT-PRIVACY-PASSWORD": "BO-MBR-070-INPUT-PRIVACY-PASSWORD",
+  "BO-MBR-070-INPUT-PRIVACY-REASON": "BO-MBR-070-INPUT-PRIVACY-REASON",
+  "BO-MBR-070-OPEN-APPROVE": "BO-MBR-070-OPEN-APPROVE",
+  "BO-MBR-070-OPEN-MEMBER": "BO-MBR-070-OPEN-MEMBER",
+  "BO-MBR-070-OPEN-PRIVACY-PROCESS": "BO-MBR-070-OPEN-PRIVACY-PROCESS",
+  "BO-MBR-070-OPEN-REJECT": "BO-MBR-070-OPEN-REJECT",
+  "BO-MBR-070-PREVIEW-PRIVACY": "BO-MBR-070-PREVIEW-PRIVACY",
+  "BO-MBR-070-READ-PRIVACY-RESULT": "BO-MBR-070-READ-PRIVACY-RESULT",
+  "BO-MBR-070-SELECT-PRIVACY-AREA": "BO-MBR-070-SELECT-PRIVACY-AREA",
+  "BO-MBR-070-SELECT-REVIEW-AREA": "BO-MBR-070-SELECT-REVIEW-AREA",
+  "BO-MBR-070-SUBMIT-DECISION": "BO-MBR-070-SUBMIT-DECISION",
+  "BO-MBR-080-ADD-CHILD-CATEGORY": "BO-MBR-080-ADD-CHILD-CATEGORY",
+  "BO-MBR-080-ADD-PARENT-CATEGORY": "BO-MBR-080-ADD-PARENT-CATEGORY",
+  "BO-MBR-080-CLOSE-EDITOR": "BO-MBR-080-CLOSE-EDITOR",
+  "BO-MBR-080-CONFIRM-PLACE": "BO-MBR-080-CONFIRM-PLACE",
+  "BO-MBR-080-EDIT-CATEGORY": "BO-MBR-080-EDIT-CATEGORY",
+  "BO-MBR-080-INPUT-BUSINESS-NUMBER": "BO-MBR-080-INPUT-BUSINESS-NUMBER",
+  "BO-MBR-080-INPUT-CATEGORY-CODE": "BO-MBR-080-INPUT-CATEGORY-CODE",
+  "BO-MBR-080-INPUT-CATEGORY-NAME": "BO-MBR-080-INPUT-CATEGORY-NAME",
+  "BO-MBR-080-INPUT-CATEGORY-ORDER": "BO-MBR-080-INPUT-CATEGORY-ORDER",
+  "BO-MBR-080-INPUT-NOTE": "BO-MBR-080-INPUT-NOTE",
+  "BO-MBR-080-INPUT-OPENED-DATE": "BO-MBR-080-INPUT-OPENED-DATE",
+  "BO-MBR-080-INPUT-OWNER-NAME": "BO-MBR-080-INPUT-OWNER-NAME",
+  "BO-MBR-080-INPUT-PLACE-NAME": "BO-MBR-080-INPUT-PLACE-NAME",
+  "BO-MBR-080-INPUT-TAX-STATUS": "BO-MBR-080-INPUT-TAX-STATUS",
+  "BO-MBR-080-INPUT-TAXATION-TYPE": "BO-MBR-080-INPUT-TAXATION-TYPE",
+  "BO-MBR-080-OPEN-CREATE": "BO-MBR-080-OPEN-CREATE",
+  "BO-MBR-080-OPEN-EDIT": "BO-MBR-080-OPEN-EDIT",
+  "BO-MBR-080-OPEN-MAP": "BO-MBR-080-OPEN-MAP",
+  "BO-MBR-080-OPEN-PLACE": "BO-MBR-080-OPEN-PLACE",
+  "BO-MBR-080-OPEN-PLACE-INFO": "BO-MBR-080-OPEN-PLACE-INFO",
+  "BO-MBR-080-RESET-FILTERS": "BO-MBR-080-RESET-FILTERS",
+  "BO-MBR-080-SAVE-CATEGORY": "BO-MBR-080-SAVE-CATEGORY",
+  "BO-MBR-080-SAVE-PLACE": "BO-MBR-080-SAVE-PLACE",
+  "BO-MBR-080-SEARCH-ADDRESS": "BO-MBR-080-SEARCH-ADDRESS",
+  "BO-MBR-080-SEARCH-PLACES": "BO-MBR-080-SEARCH-PLACES",
+  "BO-MBR-080-SELECT-ALL-TAB": "BO-MBR-080-SELECT-ALL-TAB",
+  "BO-MBR-080-SELECT-BULK-CATEGORY": "BO-MBR-080-SELECT-BULK-CATEGORY",
+  "BO-MBR-080-SELECT-BULK-PLACE": "BO-MBR-080-SELECT-BULK-PLACE",
+  "BO-MBR-080-SELECT-CATEGORIES-TAB": "BO-MBR-080-SELECT-CATEGORIES-TAB",
+  "BO-MBR-080-SELECT-PARENT-CATEGORY": "BO-MBR-080-SELECT-PARENT-CATEGORY",
+  "BO-MBR-080-SELECT-PENDING-TAB": "BO-MBR-080-SELECT-PENDING-TAB",
+  "BO-MBR-080-SUBMIT-BULK-CATEGORY": "BO-MBR-080-SUBMIT-BULK-CATEGORY",
+  "BO-MBR-080-TOGGLE-CATEGORY-ACTIVE": "BO-MBR-080-TOGGLE-CATEGORY-ACTIVE",
   "BO-SYS-010-OPEN-POLICY": "BO-SYS-010-OPEN-POLICY",
   "BO-SYS-020-ALL-JOBS": "BO-SYS-020-ALL-JOBS",
   "BO-SYS-020-CHECK-COMMAND": "BO-SYS-020-CHECK-COMMAND",
@@ -7260,8 +11680,27 @@ export const ELEMENT_CODES = {
   "BO-TAX-050-TOGGLE-SCOPE-HELP": "BO-TAX-050-TOGGLE-SCOPE-HELP"
 } as const;
 export const SCREEN_ELEMENTS = {
-  "BO-CNT-010": [],
-  "BO-CNT-020": [],
+  "BO-CNT-010": [
+    "BO-CNT-010-ARCHIVE-CONTENT",
+    "BO-CNT-010-CHANGE-BODY",
+    "BO-CNT-010-CHANGE-PUBLISH-AT",
+    "BO-CNT-010-CHANGE-TITLE",
+    "BO-CNT-010-OPEN-CREATE",
+    "BO-CNT-010-PUBLISH-CONTENT",
+    "BO-CNT-010-SAVE-DRAFT",
+    "BO-CNT-010-SELECT-CATEGORY",
+    "BO-CNT-010-SELECT-PINNED",
+    "BO-CNT-010-SELECT-VISIBILITY"
+  ],
+  "BO-CNT-020": [
+    "BO-CNT-020-ARCHIVE-CONTENT",
+    "BO-CNT-020-CHANGE-BODY",
+    "BO-CNT-020-CHANGE-TITLE",
+    "BO-CNT-020-OPEN-CREATE",
+    "BO-CNT-020-PUBLISH-CONTENT",
+    "BO-CNT-020-SAVE-DRAFT",
+    "BO-CNT-020-SELECT-CATEGORY"
+  ],
   "BO-CUS-010": [],
   "BO-CUS-020": [],
   "BO-CUS-030": [],
@@ -7270,18 +11709,180 @@ export const SCREEN_ELEMENTS = {
   "BO-CUS-060": [],
   "BO-CUS-070": [],
   "BO-CUS-080": [],
-  "BO-DSH-010": [],
+  "BO-DSH-010": [
+    "BO-DSH-010-TOGGLE-SCOPE-HELP"
+  ],
   "BO-ISS-010": [],
   "BO-ISS-020": [],
   "BO-ISS-030": [],
-  "BO-MBR-010": [],
-  "BO-MBR-020": [],
-  "BO-MBR-030": [],
-  "BO-MBR-040": [],
-  "BO-MBR-050": [],
-  "BO-MBR-060": [],
-  "BO-MBR-070": [],
-  "BO-MBR-080": [],
+  "BO-MBR-010": [
+    "BO-MBR-010-CLOSE-ACTION",
+    "BO-MBR-010-CONFIRM-ACTION-TARGET",
+    "BO-MBR-010-EXECUTE-ACTION",
+    "BO-MBR-010-INPUT-ACTION-PASSWORD",
+    "BO-MBR-010-INPUT-ACTION-REASON",
+    "BO-MBR-010-INPUT-PII-REASON",
+    "BO-MBR-010-NEXT-ACTION",
+    "BO-MBR-010-OPEN-PII",
+    "BO-MBR-010-OPEN-REVOKE-SESSIONS",
+    "BO-MBR-010-OPEN-SUSPEND",
+    "BO-MBR-010-OPEN-UNSUSPEND",
+    "BO-MBR-010-SELECT-ACTION-REASON",
+    "BO-MBR-010-SUBMIT-PII",
+    "BO-MBR-010-VERIFY-ACTION"
+  ],
+  "BO-MBR-020": [
+    "BO-MBR-020-CLOSE-ACTION",
+    "BO-MBR-020-CONFIRM-ACTION-TARGET",
+    "BO-MBR-020-EXECUTE-ACTION",
+    "BO-MBR-020-INPUT-ACTION-PASSWORD",
+    "BO-MBR-020-INPUT-ACTION-REASON",
+    "BO-MBR-020-INPUT-PII-REASON",
+    "BO-MBR-020-NEXT-ACTION",
+    "BO-MBR-020-OPEN-MEMBER-PROCESS",
+    "BO-MBR-020-OPEN-PII",
+    "BO-MBR-020-OPEN-REVOKE-SESSIONS",
+    "BO-MBR-020-OPEN-SUSPEND",
+    "BO-MBR-020-OPEN-UNSUSPEND",
+    "BO-MBR-020-SELECT-ACTION-REASON",
+    "BO-MBR-020-SUBMIT-PII",
+    "BO-MBR-020-VERIFY-ACTION"
+  ],
+  "BO-MBR-030": [
+    "BO-MBR-030-INPUT-PII-REASON",
+    "BO-MBR-030-INPUT-REJECT-REASON",
+    "BO-MBR-030-OPEN-APPROVE",
+    "BO-MBR-030-OPEN-DELEGATION-INFO",
+    "BO-MBR-030-OPEN-DOCUMENT-INFO",
+    "BO-MBR-030-OPEN-FULL-DETAIL",
+    "BO-MBR-030-OPEN-HISTORY-INFO",
+    "BO-MBR-030-OPEN-PII",
+    "BO-MBR-030-OPEN-REJECT",
+    "BO-MBR-030-OPEN-REJECTION-TEXT",
+    "BO-MBR-030-OPEN-TERMS-INFO",
+    "BO-MBR-030-OPEN-VERIFICATION-INFO",
+    "BO-MBR-030-REFRESH-DECISION",
+    "BO-MBR-030-SUBMIT-APPROVE",
+    "BO-MBR-030-SUBMIT-PII",
+    "BO-MBR-030-SUBMIT-REJECT"
+  ],
+  "BO-MBR-040": [
+    "BO-MBR-040-BACK-TO-LIST",
+    "BO-MBR-040-INPUT-PII-REASON",
+    "BO-MBR-040-INPUT-REJECT-REASON",
+    "BO-MBR-040-OPEN-APPROVE",
+    "BO-MBR-040-OPEN-PII",
+    "BO-MBR-040-OPEN-REJECT",
+    "BO-MBR-040-REFRESH-DECISION",
+    "BO-MBR-040-SUBMIT-APPROVE",
+    "BO-MBR-040-SUBMIT-PII",
+    "BO-MBR-040-SUBMIT-REJECT"
+  ],
+  "BO-MBR-050": [
+    "BO-MBR-050-INPUT-PII-REASON",
+    "BO-MBR-050-INPUT-REJECT-REASON",
+    "BO-MBR-050-OPEN-APPROVE",
+    "BO-MBR-050-OPEN-DELEGATION-INFO",
+    "BO-MBR-050-OPEN-DOCUMENT-INFO",
+    "BO-MBR-050-OPEN-FULL-DETAIL",
+    "BO-MBR-050-OPEN-HISTORY-INFO",
+    "BO-MBR-050-OPEN-PII",
+    "BO-MBR-050-OPEN-REJECT",
+    "BO-MBR-050-OPEN-REJECTION-TEXT",
+    "BO-MBR-050-OPEN-TERMS-INFO",
+    "BO-MBR-050-OPEN-VERIFICATION-INFO",
+    "BO-MBR-050-REFRESH-DECISION",
+    "BO-MBR-050-SUBMIT-APPROVE",
+    "BO-MBR-050-SUBMIT-PII",
+    "BO-MBR-050-SUBMIT-REJECT"
+  ],
+  "BO-MBR-060": [
+    "BO-MBR-060-CLOSE-INVITE-REVIEW",
+    "BO-MBR-060-CONFIRM-INVITE-REVIEW",
+    "BO-MBR-060-EXECUTE-LINK",
+    "BO-MBR-060-FILTER-REGION",
+    "BO-MBR-060-FILTER-STATUS",
+    "BO-MBR-060-INPUT-ACTIVITY-REASON",
+    "BO-MBR-060-INPUT-ACTIVITY-SUMMARY",
+    "BO-MBR-060-INPUT-LINK-REASON",
+    "BO-MBR-060-INPUT-OPTOUT-REASON",
+    "BO-MBR-060-INPUT-STATUS-REASON",
+    "BO-MBR-060-NEXT-PAGE",
+    "BO-MBR-060-OPEN-ACTIVITIES-INFO",
+    "BO-MBR-060-OPEN-ACTIVITY",
+    "BO-MBR-060-OPEN-INVITE",
+    "BO-MBR-060-OPEN-INVITE-HISTORY",
+    "BO-MBR-060-OPEN-NOMINATORS-INFO",
+    "BO-MBR-060-OPEN-STATUS",
+    "BO-MBR-060-PREVIEW-INVITE",
+    "BO-MBR-060-PREVIEW-LINK",
+    "BO-MBR-060-PREVIOUS-PAGE",
+    "BO-MBR-060-REFRESH-INVITE-HISTORY",
+    "BO-MBR-060-RESET-FILTERS",
+    "BO-MBR-060-REVIEW-INVITE-CHECK",
+    "BO-MBR-060-REVIEW-INVITE-RETRY",
+    "BO-MBR-060-REVIEW-INVITE-SEND",
+    "BO-MBR-060-REVIEW-OPTOUT",
+    "BO-MBR-060-REVIEW-OPTOUT-CLEAR",
+    "BO-MBR-060-SELECT-ACTIVITY-TYPE",
+    "BO-MBR-060-SELECT-INVITE-TARGET",
+    "BO-MBR-060-SELECT-INVITE-TEMPLATE",
+    "BO-MBR-060-SELECT-TARGET-STATUS",
+    "BO-MBR-060-SUBMIT-ACTIVITY",
+    "BO-MBR-060-SUBMIT-STATUS"
+  ],
+  "BO-MBR-070": [
+    "BO-MBR-070-APPROVE-PRIVACY",
+    "BO-MBR-070-CONFIRM-PRIVACY-TARGET",
+    "BO-MBR-070-EXECUTE-PRIVACY",
+    "BO-MBR-070-INPUT-DECISION-REASON",
+    "BO-MBR-070-INPUT-PRIVACY-PASSWORD",
+    "BO-MBR-070-INPUT-PRIVACY-REASON",
+    "BO-MBR-070-OPEN-APPROVE",
+    "BO-MBR-070-OPEN-MEMBER",
+    "BO-MBR-070-OPEN-PRIVACY-PROCESS",
+    "BO-MBR-070-OPEN-REJECT",
+    "BO-MBR-070-PREVIEW-PRIVACY",
+    "BO-MBR-070-READ-PRIVACY-RESULT",
+    "BO-MBR-070-SELECT-PRIVACY-AREA",
+    "BO-MBR-070-SELECT-REVIEW-AREA",
+    "BO-MBR-070-SUBMIT-DECISION"
+  ],
+  "BO-MBR-080": [
+    "BO-MBR-080-ADD-CHILD-CATEGORY",
+    "BO-MBR-080-ADD-PARENT-CATEGORY",
+    "BO-MBR-080-CLOSE-EDITOR",
+    "BO-MBR-080-CONFIRM-PLACE",
+    "BO-MBR-080-EDIT-CATEGORY",
+    "BO-MBR-080-INPUT-BUSINESS-NUMBER",
+    "BO-MBR-080-INPUT-CATEGORY-CODE",
+    "BO-MBR-080-INPUT-CATEGORY-NAME",
+    "BO-MBR-080-INPUT-CATEGORY-ORDER",
+    "BO-MBR-080-INPUT-NOTE",
+    "BO-MBR-080-INPUT-OPENED-DATE",
+    "BO-MBR-080-INPUT-OWNER-NAME",
+    "BO-MBR-080-INPUT-PLACE-NAME",
+    "BO-MBR-080-INPUT-TAX-STATUS",
+    "BO-MBR-080-INPUT-TAXATION-TYPE",
+    "BO-MBR-080-OPEN-CREATE",
+    "BO-MBR-080-OPEN-EDIT",
+    "BO-MBR-080-OPEN-MAP",
+    "BO-MBR-080-OPEN-PLACE",
+    "BO-MBR-080-OPEN-PLACE-INFO",
+    "BO-MBR-080-RESET-FILTERS",
+    "BO-MBR-080-SAVE-CATEGORY",
+    "BO-MBR-080-SAVE-PLACE",
+    "BO-MBR-080-SEARCH-ADDRESS",
+    "BO-MBR-080-SEARCH-PLACES",
+    "BO-MBR-080-SELECT-ALL-TAB",
+    "BO-MBR-080-SELECT-BULK-CATEGORY",
+    "BO-MBR-080-SELECT-BULK-PLACE",
+    "BO-MBR-080-SELECT-CATEGORIES-TAB",
+    "BO-MBR-080-SELECT-PARENT-CATEGORY",
+    "BO-MBR-080-SELECT-PENDING-TAB",
+    "BO-MBR-080-SUBMIT-BULK-CATEGORY",
+    "BO-MBR-080-TOGGLE-CATEGORY-ACTIVE"
+  ],
   "BO-POL-010": [],
   "BO-POL-020": [],
   "BO-POL-030": [],

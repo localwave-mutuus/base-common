@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 3,
+  "status": "CONFIRMED",
+  "roles": [
+    {
+      "screen": "BO-DSH-010",
+      "sourceScreen": "D-01",
+      "rawRole": "D-01.toggle-scope-help",
+      "actionToken": "toggle-scope-help",
+      "role": "TOGGLE-SCOPE-HELP",
+      "locator": "D: `details.d01-help > summary`; 대상 섹션 testId 별도",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "“무엇을 센 숫자인가요?” 펼침/닫힘",
+        "trigger": "“무엇을 센 숫자인가요?” 펼침/닫힘",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.open-create",
+      "actionToken": "open-create",
+      "role": "OPEN-CREATE",
+      "locator": "C: [data-testid=\"open-create\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+        "trigger": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.change-title",
+      "actionToken": "change-title",
+      "role": "CHANGE-TITLE",
+      "locator": "C: [data-testid=\"editor-title\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "제목/질문 입력 (최대 200자)",
+        "trigger": "제목/질문 입력 (최대 200자)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "제목/질문 입력 (최대 200자)",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.select-category",
+      "actionToken": "select-category",
+      "role": "SELECT-CATEGORY",
+      "locator": "C: select[data-testid=\"editor-category\"]; 대상 options.code",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "분류 선택, 빈 값은 분류 없음",
+        "trigger": "분류 선택, 빈 값은 분류 없음",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.change-body",
+      "actionToken": "change-body",
+      "role": "CHANGE-BODY",
+      "locator": "C: [data-testid=\"editor-body\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본문/답변 입력",
+        "trigger": "본문/답변 입력",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.save-draft",
+      "actionToken": "save-draft",
+      "role": "SAVE-DRAFT",
+      "locator": "C: data-testid=\"editor-save\"·editor-save-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+        "trigger": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.publish-content",
+      "actionToken": "publish-content",
+      "role": "PUBLISH-CONTENT",
+      "locator": "C: data-testid=\"editor-publish\"·editor-publish-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "발행 → save(publish)",
+        "trigger": "발행 → save(publish)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.archive-content",
+      "actionToken": "archive-content",
+      "role": "ARCHIVE-CONTENT",
+      "locator": "C: data-testid=\"editor-archive\"·editor-archive-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "보관으로 이동 → save(archive)",
+        "trigger": "보관으로 이동 → save(archive)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 status가 PUBLISHED가 아니면 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.select-pinned",
+      "actionToken": "select-pinned",
+      "role": "SELECT-PINNED",
+      "locator": "C: !faq 분기 Space.Compact의 Button onClick·aria-pressed, 텍스트 일반/고정",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "일반/고정 선택 → pinned=false/true",
+        "trigger": "일반/고정 선택 → pinned=false/true",
+        "kind": "원문 종류 분류 없음",
+        "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+        "notes": "확정; 전용 testid 없음, 새 selector 없음; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.select-visibility",
+      "actionToken": "select-visibility",
+      "role": "SELECT-VISIBILITY",
+      "locator": "C: !faq 분기 Space.Compact의 Button onClick·aria-pressed, 텍스트 노출/숨김",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "노출/숨김 선택 → visible=true/false",
+        "trigger": "노출/숨김 선택 → visible=true/false",
+        "kind": "원문 종류 분류 없음",
+        "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+        "notes": "확정; 전용 testid 없음, 새 selector 없음; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-010",
+      "sourceScreen": "S-01",
+      "rawRole": "S-01.change-publish-at",
+      "actionToken": "change-publish-at",
+      "role": "CHANGE-PUBLISH-AT",
+      "locator": "C: input type=datetime-local, data-testid=\"editor-publish-at\"",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "예약 발행 시각 입력",
+        "trigger": "예약 발행 시각 입력",
+        "kind": "원문 종류 분류 없음",
+        "gate": "공지 전용 pinned/visible·예약 입력은 FAQ에서 렌더하지 않는다.",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.open-create",
+      "actionToken": "open-create",
+      "role": "OPEN-CREATE",
+      "locator": "C: [data-testid=\"open-create\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+        "trigger": "새 공지/FAQ 작성 → EMPTY_EDITOR",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.change-title",
+      "actionToken": "change-title",
+      "role": "CHANGE-TITLE",
+      "locator": "C: [data-testid=\"editor-title\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "제목/질문 입력 (최대 200자)",
+        "trigger": "제목/질문 입력 (최대 200자)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "제목/질문 입력 (최대 200자)",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.select-category",
+      "actionToken": "select-category",
+      "role": "SELECT-CATEGORY",
+      "locator": "C: select[data-testid=\"editor-category\"]; 대상 options.code",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "분류 선택, 빈 값은 분류 없음",
+        "trigger": "분류 선택, 빈 값은 분류 없음",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.change-body",
+      "actionToken": "change-body",
+      "role": "CHANGE-BODY",
+      "locator": "C: [data-testid=\"editor-body\"]",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본문/답변 입력",
+        "trigger": "본문/답변 입력",
+        "kind": "원문 종류 분류 없음",
+        "gate": "원문에 별도 gate 명시 없음; 검토표의 상태·API·권한 한계 적용",
+        "notes": "확정; 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.save-draft",
+      "actionToken": "save-draft",
+      "role": "SAVE-DRAFT",
+      "locator": "C: data-testid=\"editor-save\"·editor-save-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+        "trigger": "신규 임시저장 / 기존 수정 저장 → save(draft)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.publish-content",
+      "actionToken": "publish-content",
+      "role": "PUBLISH-CONTENT",
+      "locator": "C: data-testid=\"editor-publish\"·editor-publish-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "발행 → save(publish)",
+        "trigger": "발행 → save(publish)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 제목/본문 trim 결과가 비면 저장·발행 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    },
+    {
+      "screen": "BO-CNT-020",
+      "sourceScreen": "S-10",
+      "rawRole": "S-10.archive-content",
+      "actionToken": "archive-content",
+      "role": "ARCHIVE-CONTENT",
+      "locator": "C: data-testid=\"editor-archive\"·editor-archive-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "f7c3c019f10ea2de27b7ce1138b267fe8f1b8eb7",
+        "path": "teams/A08.화면개선/previews/specs/dash-support/05-roles.md",
+        "contentSha256": "133b20b4a40b25d0fba7890ff6136289ec0d7a44be0d508ab465ee05df57c471",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "보관으로 이동 → save(archive)",
+        "trigger": "보관으로 이동 → save(archive)",
+        "kind": "원문 종류 분류 없음",
+        "gate": "busy 또는 status가 PUBLISHED가 아니면 비활성",
+        "notes": "확정 (ActionButton 공급 testid 계약; 내부 구조 미지정); 같은 화면의 같은 동작 반복은 동일 역할로 묶고 대상 id/값은 별도로 기록한다(TAX 방식). 상태 탭은 같은 상태 선택 handler이므로 한 역할이다. 페이지 방향도 같은 페이지 변경 역할로 묶는다. 고정/노출의 양쪽 값은 각각 한 설정 역할이다. 모달 여러 닫기 경로도 한 역할이다. 서로 다른 화면은 별도 역할이다. 읽기 요소·자동 조회·포커스 복원은 동작 분모에서 제외한다.",
+        "productRevision": "aa2a4e1ce92a6f0f277a04f25bbfc83ab8e0fde0"
+      }
+    }
+  ]
+}

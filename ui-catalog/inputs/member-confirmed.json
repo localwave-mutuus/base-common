@@ -1,0 +1,3502 @@
+{
+  "schemaVersion": 3,
+  "status": "CONFIRMED",
+  "roles": [
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.open-pii",
+      "actionToken": "open-pii",
+      "role": "OPEN-PII",
+      "locator": "screens/m02/index.tsx:238,419 / pii-open, panel-pii-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 사유 입력 단계 열기",
+        "trigger": "연락처 사유 입력 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.input-pii-reason",
+      "actionToken": "input-pii-reason",
+      "role": "INPUT-PII-REASON",
+      "locator": "screens/m02/index.tsx:434 / pii-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 사유 입력",
+        "trigger": "연락처 열람 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.submit-pii",
+      "actionToken": "submit-pii",
+      "role": "SUBMIT-PII",
+      "locator": "screens/m02/index.tsx:205 / pii-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유를 포함한 연락처 열람 요청",
+        "trigger": "사유를 포함한 연락처 열람 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.open-unsuspend",
+      "actionToken": "open-unsuspend",
+      "role": "OPEN-UNSUSPEND",
+      "locator": "screens/m02/index.tsx:410 / action-이용 정지 해제",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용 정지 해제 검토 단계 열기",
+        "trigger": "이용 정지 해제 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.open-revoke-sessions",
+      "actionToken": "open-revoke-sessions",
+      "role": "OPEN-REVOKE-SESSIONS",
+      "locator": "screens/m02/index.tsx:410 / action-모든 로그인 종료",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "세션 회수 검토 단계 열기",
+        "trigger": "세션 회수 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.open-suspend",
+      "actionToken": "open-suspend",
+      "role": "OPEN-SUSPEND",
+      "locator": "screens/m02/index.tsx:410 / action-이용 정지",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용 정지 검토 단계 열기",
+        "trigger": "이용 정지 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.close-action",
+      "actionToken": "close-action",
+      "role": "CLOSE-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:269,274 / action-close",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "취소 또는 결과 확인 후 조치 단계 닫기",
+        "trigger": "취소 또는 결과 확인 후 조치 단계 닫기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.next-action",
+      "actionToken": "next-action",
+      "role": "NEXT-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:278 / action-next",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유 작성 뒤 본인확인 단계로 이동",
+        "trigger": "사유 작성 뒤 본인확인 단계로 이동",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.verify-action",
+      "actionToken": "verify-action",
+      "role": "VERIFY-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:283 / action-verify",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본인확인 후 영향 미리보기 요청",
+        "trigger": "본인확인 후 영향 미리보기 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.execute-action",
+      "actionToken": "execute-action",
+      "role": "EXECUTE-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:288 / action-execute",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 선택 조치 실행 요청",
+        "trigger": "현재 선택 조치 실행 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.select-action-reason",
+      "actionToken": "select-action-reason",
+      "role": "SELECT-ACTION-REASON",
+      "locator": "screens/m02/MemberActionModal.tsx:316 / action-reason-code",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조치 사유 코드 선택",
+        "trigger": "조치 사유 코드 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.input-action-reason",
+      "actionToken": "input-action-reason",
+      "role": "INPUT-ACTION-REASON",
+      "locator": "screens/m02/MemberActionModal.tsx:327 / action-reason-text",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조치 사유 입력",
+        "trigger": "조치 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.input-action-password",
+      "actionToken": "input-action-password",
+      "role": "INPUT-ACTION-PASSWORD",
+      "locator": "screens/m02/MemberActionModal.tsx:338 / action-password",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "관리자 본인확인 입력",
+        "trigger": "관리자 본인확인 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-010",
+      "sourceScreen": "M-01",
+      "rawRole": "M-01.confirm-action-target",
+      "actionToken": "confirm-action-target",
+      "role": "CONFIRM-ACTION-TARGET",
+      "locator": "screens/m02/MemberActionModal.tsx:373 / action-confirmation-input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "미리보기 확인 문구 입력",
+        "trigger": "미리보기 확인 문구 입력",
+        "kind": "위험조치 확인",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.open-pii",
+      "actionToken": "open-pii",
+      "role": "OPEN-PII",
+      "locator": "screens/m02/index.tsx:238,419 / pii-open, panel-pii-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 사유 입력 단계 열기",
+        "trigger": "연락처 사유 입력 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.input-pii-reason",
+      "actionToken": "input-pii-reason",
+      "role": "INPUT-PII-REASON",
+      "locator": "screens/m02/index.tsx:434 / pii-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 사유 입력",
+        "trigger": "연락처 열람 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.submit-pii",
+      "actionToken": "submit-pii",
+      "role": "SUBMIT-PII",
+      "locator": "screens/m02/index.tsx:205 / pii-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유를 포함한 연락처 열람 요청",
+        "trigger": "사유를 포함한 연락처 열람 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.open-unsuspend",
+      "actionToken": "open-unsuspend",
+      "role": "OPEN-UNSUSPEND",
+      "locator": "screens/m02/index.tsx:410 / action-이용 정지 해제",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용 정지 해제 검토 단계 열기",
+        "trigger": "이용 정지 해제 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.open-revoke-sessions",
+      "actionToken": "open-revoke-sessions",
+      "role": "OPEN-REVOKE-SESSIONS",
+      "locator": "screens/m02/index.tsx:410 / action-모든 로그인 종료",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "세션 회수 검토 단계 열기",
+        "trigger": "세션 회수 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.open-suspend",
+      "actionToken": "open-suspend",
+      "role": "OPEN-SUSPEND",
+      "locator": "screens/m02/index.tsx:410 / action-이용 정지",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용 정지 검토 단계 열기",
+        "trigger": "이용 정지 검토 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace 공유; M-01 embedded / M-02 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.close-action",
+      "actionToken": "close-action",
+      "role": "CLOSE-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:269,274 / action-close",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "취소 또는 결과 확인 후 조치 단계 닫기",
+        "trigger": "취소 또는 결과 확인 후 조치 단계 닫기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.next-action",
+      "actionToken": "next-action",
+      "role": "NEXT-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:278 / action-next",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유 작성 뒤 본인확인 단계로 이동",
+        "trigger": "사유 작성 뒤 본인확인 단계로 이동",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.verify-action",
+      "actionToken": "verify-action",
+      "role": "VERIFY-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:283 / action-verify",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본인확인 후 영향 미리보기 요청",
+        "trigger": "본인확인 후 영향 미리보기 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.execute-action",
+      "actionToken": "execute-action",
+      "role": "EXECUTE-ACTION",
+      "locator": "screens/m02/MemberActionModal.tsx:288 / action-execute",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 선택 조치 실행 요청",
+        "trigger": "현재 선택 조치 실행 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.select-action-reason",
+      "actionToken": "select-action-reason",
+      "role": "SELECT-ACTION-REASON",
+      "locator": "screens/m02/MemberActionModal.tsx:316 / action-reason-code",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조치 사유 코드 선택",
+        "trigger": "조치 사유 코드 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.input-action-reason",
+      "actionToken": "input-action-reason",
+      "role": "INPUT-ACTION-REASON",
+      "locator": "screens/m02/MemberActionModal.tsx:327 / action-reason-text",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조치 사유 입력",
+        "trigger": "조치 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.input-action-password",
+      "actionToken": "input-action-password",
+      "role": "INPUT-ACTION-PASSWORD",
+      "locator": "screens/m02/MemberActionModal.tsx:338 / action-password",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "관리자 본인확인 입력",
+        "trigger": "관리자 본인확인 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.confirm-action-target",
+      "actionToken": "confirm-action-target",
+      "role": "CONFIRM-ACTION-TARGET",
+      "locator": "screens/m02/MemberActionModal.tsx:373 / action-confirmation-input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "미리보기 확인 문구 입력",
+        "trigger": "미리보기 확인 문구 입력",
+        "kind": "위험조치 확인",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "MemberWorkspace → MemberActionModal 공유; 선택 조치별 같은 컨트롤 재사용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-020",
+      "sourceScreen": "M-02",
+      "rawRole": "M-02.open-member-process",
+      "actionToken": "open-member-process",
+      "role": "OPEN-MEMBER-PROCESS",
+      "locator": "screens/m02/index.tsx:515,520 / member-process-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조치 검토 링크·회원 처리 버튼으로 처리 패널 열기",
+        "trigger": "조치 검토 링크·회원 처리 버튼으로 처리 패널 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-full-detail",
+      "actionToken": "open-full-detail",
+      "role": "OPEN-FULL-DETAIL",
+      "locator": "screens/m11/panel.tsx:19 / application-full-detail",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "M-11 전체 상세 열기",
+        "trigger": "M-11 전체 상세 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationPanel 공유; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-full-detail",
+      "actionToken": "open-full-detail",
+      "role": "OPEN-FULL-DETAIL",
+      "locator": "screens/m11/panel.tsx:19 / application-full-detail",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "M-11 전체 상세 열기",
+        "trigger": "M-11 전체 상세 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationPanel 공유; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-pii",
+      "actionToken": "open-pii",
+      "role": "OPEN-PII",
+      "locator": "screens/m11/index.tsx:160 / pii-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 단계 열기",
+        "trigger": "연락처 열람 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-approve",
+      "actionToken": "open-approve",
+      "role": "OPEN-APPROVE",
+      "locator": "screens/m11/index.tsx:166 / approve-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 요청 확인 단계 열기",
+        "trigger": "가입 승인 요청 확인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-reject",
+      "actionToken": "open-reject",
+      "role": "OPEN-REJECT",
+      "locator": "screens/m11/index.tsx:166 / reject-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 요청 단계 열기",
+        "trigger": "가입 반려 요청 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.refresh-decision",
+      "actionToken": "refresh-decision",
+      "role": "REFRESH-DECISION",
+      "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.input-pii-reason",
+      "actionToken": "input-pii-reason",
+      "role": "INPUT-PII-REASON",
+      "locator": "screens/m11/index.tsx:175 / pii-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "개인정보 열람 사유 입력",
+        "trigger": "개인정보 열람 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.submit-pii",
+      "actionToken": "submit-pii",
+      "role": "SUBMIT-PII",
+      "locator": "screens/m11/index.tsx:175 / pii-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 요청",
+        "trigger": "연락처 열람 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.submit-approve",
+      "actionToken": "submit-approve",
+      "role": "SUBMIT-APPROVE",
+      "locator": "screens/m11/index.tsx:176 / approve-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 결정 접수 요청",
+        "trigger": "가입 승인 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.input-reject-reason",
+      "actionToken": "input-reject-reason",
+      "role": "INPUT-REJECT-REASON",
+      "locator": "screens/m11/index.tsx:177 / reject-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "반려 사유 입력",
+        "trigger": "반려 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.submit-reject",
+      "actionToken": "submit-reject",
+      "role": "SUBMIT-REJECT",
+      "locator": "screens/m11/index.tsx:177 / reject-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 결정 접수 요청",
+        "trigger": "가입 반려 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-rejection-text",
+      "actionToken": "open-rejection-text",
+      "role": "OPEN-REJECTION-TEXT",
+      "locator": "screens/m11/index.tsx:159 / rejection-full-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "반려 사유 전체 보기",
+        "trigger": "반려 사유 전체 보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-verification-info",
+      "actionToken": "open-verification-info",
+      "role": "OPEN-VERIFICATION-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-verification",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인 기록 정보 레이어 열기",
+        "trigger": "확인 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-delegation-info",
+      "actionToken": "open-delegation-info",
+      "role": "OPEN-DELEGATION-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-delegation",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "위임장 기록 정보 레이어 열기",
+        "trigger": "위임장 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-terms-info",
+      "actionToken": "open-terms-info",
+      "role": "OPEN-TERMS-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-terms",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용약관 기록 정보 레이어 열기",
+        "trigger": "이용약관 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-document-info",
+      "actionToken": "open-document-info",
+      "role": "OPEN-DOCUMENT-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-document",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "서류 정보 정보 레이어 열기",
+        "trigger": "서류 정보 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-030",
+      "sourceScreen": "M-10",
+      "rawRole": "M-10.open-history-info",
+      "actionToken": "open-history-info",
+      "role": "OPEN-HISTORY-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-history",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전 결정 정보 레이어 열기",
+        "trigger": "이전 결정 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-pii",
+      "actionToken": "open-pii",
+      "role": "OPEN-PII",
+      "locator": "screens/m11/index.tsx:160 / pii-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 단계 열기",
+        "trigger": "연락처 열람 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-approve",
+      "actionToken": "open-approve",
+      "role": "OPEN-APPROVE",
+      "locator": "screens/m11/index.tsx:166 / approve-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 요청 확인 단계 열기",
+        "trigger": "가입 승인 요청 확인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-reject",
+      "actionToken": "open-reject",
+      "role": "OPEN-REJECT",
+      "locator": "screens/m11/index.tsx:166 / reject-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 요청 단계 열기",
+        "trigger": "가입 반려 요청 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.refresh-decision",
+      "actionToken": "refresh-decision",
+      "role": "REFRESH-DECISION",
+      "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.input-pii-reason",
+      "actionToken": "input-pii-reason",
+      "role": "INPUT-PII-REASON",
+      "locator": "screens/m11/index.tsx:175 / pii-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "개인정보 열람 사유 입력",
+        "trigger": "개인정보 열람 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.submit-pii",
+      "actionToken": "submit-pii",
+      "role": "SUBMIT-PII",
+      "locator": "screens/m11/index.tsx:175 / pii-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 요청",
+        "trigger": "연락처 열람 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.submit-approve",
+      "actionToken": "submit-approve",
+      "role": "SUBMIT-APPROVE",
+      "locator": "screens/m11/index.tsx:176 / approve-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 결정 접수 요청",
+        "trigger": "가입 승인 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.input-reject-reason",
+      "actionToken": "input-reject-reason",
+      "role": "INPUT-REJECT-REASON",
+      "locator": "screens/m11/index.tsx:177 / reject-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "반려 사유 입력",
+        "trigger": "반려 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.submit-reject",
+      "actionToken": "submit-reject",
+      "role": "SUBMIT-REJECT",
+      "locator": "screens/m11/index.tsx:177 / reject-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 결정 접수 요청",
+        "trigger": "가입 반려 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-rejection-text",
+      "actionToken": "open-rejection-text",
+      "role": "OPEN-REJECTION-TEXT",
+      "locator": "screens/m11/index.tsx:159 / rejection-full-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "반려 사유 전체 보기",
+        "trigger": "반려 사유 전체 보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-verification-info",
+      "actionToken": "open-verification-info",
+      "role": "OPEN-VERIFICATION-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-verification",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인 기록 정보 레이어 열기",
+        "trigger": "확인 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-delegation-info",
+      "actionToken": "open-delegation-info",
+      "role": "OPEN-DELEGATION-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-delegation",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "위임장 기록 정보 레이어 열기",
+        "trigger": "위임장 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-terms-info",
+      "actionToken": "open-terms-info",
+      "role": "OPEN-TERMS-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-terms",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이용약관 기록 정보 레이어 열기",
+        "trigger": "이용약관 기록 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-document-info",
+      "actionToken": "open-document-info",
+      "role": "OPEN-DOCUMENT-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-document",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "서류 정보 정보 레이어 열기",
+        "trigger": "서류 정보 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-050",
+      "sourceScreen": "M-20",
+      "rawRole": "M-20.open-history-info",
+      "actionToken": "open-history-info",
+      "role": "OPEN-HISTORY-INFO",
+      "locator": "screens/m11/index.tsx:178 / application-info-history",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전 결정 정보 레이어 열기",
+        "trigger": "이전 결정 정보 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview embedded; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.open-pii",
+      "actionToken": "open-pii",
+      "role": "OPEN-PII",
+      "locator": "screens/m11/index.tsx:160 / pii-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 단계 열기",
+        "trigger": "연락처 열람 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.open-approve",
+      "actionToken": "open-approve",
+      "role": "OPEN-APPROVE",
+      "locator": "screens/m11/index.tsx:166 / approve-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 요청 확인 단계 열기",
+        "trigger": "가입 승인 요청 확인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.open-reject",
+      "actionToken": "open-reject",
+      "role": "OPEN-REJECT",
+      "locator": "screens/m11/index.tsx:166 / reject-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 요청 단계 열기",
+        "trigger": "가입 반려 요청 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.refresh-decision",
+      "actionToken": "refresh-decision",
+      "role": "REFRESH-DECISION",
+      "locator": "screens/m11/index.tsx:167,172 / result-refresh",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "trigger": "결정 기록 재조회; 조회 중단 시 같은 역할 비활성",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.input-pii-reason",
+      "actionToken": "input-pii-reason",
+      "role": "INPUT-PII-REASON",
+      "locator": "screens/m11/index.tsx:175 / pii-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "개인정보 열람 사유 입력",
+        "trigger": "개인정보 열람 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.submit-pii",
+      "actionToken": "submit-pii",
+      "role": "SUBMIT-PII",
+      "locator": "screens/m11/index.tsx:175 / pii-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연락처 열람 요청",
+        "trigger": "연락처 열람 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.submit-approve",
+      "actionToken": "submit-approve",
+      "role": "SUBMIT-APPROVE",
+      "locator": "screens/m11/index.tsx:176 / approve-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 승인 결정 접수 요청",
+        "trigger": "가입 승인 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.input-reject-reason",
+      "actionToken": "input-reject-reason",
+      "role": "INPUT-REJECT-REASON",
+      "locator": "screens/m11/index.tsx:177 / reject-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "반려 사유 입력",
+        "trigger": "반려 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.submit-reject",
+      "actionToken": "submit-reject",
+      "role": "SUBMIT-REJECT",
+      "locator": "screens/m11/index.tsx:177 / reject-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "가입 반려 결정 접수 요청",
+        "trigger": "가입 반려 결정 접수 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "ApplicationReview 공유; M-10/M-20 embedded, M-11 전체 상세; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-040",
+      "sourceScreen": "M-11",
+      "rawRole": "M-11.back-to-list",
+      "actionToken": "back-to-list",
+      "role": "BACK-TO-LIST",
+      "locator": "screens/m11/index.tsx:145,168 / back-to-m10",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "원래 목록으로; 중복 버튼 동일 역할",
+        "trigger": "원래 목록으로; 중복 버튼 동일 역할",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.open-reject",
+      "actionToken": "open-reject",
+      "role": "OPEN-REJECT",
+      "locator": "screens/m30/index.tsx:98 / m30-reject-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "탈퇴 신청 반려 단계 열기",
+        "trigger": "탈퇴 신청 반려 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.open-approve",
+      "actionToken": "open-approve",
+      "role": "OPEN-APPROVE",
+      "locator": "screens/m30/index.tsx:98 / m30-approve-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "탈퇴 승인 단계 열기",
+        "trigger": "탈퇴 승인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.submit-decision",
+      "actionToken": "submit-decision",
+      "role": "SUBMIT-DECISION",
+      "locator": "screens/m30/index.tsx:98 / m30-decision-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "선택된 승인·반려 요청 전송",
+        "trigger": "선택된 승인·반려 요청 전송",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.input-decision-reason",
+      "actionToken": "input-decision-reason",
+      "role": "INPUT-DECISION-REASON",
+      "locator": "screens/m30/index.tsx:98 / m30-decision-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "심사 사유 입력",
+        "trigger": "심사 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.select-review-area",
+      "actionToken": "select-review-area",
+      "role": "SELECT-REVIEW-AREA",
+      "locator": "screens/m30/index.tsx:101 / m30-area-review",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "탈퇴 신청 심사 영역 선택",
+        "trigger": "탈퇴 신청 심사 영역 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.select-privacy-area",
+      "actionToken": "select-privacy-area",
+      "role": "SELECT-PRIVACY-AREA",
+      "locator": "screens/m30/index.tsx:101 / m30-area-privacy",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "탈퇴 개인정보 정리 영역 선택",
+        "trigger": "탈퇴 개인정보 정리 영역 선택",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.open-privacy-process",
+      "actionToken": "open-privacy-process",
+      "role": "OPEN-PRIVACY-PROCESS",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:180 / m30-privacy-select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "정리 대상 선택 패널 열기",
+        "trigger": "정리 대상 선택 패널 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.input-privacy-reason",
+      "actionToken": "input-privacy-reason",
+      "role": "INPUT-PRIVACY-REASON",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:142 / m30-privacy-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "정리 사유 입력",
+        "trigger": "정리 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.input-privacy-password",
+      "actionToken": "input-privacy-password",
+      "role": "INPUT-PRIVACY-PASSWORD",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:143 / m30-privacy-password",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "관리자 본인확인 입력",
+        "trigger": "관리자 본인확인 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.preview-privacy",
+      "actionToken": "preview-privacy",
+      "role": "PREVIEW-PRIVACY",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:144 / m30-privacy-preview",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본인확인 후 대상·영향 조회 및 요청 생성",
+        "trigger": "본인확인 후 대상·영향 조회 및 요청 생성",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.approve-privacy",
+      "actionToken": "approve-privacy",
+      "role": "APPROVE-PRIVACY",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:159 / m30-privacy-approve",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다른 관리자 본인확인 후 승인 요청",
+        "trigger": "다른 관리자 본인확인 후 승인 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.confirm-privacy-target",
+      "actionToken": "confirm-privacy-target",
+      "role": "CONFIRM-PRIVACY-TARGET",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:160 / m30-privacy-confirm-target",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 정리 대상·영향 확인 체크",
+        "trigger": "현재 정리 대상·영향 확인 체크",
+        "kind": "위험조치 확인",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.execute-privacy",
+      "actionToken": "execute-privacy",
+      "role": "EXECUTE-PRIVACY",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:161 / m30-privacy-execute",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "개인정보 단건 정리 실행 요청",
+        "trigger": "개인정보 단건 정리 실행 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.read-privacy-result",
+      "actionToken": "read-privacy-result",
+      "role": "READ-PRIVACY-RESULT",
+      "locator": "screens/m30/WithdrawnPrivacyPanel.tsx:162 / m30-privacy-result",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "동일 요청 처리 기록 조회",
+        "trigger": "동일 요청 처리 기록 조회",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.filter-region",
+      "actionToken": "filter-region",
+      "role": "FILTER-REGION",
+      "locator": "screens/m40/index.tsx:526 / m40-filter-region",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지역 검색 입력·지우기",
+        "trigger": "지역 검색 입력·지우기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.filter-status",
+      "actionToken": "filter-status",
+      "role": "FILTER-STATUS",
+      "locator": "screens/m40/index.tsx:529 / m40-filter-status",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업체 대표 상태 선택",
+        "trigger": "업체 대표 상태 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.reset-filters",
+      "actionToken": "reset-filters",
+      "role": "RESET-FILTERS",
+      "locator": "screens/m40/index.tsx:538 / filter-reset",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지역·상태 조건 초기화",
+        "trigger": "지역·상태 조건 초기화",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.previous-page",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "screens/m40/index.tsx:565 / m40-page-prev",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전 목록 페이지",
+        "trigger": "이전 목록 페이지",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.next-page",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "screens/m40/index.tsx:568 / m40-page-next",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음 목록 페이지",
+        "trigger": "다음 목록 페이지",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-activity",
+      "actionToken": "open-activity",
+      "role": "OPEN-ACTIVITY",
+      "locator": "screens/m40/index.tsx:592 / m40-activity-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활동 기록 작성 열기",
+        "trigger": "활동 기록 작성 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-status",
+      "actionToken": "open-status",
+      "role": "OPEN-STATUS",
+      "locator": "screens/m40/index.tsx:595 / m40-status-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상태 변경 작성 열기",
+        "trigger": "상태 변경 작성 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.preview-link",
+      "actionToken": "preview-link",
+      "role": "PREVIEW-LINK",
+      "locator": "screens/m40/index.tsx:618 / m40-link-preview",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "회원 연결 영향 미리보기",
+        "trigger": "회원 연결 영향 미리보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.execute-link",
+      "actionToken": "execute-link",
+      "role": "EXECUTE-LINK",
+      "locator": "screens/m40/index.tsx:621 / m40-link-execute",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인한 회원 연결 실행 요청",
+        "trigger": "확인한 회원 연결 실행 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.input-link-reason",
+      "actionToken": "input-link-reason",
+      "role": "INPUT-LINK-REASON",
+      "locator": "screens/m40/index.tsx:666 / m40-link-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "회원 연결 사유 입력",
+        "trigger": "회원 연결 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.submit-activity",
+      "actionToken": "submit-activity",
+      "role": "SUBMIT-ACTIVITY",
+      "locator": "screens/m40/index.tsx:688 / m40-activity-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활동 기록 저장 요청",
+        "trigger": "활동 기록 저장 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.select-activity-type",
+      "actionToken": "select-activity-type",
+      "role": "SELECT-ACTIVITY-TYPE",
+      "locator": "screens/m40/index.tsx:699 / m40-activity-type-{value}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "방문·전화·메모 종류 선택",
+        "trigger": "방문·전화·메모 종류 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.input-activity-summary",
+      "actionToken": "input-activity-summary",
+      "role": "INPUT-ACTIVITY-SUMMARY",
+      "locator": "screens/m40/index.tsx:707 / m40-activity-summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활동 요약 입력",
+        "trigger": "활동 요약 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.input-activity-reason",
+      "actionToken": "input-activity-reason",
+      "role": "INPUT-ACTIVITY-REASON",
+      "locator": "screens/m40/index.tsx:711 / m40-activity-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활동 사유 입력",
+        "trigger": "활동 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.submit-status",
+      "actionToken": "submit-status",
+      "role": "SUBMIT-STATUS",
+      "locator": "screens/m40/index.tsx:724 / m40-status-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "선택 상태 변경 요청",
+        "trigger": "선택 상태 변경 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.select-target-status",
+      "actionToken": "select-target-status",
+      "role": "SELECT-TARGET-STATUS",
+      "locator": "screens/m40/index.tsx:735 / m40-status-{value}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "변경할 상태 선택",
+        "trigger": "변경할 상태 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.input-status-reason",
+      "actionToken": "input-status-reason",
+      "role": "INPUT-STATUS-REASON",
+      "locator": "screens/m40/index.tsx:743 / m40-status-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상태 변경 사유 입력",
+        "trigger": "상태 변경 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-nominators-info",
+      "actionToken": "open-nominators-info",
+      "role": "OPEN-NOMINATORS-INFO",
+      "locator": "screens/m40/index.tsx:749 / m40-info-nominators",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지정 근거 보기",
+        "trigger": "지정 근거 보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-activities-info",
+      "actionToken": "open-activities-info",
+      "role": "OPEN-ACTIVITIES-INFO",
+      "locator": "screens/m40/index.tsx:749 / m40-info-activities",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활동 기록 보기",
+        "trigger": "활동 기록 보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-invite",
+      "actionToken": "open-invite",
+      "role": "OPEN-INVITE",
+      "locator": "screens/m40/signupInvite.tsx:116 / invite-panel-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문자 시험 패널 열기",
+        "trigger": "문자 시험 패널 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.select-invite-target",
+      "actionToken": "select-invite-target",
+      "role": "SELECT-INVITE-TARGET",
+      "locator": "screens/m40/signupInvite.tsx:123 / invite-target-{id}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 목록 문자 대상 선택",
+        "trigger": "현재 목록 문자 대상 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.select-invite-template",
+      "actionToken": "select-invite-template",
+      "role": "SELECT-INVITE-TEMPLATE",
+      "locator": "screens/m40/signupInvite.tsx:125 / invite-template",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "활성 문자 문구 선택",
+        "trigger": "활성 문자 문구 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.preview-invite",
+      "actionToken": "preview-invite",
+      "role": "PREVIEW-INVITE",
+      "locator": "screens/m40/signupInvite.tsx:127 / invite-preview",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문구·제외 대상 미리보기",
+        "trigger": "문구·제외 대상 미리보기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.review-invite-send",
+      "actionToken": "review-invite-send",
+      "role": "REVIEW-INVITE-SEND",
+      "locator": "screens/m40/signupInvite.tsx:127 / invite-send",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문자 시험 확인 단계 열기",
+        "trigger": "문자 시험 확인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.input-optout-reason",
+      "actionToken": "input-optout-reason",
+      "role": "INPUT-OPTOUT-REASON",
+      "locator": "screens/m40/signupInvite.tsx:129 / invite-optout-reason",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수신 제외·해제 사유 입력",
+        "trigger": "수신 제외·해제 사유 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.review-optout",
+      "actionToken": "review-optout",
+      "role": "REVIEW-OPTOUT",
+      "locator": "screens/m40/signupInvite.tsx:130 / invite-optout",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수신 제외 설정 확인 단계 열기",
+        "trigger": "수신 제외 설정 확인 단계 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.review-optout-clear",
+      "actionToken": "review-optout-clear",
+      "role": "REVIEW-OPTOUT-CLEAR",
+      "locator": "screens/m40/signupInvite.tsx:130 / invite-optout-clear",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수신 제외 해제 검토 열기; 최종 확인 비활성",
+        "trigger": "수신 제외 해제 검토 열기; 최종 확인 비활성",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.refresh-invite-history",
+      "actionToken": "refresh-invite-history",
+      "role": "REFRESH-INVITE-HISTORY",
+      "locator": "screens/m40/signupInvite.tsx:133 / invite-refresh",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문자 이력 다시 확인",
+        "trigger": "문자 이력 다시 확인",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.review-invite-retry",
+      "actionToken": "review-invite-retry",
+      "role": "REVIEW-INVITE-RETRY",
+      "locator": "screens/m40/signupInvite.tsx:135 / invite-retry-{id}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "실패 요청 다시 요청 검토",
+        "trigger": "실패 요청 다시 요청 검토",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.review-invite-check",
+      "actionToken": "review-invite-check",
+      "role": "REVIEW-INVITE-CHECK",
+      "locator": "screens/m40/signupInvite.tsx:135 / invite-check-{id}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "불명·전송 중 결과 확인 검토",
+        "trigger": "불명·전송 중 결과 확인 검토",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.close-invite-review",
+      "actionToken": "close-invite-review",
+      "role": "CLOSE-INVITE-REVIEW",
+      "locator": "screens/m40/signupInvite.tsx:139 / invite-review-cancel",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인 단계 닫기",
+        "trigger": "확인 단계 닫기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.confirm-invite-review",
+      "actionToken": "confirm-invite-review",
+      "role": "CONFIRM-INVITE-REVIEW",
+      "locator": "screens/m40/signupInvite.tsx:139 / invite-review-confirm",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 검토 종류의 처리 요청",
+        "trigger": "현재 검토 종류의 처리 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-060",
+      "sourceScreen": "M-40",
+      "rawRole": "M-40.open-invite-history",
+      "actionToken": "open-invite-history",
+      "role": "OPEN-INVITE-HISTORY",
+      "locator": "screens/m40/signupInvite.tsx:144 / invite-history-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문자 저장 이력 레이어 열기",
+        "trigger": "문자 저장 이력 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "M-40 SignupInvite 별도 ProcessPanel; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.open-create",
+      "actionToken": "open-create",
+      "role": "OPEN-CREATE",
+      "locator": "screens/m50/index.tsx:369 / m50-create-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업체 수동 등록 편집 열기",
+        "trigger": "업체 수동 등록 편집 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-all-tab",
+      "actionToken": "select-all-tab",
+      "role": "SELECT-ALL-TAB",
+      "locator": "screens/m50/index.tsx:380 / m50-tab-all",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "전체 업체 탭 선택",
+        "trigger": "전체 업체 탭 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-pending-tab",
+      "actionToken": "select-pending-tab",
+      "role": "SELECT-PENDING-TAB",
+      "locator": "screens/m50/index.tsx:380 / m50-confirm-tab",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "자진 등록 확인 대기 탭 선택",
+        "trigger": "자진 등록 확인 대기 탭 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-categories-tab",
+      "actionToken": "select-categories-tab",
+      "role": "SELECT-CATEGORIES-TAB",
+      "locator": "screens/m50/index.tsx:380 / m50-tab-categories",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 체계 탭 선택",
+        "trigger": "업종 체계 탭 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.search-places",
+      "actionToken": "search-places",
+      "role": "SEARCH-PLACES",
+      "locator": "screens/m50/index.tsx:382 / m50-search",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사업자번호·상호·주소 검색 입력·지우기",
+        "trigger": "사업자번호·상호·주소 검색 입력·지우기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-bulk-place",
+      "actionToken": "select-bulk-place",
+      "role": "SELECT-BULK-PLACE",
+      "locator": "screens/m50/index.tsx:390 / m50-select-{id}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "일괄 업종 변경 대상 체크",
+        "trigger": "일괄 업종 변경 대상 체크",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.open-place",
+      "actionToken": "open-place",
+      "role": "OPEN-PLACE",
+      "locator": "screens/m50/index.tsx:399,402 / m50-confirm-{bn}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "자세히 보기·목록 확인 버튼은 같은 choose로 상세 선택",
+        "trigger": "자세히 보기·목록 확인 버튼은 같은 choose로 상세 선택",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.confirm-place",
+      "actionToken": "confirm-place",
+      "role": "CONFIRM-PLACE",
+      "locator": "screens/m50/index.tsx:458 / m50-confirm-{bn}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상세에서 자진 등록 확인 처리 요청; 목록 버튼과 다른 동작",
+        "trigger": "상세에서 자진 등록 확인 처리 요청; 목록 버튼과 다른 동작",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.open-edit",
+      "actionToken": "open-edit",
+      "role": "OPEN-EDIT",
+      "locator": "screens/m50/index.tsx:471 / m50-edit-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "현재 업체 수정 열기",
+        "trigger": "현재 업체 수정 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.close-editor",
+      "actionToken": "close-editor",
+      "role": "CLOSE-EDITOR",
+      "locator": "screens/m50/index.tsx:490 / m50-cancel",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업체 편집 닫기",
+        "trigger": "업체 편집 닫기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.save-place",
+      "actionToken": "save-place",
+      "role": "SAVE-PLACE",
+      "locator": "screens/m50/index.tsx:491 / m50-save",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "등록 또는 수정 저장 요청",
+        "trigger": "등록 또는 수정 저장 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-business-number",
+      "actionToken": "input-business-number",
+      "role": "INPUT-BUSINESS-NUMBER",
+      "locator": "screens/m50/index.tsx:505 / m50-field-businessNo",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사업자번호 입력; 수정 모드 비활성",
+        "trigger": "사업자번호 입력; 수정 모드 비활성",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-place-name",
+      "actionToken": "input-place-name",
+      "role": "INPUT-PLACE-NAME",
+      "locator": "screens/m50/index.tsx:509 / m50-field-name",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상호 입력",
+        "trigger": "상호 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-owner-name",
+      "actionToken": "input-owner-name",
+      "role": "INPUT-OWNER-NAME",
+      "locator": "screens/m50/index.tsx:518 / m50-field-ownerName",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대표자 입력",
+        "trigger": "대표자 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.search-address",
+      "actionToken": "search-address",
+      "role": "SEARCH-ADDRESS",
+      "locator": "screens/m50/index.tsx:524 / m50-address-search",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "주소 검색 호출; 외부 위젯 실행 여부 미확인",
+        "trigger": "주소 검색 호출; 외부 위젯 실행 여부 미확인",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-opened-date",
+      "actionToken": "input-opened-date",
+      "role": "INPUT-OPENED-DATE",
+      "locator": "screens/m50/index.tsx:536 / m50-field-openedAt",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "개업일 입력",
+        "trigger": "개업일 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-tax-status",
+      "actionToken": "input-tax-status",
+      "role": "INPUT-TAX-STATUS",
+      "locator": "screens/m50/index.tsx:540 / m50-field-taxStatus",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "세금 상태 입력·제안 선택",
+        "trigger": "세금 상태 입력·제안 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-taxation-type",
+      "actionToken": "input-taxation-type",
+      "role": "INPUT-TAXATION-TYPE",
+      "locator": "screens/m50/index.tsx:545 / m50-field-taxationType",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "과세 유형 입력·제안 선택",
+        "trigger": "과세 유형 입력·제안 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-note",
+      "actionToken": "input-note",
+      "role": "INPUT-NOTE",
+      "locator": "screens/m50/index.tsx:551 / m50-field-note",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "메모 입력",
+        "trigger": "메모 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.open-place-info",
+      "actionToken": "open-place-info",
+      "role": "OPEN-PLACE-INFO",
+      "locator": "screens/m50/index.tsx:556 / m50-info-open",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업체정보 파생 근거 레이어 열기",
+        "trigger": "업체정보 파생 근거 레이어 열기",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.add-parent-category",
+      "actionToken": "add-parent-category",
+      "role": "ADD-PARENT-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:63 / m50-category-add-parent",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대분류 추가 작성 열기",
+        "trigger": "대분류 추가 작성 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.add-child-category",
+      "actionToken": "add-child-category",
+      "role": "ADD-CHILD-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:63 / m50-category-add-child",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "중분류 추가 작성 열기",
+        "trigger": "중분류 추가 작성 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.edit-category",
+      "actionToken": "edit-category",
+      "role": "EDIT-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:70 / m50-category-edit-{code}",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 편집 열기",
+        "trigger": "업종 편집 열기",
+        "kind": "위험조치 진입",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-category-code",
+      "actionToken": "input-category-code",
+      "role": "INPUT-CATEGORY-CODE",
+      "locator": "screens/m50/categoryManagement.tsx:75 / m50-category-code",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 코드 입력; 기존 코드 비활성",
+        "trigger": "업종 코드 입력; 기존 코드 비활성",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-parent-category",
+      "actionToken": "select-parent-category",
+      "role": "SELECT-PARENT-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:76 / m50-category-parent",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대분류 선택",
+        "trigger": "대분류 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-category-name",
+      "actionToken": "input-category-name",
+      "role": "INPUT-CATEGORY-NAME",
+      "locator": "screens/m50/categoryManagement.tsx:77 / m50-category-name",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 이름 입력",
+        "trigger": "업종 이름 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.input-category-order",
+      "actionToken": "input-category-order",
+      "role": "INPUT-CATEGORY-ORDER",
+      "locator": "screens/m50/categoryManagement.tsx:78 / m50-category-order",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 표시 순서 입력",
+        "trigger": "업종 표시 순서 입력",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.toggle-category-active",
+      "actionToken": "toggle-category-active",
+      "role": "TOGGLE-CATEGORY-ACTIVE",
+      "locator": "screens/m50/categoryManagement.tsx:79 / m50-category-active",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 사용 여부 체크",
+        "trigger": "업종 사용 여부 체크",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.save-category",
+      "actionToken": "save-category",
+      "role": "SAVE-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:80 / m50-category-save",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업종 저장 요청",
+        "trigger": "업종 저장 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.select-bulk-category",
+      "actionToken": "select-bulk-category",
+      "role": "SELECT-BULK-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:117 / m50-bulk-category-choice",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "선택 업체에 적용할 업종 선택",
+        "trigger": "선택 업체에 적용할 업종 선택",
+        "kind": "위험조치 입력",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.submit-bulk-category",
+      "actionToken": "submit-bulk-category",
+      "role": "SUBMIT-BULK-CATEGORY",
+      "locator": "screens/m50/categoryManagement.tsx:118 / m50-bulk-category-submit",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "선택 업체 업종 일괄 변경 요청",
+        "trigger": "선택 업체 업종 일괄 변경 요청",
+        "kind": "위험조치 실행",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.reset-filters",
+      "actionToken": "reset-filters",
+      "role": "RESET-FILTERS",
+      "locator": "screens/m50/index.tsx:384 / filter-reset",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "검색 조건 초기화",
+        "trigger": "검색 조건 초기화",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-080",
+      "sourceScreen": "M-50",
+      "rawRole": "M-50.open-map",
+      "actionToken": "open-map",
+      "role": "OPEN-MAP",
+      "locator": "screens/m50/index.tsx:499 / m50-map-link",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지도 링크 새 창 열기; 외부 목적지는 실행·접속하지 않음",
+        "trigger": "지도 링크 새 창 열기; 외부 목적지는 실행·접속하지 않음",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "화면 전용; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    },
+    {
+      "screen": "BO-MBR-070",
+      "sourceScreen": "M-30",
+      "rawRole": "M-30.open-member",
+      "actionToken": "open-member",
+      "role": "OPEN-MEMBER",
+      "locator": "screens/m30/index.tsx:95 / m30-identity",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "bab24fe0f7270738e7871c2f94d7e2dded31b630",
+        "path": "teams/A11.화면개선4/docs/10-design/member-area-v1/roles.md",
+        "contentSha256": "bb0acebfe60cb29ab954565015cf5cc989ea6b6eb85ffdc98cf4de28e46acda2",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "심사 대상 회원 M-02로 이동",
+        "trigger": "심사 대상 회원 M-02로 이동",
+        "kind": "단순조회",
+        "gate": "원문 별도 gate 명세 미공급; 단순조회·위험조치 단계 분류와 동작설명만 보존하며 권한·서버 처리 성공을 추론하지 않는다.",
+        "notes": "심사 본문; 원문 논리 역할 한 행은 한 코드; 같은 화면의 반복 대상·동일 행동은 합치고 화면이 다르면 별도 귀속. M-50 동일 testId의 상세 열기와 확인 실행은 분리. 대상 값·ID는 코드에 넣지 않는다.",
+        "productRevision": "aa0d4f9c65fb4306d09f58ad08e159683d4b40ca"
+      }
+    }
+  ]
+}
