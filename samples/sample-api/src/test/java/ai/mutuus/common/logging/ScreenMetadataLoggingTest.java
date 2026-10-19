@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /** 공통 소비자가 선택 메타데이터를 수신/종료/보안거부/async에 보존하는지 확인한다. */
 class ScreenMetadataLoggingTest {
     private static final Map<String, String> VALID = Map.of(
-            HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.1",
+            HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.6",
             HeaderNames.BUSINESS_SCREEN_NO, "AAA-123",
             HeaderNames.SCREEN_ID, "BO-ISS-010",
             HeaderNames.UI_ELEMENT_ID, "BO-ISS-010-BTN-SEARCH",
@@ -98,7 +98,7 @@ class ScreenMetadataLoggingTest {
             for (var event : capture.list) {
                 assertThat(field(event,HeaderNames.BUSINESS_SCREEN_NO)).isNull();
                 String json = new String(encoder.encode(event),java.nio.charset.StandardCharsets.UTF_8);
-                assertThat(json).contains("catalog_version", "1.0.0-bo.1", "element", "BO-ISS-010-BTN-SEARCH");
+                assertThat(json).contains("catalog_version", "1.0.0-bo.6", "element", "BO-ISS-010-BTN-SEARCH");
                 assertThat(json).doesNotContain("PRIVATE_DO_NOT_LOG", "X-Business-Screen-No", "internal_id");
             }
             encoder.stop();
