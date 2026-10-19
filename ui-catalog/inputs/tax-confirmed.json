@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 2,
+  "status": "CONFIRMED",
+  "roles": [
+    {
+      "screen": "BO-TAX-010",
+      "sourceScreen": "X-01",
+      "rawRole": "<X-01.open-tax-list>",
+      "actionToken": "open-tax-list",
+      "role": "OPEN-TAX-LIST",
+      "locator": "a[href=\"/x-10\"]",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-010",
+      "sourceScreen": "X-01",
+      "rawRole": "<X-01.open-account-comparison>",
+      "actionToken": "open-account-comparison",
+      "role": "OPEN-ACCOUNT-COMPARISON",
+      "locator": "a[href=\"/x-21?tab=accounts&mismatchOnly=true\"]",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-010",
+      "sourceScreen": "X-01",
+      "rawRole": "<X-01.open-cross-comparison>",
+      "actionToken": "open-cross-comparison",
+      "role": "OPEN-CROSS-COMPARISON",
+      "locator": "a[href=\"/x-21?tab=cross&mismatchOnly=true\"]",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-010",
+      "sourceScreen": "X-01",
+      "rawRole": "<X-01.toggle-scope-help>",
+      "actionToken": "toggle-scope-help",
+      "role": "TOGGLE-SCOPE-HELP",
+      "locator": "summary: 집계 범위와 전송 설정 안내",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-020",
+      "sourceScreen": "X-10",
+      "rawRole": "<X-10.select-status>",
+      "actionToken": "select-status",
+      "role": "SELECT-STATUS",
+      "locator": "tab-failed / tab-transmitted / tab-notsubmitted / tab-manual / tab-all",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-020",
+      "sourceScreen": "X-10",
+      "rawRole": "<X-10.change-search>",
+      "actionToken": "change-search",
+      "role": "CHANGE-SEARCH",
+      "locator": "filter-q",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-020",
+      "sourceScreen": "X-10",
+      "rawRole": "<X-10.previous-page>",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "page-prev",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-020",
+      "sourceScreen": "X-10",
+      "rawRole": "<X-10.next-page>",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "page-next",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-020",
+      "sourceScreen": "X-10",
+      "rawRole": "<X-10.open-invoice>",
+      "actionToken": "open-invoice",
+      "role": "OPEN-INVOICE",
+      "locator": "tax-row-${row.id}",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-030",
+      "sourceScreen": "X-11",
+      "rawRole": "<X-11.return-to-list>",
+      "actionToken": "return-to-list",
+      "role": "RETURN-TO-LIST",
+      "locator": "back-to-x10",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-030",
+      "sourceScreen": "X-11",
+      "rawRole": "<X-11.open-trade>",
+      "actionToken": "open-trade",
+      "role": "OPEN-TRADE",
+      "locator": "goto-trade",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-030",
+      "sourceScreen": "X-11",
+      "rawRole": "<X-11.open-parent-invoice>",
+      "actionToken": "open-parent-invoice",
+      "role": "OPEN-PARENT-INVOICE",
+      "locator": "goto-parent",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-030",
+      "sourceScreen": "X-11",
+      "rawRole": "<X-11.resend-invoice>",
+      "actionToken": "resend-invoice",
+      "role": "RESEND-INVOICE",
+      "locator": "x11-not-ready-resend (비활성)",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.change-search>",
+      "actionToken": "change-search",
+      "role": "CHANGE-SEARCH",
+      "locator": "filter-q",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.open-account>",
+      "actionToken": "open-account",
+      "role": "OPEN-ACCOUNT",
+      "locator": "account-row-${a.id} 및 내역 보기 버튼: 같은 동작은 같은 이름",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.toggle-account-id>",
+      "actionToken": "toggle-account-id",
+      "role": "TOGGLE-ACCOUNT-ID",
+      "locator": "summary: 장부 계정 확인용 번호 (같은 번호 펼침들)",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.toggle-party-ids>",
+      "actionToken": "toggle-party-ids",
+      "role": "TOGGLE-PARTY-IDS",
+      "locator": "summary: 당사자 확인용 번호",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.change-action-reason>",
+      "actionToken": "change-action-reason",
+      "role": "CHANGE-ACTION-REASON",
+      "locator": "#wu05-reason",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.release-hold>",
+      "actionToken": "release-hold",
+      "role": "RELEASE-HOLD",
+      "locator": "ledger-release-${e.id} (위험, 실행 제외)",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.open-refund-review>",
+      "actionToken": "open-refund-review",
+      "role": "OPEN-REFUND-REVIEW",
+      "locator": "ledger-refund-r10",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.open-adjustment-review>",
+      "actionToken": "open-adjustment-review",
+      "role": "OPEN-ADJUSTMENT-REVIEW",
+      "locator": "ledger-adjustment-r10",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-040",
+      "sourceScreen": "X-20",
+      "rawRole": "<X-20.toggle-previous-receipts>",
+      "actionToken": "toggle-previous-receipts",
+      "role": "TOGGLE-PREVIOUS-RECEIPTS",
+      "locator": "ledger-previous-receipts summary",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.select-comparison>",
+      "actionToken": "select-comparison",
+      "role": "SELECT-COMPARISON",
+      "locator": "tab-accounts / tab-cross",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.select-mismatch-filter>",
+      "actionToken": "select-mismatch-filter",
+      "role": "SELECT-MISMATCH-FILTER",
+      "locator": "filter-mismatch 내 불일치만 / 전체",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.open-inspection>",
+      "actionToken": "open-inspection",
+      "role": "OPEN-INSPECTION",
+      "locator": "inspection-row-A/${r.accountId} / inspection-row-C/${r.ownerId}/${r.issuerId}",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.toggle-scope-help>",
+      "actionToken": "toggle-scope-help",
+      "role": "TOGGLE-SCOPE-HELP",
+      "locator": "summary: 검사 범위와 건수 안내",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.toggle-account-id>",
+      "actionToken": "toggle-account-id",
+      "role": "TOGGLE-ACCOUNT-ID",
+      "locator": "summary: 장부 계정 확인용 번호 / 계정 번호 보기",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    },
+    {
+      "screen": "BO-TAX-050",
+      "sourceScreen": "X-21",
+      "rawRole": "<X-21.toggle-party-ids>",
+      "actionToken": "toggle-party-ids",
+      "role": "TOGGLE-PARTY-IDS",
+      "locator": "summary: 계정 당사자 번호 보기 / 확인용 번호",
+      "evidence": {
+        "repository": "A09.화면개선2",
+        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
+        "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
+        "revisionKind": "WORKTREE_BASE"
+      }
+    }
+  ]
+}

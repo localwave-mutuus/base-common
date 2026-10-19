@@ -46,6 +46,7 @@ CREATE TABLE ui_element (
  element_code text PRIMARY KEY,
  screen_code text NOT NULL, name text NOT NULL, element_kind text NOT NULL,
  status text NOT NULL, replacement_code text,
+ locator text NOT NULL, evidence_json jsonb NOT NULL,
  introduced_version text NOT NULL REFERENCES ui_catalog_version(catalog_version),
  retired_version text REFERENCES ui_catalog_version(catalog_version),
  FOREIGN KEY(screen_code) REFERENCES ui_screen(screen_code),
