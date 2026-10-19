@@ -1,0 +1,2996 @@
+{
+  "schemaVersion": 3,
+  "status": "CONFIRMED",
+  "roles": [
+    {
+      "screen": "BO-SYS-010",
+      "sourceScreen": "Y-01",
+      "rawRole": "Y-01.open-policy",
+      "actionToken": "open-policy",
+      "role": "OPEN-POLICY",
+      "locator": "y01/index.tsx:160 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기능 정책·긴급 차단",
+        "trigger": "click → navigate(/k-60)",
+        "kind": "이동",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.refresh",
+      "actionToken": "refresh",
+      "role": "REFRESH",
+      "locator": "y10/index.tsx:99 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "새로고침",
+        "trigger": "click → load: capabilities → canRead일 때 jobs/runs GET",
+        "kind": "조회",
+        "gate": "loading 표시; canRead 없으면 목록 비움",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.check-command",
+      "actionToken": "check-command",
+      "role": "CHECK-COMMAND",
+      "locator": "y10/index.tsx:103 Button;65 check",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "같은 요청 결과 확인",
+        "trigger": "click → commands/{pending} GET",
+        "kind": "조회",
+        "gate": "pending 있을 때 표시; requestId 일치 검사; 종결 시 pending 제거",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.select-job",
+      "actionToken": "select-job",
+      "role": "SELECT-JOB",
+      "locator": "y10/index.tsx:106 DataGrid",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "작업 행",
+        "trigger": "행 click/Enter/Space → jobId 선택, offset=0, stage/상세 초기화 → runs GET",
+        "kind": "조회",
+        "gate": "행 존재; 인스턴스 jobId",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.open-run",
+      "actionToken": "open-run",
+      "role": "OPEN-RUN",
+      "locator": "y10/index.tsx:114 ActionButton;y10/model.ts:10 runBlocked",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수동 실행",
+        "trigger": "click → RUN 모달; 사유·단계 초기화",
+        "kind": "로컬",
+        "gate": "enabled/canWrite, pending 없음, 선택 작업 enabled/manualRunSupported, 조회 오류 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.all-jobs",
+      "actionToken": "all-jobs",
+      "role": "ALL-JOBS",
+      "locator": "y10/index.tsx:115 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "전체 작업 보기",
+        "trigger": "click → jobId 비움, offset=0, 상세 제거 → runs GET",
+        "kind": "조회",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.open-run-detail",
+      "actionToken": "open-run-detail",
+      "role": "OPEN-RUN-DETAIL",
+      "locator": "y10/index.tsx:119 DataGrid;54 detail",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "처리 번호 / 작업 행",
+        "trigger": "행 click/Enter/Space → run·attempts GET",
+        "kind": "조회",
+        "gate": "runId 일치·history 배열 검사, 최신 선택 응답만 적용; runType/runId 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.previous-page",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "y10/index.tsx:126 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전",
+        "trigger": "click → offset-50 → runs GET",
+        "kind": "조회",
+        "gate": "offset>0 && !loading",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.next-page",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "y10/index.tsx:126 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음",
+        "trigger": "click → offset+50 → runs GET",
+        "kind": "조회",
+        "gate": "runs.length>=50 && offset<10000 && !loading && !error",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.refresh-detail",
+      "actionToken": "refresh-detail",
+      "role": "REFRESH-DETAIL",
+      "locator": "y10/index.tsx:128 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "결과 갱신",
+        "trigger": "click → 선택 run·attempts GET",
+        "kind": "조회",
+        "gate": "selected 있을 때",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.open-resolution",
+      "actionToken": "open-resolution",
+      "role": "OPEN-RESOLUTION",
+      "locator": "y10/index.tsx:141 ActionButton;y10/model.ts:18 resolveBlocked",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수동 검토 종료",
+        "trigger": "click → RESOLVE 모달; 사유/결과 초기화",
+        "kind": "로컬",
+        "gate": "enabled/canWrite, pending 없음, RUN/manualResolutionSupported/MANUAL_REVIEW, detailError 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.close-action",
+      "actionToken": "close-action",
+      "role": "CLOSE-ACTION",
+      "locator": "y10/index.tsx:145 Button/Modal;components/Modal.tsx:36",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "닫기",
+        "trigger": "footer click 또는 모달 배경 click → modal=null",
+        "kind": "로컬",
+        "gate": "busy 중 닫기 차단; X/ESC 없음",
+        "notes": "A02 Modal + 전용 footer; 같은 닫기 역할",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.submit-action",
+      "actionToken": "submit-action",
+      "role": "SUBMIT-ACTION",
+      "locator": "y10/index.tsx:145 ActionButton;79 send",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인 후 요청",
+        "trigger": "click → RUN: jobs/{jobId}/runs POST; RESOLVE: runs/RUN/{runId}/resolution POST",
+        "kind": "쓰기",
+        "gate": "busy/pending 차단; runBlocked/resolveBlocked 재검사; trim 사유 필수; RUN stages 있으면 stage 필수; requestId 생성·sessionStorage 보존; 명시 거절 외 오류는 재전송 차단",
+        "notes": "같은 버튼·역할; mode 메타데이터 RUN/RESOLVE",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.select-stage",
+      "actionToken": "select-stage",
+      "role": "SELECT-STAGE",
+      "locator": "y10/index.tsx:148 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "실행 단계",
+        "trigger": "change → stage",
+        "kind": "로컬",
+        "gate": "RUN && stages.length>0",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.select-resolution",
+      "actionToken": "select-resolution",
+      "role": "SELECT-RESOLUTION",
+      "locator": "y10/index.tsx:149 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인 결과",
+        "trigger": "change → resolution",
+        "kind": "로컬",
+        "gate": "RESOLVE; CLOSED_NO_EFFECT / CLOSED_EFFECT_CONFIRMED",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-020",
+      "sourceScreen": "Y-10",
+      "rawRole": "Y-10.input-reason",
+      "actionToken": "input-reason",
+      "role": "INPUT-REASON",
+      "locator": "y10/index.tsx:150 Input.TextArea",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "처리 사유",
+        "trigger": "change → reason",
+        "kind": "로컬",
+        "gate": "maxLength=240; submit 시 trim 필수; 개인정보·비밀번호·본인확인 정보 입력 금지 안내",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-030",
+      "sourceScreen": "Y-20",
+      "rawRole": "Y-20.filter-completion",
+      "actionToken": "filter-completion",
+      "role": "FILTER-COMPLETION",
+      "locator": "y20/index.tsx:79–90 Button 배열",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "미처리만 / 전체",
+        "trigger": "click → incompleteOnly 변경, page=0 → outbox GET",
+        "kind": "조회",
+        "gate": "option true/false 인스턴스; 동일 필터 역할",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-030",
+      "sourceScreen": "Y-20",
+      "rawRole": "Y-20.input-event-type",
+      "actionToken": "input-event-type",
+      "role": "INPUT-EVENT-TYPE",
+      "locator": "y20/index.tsx:93 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이벤트 유형 (예: Voucher.VoucherExpired)",
+        "trigger": "change 즉시 eventType 변경, page=0 → outbox GET",
+        "kind": "조회",
+        "gate": "요청 시 trim; submit 버튼 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-030",
+      "sourceScreen": "Y-20",
+      "rawRole": "Y-20.previous-page",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "y20/index.tsx:146 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전",
+        "trigger": "click → page-1 → outbox GET",
+        "kind": "조회",
+        "gate": "page>0",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-030",
+      "sourceScreen": "Y-20",
+      "rawRole": "Y-20.next-page",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "y20/index.tsx:149 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음",
+        "trigger": "click → page+1 → outbox GET",
+        "kind": "조회",
+        "gate": "page<totalPages-1",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.edit-policy",
+      "actionToken": "edit-policy",
+      "role": "EDIT-POLICY",
+      "locator": "y40/index.tsx:211 ActionButton;100–101 snapshotFor/editStart",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "편집",
+        "trigger": "click → module/slot의 유효값+raw expectedSnapshot을 editor에 복사",
+        "kind": "로컬",
+        "gate": "!busy; module/slot 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.restore-policy",
+      "actionToken": "restore-policy",
+      "role": "RESTORE-POLICY",
+      "locator": "y40/index.tsx:212 ActionButton;111 restore",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기본값 복원",
+        "trigger": "click → file-policies/{module}/{slot} DELETE",
+        "kind": "쓰기",
+        "gate": "!busy && overridden; expectedSnapshot·Idempotency-Key; 확인창/사유 입력 없음",
+        "notes": "ActionButton disabledReason이 실제 disabled로 반영됨",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.input-visibility",
+      "actionToken": "input-visibility",
+      "role": "INPUT-VISIBILITY",
+      "locator": "y40/index.tsx:231 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "visibility",
+        "trigger": "change → editor.visibility",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.input-max-size",
+      "actionToken": "input-max-size",
+      "role": "INPUT-MAX-SIZE",
+      "locator": "y40/index.tsx:231 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "maxSize",
+        "trigger": "change → editor.maxSize",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.input-content-types",
+      "actionToken": "input-content-types",
+      "role": "INPUT-CONTENT-TYPES",
+      "locator": "y40/index.tsx:231 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "contentTypes",
+        "trigger": "change → editor.contentTypes",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.input-access",
+      "actionToken": "input-access",
+      "role": "INPUT-ACCESS",
+      "locator": "y40/index.tsx:231 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "access",
+        "trigger": "change → editor.access",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.input-max-count",
+      "actionToken": "input-max-count",
+      "role": "INPUT-MAX-COUNT",
+      "locator": "y40/index.tsx:231 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "maxCount",
+        "trigger": "change → editor.maxCount",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.toggle-variants",
+      "actionToken": "toggle-variants",
+      "role": "TOGGLE-VARIANTS",
+      "locator": "y40/index.tsx:231 checkbox",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "variants",
+        "trigger": "change → editor.variants",
+        "kind": "로컬",
+        "gate": "editor 존재; 입력 자체 busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.save-policy",
+      "actionToken": "save-policy",
+      "role": "SAVE-POLICY",
+      "locator": "y40/index.tsx:231 ActionButton;102 save",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "저장",
+        "trigger": "click → file-policies/{module}/{slot} PUT",
+        "kind": "쓰기",
+        "gate": "!busy && editor; expectedSnapshot·Idempotency-Key; contentTypes split/trim/filter/sort, maxCount Number; 별도 확인/사유/입력 유효성 gate 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-050",
+      "sourceScreen": "Y-40",
+      "rawRole": "Y-40.close-editor",
+      "actionToken": "close-editor",
+      "role": "CLOSE-EDITOR",
+      "locator": "y40/index.tsx:231 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "닫기",
+        "trigger": "click → editor=null",
+        "kind": "로컬",
+        "gate": "busy 중에도 버튼 활성; 확인 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.select-step",
+      "actionToken": "select-step",
+      "role": "SELECT-STEP",
+      "locator": "y50/index.tsx:544 ScreenTabs;178 STEPS;240 moveTab",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "1. 수집 확인 / 2. 업종 분류 결정 / 3. 자료 반영 확인",
+        "trigger": "탭 선택 → tab; decisions에서 LOCAL runs, releases에서 release 목록 GET",
+        "kind": "조회",
+        "gate": "공유 역할, step=status/decisions/releases; 열린 레이어 있으면 ProcessPanel.requestChange",
+        "notes": "A02 ScreenTabs; status legacy GET 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.select-local-run",
+      "actionToken": "select-local-run",
+      "role": "SELECT-LOCAL-RUN",
+      "locator": "y50/localChangeCategories.tsx:71–73 Select;39 read",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "변경분 작업 고르기",
+        "trigger": "change → 선택/판본/페이지/규칙 폼 초기화 → categories GET",
+        "kind": "조회",
+        "gate": "!busy; runId 인스턴스; 응답 ruleVersion을 부모 processing에 전달",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.refresh-categories",
+      "actionToken": "refresh-categories",
+      "role": "REFRESH-CATEGORIES",
+      "locator": "y50/localChangeCategories.tsx:79 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다시 불러오기",
+        "trigger": "click → 선택 run/page/version categories GET",
+        "kind": "조회",
+        "gate": "selected && !busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.edit-category-rule",
+      "actionToken": "edit-category-rule",
+      "role": "EDIT-CATEGORY-RULE",
+      "locator": "y50/localChangeCategories.tsx:85 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "연결 규칙 처리",
+        "trigger": "click → group 선택; place/target/evidence 비움, MAPPED 설정",
+        "kind": "로컬",
+        "gate": "!busy && publicCategoryCode; group 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.previous-category-page",
+      "actionToken": "previous-category-page",
+      "role": "PREVIOUS-CATEGORY-PAGE",
+      "locator": "y50/localChangeCategories.tsx:87 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전",
+        "trigger": "click → page-1 → categories GET",
+        "kind": "조회",
+        "gate": "!busy && page>0",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.next-category-page",
+      "actionToken": "next-category-page",
+      "role": "NEXT-CATEGORY-PAGE",
+      "locator": "y50/localChangeCategories.tsx:87 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음",
+        "trigger": "click → page+1 → categories GET",
+        "kind": "조회",
+        "gate": "!busy && data.hasMore",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.select-rule-decision",
+      "actionToken": "select-rule-decision",
+      "role": "SELECT-RULE-DECISION",
+      "locator": "y50/localChangeCategories.tsx:90 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "처리 방법",
+        "trigger": "change → MAPPED/MAP_EXCLUDED/HELD",
+        "kind": "로컬",
+        "gate": "group && !busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.select-target-category",
+      "actionToken": "select-target-category",
+      "role": "SELECT-TARGET-CATEGORY",
+      "locator": "y50/localChangeCategories.tsx:91 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지정할 업종 / 업종 이름으로 찾아 고르기",
+        "trigger": "검색·선택 → target",
+        "kind": "로컬",
+        "gate": "!busy && decision=MAPPED; 후보 data.candidates 안에서 선택",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.select-rule-scope",
+      "actionToken": "select-rule-scope",
+      "role": "SELECT-RULE-SCOPE",
+      "locator": "y50/localChangeCategories.tsx:92 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "적용 범위",
+        "trigger": "change → 전체 공공 업종 또는 조회된 표본 업체 예외",
+        "kind": "로컬",
+        "gate": "!busy; 전체는 빈 place, 개별은 group.samples에 있는 sourcePlaceId",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-rule-version",
+      "actionToken": "input-rule-version",
+      "role": "INPUT-RULE-VERSION",
+      "locator": "y50/localChangeCategories.tsx:94 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "새 규칙 판본 이름",
+        "trigger": "change → newVersion",
+        "kind": "로컬",
+        "gate": "!busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-rule-evidence",
+      "actionToken": "input-rule-evidence",
+      "role": "INPUT-RULE-EVIDENCE",
+      "locator": "y50/localChangeCategories.tsx:95 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "처리 사유(담당자는 로그인 계정으로 기록)",
+        "trigger": "change → evidence",
+        "kind": "로컬",
+        "gate": "!busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.save-rule-version",
+      "actionToken": "save-rule-version",
+      "role": "SAVE-RULE-VERSION",
+      "locator": "y50/localChangeCategories.tsx:96 Button;47 save",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "새 판본 저장",
+        "trigger": "click → runs/{run}/rules POST",
+        "kind": "쓰기",
+        "gate": "pending ref/busy; selected/group/newVersion.trim/evidence.trim 필수; MAPPED 유효 후보, 개별 범위 표본 검사; baseVersion 포함; 확인창 없음",
+        "notes": "저장만으로 재연결하지 않음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.rematch-categories",
+      "actionToken": "rematch-categories",
+      "role": "REMATCH-CATEGORIES",
+      "locator": "y50/localChangeCategories.tsx:98 Button;61 rematch",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "전체 다시 연결 실행",
+        "trigger": "click → runs/{run}/rematch POST → categories GET",
+        "kind": "쓰기",
+        "gate": "!busy && version; pending ref/selected 재검사; 확인/사유 추가 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.refresh-processing",
+      "actionToken": "refresh-processing",
+      "role": "REFRESH-PROCESSING",
+      "locator": "y50/localChangeProcessing.tsx:43 Button;16 read",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요약 다시 불러오기",
+        "trigger": "click → runs/{run}/processing?version GET",
+        "kind": "조회",
+        "gate": "run 존재 && !busy; handler에서 ruleVersion 없으면 return",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.geocode",
+      "actionToken": "geocode",
+      "role": "GEOCODE",
+      "locator": "y50/localChangeProcessing.tsx:47 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "주소 위치 변환(한 번에 20건까지)",
+        "trigger": "click → processing/geocode?limit=20 POST → 요약 GET",
+        "kind": "쓰기",
+        "gate": "!busy && summary; action pending ref; 확인/사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.toggle-source-metadata",
+      "actionToken": "toggle-source-metadata",
+      "role": "TOGGLE-SOURCE-METADATA",
+      "locator": "y50/localChangeProcessing.tsx:49 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "원본 자료 정보 보기",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "summary 존재; API 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-policy-version",
+      "actionToken": "input-policy-version",
+      "role": "INPUT-POLICY-VERSION",
+      "locator": "y50/localChangeProcessing.tsx:52 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "지역 정책 판본",
+        "trigger": "change → policy",
+        "kind": "로컬",
+        "gate": "!busy; 비어 있음에 대한 별도 UI 차단 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.toggle-protection-links",
+      "actionToken": "toggle-protection-links",
+      "role": "TOGGLE-PROTECTION-LINKS",
+      "locator": "y50/localChangeProcessing.tsx:53 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기술 근거 · 회원 보호 연결 목록",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-protection-links",
+      "actionToken": "input-protection-links",
+      "role": "INPUT-PROTECTION-LINKS",
+      "locator": "y50/localChangeProcessing.tsx:53 Input.TextArea",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "소유 서비스가 확인한 보호 연결 JSON",
+        "trigger": "change → metadata",
+        "kind": "로컬",
+        "gate": "!busy; prepare에서 JSON 배열 검사; 확인 없이 [] 대체 금지 안내",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-package-reason",
+      "actionToken": "input-package-reason",
+      "role": "INPUT-PACKAGE-REASON",
+      "locator": "y50/localChangeProcessing.tsx:54 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요청 사유",
+        "trigger": "change → reason",
+        "kind": "로컬",
+        "gate": "!busy; prepare trim 필수",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-step-up-password",
+      "actionToken": "input-step-up-password",
+      "role": "INPUT-STEP-UP-PASSWORD",
+      "locator": "y50/localChangeProcessing.tsx:55 Input.Password",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "본인확인 — 현재 관리자 비밀번호",
+        "trigger": "change → password; Password 기본 표시/숨김 affordance",
+        "kind": "로컬",
+        "gate": "!busy; action finally에서 비움",
+        "notes": "실제 요소 명세만 기록; 비밀번호 입력·인증 호출 실행하지 않음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.request-package",
+      "actionToken": "request-package",
+      "role": "REQUEST-PACKAGE",
+      "locator": "y50/localChangeProcessing.tsx:56 Button;22 prepare",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요청 보내기",
+        "trigger": "click → processing/step-up POST → processing/prepare POST",
+        "kind": "쓰기",
+        "gate": "!busy && summary.ready && password && reason.trim && !prepared; JSON 배열; pending ref; stepUpToken 전달; 확인문구 없음",
+        "notes": "준비·승인 요청이며 운영 자료 적용 아님",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.input-package-id",
+      "actionToken": "input-package-id",
+      "role": "INPUT-PACKAGE-ID",
+      "locator": "y50/localChangeProcessing.tsx:61 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요청 번호 붙여넣기(예외)",
+        "trigger": "change → packageId; prepared=null",
+        "kind": "로컬",
+        "gate": "!busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.load-package",
+      "actionToken": "load-package",
+      "role": "LOAD-PACKAGE",
+      "locator": "y50/localChangeProcessing.tsx:63 Button;28 current",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요청 불러오기",
+        "trigger": "click → packages/{packageId} GET",
+        "kind": "조회",
+        "gate": "!busy && packageId; action finally에서 password 비움",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.toggle-package-manifest",
+      "actionToken": "toggle-package-manifest",
+      "role": "TOGGLE-PACKAGE-MANIFEST",
+      "locator": "y50/localChangeProcessing.tsx:65 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 요청 내용 보기",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "prepared 존재",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.approve-package",
+      "actionToken": "approve-package",
+      "role": "APPROVE-PACKAGE",
+      "locator": "y50/localChangeProcessing.tsx:66 Button;29 approve",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다른 관리자로 승인",
+        "trigger": "click → packages/{id}/step-up POST → approve POST → package GET",
+        "kind": "쓰기",
+        "gate": "!busy && REQUESTED && password; pending ref; 다른 관리자 요구는 문구이며 UI requesterId 비교 없음; 서버 보호를 UI 구현으로 오인 금지",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-060",
+      "sourceScreen": "Y-50",
+      "rawRole": "Y-50.export-package",
+      "actionToken": "export-package",
+      "role": "EXPORT-PACKAGE",
+      "locator": "y50/localChangeProcessing.tsx:69 Button;33 download",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "승인 파일 내보내기",
+        "trigger": "click → packages/{id}/export 직접 fetch GET → blob ZIP 저장",
+        "kind": "조회·파일",
+        "gate": "!busy && APPROVED; pending ref; 자동 재전송 없음",
+        "notes": "공용 api 추적 경로 밖; 동적 link는 같은 export 역할",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.select-input-type",
+      "actionToken": "select-input-type",
+      "role": "SELECT-INPUT-TYPE",
+      "locator": "y60/index.tsx:447/450 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사업자번호 / 상호",
+        "trigger": "click → inputType; 회원 후보 초기화",
+        "kind": "로컬",
+        "gate": "타입별 인스턴스; busy 차단 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.input-collection-query",
+      "actionToken": "input-collection-query",
+      "role": "INPUT-COLLECTION-QUERY",
+      "locator": "y60/index.tsx:455 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사업자등록번호 10자리 / 상호",
+        "trigger": "change → inputValue; 회원 후보 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.start-collection",
+      "actionToken": "start-collection",
+      "role": "START-COLLECTION",
+      "locator": "y60/index.tsx:457 Button;291 startCollection",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수집 요청",
+        "trigger": "click → business-information-collections POST → 목록/상세 GET",
+        "kind": "쓰기",
+        "gate": "!busy && !unavailable && input.trim; 사업자번호는 하이픈 제거 후 10자리; Idempotency-Key; 별도 확인/사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.collect-member-candidate",
+      "actionToken": "collect-member-candidate",
+      "role": "COLLECT-MEMBER-CANDIDATE",
+      "locator": "y60/index.tsx:483 Button;291 startCollection",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이 업체로 수집",
+        "trigger": "click → memberId 포함 같은 수집 POST",
+        "kind": "쓰기",
+        "gate": "회원 후보 응답 있을 때; !busy만 명시 gate; memberId 인스턴스",
+        "notes": "방어적 memberCandidates 응답 분기; 서버에서 반환됨을 보장하지 않음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.filter-status",
+      "actionToken": "filter-status",
+      "role": "FILTER-STATUS",
+      "locator": "y60/index.tsx:499 ListFilterBar.select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "전체 상태 등",
+        "trigger": "change → status, page=0 → 목록 GET",
+        "kind": "조회",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.filter-requester",
+      "actionToken": "filter-requester",
+      "role": "FILTER-REQUESTER",
+      "locator": "y60/index.tsx:500 ListFilterBar.select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "전체 요청자 / 관리자 / 사장",
+        "trigger": "change → requesterType, page=0 → 목록 GET",
+        "kind": "조회",
+        "gate": "UI 동작 존재; 현재 BFF 지원 차이 아래 참조",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.sort-requests",
+      "actionToken": "sort-requests",
+      "role": "SORT-REQUESTS",
+      "locator": "y60/index.tsx:501 ListFilterBar.select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "최신 요청순 / 낮은 신뢰도순 / 만료 임박순",
+        "trigger": "change → sort, page=0 → 목록 GET",
+        "kind": "조회",
+        "gate": "UI 동작 존재; 현재 BFF 지원 차이 아래 참조",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.reset-filters",
+      "actionToken": "reset-filters",
+      "role": "RESET-FILTERS",
+      "locator": "y60/index.tsx:508;components/ListFilterBar.tsx:68 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "검색 조건 초기화",
+        "trigger": "click → status/requesterType 비움, 최신순, page=0 → 목록 GET",
+        "kind": "조회",
+        "gate": "추가 gate 없음",
+        "notes": "A02 ListFilterBar; 전용 onReset",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.open-request",
+      "actionToken": "open-request",
+      "role": "OPEN-REQUEST",
+      "locator": "y60/index.tsx:525–529 DataTable;274 openDetail",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수집 요청 행",
+        "trigger": "행 click/Enter/Space → 상세 GET; 후보/필드/preview/사유/확인/결과 초기화",
+        "kind": "조회",
+        "gate": "requestId 인스턴스",
+        "notes": "A02 DataTable 행 활성화",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.previous-page",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "y60/index.tsx:539 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전",
+        "trigger": "click → page-1 → 목록 GET",
+        "kind": "조회",
+        "gate": "rows!==null && !unavailable && total>0; page>0",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.next-page",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "y60/index.tsx:542 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음",
+        "trigger": "click → page+1 → 목록 GET",
+        "kind": "조회",
+        "gate": "rows!==null && !unavailable && total>0; page<totalPages-1",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.close-detail",
+      "actionToken": "close-detail",
+      "role": "CLOSE-DETAIL",
+      "locator": "y60/index.tsx:558/561 Modal/Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "닫기",
+        "trigger": "footer 또는 배경 click → detail=null",
+        "kind": "로컬",
+        "gate": "busy 닫기 보호 없음; ESC/X 없음",
+        "notes": "A02 Modal + 전용 footer",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.refresh-collection",
+      "actionToken": "refresh-collection",
+      "role": "REFRESH-COLLECTION",
+      "locator": "y60/index.tsx:564 Button;320 runRefresh",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "재수집",
+        "trigger": "click → {requestId}/refresh POST → 상세/목록 GET",
+        "kind": "쓰기",
+        "gate": "!busy; Idempotency-Key; 확인/사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.open-reject",
+      "actionToken": "open-reject",
+      "role": "OPEN-REJECT",
+      "locator": "y60/index.tsx:567 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "거절",
+        "trigger": "click → rejectModal(reason 빈값)",
+        "kind": "로컬",
+        "gate": "!busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.preview-fields",
+      "actionToken": "preview-fields",
+      "role": "PREVIEW-FIELDS",
+      "locator": "y60/index.tsx:570 Button;335 runPreview",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "미리보기",
+        "trigger": "click → {requestId}/preview POST → snapshot 저장",
+        "kind": "쓰기·미리보기",
+        "gate": "!busy && candidateId && selectedFields.size>0; Idempotency-Key; 사유/확인 초기화",
+        "notes": "GET로 취급 금지",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.execute-fields",
+      "actionToken": "execute-fields",
+      "role": "EXECUTE-FIELDS",
+      "locator": "y60/index.tsx:573 Button;355 runExecute",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확정 실행",
+        "trigger": "click → {requestId}/execute POST → 목록/상세 GET",
+        "kind": "쓰기",
+        "gate": "!busy && preview && reason.trim && confirmation.trim===preview.confirmationText && !expired; 실행 시 만료 재검사; snapshotId/expected 버전·Idempotency-Key; 확인·사유 trim 전송",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.open-audit",
+      "actionToken": "open-audit",
+      "role": "OPEN-AUDIT",
+      "locator": "y60/index.tsx:584 Button href",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "작업 이력 확인",
+        "trigger": "click → /z-30 이동",
+        "kind": "이동",
+        "gate": "executed 있을 때",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.select-candidate",
+      "actionToken": "select-candidate",
+      "role": "SELECT-CANDIDATE",
+      "locator": "y60/index.tsx:628 Panel;416 pickCandidate",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "후보 상호/원천 카드",
+        "trigger": "click → candidateId, 선택 필드 비움, preview=null",
+        "kind": "로컬",
+        "gate": "후보 존재; busy disabled 없음; candidateId 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.open-candidate-source",
+      "actionToken": "open-candidate-source",
+      "role": "OPEN-CANDIDATE-SOURCE",
+      "locator": "y60/index.tsx:636 a",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "원문 링크",
+        "trigger": "click → externalUrl 새 창",
+        "kind": "이동",
+        "gate": "externalUrl 존재; noreferrer",
+        "notes": "카드 내 링크는 stopPropagation 없음: 카드 선택도 발생 가능",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.toggle-field",
+      "actionToken": "toggle-field",
+      "role": "TOGGLE-FIELD",
+      "locator": "y60/index.tsx:650–656 checkbox;98 FIELD_DEFS;406 toggleField",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상호 / 업종 코드 / 도로명 주소 / 지번 주소 / 우편번호 / 전화 / 좌표 / 플레이스 링크",
+        "trigger": "change → 필드 Set 토글, preview=null; click 전파 차단",
+        "kind": "로컬",
+        "gate": "값 non-null && 선택 후보 일치; busy 차단 없음; candidateId/field 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.input-execute-reason",
+      "actionToken": "input-execute-reason",
+      "role": "INPUT-EXECUTE-REASON",
+      "locator": "y60/index.tsx:714 Input.TextArea",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유(필수)",
+        "trigger": "change → reason",
+        "kind": "로컬",
+        "gate": "preview 있을 때; busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.input-confirmation",
+      "actionToken": "input-confirmation",
+      "role": "INPUT-CONFIRMATION",
+      "locator": "y60/index.tsx:719 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "확인문구 입력",
+        "trigger": "change → confirmation",
+        "kind": "로컬",
+        "gate": "preview 있을 때; busy disabled 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.close-reject",
+      "actionToken": "close-reject",
+      "role": "CLOSE-REJECT",
+      "locator": "y60/index.tsx:729/732 Modal/Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "닫기",
+        "trigger": "footer 또는 배경 click → rejectModal=null",
+        "kind": "로컬",
+        "gate": "busy 닫기 보호 없음; ESC/X 없음",
+        "notes": "A02 Modal + 전용 footer; detail 닫기와 별개 대상",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.reject-request",
+      "actionToken": "reject-request",
+      "role": "REJECT-REQUEST",
+      "locator": "y60/index.tsx:735 Button;389 runReject",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "거절",
+        "trigger": "click → {requestId}/reject POST → 목록 GET; 상세 닫음",
+        "kind": "쓰기",
+        "gate": "!busy && reject reason.trim; Idempotency-Key; 거절 모달에서 사유 필수",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.input-reject-reason",
+      "actionToken": "input-reject-reason",
+      "role": "INPUT-REJECT-REASON",
+      "locator": "y60/index.tsx:744 Input.TextArea",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사유(필수)",
+        "trigger": "change → rejectModal.reason",
+        "kind": "로컬",
+        "gate": "거절 모달; maxLength prop 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.toggle-column-picker",
+      "actionToken": "toggle-column-picker",
+      "role": "TOGGLE-COLUMN-PICKER",
+      "locator": "components/DataTable.tsx:109–122 Popover/Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "열",
+        "trigger": "click → 열 팝오버 열기/닫기",
+        "kind": "로컬",
+        "gate": "호출 y60/index.tsx:515",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.toggle-column",
+      "actionToken": "toggle-column",
+      "role": "TOGGLE-COLUMN",
+      "locator": "components/DataTable.tsx:99–116 Checkbox",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "각 열 이름",
+        "trigger": "change → hidden 설정 저장",
+        "kind": "로컬",
+        "gate": "마지막 보이는 열은 숨기지 않음; column key 인스턴스",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.reset-columns",
+      "actionToken": "reset-columns",
+      "role": "RESET-COLUMNS",
+      "locator": "components/DataTable.tsx:118 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기본값으로",
+        "trigger": "click → hidden=[]/widths={} 저장",
+        "kind": "로컬",
+        "gate": "추가 gate 없음",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.toggle-target-identifier",
+      "actionToken": "toggle-target-identifier",
+      "role": "TOGGLE-TARGET-IDENTIFIER",
+      "locator": "components/TargetIdentity.tsx:18 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대상 확인용 번호 / 기술 근거 보기",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "id 있을 때; targetType/id 인스턴스",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-070",
+      "sourceScreen": "Y-60",
+      "rawRole": "Y-60.copy-target-identifier",
+      "actionToken": "copy-target-identifier",
+      "role": "COPY-TARGET-IDENTIFIER",
+      "locator": "components/TargetIdentity.tsx:18 Code;components/Code.tsx:13 Typography.copyable",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "복사 / 복사됨",
+        "trigger": "click → 식별자 clipboard 복사",
+        "kind": "로컬",
+        "gate": "값 있을 때; row click 전파 차단",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.filter-status",
+      "actionToken": "filter-status",
+      "role": "FILTER-STATUS",
+      "locator": "y70/index.tsx:337–343 ListFilterBar.segmented;ui/index.tsx:74–84 SegmentButtons",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대기 / 후보 선택 / 초안 / 확정 / 반려",
+        "trigger": "선택 → queueStatus, page=0 → menu-documents GET",
+        "kind": "조회",
+        "gate": "status 인스턴스; pending submission이어도 필터 gate 없음",
+        "notes": "A02 SegmentButtons",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.reset-filters",
+      "actionToken": "reset-filters",
+      "role": "RESET-FILTERS",
+      "locator": "y70/index.tsx:349;components/ListFilterBar.tsx:68",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "검색 조건 초기화",
+        "trigger": "click → PENDING, page=0 → 목록 GET",
+        "kind": "조회",
+        "gate": "추가 gate 없음",
+        "notes": "A02 ListFilterBar",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.open-document",
+      "actionToken": "open-document",
+      "role": "OPEN-DOCUMENT",
+      "locator": "y70/index.tsx:359–364 DataTable;231 openDetail",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문서 행",
+        "trigger": "행 click/Enter/Space → 문서 GET; 종류별 source/image, 상태별 draft GET",
+        "kind": "조회",
+        "gate": "다른 상세 열려 있으면 requestChange: busy/dirty 보호; documentId 인스턴스",
+        "notes": "A02 DataTable/ProcessPanel; SOURCE_URL·PLACE_LOOKUP→source, IMAGE→직접 fetch image; DRAFTED·CONFIRMED·REJECTED→draft",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.previous-page",
+      "actionToken": "previous-page",
+      "role": "PREVIOUS-PAGE",
+      "locator": "y70/index.tsx:374 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "이전",
+        "trigger": "click → page-1 → 목록 GET",
+        "kind": "조회",
+        "gate": "rows!==null && !unavailable && total>0 && page>0",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.next-page",
+      "actionToken": "next-page",
+      "role": "NEXT-PAGE",
+      "locator": "y70/index.tsx:377 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음",
+        "trigger": "click → page+1 → 목록 GET",
+        "kind": "조회",
+        "gate": "rows!==null && !unavailable && total>0 && page<totalPages-1",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.open-place",
+      "actionToken": "open-place",
+      "role": "OPEN-PLACE",
+      "locator": "y70/index.tsx:449 Button href",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "플레이스 보기",
+        "trigger": "click → candidate.placeUrl 새 창",
+        "kind": "이동",
+        "gate": "source.candidates 존재; noreferrer; 후보 선택 쓰기 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.input-manual-category",
+      "actionToken": "input-manual-category",
+      "role": "INPUT-MANUAL-CATEGORY",
+      "locator": "y70/index.tsx:464 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "메뉴 분류 이름",
+        "trigger": "change → manualCategory",
+        "kind": "로컬",
+        "gate": "수동 폼 gate M70; IDLE; maxLength80",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.input-manual-name",
+      "actionToken": "input-manual-name",
+      "role": "INPUT-MANUAL-NAME",
+      "locator": "y70/index.tsx:466 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "메뉴 N 이름",
+        "trigger": "change → manualItems[i].name",
+        "kind": "로컬",
+        "gate": "M70; IDLE; maxLength120; row index는 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.input-manual-price",
+      "actionToken": "input-manual-price",
+      "role": "INPUT-MANUAL-PRICE",
+      "locator": "y70/index.tsx:467 Input number",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "메뉴 N 가격",
+        "trigger": "change → manualItems[i].price",
+        "kind": "로컬",
+        "gate": "M70; IDLE; min1/max100000000; row index 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.add-manual-item",
+      "actionToken": "add-manual-item",
+      "role": "ADD-MANUAL-ITEM",
+      "locator": "y70/index.tsx:469 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "메뉴 행 추가",
+        "trigger": "click → 빈 메뉴 행 추가",
+        "kind": "로컬",
+        "gate": "M70; IDLE && manualItems.length<100; 삭제 버튼 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.input-manual-hours",
+      "actionToken": "input-manual-hours",
+      "role": "INPUT-MANUAL-HOURS",
+      "locator": "y70/index.tsx:470 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "영업시간",
+        "trigger": "change → manualHours",
+        "kind": "로컬",
+        "gate": "M70; IDLE; maxLength255",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.input-manual-reason",
+      "actionToken": "input-manual-reason",
+      "role": "INPUT-MANUAL-REASON",
+      "locator": "y70/index.tsx:471 Input.TextArea",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수동 초안 처리 사유",
+        "trigger": "change → manualReason",
+        "kind": "로컬",
+        "gate": "M70; IDLE; maxLength500",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.save-manual-draft",
+      "actionToken": "save-manual-draft",
+      "role": "SAVE-MANUAL-DRAFT",
+      "locator": "y70/index.tsx:472 Button;285 submitManual;101 manualDraftPayload",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "수동 초안 저장",
+        "trigger": "click → menu-documents/{id}/draft POST → 목록 GET",
+        "kind": "쓰기",
+        "gate": "M70; IDLE; submitting ref; 사유 trim 1..500; 메뉴 있으면 분류 1..80, 이름1..120, 정수 가격1..100000000, 최대100; 메뉴 또는 영업시간 필수; expectedDocumentVersion/Idempotency-Key; 별도 확인문구 없음",
+        "notes": "SAVED는 사장님 확인 대기; 메뉴 반영 아님; UNKNOWN은 재제출 금지",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.recover-manual-result",
+      "actionToken": "recover-manual-result",
+      "role": "RECOVER-MANUAL-RESULT",
+      "locator": "y70/index.tsx:476 Button;311 recoverManual",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "문서 · 최신 초안 확인",
+        "trigger": "click → 문서·draft GET; 이전 입력 보존",
+        "kind": "조회",
+        "gate": "UNKNOWN 또는 REJECTED; submitting ref; REJECTED만 조회 후 IDLE 복귀; UNKNOWN은 최신 초안으로 자기 제출 성공 확정 안 함",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.toggle-column-picker",
+      "actionToken": "toggle-column-picker",
+      "role": "TOGGLE-COLUMN-PICKER",
+      "locator": "components/DataTable.tsx:109–122 Popover/Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "열",
+        "trigger": "click → 열 팝오버 열기/닫기",
+        "kind": "로컬",
+        "gate": "호출 y70/index.tsx:350",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.toggle-column",
+      "actionToken": "toggle-column",
+      "role": "TOGGLE-COLUMN",
+      "locator": "components/DataTable.tsx:99–116 Checkbox",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "각 열 이름",
+        "trigger": "change → hidden 설정 저장",
+        "kind": "로컬",
+        "gate": "마지막 보이는 열은 숨기지 않음; column key 인스턴스",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.reset-columns",
+      "actionToken": "reset-columns",
+      "role": "RESET-COLUMNS",
+      "locator": "components/DataTable.tsx:118 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기본값으로",
+        "trigger": "click → hidden=[]/widths={} 저장",
+        "kind": "로컬",
+        "gate": "추가 gate 없음",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.toggle-target-identifier",
+      "actionToken": "toggle-target-identifier",
+      "role": "TOGGLE-TARGET-IDENTIFIER",
+      "locator": "components/TargetIdentity.tsx:18 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "대상 확인용 번호 / 기술 근거 보기",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "id 있을 때; targetType/id 인스턴스",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.copy-target-identifier",
+      "actionToken": "copy-target-identifier",
+      "role": "COPY-TARGET-IDENTIFIER",
+      "locator": "components/TargetIdentity.tsx:18 Code;components/Code.tsx:13 Typography.copyable",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "복사 / 복사됨",
+        "trigger": "click → 식별자 clipboard 복사",
+        "kind": "로컬",
+        "gate": "값 있을 때; row click 전파 차단",
+        "notes": "소유 A02; 공용 재사용; 제품 쓰기 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.close-process-panel",
+      "actionToken": "close-process-panel",
+      "role": "CLOSE-PROCESS-PANEL",
+      "locator": "y70/index.tsx:386;components/ProcessPanel.tsx:24/31/32",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "처리 패널 닫기 / 목록으로",
+        "trigger": "click 또는 ESC → requestChange(closeDetail)",
+        "kind": "로컬",
+        "gate": "SUBMITTING이면 이동 차단; dirty이면 버림 확인",
+        "notes": "소유 A02; 여러 닫기 표면 같은 역할",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.continue-writing",
+      "actionToken": "continue-writing",
+      "role": "CONTINUE-WRITING",
+      "locator": "components/ProcessPanel.tsx:17/33; y70/index.tsx:386",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "계속 작성",
+        "trigger": "click → 이동 취소, 원래 포커스 복귀",
+        "kind": "로컬",
+        "gate": "dirty 이동 확인 표시 때",
+        "notes": "소유 A02",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-080",
+      "sourceScreen": "Y-70",
+      "rawRole": "Y-70.discard-and-move",
+      "actionToken": "discard-and-move",
+      "role": "DISCARD-AND-MOVE",
+      "locator": "components/ProcessPanel.tsx:18/33; y70/index.tsx:386",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "작성 내용 버리고 이동",
+        "trigger": "click → 대기 중 이동/닫기 실행",
+        "kind": "로컬",
+        "gate": "dirty 이동 확인 표시 때; 확인 중 본문 inert",
+        "notes": "소유 A02",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.select-file-service",
+      "actionToken": "select-file-service",
+      "role": "SELECT-FILE-SERVICE",
+      "locator": "y80/index.tsx:62 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "서비스",
+        "trigger": "change → app, 파일 결과 초기화",
+        "kind": "로컬",
+        "gate": "app/member/bo/batch; 업무 검색 서비스와 별개",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-file-date",
+      "actionToken": "input-file-date",
+      "role": "INPUT-FILE-DATE",
+      "locator": "y80/index.tsx:64 Input date",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "협정 세계시 날짜",
+        "trigger": "change → date, 파일 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.list-files",
+      "actionToken": "list-files",
+      "role": "LIST-FILES",
+      "locator": "y80/index.tsx:66 Button;31 load",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "조회",
+        "trigger": "click → log-files GET(environment/app/date)",
+        "kind": "조회",
+        "gate": "configuration.enabled && date; busy loading; 이전 응답 sequence 무효화",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.download-file",
+      "actionToken": "download-file",
+      "role": "DOWNLOAD-FILE",
+      "locator": "y80/index.tsx:74 Button;43 download",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "내려받기 / 파일명 내려받기",
+        "trigger": "click → log-files/download POST → 만료 검사 후 URL 파일 저장",
+        "kind": "쓰기·다운로드 발급",
+        "gate": "다른 파일 다운로드 중 disabled; expiresAt<=현재면 차단; 확인/사유 없음",
+        "notes": "발급 이력 감사 기록; file.key/name 인스턴스; link.click은 같은 역할",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.next-files",
+      "actionToken": "next-files",
+      "role": "NEXT-FILES",
+      "locator": "y80/index.tsx:78 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음 파일",
+        "trigger": "click → nextToken으로 목록 GET",
+        "kind": "조회",
+        "gate": "nextToken 존재 && !busy",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.select-user-type",
+      "actionToken": "select-user-type",
+      "role": "SELECT-USER-TYPE",
+      "locator": "y80/actionSearch.tsx:98 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사용자 찾기 기준: 이메일 / 이름 / 사업자·대표자·골목 아이디",
+        "trigger": "change → userType; 후보/선택회원/검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-user-query",
+      "actionToken": "input-user-query",
+      "role": "INPUT-USER-QUERY",
+      "locator": "y80/actionSearch.tsx:100 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "사용자 검색어",
+        "trigger": "change → queryText; 후보/선택회원/검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "길이 EMAIL254/NAME100/MEMBER_QUERY120; autoComplete off",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.find-users",
+      "actionToken": "find-users",
+      "role": "FIND-USERS",
+      "locator": "y80/actionSearch.tsx:102 Button;52 findUsers",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "회원 후보 찾기",
+        "trigger": "click → log-files/users GET(type/q/limit20)",
+        "kind": "조회",
+        "gate": "enabled && queryText.trim; handler userBusy 차단; 검색 결과/선택회원 초기화",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.select-member",
+      "actionToken": "select-member",
+      "role": "SELECT-MEMBER",
+      "locator": "y80/actionSearch.tsx:103 Select",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "검색할 회원 고르기 / 후보에서 회원 고르기",
+        "trigger": "change/allowClear → 후보에 있는 memberId 또는 빈값; 결과 초기화",
+        "kind": "로컬",
+        "gate": "후보 존재 && !userBusy && !traceId.trim; clear는 app=batch 또는 traceId 있을 때; memberId 인스턴스",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-search-from",
+      "actionToken": "input-search-from",
+      "role": "INPUT-SEARCH-FROM",
+      "locator": "y80/actionSearch.tsx:111 Input datetime-local",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업무 기록 시작 일시(한국 시간)",
+        "trigger": "change → from; 검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-search-to",
+      "actionToken": "input-search-to",
+      "role": "INPUT-SEARCH-TO",
+      "locator": "y80/actionSearch.tsx:112 Input datetime-local",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업무 기록 종료 일시(한국 시간)",
+        "trigger": "change → to; 검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.select-search-services",
+      "actionToken": "select-search-services",
+      "role": "SELECT-SEARCH-SERVICES",
+      "locator": "y80/actionSearch.tsx:113 Select multiple",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업무 기록 서비스(복수 선택)",
+        "trigger": "change → 허용 서비스만 중복제거/정렬/comma join; 검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-request-trace",
+      "actionToken": "input-request-trace",
+      "role": "INPUT-REQUEST-TRACE",
+      "locator": "y80/actionSearch.tsx:114 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "요청 추적값 붙여넣기(선택)",
+        "trigger": "change → requestTraceId; 검색 결과 초기화",
+        "kind": "로컬",
+        "gate": "!traceId.trim; autoComplete off",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.search-actions",
+      "actionToken": "search-actions",
+      "role": "SEARCH-ACTIONS",
+      "locator": "y80/actionSearch.tsx:115 Button;60 search",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "업무 기록 검색",
+        "trigger": "click → log-files/search GET; SCANNING cursor 자동 이어 조회",
+        "kind": "조회",
+        "gate": "S80; pending ref; KST→UTC; 응답 기간/app/memberId/requestTraceId 결속 검사",
+        "notes": "회원검색과 상관키검색은 같은 버튼 역할",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-trace-id",
+      "actionToken": "input-trace-id",
+      "role": "INPUT-TRACE-ID",
+      "locator": "y80/actionSearch.tsx:118 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상관키로 검색",
+        "trigger": "change → traceId; 첫 비어있음→값 있음이면 traceAt 앞뒤10분 설정; 결과 초기화",
+        "kind": "로컬",
+        "gate": "maxLength128; autoComplete off",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.input-trace-time",
+      "actionToken": "input-trace-time",
+      "role": "INPUT-TRACE-TIME",
+      "locator": "y80/actionSearch.tsx:119 Input",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "상관키 발생 시각(한국 시간)",
+        "trigger": "change → traceAt; traceId 있으면 앞뒤10분; 결과 초기화",
+        "kind": "로컬",
+        "gate": "추가 gate 없음; 확인·사유 없음",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.set-trace-window",
+      "actionToken": "set-trace-window",
+      "role": "SET-TRACE-WINDOW",
+      "locator": "y80/actionSearch.tsx:120 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "발생 시각 앞뒤 10분",
+        "trigger": "click → from/to=traceAt ±10분; 결과 초기화",
+        "kind": "로컬",
+        "gate": "traceId.trim && traceAt; 유효 시각일 때만 기간 변경",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.open-hit-detail",
+      "actionToken": "open-hit-detail",
+      "role": "OPEN-HIT-DETAIL",
+      "locator": "y80/actionSearch.tsx:133 Table.onRow /141 Button",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "기록 행 / 자세히 보기",
+        "trigger": "행 또는 버튼 click → info=row",
+        "kind": "로컬",
+        "gate": "hit 존재; 버튼 stopPropagation; row key+line 인스턴스",
+        "notes": "두 표면 동일 동작·공유 역할; 행 키보드 활성 prop 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.close-hit-detail",
+      "actionToken": "close-hit-detail",
+      "role": "CLOSE-HIT-DETAIL",
+      "locator": "y80/actionSearch.tsx:143 InfoLayer;components/InfoLayer.tsx:31",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "닫기",
+        "trigger": "footer/배경 click 또는 ESC → info=null",
+        "kind": "로컬",
+        "gate": "info 존재",
+        "notes": "A02 InfoLayer→Modal keyboard=true; X 없음",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.toggle-hit-identifiers",
+      "actionToken": "toggle-hit-identifiers",
+      "role": "TOGGLE-HIT-IDENTIFIERS",
+      "locator": "y80/actionSearch.tsx:148 details/summary",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "각 영역의 확인용 번호 보기",
+        "trigger": "click/키보드 → details 열기·닫기",
+        "kind": "로컬",
+        "gate": "info 존재",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-090",
+      "sourceScreen": "Y-80",
+      "rawRole": "Y-80.next-actions",
+      "actionToken": "next-actions",
+      "role": "NEXT-ACTIONS",
+      "locator": "y80/actionSearch.tsx:150 Button;60 search",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "d9051c7219816cc3065376b1b3366b7827656757",
+        "path": "teams/A10.화면개선3/docs/10-design/ui/specs/sys-area-v1/05-roles.md",
+        "contentSha256": "6baa98e39243e8af6760f55e80032602d4f0edf6fdd6151e0f3e55e9ac9c2c1e",
+        "revisionKind": "GIT_COMMIT"
+      },
+      "behavior": {
+        "label": "다음 기록",
+        "trigger": "click → cursor GET, 같은 generation에 hits 이어붙임",
+        "kind": "조회",
+        "gate": "COMPLETE && nextCursor && !busy; S80 재검사",
+        "notes": "전용",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    }
+  ]
+}

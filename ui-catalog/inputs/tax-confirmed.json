@@ -10,11 +10,11 @@
       "role": "OPEN-TAX-LIST",
       "locator": "a[href=\"/x-10\"]",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -25,11 +25,11 @@
       "role": "OPEN-ACCOUNT-COMPARISON",
       "locator": "a[href=\"/x-21?tab=accounts&mismatchOnly=true\"]",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -40,11 +40,11 @@
       "role": "OPEN-CROSS-COMPARISON",
       "locator": "a[href=\"/x-21?tab=cross&mismatchOnly=true\"]",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -55,11 +55,11 @@
       "role": "TOGGLE-SCOPE-HELP",
       "locator": "summary: 집계 범위와 전송 설정 안내",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -70,11 +70,11 @@
       "role": "SELECT-STATUS",
       "locator": "tab-failed / tab-transmitted / tab-notsubmitted / tab-manual / tab-all",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -85,11 +85,11 @@
       "role": "CHANGE-SEARCH",
       "locator": "filter-q",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -100,11 +100,11 @@
       "role": "PREVIOUS-PAGE",
       "locator": "page-prev",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -115,11 +115,11 @@
       "role": "NEXT-PAGE",
       "locator": "page-next",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -130,11 +130,11 @@
       "role": "OPEN-INVOICE",
       "locator": "tax-row-${row.id}",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -145,11 +145,11 @@
       "role": "RETURN-TO-LIST",
       "locator": "back-to-x10",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -160,11 +160,11 @@
       "role": "OPEN-TRADE",
       "locator": "goto-trade",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -175,11 +175,11 @@
       "role": "OPEN-PARENT-INVOICE",
       "locator": "goto-parent",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -190,11 +190,11 @@
       "role": "RESEND-INVOICE",
       "locator": "x11-not-ready-resend (비활성)",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -205,11 +205,11 @@
       "role": "CHANGE-SEARCH",
       "locator": "filter-q",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -220,11 +220,11 @@
       "role": "OPEN-ACCOUNT",
       "locator": "account-row-${a.id} 및 내역 보기 버튼: 같은 동작은 같은 이름",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -235,11 +235,11 @@
       "role": "TOGGLE-ACCOUNT-ID",
       "locator": "summary: 장부 계정 확인용 번호 (같은 번호 펼침들)",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -250,11 +250,11 @@
       "role": "TOGGLE-PARTY-IDS",
       "locator": "summary: 당사자 확인용 번호",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -265,11 +265,11 @@
       "role": "CHANGE-ACTION-REASON",
       "locator": "#wu05-reason",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -280,11 +280,11 @@
       "role": "RELEASE-HOLD",
       "locator": "ledger-release-${e.id} (위험, 실행 제외)",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -295,11 +295,11 @@
       "role": "OPEN-REFUND-REVIEW",
       "locator": "ledger-refund-r10",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -310,11 +310,11 @@
       "role": "OPEN-ADJUSTMENT-REVIEW",
       "locator": "ledger-adjustment-r10",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -325,11 +325,11 @@
       "role": "TOGGLE-PREVIOUS-RECEIPTS",
       "locator": "ledger-previous-receipts summary",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -340,11 +340,11 @@
       "role": "SELECT-COMPARISON",
       "locator": "tab-accounts / tab-cross",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -355,11 +355,11 @@
       "role": "SELECT-MISMATCH-FILTER",
       "locator": "filter-mismatch 내 불일치만 / 전체",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -370,11 +370,11 @@
       "role": "OPEN-INSPECTION",
       "locator": "inspection-row-A/${r.accountId} / inspection-row-C/${r.ownerId}/${r.issuerId}",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -385,11 +385,11 @@
       "role": "TOGGLE-SCOPE-HELP",
       "locator": "summary: 검사 범위와 건수 안내",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -400,11 +400,11 @@
       "role": "TOGGLE-ACCOUNT-ID",
       "locator": "summary: 장부 계정 확인용 번호 / 계정 번호 보기",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     },
     {
@@ -415,11 +415,11 @@
       "role": "TOGGLE-PARTY-IDS",
       "locator": "summary: 계정 당사자 번호 보기 / 확인용 번호",
       "evidence": {
-        "repository": "A09.화면개선2",
-        "revision": "e920d0944ae41f60f5aaafcfa4a9e0b1a3c501f9",
+        "repository": "b04-mutuus-operation",
+        "revision": "f2eb1a127862280526bd46665ad640a594651a3f",
         "path": "teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md",
         "contentSha256": "409b88031d0aa45a3dff9603597a3a276ae67a1791b8c75b2394349d4c2d8489",
-        "revisionKind": "WORKTREE_BASE"
+        "revisionKind": "GIT_COMMIT"
       }
     }
   ]

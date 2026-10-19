@@ -1,7 +1,9 @@
 # TAX 소유팀 검토용 원문 ↔ 코드 대조표
 
-역할 확정: A09 메시지 `01M59P0T6FJK8EMY6X7XB3R22X` 및 A02 공급 입력. 제품 기준 `99fded312c98e946fff9686cc23e88b4377e0ae6`. 조직 통합 revision 수신 대기.
-문서 evidence revision은 작업 사본 base HEAD이며 문서가 해당 커밋에 통합됐다는 뜻이 아니다. WORKTREE_BASE와 contentSha256으로 읽은 문서 스냅샷을 구분한다. 입력 JSON에 근거 상대경로·스냅샷 hash를 보존한다. 조사 근거는 공급 입력에 지정된 tax-before/trace-inventory.md다.
+역할 43행 대조 수용: A09 `01M59PFJFKWFCM3MN8Z4NVFA7W`. 제품 기준 `99fded312c98e946fff9686cc23e88b4377e0ae6`.
+정본 근거: 조직 `f2eb1a127862280526bd46665ad640a594651a3f`, `teams/A09.화면개선2/docs/10-design/ui/specs/tax-preview-v1/03-screens.md`.
+전 입력 trace-inventory 근거: 조직 `b1e07bbc3396fafbe4eeb98340bdee27fff9f26e`, `teams/A09.화면개선2/docs/10-design/ui/review-inputs/tax-before/trace-inventory.md`.
+이번 갱신은 GIT_COMMIT과 문서 바이트 SHA-256으로 근거만 승격한다. 기존 28등록·15제외·코드·locator·도입 버전은 유지한다.
 
 locator는 원문 설명/템플릿을 그대로 보존한다. 실행 가능한 CSS로 재해석하지 않는다. `${...}`는 대상 ID 자리이며 코드에 들어가지 않는다. 비활성·위험 행동도 역할 식별만 등록하며 실행하지 않는다. 공용 내부와 설명만 있는 버튼은 보수적으로 제외한다.
 
@@ -13,7 +15,7 @@ locator는 원문 설명/템플릿을 그대로 보존한다. 실행 가능한 C
 | X-20 / BO-TAX-040 | 9/18 | 9/18 |
 | X-21 / BO-TAX-050 | 6/12 | 6/12 |
 
-역할명은 43/43 확정이며 locator 확정 여부를 위 분모로 구분한다. X30은 미구현으로 분모 제외. SYS는 작성 중으로 등록 0건. TAX 전체 T2 완료 또는 locator 실동작 검증을 뜻하지 않는다.
+역할명은 43/43 확정이며 locator 확정 여부를 위 분모로 구분한다. X30은 미구현으로 분모 제외. SYS는 별도 [검토표](sys-role-map.md)에 130건 등록했다. TAX 전체 T2 완료 또는 locator 실동작 검증을 뜻하지 않는다.
 
 | 원문 역할 | action token | 요소코드(등록 또는 예약 후보) | locator 원문 | 상태/누락 사유 |
 |---|---|---|---|---|

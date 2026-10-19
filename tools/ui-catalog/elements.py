@@ -3,6 +3,16 @@ import re
 
 
 MAPPING_FIELDS = {'rawRole', 'sourceScreen', 'actionToken'}
+BEHAVIOR_FIELDS = {'label', 'trigger', 'kind', 'gate', 'notes', 'productRevision'}
+
+def validate_behavior(value):
+    if not isinstance(value, dict) or set(value) != BEHAVIOR_FIELDS:
+        raise ValueError('invalid behavior fields')
+    if any(not isinstance(v, str) or not v.strip() or v != v.strip() for v in value.values()):
+        raise ValueError('empty behavior field')
+    if not re.fullmatch(r'[0-9a-f]{40}', value['productRevision']):
+        raise ValueError('invalid product revision')
+
 
 
 def validate_mapping(row):
@@ -13,7 +23,7 @@ def validate_mapping(row):
         raise ValueError('invalid source screen prefix')
     if not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)*', row['actionToken']):
         raise ValueError('ambiguous action token; explicit lowercase hyphen token required')
-    if row['rawRole'] != '<'+row['sourceScreen']+'.'+row['actionToken']+'>':
+    if row['rawRole'] not in (row['sourceScreen']+'.'+row['actionToken'], '<'+row['sourceScreen']+'.'+row['actionToken']+'>'):
         raise ValueError('raw role mapping mismatch')
     if row['role'] != row['actionToken'].upper():
         raise ValueError('explicit action token/code suffix mismatch')
@@ -24,8 +34,10 @@ def validate(elements, screens):
         raise ValueError('elements must be an array')
     codes, roles, raw_roles, prefixes = set(), {}, set(), {}
     for e in elements:
-        if not isinstance(e, dict) or set(e) not in ({'code', 'screen', 'role', 'locator', 'evidence', 'introducedVersion'}, {'code', 'screen', 'role', 'locator', 'evidence', 'introducedVersion'} | MAPPING_FIELDS):
+        if not isinstance(e, dict) or set(e) not in ({'code', 'screen', 'role', 'locator', 'evidence', 'introducedVersion'}, {'code', 'screen', 'role', 'locator', 'evidence', 'introducedVersion'} | MAPPING_FIELDS, {'code', 'screen', 'role', 'locator', 'evidence', 'introducedVersion', 'behavior'} | MAPPING_FIELDS):
             raise ValueError('invalid element fields')
+        if 'behavior' in e:
+            validate_behavior(e['behavior'])
         if MAPPING_FIELDS <= set(e):
             validate_mapping(e)
         for key in ('code', 'screen', 'role', 'locator', 'introducedVersion'):
@@ -54,7 +66,7 @@ def validate(elements, screens):
         evidence=e['evidence']
         if not isinstance(evidence, dict) or set(evidence) not in ({'repository','revision','path'}, {'repository','revision','path','contentSha256','revisionKind'}):
             raise ValueError('invalid evidence fields')
-        if 'contentSha256' in evidence and (not re.fullmatch(r'[0-9a-f]{64}', evidence['contentSha256']) or evidence['revisionKind'] != 'WORKTREE_BASE'):
+        if 'contentSha256' in evidence and (not re.fullmatch(r'[0-9a-f]{64}', evidence['contentSha256']) or evidence['revisionKind'] not in ('WORKTREE_BASE', 'GIT_COMMIT')):
             raise ValueError('invalid worktree snapshot evidence')
         if any(not isinstance(v,str) or not v.strip() or v != v.strip() for v in evidence.values()):
             raise ValueError('empty evidence')
@@ -67,19 +79,19 @@ def validate(elements, screens):
 
 def import_roles(catalog, table, version):
     import copy
-    if not isinstance(table,dict) or set(table) != {'schemaVersion','status','roles'} or table['schemaVersion'] not in (1, 2) or table['status'] != 'CONFIRMED' or not isinstance(table['roles'],list) or not table['roles']:
-        raise ValueError('nonempty CONFIRMED role table schemaVersion=1 required')
+    if not isinstance(table,dict) or set(table) != {'schemaVersion','status','roles'} or table['schemaVersion'] not in (1, 2, 3) or table['status'] != 'CONFIRMED' or not isinstance(table['roles'],list) or not table['roles']:
+        raise ValueError('nonempty CONFIRMED role table schemaVersion=1/2/3 required')
     if not isinstance(version,str) or not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+-bo\.[0-9]+',version) or version == catalog['catalogVersion']:
         raise ValueError('explicit new catalog version required')
     result=copy.deepcopy(catalog)
     rows=[]
     for row in table['roles']:
-        fields={'screen','role','locator','evidence'} | (MAPPING_FIELDS if table['schemaVersion'] == 2 else set())
+        fields={'screen','role','locator','evidence'} | (MAPPING_FIELDS if table['schemaVersion'] >= 2 else set()) | ({'behavior'} if table['schemaVersion'] == 3 else set())
         if not isinstance(row,dict) or set(row) != fields:
             raise ValueError('invalid role row fields; codes and target IDs are not inputs')
         if not isinstance(row['screen'],str) or not isinstance(row['role'],str):
             raise ValueError('screen and role must be strings')
-        if table['schemaVersion'] == 2:
+        if table['schemaVersion'] >= 2:
             validate_mapping(row)
             if not any(s['code'] == row['screen'] and s['businessNumber'] == row['sourceScreen'] for s in result['screens']):
                 raise ValueError('source screen/catalog screen mapping mismatch')
