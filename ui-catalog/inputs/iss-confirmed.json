@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "status": "CONFIRMED",
+  "roles": [
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.select-stage",
+      "actionToken": "select-stage",
+      "role": "SELECT-STAGE",
+      "locator": ".issue-pipeline[aria-label=\"단계별 이슈\"] button.issue-stage 또는 nav.issue-status-chips[aria-label=\"단계별 이슈\"] button.issue-status-chip; Home.tsx:64~78",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "a6c620e09b7b2cf133546ea6a17887da3503f15f",
+        "path": "teams/A08.화면개선/docs/10-design/issue-home-t2-input.md",
+        "contentSha256": "83d72c76cdb6c3d5c662cf6f39b04f12b18ef8ecdd81390463e28f0320eedba1",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "처리 단계 선택",
+        "trigger": "onClick→filter(item.key); group 변경·page=0·URL group 설정·GET 재조회",
+        "kind": "press",
+        "gate": "aria-pressed; disabled=decisionLocked",
+        "notes": "native button; form 없음. click press 및 같은 단계버튼 Enter press(keyboard); Enter/Space 활성화를 submit으로 바꾸지 않는다. desktop/mobile 및 같은 동작 반복은 한 역할이며 대상값은 코드에 포함하지 않는다.",
+        "productRevision": "7db9239893fc3c005792566cbe4762d2a632f322"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.select-system",
+      "actionToken": "select-system",
+      "role": "SELECT-SYSTEM",
+      "locator": "Home.tsx:82 Select aria-label=\"시스템\"; AntD Select 소스 노드 계약, option portal DOM 미확정",
+      "evidence": {
+        "repository": "b04-mutuus-operation",
+        "revision": "a6c620e09b7b2cf133546ea6a17887da3503f15f",
+        "path": "teams/A08.화면개선/docs/10-design/issue-home-t2-input.md",
+        "contentSha256": "83d72c76cdb6c3d5c662cf6f39b04f12b18ef8ecdd81390463e28f0320eedba1",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "시스템 선택",
+        "trigger": "onChange→setSystem(value)/setPage(0); GET systemCode 필터",
+        "kind": "change",
+        "gate": "원문 별도 gate 명시 없음",
+        "notes": "change 의미 보존. AntD Select portal change 의미추적 미지원; 실제 option portal DOM 및 키보드 실행 미검증. 제품 추적 handler 수정 없음. 시스템값은 코드에 포함하지 않는다.",
+        "productRevision": "7db9239893fc3c005792566cbe4762d2a632f322"
+      }
+    }
+  ]
+}

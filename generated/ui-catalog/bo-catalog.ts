@@ -1,6 +1,6 @@
-// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.6; catalogDigest=sha256:ff91f5f3af1b57f7484f2c9028d95c832eed7ea0b76025c2b005e192a90d77d4
-export const CATALOG_VERSION = "1.0.0-bo.6" as const;
-export const CATALOG_DIGEST = "ff91f5f3af1b57f7484f2c9028d95c832eed7ea0b76025c2b005e192a90d77d4" as const;
+// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.7; catalogDigest=sha256:c2d12459aae715af7ed6c6111ef2778df2a58529f53e59f8963f3bdfd2390c10
+export const CATALOG_VERSION = "1.0.0-bo.7" as const;
+export const CATALOG_DIGEST = "c2d12459aae715af7ed6c6111ef2778df2a58529f53e59f8963f3bdfd2390c10" as const;
 export const SCREENS = [
   {
     "businessNumber": "S-01",
@@ -1868,7 +1868,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-010",
     "value": "A-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1877,7 +1877,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "A-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1886,7 +1886,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "A-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1895,7 +1895,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "A-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1904,7 +1904,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "A-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1913,7 +1913,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "A-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1922,7 +1922,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "A-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1931,7 +1931,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "C-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1940,7 +1940,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "C-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1949,7 +1949,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "C-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1958,7 +1958,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "C-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1967,7 +1967,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "C-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1976,7 +1976,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "C-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1985,7 +1985,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "C-31",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -1994,7 +1994,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "C-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2003,7 +2003,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "D-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2012,7 +2012,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "I-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2021,7 +2021,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "I-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2030,7 +2030,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "I-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2039,7 +2039,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "K-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2048,7 +2048,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "K-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2057,7 +2057,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "K-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2066,7 +2066,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "K-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2075,7 +2075,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "K-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2084,7 +2084,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "K-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2093,7 +2093,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "K-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2102,7 +2102,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "M-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2111,7 +2111,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "M-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2120,7 +2120,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "M-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2129,7 +2129,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "M-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2138,7 +2138,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "M-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2147,7 +2147,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "M-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2156,7 +2156,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "M-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2165,7 +2165,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "M-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2174,7 +2174,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "R-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2183,7 +2183,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "S-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2192,7 +2192,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "S-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2201,7 +2201,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "T-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2210,7 +2210,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "T-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2219,7 +2219,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "T-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2228,7 +2228,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "T-12",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2237,7 +2237,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "T-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2246,7 +2246,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "T-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2255,7 +2255,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "T-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2264,7 +2264,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "T-31",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2273,7 +2273,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "T-90",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2282,7 +2282,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "W-00",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2291,7 +2291,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "W-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2300,7 +2300,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "W-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2309,7 +2309,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "W-03",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2318,7 +2318,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "W-04",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2327,7 +2327,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "W-05",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2336,7 +2336,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "X-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2345,7 +2345,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "X-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2354,7 +2354,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "X-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2363,7 +2363,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "X-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2372,7 +2372,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "X-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2381,7 +2381,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "X-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2390,7 +2390,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "Y-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2399,7 +2399,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "Y-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2408,7 +2408,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "Y-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2417,7 +2417,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "Y-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2426,7 +2426,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "Y-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2435,7 +2435,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "Y-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2444,7 +2444,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "Y-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2453,7 +2453,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "Y-70",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2462,7 +2462,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "Y-80",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2471,7 +2471,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "Z-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2480,7 +2480,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "Z-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2489,7 +2489,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "Z-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2498,7 +2498,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "Z-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2507,7 +2507,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "Z-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2516,7 +2516,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-030",
     "value": "SetupGate",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2525,7 +2525,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "guide",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2534,7 +2534,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "login",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [
@@ -2547,7 +2547,7 @@ export const ALIASES = [
     "system": "BO",
     "target": null,
     "value": "I-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2556,7 +2556,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-010",
     "value": "/a-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2565,7 +2565,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "/a-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2574,7 +2574,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "/a-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2583,7 +2583,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "/a-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2592,7 +2592,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "/a-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2601,7 +2601,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "/a-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2610,7 +2610,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "/a-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2619,7 +2619,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "/c-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2628,7 +2628,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "/c-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2637,7 +2637,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "/c-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2646,7 +2646,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "/c-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2655,7 +2655,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "/c-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2664,7 +2664,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "/c-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2673,7 +2673,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "/c-31",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2682,7 +2682,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "/c-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2691,7 +2691,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "/d-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2700,7 +2700,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "/guide",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2709,7 +2709,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "/i-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2718,7 +2718,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "/i-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2727,7 +2727,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "/i-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2736,7 +2736,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "/k-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2745,7 +2745,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "/k-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2754,7 +2754,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "/k-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2763,7 +2763,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "/k-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2772,7 +2772,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "/k-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2781,7 +2781,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "/k-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2790,7 +2790,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "/k-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2799,7 +2799,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "/login",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2808,7 +2808,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "/m-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2817,7 +2817,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "/m-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2826,7 +2826,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "/m-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2835,7 +2835,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "/m-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2844,7 +2844,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "/m-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2853,7 +2853,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "/m-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2862,7 +2862,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "/m-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2871,7 +2871,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "/m-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2880,7 +2880,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "/r-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2889,7 +2889,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "/s-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2898,7 +2898,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "/s-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2907,7 +2907,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "/t-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2916,7 +2916,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "/t-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2925,7 +2925,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "/t-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2934,7 +2934,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "/t-12",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2943,7 +2943,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "/t-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2952,7 +2952,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "/t-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2961,7 +2961,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "/t-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2970,7 +2970,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "/t-31",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2979,7 +2979,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "/t-90",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2988,7 +2988,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "/w-00",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -2997,7 +2997,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "/w-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3006,7 +3006,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "/w-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3015,7 +3015,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "/w-03",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3024,7 +3024,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "/w-04",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3033,7 +3033,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "/w-05",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3042,7 +3042,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "/x-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3051,7 +3051,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "/x-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3060,7 +3060,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "/x-11",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3069,7 +3069,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "/x-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3078,7 +3078,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "/x-21",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3087,7 +3087,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "/x-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3096,7 +3096,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "/y-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3105,7 +3105,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "/y-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3114,7 +3114,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "/y-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3123,7 +3123,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "/y-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3132,7 +3132,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "/y-40",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3141,7 +3141,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "/y-50",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3150,7 +3150,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "/y-60",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3159,7 +3159,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "/y-70",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3168,7 +3168,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "/y-80",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3177,7 +3177,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "/z-01",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3186,7 +3186,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "/z-02",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3195,7 +3195,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "/z-10",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3204,7 +3204,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "/z-20",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   },
   {
     "candidates": [],
@@ -3213,7 +3213,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "/z-30",
-    "version": "1.0.0-bo.6"
+    "version": "1.0.0-bo.7"
   }
 ] as const;
 export const ELEMENTS = [
@@ -3666,6 +3666,56 @@ export const ELEMENTS = [
     "role": "TOGGLE-SCOPE-HELP",
     "screen": "BO-DSH-010",
     "sourceScreen": "D-01"
+  },
+  {
+    "actionToken": "select-stage",
+    "behavior": {
+      "gate": "aria-pressed; disabled=decisionLocked",
+      "kind": "press",
+      "label": "처리 단계 선택",
+      "notes": "native button; form 없음. click press 및 같은 단계버튼 Enter press(keyboard); Enter/Space 활성화를 submit으로 바꾸지 않는다. desktop/mobile 및 같은 동작 반복은 한 역할이며 대상값은 코드에 포함하지 않는다.",
+      "productRevision": "7db9239893fc3c005792566cbe4762d2a632f322",
+      "trigger": "onClick→filter(item.key); group 변경·page=0·URL group 설정·GET 재조회"
+    },
+    "code": "BO-ISS-010-SELECT-STAGE",
+    "evidence": {
+      "contentSha256": "83d72c76cdb6c3d5c662cf6f39b04f12b18ef8ecdd81390463e28f0320eedba1",
+      "path": "teams/A08.화면개선/docs/10-design/issue-home-t2-input.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "a6c620e09b7b2cf133546ea6a17887da3503f15f",
+      "revisionKind": "WORKTREE_BASE"
+    },
+    "introducedVersion": "1.0.0-bo.7",
+    "locator": ".issue-pipeline[aria-label=\"단계별 이슈\"] button.issue-stage 또는 nav.issue-status-chips[aria-label=\"단계별 이슈\"] button.issue-status-chip; Home.tsx:64~78",
+    "rawRole": "I-01.select-stage",
+    "role": "SELECT-STAGE",
+    "screen": "BO-ISS-010",
+    "sourceScreen": "I-01"
+  },
+  {
+    "actionToken": "select-system",
+    "behavior": {
+      "gate": "원문 별도 gate 명시 없음",
+      "kind": "change",
+      "label": "시스템 선택",
+      "notes": "change 의미 보존. AntD Select portal change 의미추적 미지원; 실제 option portal DOM 및 키보드 실행 미검증. 제품 추적 handler 수정 없음. 시스템값은 코드에 포함하지 않는다.",
+      "productRevision": "7db9239893fc3c005792566cbe4762d2a632f322",
+      "trigger": "onChange→setSystem(value)/setPage(0); GET systemCode 필터"
+    },
+    "code": "BO-ISS-010-SELECT-SYSTEM",
+    "evidence": {
+      "contentSha256": "83d72c76cdb6c3d5c662cf6f39b04f12b18ef8ecdd81390463e28f0320eedba1",
+      "path": "teams/A08.화면개선/docs/10-design/issue-home-t2-input.md",
+      "repository": "b04-mutuus-operation",
+      "revision": "a6c620e09b7b2cf133546ea6a17887da3503f15f",
+      "revisionKind": "WORKTREE_BASE"
+    },
+    "introducedVersion": "1.0.0-bo.7",
+    "locator": "Home.tsx:82 Select aria-label=\"시스템\"; AntD Select 소스 노드 계약, option portal DOM 미확정",
+    "rawRole": "I-01.select-system",
+    "role": "SELECT-SYSTEM",
+    "screen": "BO-ISS-010",
+    "sourceScreen": "I-01"
   },
   {
     "actionToken": "close-action",
@@ -11368,6 +11418,8 @@ export const ELEMENT_CODES = {
   "BO-CNT-020-SAVE-DRAFT": "BO-CNT-020-SAVE-DRAFT",
   "BO-CNT-020-SELECT-CATEGORY": "BO-CNT-020-SELECT-CATEGORY",
   "BO-DSH-010-TOGGLE-SCOPE-HELP": "BO-DSH-010-TOGGLE-SCOPE-HELP",
+  "BO-ISS-010-SELECT-STAGE": "BO-ISS-010-SELECT-STAGE",
+  "BO-ISS-010-SELECT-SYSTEM": "BO-ISS-010-SELECT-SYSTEM",
   "BO-MBR-010-CLOSE-ACTION": "BO-MBR-010-CLOSE-ACTION",
   "BO-MBR-010-CONFIRM-ACTION-TARGET": "BO-MBR-010-CONFIRM-ACTION-TARGET",
   "BO-MBR-010-EXECUTE-ACTION": "BO-MBR-010-EXECUTE-ACTION",
@@ -11712,7 +11764,10 @@ export const SCREEN_ELEMENTS = {
   "BO-DSH-010": [
     "BO-DSH-010-TOGGLE-SCOPE-HELP"
   ],
-  "BO-ISS-010": [],
+  "BO-ISS-010": [
+    "BO-ISS-010-SELECT-STAGE",
+    "BO-ISS-010-SELECT-SYSTEM"
+  ],
   "BO-ISS-020": [],
   "BO-ISS-030": [],
   "BO-MBR-010": [
