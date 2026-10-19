@@ -12,7 +12,7 @@ class TraceFilterTest {
     @Test void safeHintSetIsValidatedAndPreviousMetadataRestored() throws Exception {
         var hints = java.util.Map.of(
                 HeaderNames.SCREEN_ID, "BO-ISS-010",
-                HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.1",
+                HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.6",
                 HeaderNames.BUSINESS_SCREEN_NO, "APP-123",
                 HeaderNames.EVENT_ID, "abcdef0123456789",
                 HeaderNames.DEVICE_LEVEL, "ANDROID",
@@ -56,7 +56,7 @@ class TraceFilterTest {
             request.addHeader(HeaderNames.TRACE_ID, "forged");
             request.addHeader(HeaderNames.USER_ID, "forged-user");
             request.addHeader(HeaderNames.SCREEN_ID, "BO-ISS-010");
-            request.addHeader(HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.1");
+            request.addHeader(HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.6");
             var response = new MockHttpServletResponse();
             new TraceFilter("TEST", "INST01", true).doFilter(request, response, (req,res) -> {
                 assertThat(TraceContext.traceId()).isEqualTo(span.getSpanContext().getTraceId());

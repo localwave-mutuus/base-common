@@ -9,11 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UiCodeResolverTest {
     private static final String VERSION = UiCodeAliases.CATALOG_VERSION;
-    @Test void runtimeCopyIsByteIdenticalToB1() throws Exception {
+    @Test void runtimeCopyIsByteIdenticalToBo6() throws Exception {
         Path source = Path.of("../../generated/ui-catalog/UiCodeAliases.java");
         Path runtime = Path.of("../../lib/src/main/java/ai/mutuus/common/uicatalog/UiCodeAliases.java");
         assertThat(Files.readAllBytes(runtime)).isEqualTo(Files.readAllBytes(source));
-        assertThat(UiCodeAliases.CATALOG_DIGEST).isEqualTo("587e74f60db13670cbe8688a7469050aab6f1ac5b8418474e2d7c87e27cd4588");
+        assertThat(VERSION).isEqualTo("1.0.0-bo.6");
+        assertThat(UiCodeAliases.CATALOG_DIGEST).isEqualTo("ff91f5f3af1b57f7484f2c9028d95c832eed7ea0b76025c2b005e192a90d77d4");
     }
     @Test void exactKeysAndResolvedStatusAreRequired() {
         assertThat(UiCodeResolver.resolve("BO", "BO_ID", "I-01", VERSION)).contains("BO-ISS-010");
@@ -24,6 +25,8 @@ class UiCodeResolverTest {
         assertThat(UiCodeResolver.screen("I-10", VERSION)).isEmpty();
         assertThat(UiCodeResolver.screen("/home", VERSION)).isEmpty();
         assertThat(UiCodeResolver.screen("/i-10", VERSION)).isEmpty();
+        assertThat(UiCodeResolver.resolve("BO", "INTERNAL_ID", "login", VERSION)).contains("BO-SHL-010");
+        assertThat(UiCodeResolver.screen("BO-ISS-010", VERSION)).contains("BO-ISS-010");
         assertThat(UiCodeResolver.screen("/i-01", VERSION)).contains("BO-ISS-010");
         for (String value : new String[]{"/i-01?q=secret", "https://host/i-01", "/i-01#secret", "/I-01", "BO-ISS-999"})
             assertThat(UiCodeResolver.screen(value, VERSION)).isEmpty();
