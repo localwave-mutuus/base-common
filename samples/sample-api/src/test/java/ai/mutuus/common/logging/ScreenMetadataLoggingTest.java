@@ -14,9 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /** 공통 소비자가 선택 메타데이터를 수신/종료/보안거부/async에 보존하는지 확인한다. */
 class ScreenMetadataLoggingTest {
     private static final Map<String, String> VALID = Map.of(
-            HeaderNames.SCREEN_CATALOG_VERSION, "2026-10-05.1",
+            HeaderNames.SCREEN_CATALOG_VERSION, "1.0.0-bo.1",
             HeaderNames.BUSINESS_SCREEN_NO, "AAA-123",
-            HeaderNames.INTERNAL_SCREEN_ID, "GM-SCR-123456");
+            HeaderNames.SCREEN_ID, "BO-ISS-010",
+            HeaderNames.UI_ELEMENT_ID, "BO-ISS-010-BTN-SEARCH",
+            HeaderNames.UI_ACTION, "press",
+            HeaderNames.EVENT_ID, "abcdef0123456789");
 
     @Test void 형식이_잘못된_메타데이터만_생략한다() {
         assertThat(ScreenMetadata.fromHeaders(VALID::get)).isEqualTo(VALID);
@@ -28,18 +31,17 @@ class ScreenMetadataLoggingTest {
     }
 
     @Test void trace_문맥은_구형_헤더와_신규_세개를_보존하고_종료후_정리한다() throws Exception {
-        var request = request(); request.addHeader(HeaderNames.SCREEN_ID, "old-screen");
-        request.addHeader(HeaderNames.EVENT_ID, "old-event");
+        var request = request();
         new TraceFilter("TEST", "INST01").doFilter(request, new MockHttpServletResponse(), (req,res) -> {
             VALID.forEach((key,value) -> {
                 assertThat(MDC.get(key)).isNull();
                 assertThat(TraceContext.get(key)).contains(value);
             });
-            assertThat(TraceContext.get(HeaderNames.SCREEN_ID)).contains("old-screen");
-            assertThat(TraceContext.get(HeaderNames.EVENT_ID)).contains("old-event");
+            assertThat(TraceContext.get(HeaderNames.SCREEN_ID)).contains("BO-ISS-010");
+            assertThat(TraceContext.get(HeaderNames.EVENT_ID)).contains("abcdef0123456789");
         });
         VALID.keySet().forEach(key -> { assertThat(MDC.get(key)).isNull(); assertThat(TraceContext.get(key)).isEmpty(); });
-        assertThat(java.util.List.of(HeaderNames.PROPAGATED)).doesNotContain(VALID.keySet().toArray(String[]::new));
+        assertThat(java.util.List.of(HeaderNames.PROPAGATED)).contains(HeaderNames.UI_ELEMENT_ID, HeaderNames.SCREEN_CATALOG_VERSION);
     }
 
     @Test void 가장앞_수신과_정리뒤_응답_및_보안거부에도_동일한_필드가_남는다() throws Exception {
@@ -96,19 +98,14 @@ class ScreenMetadataLoggingTest {
             for (var event : capture.list) {
                 assertThat(field(event,HeaderNames.BUSINESS_SCREEN_NO)).isNull();
                 String json = new String(encoder.encode(event),java.nio.charset.StandardCharsets.UTF_8);
-                assertThat(json).contains("catalog_version", "2026-10-05.1", "internal_id", "GM-SCR-123456");
-                assertThat(json).doesNotContain("PRIVATE_DO_NOT_LOG", "X-Business-Screen-No");
+                assertThat(json).contains("catalog_version", "1.0.0-bo.1", "element", "BO-ISS-010-BTN-SEARCH");
+                assertThat(json).doesNotContain("PRIVATE_DO_NOT_LOG", "X-Business-Screen-No", "internal_id");
             }
             encoder.stop();
         } finally { snapshotCapture.close(); }
     }
     private Object field(ILoggingEvent event,String name) {
-        String canonical = switch (name) {
-            case HeaderNames.SCREEN_CATALOG_VERSION -> "golmok.screen.catalog_version";
-            case HeaderNames.BUSINESS_SCREEN_NO -> "golmok.screen.business_no";
-            case HeaderNames.INTERNAL_SCREEN_ID -> "golmok.screen.internal_id";
-            default -> name;
-        };
+        String canonical = ScreenMetadata.FIELDS.getOrDefault(name, name);
         return CanonicalLogSnapshot.snapshot(event).get(canonical);
     }
 }

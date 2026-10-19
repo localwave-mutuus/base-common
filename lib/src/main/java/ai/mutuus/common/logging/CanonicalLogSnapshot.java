@@ -18,12 +18,8 @@ public final class CanonicalLogSnapshot {
     private static final Set<String> CONTEXT_FIELDS = REGISTRY.protectedFields();
     private static final Set<String> METADATA_FIELDS = REGISTRY.metadataFields();
     private static final Set<String> ALLOWED = REGISTRY.structuredInputFields();
-    private static final Map<String, String> HINTS = Map.ofEntries(
-            Map.entry(HeaderNames.SCREEN_ID, "golmok.screen.id"), Map.entry(HeaderNames.EVENT_ID, "golmok.ui.event.id"),
-            Map.entry(HeaderNames.DEVICE_LEVEL, "golmok.device.level"), Map.entry(HeaderNames.LOCALE, "golmok.locale"),
-            Map.entry(HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version"),
-            Map.entry(HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no"),
-            Map.entry(HeaderNames.INTERNAL_SCREEN_ID, "golmok.screen.internal_id"));
+    private static final Map<String, String> HINTS = Map.of(
+            HeaderNames.DEVICE_LEVEL, "golmok.device.level", HeaderNames.LOCALE, "golmok.locale");
 
     private CanonicalLogSnapshot() { }
 
@@ -40,6 +36,8 @@ public final class CanonicalLogSnapshot {
         result.putAll(ai.mutuus.common.core.TelemetryMetadata.current());
         result.putAll(ai.mutuus.common.core.TelemetryScope.jobMetadata());
         result.put("golmok.scope", ai.mutuus.common.core.TelemetryScope.current());
+        ai.mutuus.common.core.ScreenMetadata.fromHeaders(key -> TraceContext.get(key).orElse(null))
+                .forEach((header, value) -> result.put(ai.mutuus.common.core.ScreenMetadata.FIELDS.get(header), value));
         HINTS.forEach((header, field) -> TraceContext.get(header).filter(CanonicalLogSnapshot::safeHint)
                 .ifPresent(value -> result.put(field, value)));
         TraceContext.get(ai.mutuus.common.core.RequestIds.CONTEXT_KEY).ifPresent(value -> result.put("golmok.request.id", value));
@@ -50,11 +48,11 @@ public final class CanonicalLogSnapshot {
 
     static Map<String, Object> requestMetadata(java.util.function.Function<String, String> reader) {
         Map<String, Object> metadata = new LinkedHashMap<>();
-        for (String header : List.of(HeaderNames.SCREEN_ID, HeaderNames.EVENT_ID, HeaderNames.DEVICE_LEVEL, HeaderNames.LOCALE)) {
+        for (String header : List.of(HeaderNames.DEVICE_LEVEL, HeaderNames.LOCALE)) {
             String value = reader.apply(header);
             if (value != null && safeHint(value)) metadata.put(HINTS.get(header), value);
         }
-        ai.mutuus.common.core.ScreenMetadata.fromHeaders(reader).forEach((header, value) -> metadata.put(HINTS.get(header), value));
+        ai.mutuus.common.core.ScreenMetadata.fromHeaders(reader).forEach((header, value) -> metadata.put(ai.mutuus.common.core.ScreenMetadata.FIELDS.get(header), value));
         return Map.copyOf(metadata);
     }
 
@@ -72,7 +70,7 @@ public final class CanonicalLogSnapshot {
         flat.putAll(context());
         // 전파된 부가 메타데이터도 명시 허용 목록만 읽는다. 신원·trace는 MDC로 덮어쓸 수 없다.
         var mdc = event.getMDCPropertyMap();
-        for (String key : List.of("golmok.screen.id", "session.id", "golmok.device.pseudo_id"))
+        for (String key : List.of("session.id", "golmok.device.pseudo_id"))
             putNonblank(flat, key, mdc.get(key));
         captureApprovedMdc(mdc, flat);
         captureUnknownMdc(mdc, flat);

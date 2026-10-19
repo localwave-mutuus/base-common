@@ -39,7 +39,7 @@ public class AccessLogger {
         var event = dataset(log.atInfo(), EcsFields.DATASET_ACCESS).addKeyValue("event.action", "request.received")
                 .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS)
                 .addKeyValue("http.request.method", method).addKeyValue("url.path", path);
-        if (hasText(query)) event.addKeyValue("url.query", query);
+        // Raw query values are never emitted by the access facade.
         if (clientIp != null) event.addKeyValue("client.ip", clientIp);
         event.log("API request received");
     }
@@ -72,20 +72,11 @@ public class AccessLogger {
                 .addKeyValue("event.outcome", hasText(errorCode) ? "failure" : "success")
                 .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS);
         if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
-        if (hasText(query)) event.addKeyValue("url.query", query);
+        // Raw query values are never emitted by the access facade.
         if (slow) event.addKeyValue("golmok.slow", true);
         // 구 인자의 trace/span/user는 신뢰하지 않는다. 실제 OTel/검증 사용자 Context만 출력한다.
-        screen.forEach((key, value) -> {
-            String canonical = switch (key) {
-                case HeaderNames.SCREEN_ID -> "golmok.screen.id";
-                case HeaderNames.SCREEN_CATALOG_VERSION -> "golmok.screen.catalog_version";
-                case HeaderNames.BUSINESS_SCREEN_NO -> "golmok.screen.business_no";
-                case HeaderNames.INTERNAL_SCREEN_ID -> "golmok.screen.internal_id";
-                default -> key;
-            };
-            if (Set.of("golmok.screen.id", "golmok.screen.catalog_version", "golmok.screen.business_no", "golmok.screen.internal_id")
-                    .contains(canonical)) event.addKeyValue(canonical, value);
-        });
+        ai.mutuus.common.core.ScreenMetadata.fromHeaders(screen::get).forEach((key, value) ->
+                event.addKeyValue(ai.mutuus.common.core.ScreenMetadata.FIELDS.get(key), value));
         event.log(action);
     }
     public void authFailure(String path, String reason) { authFailure(path, reason, null); }

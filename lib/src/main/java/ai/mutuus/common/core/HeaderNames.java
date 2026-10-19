@@ -26,6 +26,10 @@ public final class HeaderNames {
     public static final String INTERNAL_SCREEN_ID = "X-Internal-Screen-Id";
 
     /** 이벤트 ID — 화면 내 이벤트 발생 버튼/액션 식별. */
+    public static final String UI_ELEMENT_ID = "X-UI-Element-Id";
+    public static final String UI_ACTION = "X-UI-Action";
+
+    /** UI root span ID (16 lowercase hex), distinct from the request CLIENT span. */
     public static final String EVENT_ID = "X-Event-Id";
 
     /** 단말기 수준 식별 (예: WEB / ANDROID / IOS / KIOSK). */
@@ -48,7 +52,7 @@ public final class HeaderNames {
 
     /** 전파 대상 헤더 전체 목록 (인터셉터에서 순회). */
     public static final String[] PROPAGATED = {
-            TRACE_ID, SPAN_ID, SCREEN_ID, EVENT_ID, DEVICE_LEVEL, DEVICE_ID, USER_ID, LOCALE,
+            TRACE_ID, SPAN_ID, SCREEN_ID, SCREEN_CATALOG_VERSION, UI_ELEMENT_ID, UI_ACTION, EVENT_ID, DEVICE_LEVEL, DEVICE_ID, USER_ID, LOCALE,
             APP_CODE, INSTANCE_ID
     };
 
@@ -57,7 +61,7 @@ public final class HeaderNames {
      * 부착하지 않는다(외부 유출 방지). 상관용 {@link #TRACE_ID}/{@link #SPAN_ID}/{@link #LOCALE} 는 제외(항상 전파 허용).
      */
     public static final java.util.Set<String> IDENTITY = java.util.Set.of(
-            USER_ID, DEVICE_LEVEL, DEVICE_ID, SCREEN_ID, EVENT_ID, APP_CODE, INSTANCE_ID);
+            USER_ID, DEVICE_LEVEL, DEVICE_ID, SCREEN_ID, SCREEN_CATALOG_VERSION, UI_ELEMENT_ID, UI_ACTION, EVENT_ID, APP_CODE, INSTANCE_ID);
 
     /**
      * 인입 {@code X-User-Id}(신뢰 불가 주장값)를 담는 <b>요청 속성</b> 이름. TraceFilter(web)가 세팅하고

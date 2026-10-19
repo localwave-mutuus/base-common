@@ -43,9 +43,7 @@ public class TraceFilter extends OncePerRequestFilter {
             request.setAttribute(TraceHeaders.REQUEST_ATTRIBUTE, inbound);
             populate(RequestIds.CONTEXT_KEY, (String) request.getAttribute(RequestIds.HTTP_ATTRIBUTE));
             TraceContext.put(TraceHeaders.W3C_ENABLED, Boolean.toString(w3c));
-            populate(HeaderNames.SCREEN_ID, request.getHeader(HeaderNames.SCREEN_ID));
             ai.mutuus.common.core.ScreenMetadata.fromHeaders(request::getHeader).forEach(this::populate);
-            populate(HeaderNames.EVENT_ID, request.getHeader(HeaderNames.EVENT_ID));
             populate(HeaderNames.DEVICE_LEVEL, request.getHeader(HeaderNames.DEVICE_LEVEL));
             // 사용자·단말 원문은 인증 또는 별도 개인정보 계약 없이 문맥/로그에 넣지 않는다.
             String claimedUser = request.getHeader(HeaderNames.USER_ID);
