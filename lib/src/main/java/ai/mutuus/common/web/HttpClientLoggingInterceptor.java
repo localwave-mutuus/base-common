@@ -45,26 +45,27 @@ public class HttpClientLoggingInterceptor implements ClientHttpRequestIntercepto
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
+        // Install the completion listener before dispatch; suppress only an observed transport completion.
+        ObservedJdkHttpClient.transportLoggingEnabled();
         String method = request.getMethod().name();
         URI uri = request.getURI();
-        long start = System.nanoTime();
+        HttpCompletionScope scope = new HttpCompletionScope(false);
         try {
             ClientHttpResponse response = execution.execute(request, body);
-            long nanos = System.nanoTime() - start;
             int status = statusOf(response);
-            write(method, uri, status, nanos, null);
+            scope.finish(status > 0 ? status : null, status < 0 ? "HTTP_STATUS_UNAVAILABLE" : null,
+                done -> write(method, uri, status, done.durationNanos(), null, done));
             return response;
         } catch (IOException | RuntimeException ex) {
-            long nanos = System.nanoTime() - start;
-            write(method, uri, -1, nanos, ex);
+            scope.finish(null, "HTTP_IO_ERROR", done -> write(method, uri, -1, done.durationNanos(), ex, done));
             throw ex;
-        }
+        } finally { scope.detachClientDispatch(); }
     }
 
-    private void write(String method, URI uri, int status, long nanos, Throwable ex) {
+    private void write(String method, URI uri, int status, long nanos, Throwable ex, HttpCompletionScope.Completion completion) {
         long durationMs = nanos / 1_000_000L;
         boolean slow = slowThresholdMillis > 0 && durationMs >= slowThresholdMillis;
-        boolean failure = ex != null || status >= 500;
+        boolean failure = ex != null || status >= 400 || status < 0;
         LoggingEventBuilder ev = (failure || slow) ? log.atWarn() : log.atInfo();
 
         String urlNoQuery = sanitize(uri);
@@ -76,9 +77,12 @@ public class HttpClientLoggingInterceptor implements ClientHttpRequestIntercepto
                         failure ? EcsFields.OUTCOME_FAILURE : EcsFields.OUTCOME_SUCCESS)
                 .addKeyValue(EcsFields.HTTP_REQUEST_METHOD, method)
                 .addKeyValue(EcsFields.URL_FULL, urlNoQuery)
-                .addKeyValue(EcsFields.EVENT_DURATION, nanos);
+                .addKeyValue(EcsFields.EVENT_DURATION, nanos)
+                .addKeyValue(ai.mutuus.common.logging.CanonicalLogSnapshot.CONTEXT_KEY, completion.snapshot());
         if (uri.getHost() != null) ev.addKeyValue(EcsFields.URL_DOMAIN, uri.getHost());
         if (status > 0) ev.addKeyValue(EcsFields.HTTP_RESPONSE_STATUS_CODE, status);
+        if (failure) ev.addKeyValue("error.code", ex instanceof java.net.http.HttpTimeoutException
+                ? "HTTP_TIMEOUT" : ex != null ? "HTTP_IO_ERROR" : status >= 400 ? "HTTP_" + status : "HTTP_STATUS_UNAVAILABLE");
         if (ex != null) ev.addKeyValue(EcsFields.ERROR_TYPE, ex.getClass().getName());
         if (slow) ev.addKeyValue("golmok.slow", true);
         ev.log("outbound HTTP call completed");
@@ -105,9 +109,7 @@ public class HttpClientLoggingInterceptor implements ClientHttpRequestIntercepto
                 sb.append(':').append(uri.getPort());
             }
         }
-        if (uri.getRawPath() != null) {
-            sb.append(uri.getRawPath());
-        }
-        return sb.length() == 0 ? String.valueOf(uri) : sb.toString();
+        sb.append("/{unmatched}");
+        return sb.length() == 0 ? "/{unmatched}" : sb.toString();
     }
 }

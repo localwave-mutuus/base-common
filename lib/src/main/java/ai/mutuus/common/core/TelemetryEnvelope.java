@@ -108,6 +108,66 @@ public record TelemetryEnvelope(int version, String traceparent, String tracesta
         }
     }
 
+    /** Store this string and VERSION in the same transaction as the single reservation.
+     * The storage contract is 8192 characters, distinct from payload UTF-8 limits. */
+    public String toStorageString() {
+        try {
+            var out=new java.io.StringWriter();
+            try(var json=new com.fasterxml.jackson.core.JsonFactory().createGenerator(out)) {
+                json.writeStartObject(); json.writeNumberField("version",version);
+                String[] keys={"traceparent","tracestate","initiatorId","realm","source","eventId","publishedAt","operationId","attemptId"};
+                String[] values={traceparent,tracestate,initiatorId,realm,source,eventId,publishedAt.toString(),operationId,attemptId};
+                for(int i=0;i<keys.length;i++){if(values[i]==null)json.writeNullField(keys[i]);else json.writeStringField(keys[i],values[i]);}
+                json.writeEndObject();
+            }
+            String result=out.toString();
+            if(result.length()>8192)throw new IllegalArgumentException("Envelope storage limit exceeded");
+            return result;
+        }catch(java.io.IOException ex){throw new IllegalArgumentException("Envelope serialization failed");}
+    }
+    public static TelemetryEnvelope fromStorageString(String stored) {
+        if(stored==null || stored.length()>8192)throw new IllegalArgumentException("Invalid stored envelope");
+        try(var parser=com.fasterxml.jackson.core.JsonFactory.builder().enable(com.fasterxml.jackson.core.StreamReadFeature.STRICT_DUPLICATE_DETECTION)
+                .streamReadConstraints(com.fasterxml.jackson.core.StreamReadConstraints.builder().maxNestingDepth(2).maxStringLength(8192).build()).build().createParser(stored)) {
+            if(parser.nextToken()!=com.fasterxml.jackson.core.JsonToken.START_OBJECT)throw new IllegalArgumentException("Invalid stored envelope");
+            Map<String,String> values=new LinkedHashMap<>();
+            var keys=java.util.Set.of("version","traceparent","tracestate","initiatorId","realm","source","eventId","publishedAt","operationId","attemptId");
+            while(parser.nextToken()!=com.fasterxml.jackson.core.JsonToken.END_OBJECT){
+                if(parser.currentToken()!=com.fasterxml.jackson.core.JsonToken.FIELD_NAME || !keys.contains(parser.currentName()))throw new IllegalArgumentException("Invalid stored envelope field");
+                String key=parser.currentName();var token=parser.nextToken();
+                if(key.equals("version") ? token!=com.fasterxml.jackson.core.JsonToken.VALUE_NUMBER_INT : token!=com.fasterxml.jackson.core.JsonToken.VALUE_STRING && token!=com.fasterxml.jackson.core.JsonToken.VALUE_NULL)
+                    throw new IllegalArgumentException("Invalid stored envelope type");
+                values.put(key,token==com.fasterxml.jackson.core.JsonToken.VALUE_NULL?null:parser.getText());
+            }
+            if(parser.nextToken()!=null || !values.keySet().equals(keys))throw new IllegalArgumentException("Invalid stored envelope schema");
+            return new TelemetryEnvelope(Integer.parseInt(values.get("version")),values.get("traceparent"),values.get("tracestate"),values.get("initiatorId"),values.get("realm"),values.get("source"),values.get("eventId"),Instant.parse(values.get("publishedAt")),values.get("operationId"),values.get("attemptId"));
+        }catch(Exception ex){throw new IllegalArgumentException("Invalid stored envelope");}
+    }
+
+    /** validatedOwner must come from authenticated storage authorization, never an ingress header.
+     * Retry reuses the original ingress parent but must supply a new attempt ID. */
+    public static StoredConsumer resumeStored(String stored,int schemaVersion,String storageOwner,String validatedOwner,String nextAttemptId) {
+        String reason=null;TelemetryEnvelope envelope=null;
+        if(validatedOwner==null || !TOKEN.matcher(validatedOwner).matches() || storageOwner==null || !validatedOwner.equals(storageOwner)) reason="ENVELOPE_OWNER_MISMATCH";
+        else if(stored==null) reason="ENVELOPE_MISSING";
+        else try {
+            if(schemaVersion!=VERSION)throw new IllegalArgumentException();
+            var original=fromStorageString(stored);
+            if(original.attemptId().equals(nextAttemptId))throw new IllegalArgumentException("New attempt ID required");
+            envelope=original.withAttemptId(nextAttemptId);
+        }catch(RuntimeException invalid){reason="ENVELOPE_INVALID";}
+        if(envelope!=null)return new StoredConsumer(envelope.openConsumerFromOwnerValidatedStorage("single.email"),null);
+        token(nextAttemptId,"attemptId",false);
+        Span span=GlobalOpenTelemetry.getTracer("ai.mutuus.common.envelope").spanBuilder("single.email").setSpanKind(SpanKind.CONSUMER).setNoParent().startSpan();
+        String execution=UUID.randomUUID().toString();span.setAttribute("execution.id",execution).setAttribute("golmok.attempt.id",nextAttemptId).setAttribute("error.code",reason);
+        Context context=TelemetryMetadata.withValues(TelemetryScope.with(Context.root().with(span),"job"),new TelemetryMetadata.Values(null,nextAttemptId,null,execution));
+        return new StoredConsumer(new ConsumerScope(span,context.makeCurrent()),reason);
+    }
+    public record StoredConsumer(ConsumerScope scope,String reason) implements AutoCloseable {
+        public ai.mutuus.common.logging.JobPairLogger.Scope beginJob(String jobName,String operationId){return new ai.mutuus.common.logging.JobPairLogger().beginInCurrentSpan(jobName,operationId);}
+        @Override public void close(){scope.close();}
+    }
+
     private static Context validatedParent(String traceparent, String tracestate) {
         Map<String, String> carrier = new LinkedHashMap<>();
         carrier.put("traceparent", traceparent);

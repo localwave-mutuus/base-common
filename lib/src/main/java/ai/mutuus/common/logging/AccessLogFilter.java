@@ -68,9 +68,8 @@ public class AccessLogFilter extends OncePerRequestFilter {
     private final class State implements AsyncListener {
         final HttpServletRequest request;
         final HttpServletResponse response;
-        final String id = UUID.randomUUID().toString();
-        final long started = System.nanoTime();
-        final AtomicBoolean finished = new AtomicBoolean();
+        final ai.mutuus.common.web.HttpCompletionScope completion = new ai.mutuus.common.web.HttpCompletionScope();
+        final String id = completion.requestId();
         volatile Map<String, Object> snapshot;
         volatile boolean async;
         volatile Throwable failure;
@@ -94,41 +93,40 @@ public class AccessLogFilter extends OncePerRequestFilter {
             }
         }
         void finish(String error, int forcedStatus) {
-            if (!finished.compareAndSet(false, true)) return;
+            
             captureIdentity();
             int status = response.getStatus();
             if (error == null && failure != null) {
                 Throwable cause = failure;
                 java.util.Set<Throwable> seen = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
                 while (cause.getCause() != null && seen.add(cause.getCause())) cause = cause.getCause();
-                boolean disconnect = cause instanceof IOException;
-                error = disconnect ? "CLIENT_DISCONNECT" : "UNHANDLED_EXCEPTION";
-                forcedStatus = disconnect ? 499 : 500;
+                boolean disconnect = ai.mutuus.common.web.HttpCompletionScope.confirmedDisconnect(failure);
+                if (disconnect) { error = "CLIENT_DISCONNECTED"; forcedStatus = 499; }
+                else if (cause instanceof IOException) {
+                    forcedStatus = response.isCommitted() || status >= 400 ? status : 500;
+                    error = "HTTP_IO_ERROR";
+                } else { error = "HTTP_500"; forcedStatus = 500; }
             }
             if (forcedStatus != 0) status = forcedStatus;
             if (error == null) error = status >= 400 ? "HTTP_" + status : "";
-            if (status == 401 && !snapshot.containsKey("user.id")) {
-                Map<String, Object> failed = new LinkedHashMap<>(snapshot);
-                failed.put("golmok.auth.state", "failed");
-                snapshot = Map.copyOf(failed);
-            }
             String exceptionType = failure != null ? failure.getClass().getName() : HandledExceptionMetadata.errorType(request);
             if (exceptionType != null) {
                 Map<String, Object> completion = new LinkedHashMap<>(snapshot);
                 completion.put("error.type", exceptionType);
                 snapshot = Map.copyOf(completion);
             }
-            long nanos = System.nanoTime() - started;
-            boolean slow = props.getSlowRequestThresholdMillis() > 0 && nanos / 1_000_000 > props.getSlowRequestThresholdMillis();
             Object template = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-            String route = template == null ? null : template.toString();
-            // 실제 URL 식별자·개인정보는 남기지 않고 매칭된 템플릿 경로만 출력한다.
-            accessLogger.serverComplete(request.getMethod(), route == null ? "/{unmatched}" : route,
-                    route, status, nanos, error, slow, snapshot);
+            String route = template == null ? "/{unmatched}" : template.toString();
+            completion.finish(status, error, snapshot, done -> {
+                boolean slow = props.getSlowRequestThresholdMillis() > 0
+                    && done.durationNanos() / 1_000_000 > props.getSlowRequestThresholdMillis();
+                accessLogger.serverComplete(request.getMethod(), route, route, done.status(),
+                    done.durationNanos(), done.errorCode(), slow, done.snapshot());
+            });
         }
         @Override public void onComplete(AsyncEvent event) { finish(null, 0); }
-        @Override public void onTimeout(AsyncEvent event) { finish("ASYNC_TIMEOUT", 504); }
-        @Override public void onError(AsyncEvent event) { failure = event.getThrowable(); finish("ASYNC_ERROR", 500); }
+        @Override public void onTimeout(AsyncEvent event) { finish("HTTP_504", 504); }
+        @Override public void onError(AsyncEvent event) { failure = event.getThrowable(); finish("HTTP_500", 500); }
         @Override public void onStartAsync(AsyncEvent event) { event.getAsyncContext().addListener(this); }
     }
 }

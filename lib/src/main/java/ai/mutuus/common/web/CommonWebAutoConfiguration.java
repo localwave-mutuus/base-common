@@ -112,77 +112,9 @@ public class CommonWebAutoConfiguration {
     // mutuus.http_client dataset 으로 남긴다(e2e 호출 구간 관측). client-logging.enabled=false 로 OFF.
     // ---------------------------------------------------------------------
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
-    public HttpClientLoggingInterceptor httpClientLoggingInterceptor(
-            CommonHttpProperties props,
-            // 로그 포맷은 액세스 로깅과 동일 출처를 원시 프로퍼티로만 읽어 web→logging 패키지 결합을 피한다.
-            @Value("${mutuus.common.logging.format:DUAL}") LogFormat format) {
-        return new HttpClientLoggingInterceptor(format, props.getClientLogging().getSlowRequestThresholdMillis());
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(RestClientCustomizer.class)
-    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
-    static class HttpClientLoggingRestClientConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean(name = "httpClientLoggingRestClientCustomizer")
-        RestClientCustomizer httpClientLoggingRestClientCustomizer(HttpClientLoggingInterceptor interceptor) {
-            return builder -> builder.requestInterceptor(interceptor);
-        }
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(RestTemplateCustomizer.class)
-    @ConditionalOnProperty(prefix = "mutuus.common.http.client-logging", name = "enabled", matchIfMissing = true)
-    static class HttpClientLoggingRestTemplateConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean(name = "httpClientLoggingRestTemplateCustomizer")
-        RestTemplateCustomizer httpClientLoggingRestTemplateCustomizer(HttpClientLoggingInterceptor interceptor) {
-            return restTemplate -> restTemplate.getInterceptors().add(interceptor);
-        }
-    }
-
     // ---------------------------------------------------------------------
     // 아웃바운드 재시도(opt-in) — 멱등 요청 IOException(연결/타임아웃) 재시도.
     // mutuus.common.http.retry.enabled=true 일 때만 클라이언트 빌더에 인터셉터를 얹는다.
     // ---------------------------------------------------------------------
 
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
-    static class HttpRetryConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean
-        HttpRetryInterceptor httpRetryInterceptor(CommonHttpProperties props) {
-            return new HttpRetryInterceptor(props.getRetry().getMaxAttempts());
-        }
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(RestClientCustomizer.class)
-    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
-    static class HttpRetryRestClientConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean(name = "httpRetryRestClientCustomizer")
-        RestClientCustomizer httpRetryRestClientCustomizer(HttpRetryInterceptor interceptor) {
-            return builder -> builder.requestInterceptor(interceptor);
-        }
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(RestTemplateCustomizer.class)
-    @ConditionalOnProperty(prefix = "mutuus.common.http.retry", name = "enabled", havingValue = "true")
-    static class HttpRetryRestTemplateConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean(name = "httpRetryRestTemplateCustomizer")
-        RestTemplateCustomizer httpRetryRestTemplateCustomizer(HttpRetryInterceptor interceptor) {
-            return restTemplate -> restTemplate.getInterceptors().add(interceptor);
-        }
-    }
 }

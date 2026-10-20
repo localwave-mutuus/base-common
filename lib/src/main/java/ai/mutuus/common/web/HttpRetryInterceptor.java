@@ -17,26 +17,36 @@ import org.springframework.http.client.ClientHttpResponse;
 public class HttpRetryInterceptor implements ClientHttpRequestInterceptor {
 
     private final int maxAttempts;
+    private final HttpClientLoggingInterceptor observation;
 
     public HttpRetryInterceptor(int maxAttempts) {
+        this(maxAttempts, null);
+    }
+
+    public HttpRetryInterceptor(int maxAttempts, HttpClientLoggingInterceptor observation) {
         this.maxAttempts = Math.max(1, maxAttempts);
+        this.observation = observation;
     }
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
         if (!isIdempotent(request.getMethod())) {
-            return execution.execute(request, body);
+            return executeAttempt(request, body, execution);
         }
         IOException last = null;
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try {
-                return execution.execute(request, body);
+                return executeAttempt(request, body, execution);
             } catch (IOException e) {
                 last = e; // 다음 시도
             }
         }
         throw (last != null) ? last : new IOException("retry exhausted");
+    }
+
+    private ClientHttpResponse executeAttempt(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        return observation == null ? execution.execute(request, body) : observation.intercept(request, body, execution);
     }
 
     private boolean isIdempotent(HttpMethod method) {

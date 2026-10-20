@@ -21,3 +21,6 @@ ai.mutuus.common.security.CommonSecurityAutoConfiguration
 ai.mutuus.common.persistence.CommonPersistenceAutoConfiguration
 ai.mutuus.common.persistence.JpaAuditingAutoConfiguration
 ai.mutuus.common.session.CommonSessionAutoConfiguration
+ai.mutuus.common.web.CommonHttpClientObservationAutoConfiguration
+ai.mutuus.common.aop.CommonServiceMethodLoggingAutoConfiguration
+ai.mutuus.common.payload.CommonSafePayloadAutoConfiguration

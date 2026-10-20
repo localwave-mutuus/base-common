@@ -17,9 +17,13 @@ public final class ScreenMetadata {
             HeaderNames.EVENT_ID, "golmok.ui.event.id");
 
     public static Map<String, String> fromHeaders(Function<String, String> reader) {
+        return fromHeaders(System.getProperty("mutuus.ui.system"), reader);
+    }
+
+    public static Map<String, String> fromHeaders(String system, Function<String, String> reader) {
         Map<String, String> values = new LinkedHashMap<>();
         String version = reader.apply(HeaderNames.SCREEN_CATALOG_VERSION);
-        String screen = UiCodeResolver.screen(reader.apply(HeaderNames.SCREEN_ID), version).orElse(null);
+        String screen = UiCodeResolver.screen(system, reader.apply(HeaderNames.SCREEN_ID), version).orElse(null);
         if (screen == null) return Map.of();
         values.put(HeaderNames.SCREEN_ID, screen);
         values.put(HeaderNames.SCREEN_CATALOG_VERSION, version);

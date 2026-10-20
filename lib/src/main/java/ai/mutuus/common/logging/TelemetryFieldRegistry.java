@@ -104,6 +104,13 @@ public final class TelemetryFieldRegistry {
 
                 for (String other : fields.keySet()) require(!other.startsWith(name + "."), "Canonical scalar/object prefix collision");
             }
+            if ((Integer)root.get("version") == 5) {
+                for (String name : List.of("golmok.service.invocation.id", "golmok.payload.policy.id", "golmok.payload.omitted.reason", "golmok.payload.truncated")) {
+                    Field field=fields.get(name);
+                    require(field!=null && field.protectedField() && !field.mdcInput() && !field.structuredInput(), "v5 typed protection required");
+                    require(field.type().equals(name.endsWith("truncated") ? "boolean" : "keyword"), "v5 field type mismatch");
+                }
+            }
             return new TelemetryFieldRegistry((Integer) root.get("version"), fields);
         } catch (IllegalArgumentException ex) { throw ex; }
         catch (Exception ex) { throw new IllegalArgumentException("Invalid or unsafe telemetry field registry", ex); }
@@ -117,6 +124,8 @@ public final class TelemetryFieldRegistry {
         validateNames(snapshot);
         snapshot.forEach((name, value) -> {
             Field field = fields.get(name);
+            if (name.equals("golmok.payload.omitted.reason")) require(ai.mutuus.common.payload.SafePayloadPolicy.REASONS.contains(value), "Invalid payload omission reason");
+            if (name.equals("golmok.service.invocation.id")) require(value instanceof String id && java.util.UUID.fromString(id).toString().equals(id), "Invalid invocation ID");
             if ("attributes".equals(name)) { validateReservedAttributes(value); return; }
             if (field.array()) {
                 require(value instanceof Collection<?>, "Telemetry field must be an array: " + name);

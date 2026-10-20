@@ -60,8 +60,8 @@ class OtelRegistryGenerationContractTest {
         }
         assertThat(rates).doesNotContainKeys("legacy_inputs", "aliases", "alias_until", "input_accept_until");
         assertThat(docs).doesNotContain("alias_until", "input_accept_until", "입력 별칭");
-        assertThat(registry.version()).isEqualTo(4);
-        assertThat(registry.fields()).hasSize(90);
+        assertThat(registry.version()).isEqualTo(5);
+        assertThat(registry.fields()).hasSize(94);
         for (String field : List.of("trace.id", "span.id", "user.id")) {
             var rule = rules.stream().filter(item -> field.equals(item.get("field"))).findFirst().orElseThrow();
             boolean user = "user.id".equals(field);

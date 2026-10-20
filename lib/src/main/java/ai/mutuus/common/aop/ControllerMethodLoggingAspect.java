@@ -36,9 +36,9 @@ public class ControllerMethodLoggingAspect {
         if (!matches(signature)) {
             return pjp.proceed();
         }
-        writer.onEnter(type, method, pjp.getArgs()); // 진입: 인자
+        writer.onEnter(type, method, new Object[0]); // 진입: 인자
         Object result = pjp.proceed();               // 원 메서드 실행
-        writer.onExit(type, method, result);         // 정상 종료: 리턴
+        writer.onExit(type, method, null);         // 정상 종료: 리턴
         return result;
     }
 

@@ -18,7 +18,7 @@ public final class JobPairLogger {
     public static final String LOGGER_NAME = "ai.mutuus.common.job";
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
 
-    /** 독립 정기 실행의 root span. OFF/NO_CLAIM도 이 범위에서 결과로 기록한다. */
+    /** 독립 정기 실행의 root span. 실행 admission이 승인된 뒤에만 연다. */
     public Scope begin(String jobName, String operationId) {
         return root(jobName, operationId, null);
     }
@@ -51,6 +51,15 @@ public final class JobPairLogger {
         Span span;
         try (var ignored = Context.root().makeCurrent()) { span = builder.startSpan(); }
         return new Scope(jobName, operationId, span, Context.root().with(span), true);
+    }
+
+    /** OFF/NO_CLAIM/claim failure has no execution pair and creates no span. */
+    public void admission(String status) {
+        if (!java.util.Set.of("OFF", "NO_CLAIM", "CLAIM_FAILED").contains(status)) throw new IllegalArgumentException("Invalid admission status");
+        log.atInfo().addKeyValue("event.dataset","mutuus.job.admission")
+                .addKeyValue("event.action","job.admission").addKeyValue("golmok.scope","job")
+                .addKeyValue("event.outcome",status.equals("CLAIM_FAILED")?"failure":"success")
+                .addKeyValue("error.code",status).log("job.admission");
     }
 
     public static final class Scope implements AutoCloseable {

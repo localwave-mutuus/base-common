@@ -11,13 +11,14 @@ import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 
-/** 실제 응답을 지연하지 않고 본문 앞부분만 제한된 크기로 보관한다. */
+/** 실제 응답을 지연하지 않고 제한 크기까지 보관하며 초과 시 캡처 전체를 버린다. */
 final class BoundedPayloadResponseWrapper extends HttpServletResponseWrapper {
     private final ByteArrayOutputStream captured = new ByteArrayOutputStream();
     private final int limit;
     private ServletOutputStream stream;
     private PrintWriter writer;
     private boolean drainingWriter;
+    private boolean overflow;
 
     BoundedPayloadResponseWrapper(HttpServletResponse response, int limit) {
         super(response);
@@ -38,11 +39,13 @@ final class BoundedPayloadResponseWrapper extends HttpServletResponseWrapper {
                 @Override public void setWriteListener(WriteListener listener) { delegate.setWriteListener(listener); }
                 @Override public void write(int value) throws IOException {
                     delegate.write(value);
-                    if (captured.size() < limit) captured.write(value);
+                    if (!overflow && captured.size() < limit) captured.write(value);
+                    else { overflow=true; captured.reset(); }
                 }
                 @Override public void write(byte[] bytes, int offset, int length) throws IOException {
                     delegate.write(bytes, offset, length);
-                    captured.write(bytes, offset, Math.min(length, limit - captured.size()));
+                    if (!overflow && length <= limit-captured.size()) captured.write(bytes, offset, length);
+                    else { overflow=true; captured.reset(); }
                 }
                 @Override public void flush() throws IOException {
                     if (!drainingWriter) delegate.flush();
@@ -69,12 +72,14 @@ final class BoundedPayloadResponseWrapper extends HttpServletResponseWrapper {
         flushWriter();
         super.resetBuffer();
         captured.reset();
+        overflow=false;
     }
 
     @Override public void reset() {
         flushWriter();
         super.reset();
         captured.reset();
+        overflow=false;
         stream = null;
         writer = null;
     }
@@ -83,12 +88,14 @@ final class BoundedPayloadResponseWrapper extends HttpServletResponseWrapper {
         flushWriter();
         super.sendError(status);
         captured.reset();
+        overflow=false;
     }
 
     @Override public void sendError(int status, String message) throws IOException {
         flushWriter();
         super.sendError(status, message);
         captured.reset();
+        overflow=false;
     }
 
     void flushWriter() {
@@ -100,5 +107,6 @@ final class BoundedPayloadResponseWrapper extends HttpServletResponseWrapper {
             drainingWriter = false;
         }
     }
+    boolean overflow() { return overflow; }
     byte[] capturedBody() { return captured.toByteArray(); }
 }

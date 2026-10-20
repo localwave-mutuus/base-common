@@ -13,9 +13,11 @@ import java.util.*;
 /** 비동기 큐에 넘기기 전에 고정하는 schema v2 이벤트. MDC 전체나 사용자 헤더는 복제하지 않는다. */
 public final class CanonicalLogSnapshot {
     static final String SNAPSHOT_KEY = "__common_platform_snapshot_v2";
-    static final String CONTEXT_KEY = "__common_platform_completion_context";
+    public static final String CONTEXT_KEY = "__common_platform_completion_context";
     private static final TelemetryFieldRegistry REGISTRY = TelemetryFieldRegistry.load();
     private static final Set<String> CONTEXT_FIELDS = REGISTRY.protectedFields();
+    private static final Set<String> TYPED_FIELDS = Set.of("golmok.service.invocation.id", "golmok.payload.policy.id", "golmok.payload.omitted.reason", "golmok.payload.truncated");
+    private static final Set<String> RAW_FIELDS = Set.of("http.request.body.content", "http.response.body.content", "mutuus.method.args", "mutuus.method.return", "url.query", "http.request.headers", "http.response.headers", "error.message", "error.stack_trace", "url.full", "attributes", "golmok.security.detail", "golmok.security.principal", "golmok.security.subject", "golmok.security.reason");
     private static final Set<String> METADATA_FIELDS = REGISTRY.metadataFields();
     private static final Set<String> ALLOWED = REGISTRY.structuredInputFields();
     private static final Map<String, String> HINTS = Map.of(
@@ -25,12 +27,7 @@ public final class CanonicalLogSnapshot {
 
     public static Map<String, Object> context() {
         Map<String, Object> result = new LinkedHashMap<>();
-        var span = Span.current().getSpanContext();
-        if (span.isValid()) {
-            result.put("trace.id", span.getTraceId());
-            result.put("span.id", span.getSpanId());
-            result.put("trace.flags", Byte.toUnsignedInt(span.getTraceFlags().asByte()));
-        }
+        result.putAll(ai.mutuus.common.observability.TelemetryContextSnapshot.capture().fields());
         var identity = VerifiedIdentityContext.current();
         result.putAll(identity.fields());
         result.putAll(ai.mutuus.common.core.TelemetryMetadata.current());
@@ -43,6 +40,8 @@ public final class CanonicalLogSnapshot {
         TraceContext.get(ai.mutuus.common.core.RequestIds.CONTEXT_KEY).ifPresent(value -> result.put("golmok.request.id", value));
         putNonblank(result, "golmok.application.code", System.getProperty("mutuus.appCode"));
         putNonblank(result, "golmok.instance.code", System.getProperty("mutuus.instanceCode"));
+        String invocation = ai.mutuus.common.aop.ServiceInvocationScope.currentInvocationId();
+        if (invocation != null) result.put("golmok.service.invocation.id", invocation);
         return Map.copyOf(result);
     }
 
@@ -62,7 +61,7 @@ public final class CanonicalLogSnapshot {
         flat.put("@timestamp", event.getInstant().toString());
         flat.put("event.id", UUID.randomUUID().toString());
         flat.put("golmok.schema.version", 2);
-        flat.put("message", event.getFormattedMessage());
+        flat.put("message", "telemetry.event");
         flat.put("log.level", event.getLevel().levelStr.toLowerCase(Locale.ROOT));
         flat.put("log.severity_number", severity(event.getLevel().toInt()));
         flat.put("log.logger", event.getLoggerName());
@@ -76,6 +75,13 @@ public final class CanonicalLogSnapshot {
         captureUnknownMdc(mdc, flat);
         if (event.getKeyValuePairs() != null) {
             for (KeyValuePair pair : event.getKeyValuePairs()) {
+                if (ai.mutuus.common.payload.SafePayloadEventWriter.KEY.equals(pair.key)
+                        && pair.value instanceof ai.mutuus.common.payload.SafePayloadPolicy.Result safe) {
+                    if (safe.policyId() != null) flat.put("golmok.payload.policy.id", safe.policyId());
+                    if (safe.reason() != null) flat.put("golmok.payload.omitted.reason", safe.reason());
+                    // No generic payload object is approved in the registry. Keep projection output blocked.
+                }
+                if (RAW_FIELDS.contains(pair.key)) continue;
                 if (ALLOWED.contains(pair.key) && !CONTEXT_FIELDS.contains(pair.key) && pair.value != null)
                     flat.put(pair.key, freeze(pair.value));
                 if (METADATA_FIELDS.contains(pair.key) && pair.value != null)
@@ -83,19 +89,24 @@ public final class CanonicalLogSnapshot {
                 if ("golmok.scope".equals(pair.key) && Set.of("request", "job", "lifecycle", "collector").contains(pair.value))
                     flat.put(pair.key, pair.value);
                 if (CONTEXT_KEY.equals(pair.key) && pair.value instanceof Map<?, ?> snapshot) {
-                    CONTEXT_FIELDS.forEach(flat::remove);
-                    snapshot.forEach((key, value) -> { if (CONTEXT_FIELDS.contains(key) && value != null)
+                    CONTEXT_FIELDS.stream().filter(key -> !TYPED_FIELDS.contains(key)).forEach(flat::remove);
+                    snapshot.forEach((key, value) -> { if (CONTEXT_FIELDS.contains(key) && !TYPED_FIELDS.contains(key) && value != null)
                         flat.put(key.toString(), freeze(value)); });
                 }
             }
         }
+        Object code=flat.get("error.code");
+        if(code!=null && !(code instanceof String text && (text.isEmpty() || text.matches("HTTP_[1-5][0-9]{2}|SERVICE_(FAILED|CANCELLED|SCOPE_UNFINISHED)|JOB_(FAILED|CANCELLED|SCOPE_UNFINISHED)|HTTP_(IO_ERROR|TIMEOUT|CANCELLED|CONNECT_ERROR)|CLIENT_DISCONNECTED|ENVELOPE_(INVALID|MISSING|OWNER_MISMATCH)|OFF|NO_CLAIM|CLAIM_FAILED"))))
+            flat.put("error.code","OPERATION_FAILED");
+        Object exceptionClass=flat.get("error.type");
+        if(exceptionClass!=null && !(exceptionClass instanceof String text && text.length()<=256 && text.matches("(?:[A-Za-z_$][A-Za-z0-9_$]*\\.)+[A-Za-z_$][A-Za-z0-9_$]*")))flat.remove("error.type");
         // 구 facade에서 들어온 잘못된 ID는 OTel ID인 것처럼 출력하지 않는다.
         if (!validId(flat.get("trace.id"), 32)) flat.remove("trace.id");
         if (!validId(flat.get("span.id"), 16)) flat.remove("span.id");
         if (!validId(flat.get("parent.id"), 16)) flat.remove("parent.id");
         if (event.getThrowableProxy() != null) {
             flat.put("error.type", event.getThrowableProxy().getClassName());
-            flat.put("error.stack_trace", ThrowableProxyUtil.asString(event.getThrowableProxy()));
+
         }
         if ("mutuus.security_audit".equals(flat.get("event.dataset"))) {
             Object address = event.getKeyValuePairs() == null ? flat.get("client.ip") : event.getKeyValuePairs().stream()
@@ -109,6 +120,7 @@ public final class CanonicalLogSnapshot {
         } else {
             flat.remove("client.ip");
         }
+        RAW_FIELDS.forEach(flat::remove);
         REGISTRY.validateNames(flat);
         return Collections.unmodifiableMap(flat);
     }
@@ -140,7 +152,7 @@ public final class CanonicalLogSnapshot {
             values.forEach((key, item) -> { if (key != null && item != null) result.put(key.toString(), freeze(item)); });
             return Collections.unmodifiableMap(result);
         }
-        return String.valueOf(value);
+        return "[omitted]";
     }
     private static boolean safeHint(String value) { return value.length() <= 64 && value.matches("[A-Za-z0-9_.:-]+"); }
 
