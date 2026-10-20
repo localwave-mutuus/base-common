@@ -33,3 +33,17 @@ Publish의 0.6.0/0.6.1 경로는 이 6모듈 패키징/게시만 수행하고 li
 - 조치: 오류 문자열로 교훈 검색 후 승인 저장소 Maven 실제 좌표를 조회했다(5 POM HTTP 404). REST 목록 접근 성공으로 주장하지 않는다.
 
 교훈 무관: kb://core/ops/lessons/topic-9d939aa20431030e63ab6c76.md — team-task 제출/verify_allow를 사용하지 않았다.
+
+## v0.6.0 실제 실패 및 v0.6.1 수정
+
+v0.6.0 태그/발행 SHA `9fd17ad4162eeacfc6c5715cc81cfbbbdb7b265e`. run [39507892246](https://github.com/localwave-mutuus/base-common/actions/runs/39507892246)은 completed/failure다. 패키지 게시 단계 success 이후 소비 시험 1개가 `expected: 5, but was: 4`로 실패했다. v0.6.0은 게시됐지만 성공버전으로 인정하지 않는다. 재실행/덮어쓰기/태그 이동 없음.
+
+실제 원인은 입력 누적 registry가 94개 필드와 새 보호4필드를 포함하면서 최상위 version만 4로 남긴 것이다. 필드 내용 변경 없이 version을 계약의 5로 수정하고 관련9개 POM을 0.6.1로 정렬했다. 해당 실패 입력은 v0.6.1 Publish 소비 시험에서만 확인한다. 로컬/기존 pass 시험을 반복하지 않는다.
+
+## 이슈대처 후보 — registry 버전 불일치
+
+- 증상: 발행 소비 시험 `expected: 5, but was: 4`.
+- 원인: 누적 입력의 94필드 registry에 내부 version=4가 남음.
+- 확인 명령: 실패 run의 소비 시험 로그, 소스 JSON version/fields 개수와 로컬 jar registry 대조.
+- 조치: version 숫자만 5로 정정하고 승인된 새 0.6.1 발행 사용.
+- 재발 방지: 실제 발행 JAR의 registry version과 필드 수를 함께 소비 시험으로 확인한다. 오류 문자열 교훈 검색 수행.
