@@ -11,11 +11,11 @@
       "system": "BO",
       "target": null,
       "value": "I-10",
-      "version": "1.0.0-bo.7"
+      "version": "1.0.0-bo.8"
     }
   ],
-  "catalogDigest": "c2d12459aae715af7ed6c6111ef2778df2a58529f53e59f8963f3bdfd2390c10",
-  "catalogVersion": "1.0.0-bo.7",
+  "catalogDigest": "5a86338c011c0c2baeb482752354dcfaf3008de7a28128dd170594fb28c3ea1e",
+  "catalogVersion": "1.0.0-bo.8",
   "coverage": {
     "denominator": 150,
     "preserved": 150,

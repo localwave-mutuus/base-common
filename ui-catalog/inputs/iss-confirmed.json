@@ -47,6 +47,190 @@
         "notes": "change 의미 보존. AntD Select portal change 의미추적 미지원; 실제 option portal DOM 및 키보드 실행 미검증. 제품 추적 handler 수정 없음. 시스템값은 코드에 포함하지 않는다.",
         "productRevision": "7db9239893fc3c005792566cbe4762d2a632f322"
       }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.open-row-done",
+      "actionToken": "open-row-done",
+      "role": "OPEN-ROW-DONE",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:86~90 DONE 분기; Home 데스크톱 행·모바일 카드 전달점",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "단일 행 종료",
+        "trigger": "onClick→setDestination(DONE)",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "데스크톱/모바일·반복 행 동일 역할. 대상 이슈 ID는 별도 맥락. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.open-row-rejected",
+      "actionToken": "open-row-rejected",
+      "role": "OPEN-ROW-REJECTED",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:86~90 REJECTED 분기; Home 데스크톱 행·모바일 카드 전달점",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "단일 행 종료(미수용)",
+        "trigger": "onClick→setDestination(REJECTED)",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "데스크톱/모바일·반복 행 동일 역할. 대상 이슈 ID는 별도 맥락. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.open-bulk-done",
+      "actionToken": "open-bulk-done",
+      "role": "OPEN-BULK-DONE",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:86~90 DONE 분기; Home issue-decision-panel 전달점",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "선택 묶음 종료",
+        "trigger": "onClick→setDestination(DONE)",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "선택 1건도 bulk. 대상 개수로 행/일괄을 구분하지 않고 호출 위치 구분 prop 필요. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.open-bulk-rejected",
+      "actionToken": "open-bulk-rejected",
+      "role": "OPEN-BULK-REJECTED",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:86~90 REJECTED 분기; Home issue-decision-panel 전달점",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "선택 묶음 종료(미수용)",
+        "trigger": "onClick→setDestination(REJECTED)",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "선택 1건도 bulk. 대상 개수로 행/일괄을 구분하지 않고 호출 위치 구분 prop 필요. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.confirm-close",
+      "actionToken": "confirm-close",
+      "role": "CONFIRM-CLOSE",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:94~97 Modal footer 처리 Button",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "종료 처리 확인",
+        "trigger": "onClick→uiContextFor→runUiTask→submit→CommandRunner/api→onStored/load",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "행/일괄·DONE/REJECTED·같은 요청 다시 확인은 공유 역할. 목적 단계·대상·재시도 여부는 별도 맥락. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.cancel-close",
+      "actionToken": "cancel-close",
+      "role": "CANCEL-CLOSE",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:93 Modal footer 취소 Button; 91~92 Modal onCancel",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "종료 취소",
+        "trigger": "onClick→cancel; 제출 전 창 닫기",
+        "kind": "press",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "행/일괄·DONE/REJECTED 공유. Modal X/ESC/배경은 동일 함수이나 포털 DOM 미확정; 별도 ID 발급 없음. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.change-close-reason",
+      "actionToken": "change-close-reason",
+      "role": "CHANGE-CLOSE-REASON",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:101~102 Input.TextArea aria-label=\"종료 사유\"",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "종료 사유",
+        "trigger": "onChange→setReason",
+        "kind": "change",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "행/일괄·DONE/REJECTED 공유 필수 입력. 사용자 입력 원문을 추적 값으로 보내지 않음. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
+    },
+    {
+      "screen": "BO-ISS-010",
+      "sourceScreen": "I-01",
+      "rawRole": "I-01.change-completion-step",
+      "actionToken": "change-completion-step",
+      "role": "CHANGE-COMPLETION-STEP",
+      "locator": "apps/web/src/screens/issues/CloseActions.tsx:104~106 Input.TextArea aria-label=\"완료 작업 내용\"",
+      "evidence": {
+        "repository": "GS-BO",
+        "revision": "418a27c385f8a8a50818880da7c3ee40b68f82e6",
+        "path": "artifacts/261020-1328-i01-close-actions-ui/261020-1328-i01-close-actions-ui.a04/patch.diff",
+        "contentSha256": "cae2ae1749d4c421d34490acbc1a567ac74d7086849e48a79de1bdfcf3a9f4ce",
+        "revisionKind": "WORKTREE_BASE"
+      },
+      "behavior": {
+        "label": "완료 작업 내용",
+        "trigger": "onChange→setStepName",
+        "kind": "change",
+        "gate": "ADMIN; analyzed/ANALYZED 또는 working/IN_PROGRESS; busy/pending 등 소스 guard 보존",
+        "notes": "행/일괄 공유 DONE 전용 필수 입력; REJECTED에는 없음. 사용자 입력 원문 추적 금지. 미통합 a04 누적 patch 적용 결과 locator; 제품 실행·추적 수집 미확인.",
+        "productRevision": "418a27c385f8a8a50818880da7c3ee40b68f82e6"
+      }
     }
   ]
 }

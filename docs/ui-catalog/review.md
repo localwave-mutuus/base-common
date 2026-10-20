@@ -1,6 +1,6 @@
 # BO 코드 검토 목록
 
-GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.7; catalogDigest=sha256:c2d12459aae715af7ed6c6111ef2778df2a58529f53e59f8963f3bdfd2390c10
+GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.8; catalogDigest=sha256:5a86338c011c0c2baeb482752354dcfaf3008de7a28128dd170594fb28c3ea1e
 
 사용자 승인 전 검토안. 메뉴 영문 항목은 설계의 STATUS 패턴을 따른 신규 식별자다.
 
@@ -98,7 +98,7 @@ GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.7; catalogDigest=sha256:c2d12
       "system": "BO",
       "target": null,
       "value": "I-10",
-      "version": "1.0.0-bo.7"
+      "version": "1.0.0-bo.8"
     }
   ],
   "coverage": {
