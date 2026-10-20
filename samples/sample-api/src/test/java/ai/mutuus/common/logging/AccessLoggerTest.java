@@ -49,7 +49,7 @@ class AccessLoggerTest {
                 .containsEntry("event.action", "request.received")
                 .containsEntry("http.request.method", "GET")
                 .containsEntry("url.path", "/api/orders")
-                .containsEntry("url.query", "page=1")
+                .doesNotContainKey("url.query")
                 .doesNotContainKey("client.ip");
     }
 

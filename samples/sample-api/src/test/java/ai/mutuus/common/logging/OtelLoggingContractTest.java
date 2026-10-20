@@ -232,17 +232,17 @@ class OtelLoggingContractTest {
         assertThat(exporter.getFinishedLogRecordItems().getFirst().getAttributes()
                 .get(AttributeKey.stringKey("http.request.headers.content-type"))).isEqualTo("application/json");
 
-        var request = request(); request.addHeader("X-Screen-Id", "CATALOG_SCREEN"); request.addHeader("X-Event-Id", "SAVE");
+        var request = request(); request.addHeader("X-Screen-Id", "BO-ISS-010"); request.addHeader("X-Event-Id", "abcdef0123456789");
         request.addHeader("X-Device-Level", "ANDROID"); request.addHeader("X-Locale", "ko-KR");
-        request.addHeader("X-Screen-Catalog-Version", "2026-10-18.1"); request.addHeader("X-Business-Screen-No", "APP-001");
+        request.addHeader("X-Screen-Catalog-Version", "1.0.0-bo.8"); request.addHeader("X-Business-Screen-No", "APP-001");
         request.addHeader("X-Internal-Screen-Id", "GM-SCR-000001");
         try (Scope traced = span()) { filter().doFilter(request, new MockHttpServletResponse(), (req, res) -> { }); }
         Map<String, String> completion = fields(collector.list.getLast());
-        assertThat(completion).containsEntry("golmok.screen.id", "CATALOG_SCREEN").containsEntry("golmok.ui.event.id", "SAVE")
+        assertThat(completion).containsEntry("golmok.screen.id", "BO-ISS-010").containsEntry("golmok.ui.event.id", "abcdef0123456789")
                 .containsEntry("golmok.device.level", "ANDROID").containsEntry("golmok.locale", "ko-KR")
-                .containsEntry("golmok.screen.catalog_version", "2026-10-18.1")
-                .containsEntry("golmok.screen.business_no", "APP-001").containsEntry("golmok.screen.internal_id", "GM-SCR-000001");
-        assertThat(completion.get("event.id")).isNotEqualTo(completion.get("golmok.request.id")).isNotEqualTo("SAVE");
+                .containsEntry("golmok.screen.catalog_version", "1.0.0-bo.8")
+                .containsEntry("golmok.screen.business_no", "APP-001").doesNotContainKey("golmok.screen.internal_id");
+        assertThat(completion.get("event.id")).isNotEqualTo(completion.get("golmok.request.id")).isNotEqualTo("abcdef0123456789");
     }
     @Test void executionScopeAndApprovedResourceMetadataArePreserved() throws Exception {
         Map<String, String> environment = Map.of("OTEL_SERVICE_NAME", "golmok-batch", "OTEL_RESOURCE_ATTRIBUTES",
