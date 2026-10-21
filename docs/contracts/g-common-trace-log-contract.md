@@ -126,7 +126,7 @@ C3 종단 확인은 MEM 원 SERVER부터 BATCH ingress/CONSUMER/owner까지 동�
 
 ## 8. 새 버전·서비스 적용 순서·위험 및 깨지는 API
 
-신규 제안 버전은 BOM/lib/starter 모두 **0.6.0**이다. agent 의존 및 이벤트 의미 변경 때문에 0.5.x patch로 숨기지 않는다. 현재 발행된 버전이 아니며 실제 좌표 충돌/발행 가능 여부는 미확인이다. 서비스별 현재 선언은 BO=0.5.0, APP/MEM=0.4.1, BATCH app=0.3.0/runtime=0.4.1이고 resolved 배포 버전은 미확인이다.
+신규 제안 버전은 BOM/lib/starter 모두 **0.6.3 이상**이다. agent 의존 및 이벤트 의미 변경 때문에 0.5.x patch로 숨기지 않는다. 현재 발행된 버전이 아니며 실제 좌표 충돌/발행 가능 여부는 미확인이다. 서비스별 현재 선언은 BO=0.5.0, APP/MEM=0.4.1, BATCH app=0.3.0/runtime=0.4.1이고 resolved 배포 버전은 미확인이다.
 
 순서: (1) 공통 0.6.0 후보 및 agent extension·registry/template 소비 준비 → (2) GS-BO 제한 적용 → (3) GS-BATCH app/runtime 함께 정렬 → (4) GS-MEM → (5) GS-APP backend/mobile 함께 전환. 메일 trace 연결은 BATCH 수신·저장 지원 이후 MEM 송신을 켜는 두 단계 전환이다. TODO는 등록·고정 입력을 PM이 제공하기 전 적용 대상에서 보류한다. 각 단계는 오류/async 완료 건수·부모 연결·payload 차단·성능 승인 이후 다음으로 진행한다. rollback은 이전 BOM/agent 설정/template 질의를 묶어서 되돌리고 저장 envelope의 이전 reader 호환성을 먼저 확보한다.
 
