@@ -44,7 +44,7 @@ jobs:
         if: ${{ inputs.verify_published_only != true }}
         run: |
           # DEV release candidates use the approved bounded contract suite. Stable releases retain full verification.
-          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 ]]; then
+          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 || "$GITHUB_REF_NAME" == v0.6.2 ]]; then
             bash ./mvnw -B -pl parent,bom,lib,agent-extension,starters/starter-web,starters/starter-batch -am -DskipTests package
           elif [[ "$GITHUB_REF_NAME" == v0.4.0-rc.* ]]; then
             bash ./mvnw -B '-Dtest=Otel*ContractTest,TraceContextTest,TraceHeadersTest,TraceFilterTest,TraceContextPropagationTest,CommonAsyncAutoConfigurationTest,CommonSecurityAutoConfigurationTest,SecurityPropagationBlockIntegrationTest,HeaderPropagationInterceptorTest,BatchLoggingNonTransitivityTest,ActionLoggingNonWebTest' \
@@ -56,7 +56,7 @@ jobs:
       - name: Publish verified reactor artifacts
         if: ${{ inputs.verify_published_only != true }}
         run: |
-          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 ]]; then
+          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 || "$GITHUB_REF_NAME" == v0.6.2 ]]; then
             bash ./mvnw -B -Pgithub -pl parent,bom,lib,agent-extension,starters/starter-web,starters/starter-batch -am -DskipTests deploy
           else
             bash ./mvnw -B -Pgithub -DskipTests deploy
@@ -72,7 +72,10 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm -rf "$RUNNER_TEMP/m2-consumer"
-          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 ]]; then
+          if [[ "$GITHUB_REF_NAME" == v0.6.2 ]]; then
+            bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
+              -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" -DskipTests package
+          elif [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 ]]; then
             bash ./mvnw -B -f samples/sample-api/pom.xml -Pgithub-consumer \
               -Dmaven.repo.local="$RUNNER_TEMP/m2-consumer" '-Dtest=OtelRegistryGenerationContractTest' clean test
           elif [[ "$GITHUB_REF_NAME" == v0.4.0-rc.* ]]; then
