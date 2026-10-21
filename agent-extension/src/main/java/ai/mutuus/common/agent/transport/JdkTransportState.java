@@ -88,6 +88,8 @@ public final class JdkTransportState {
             if(parent instanceof String text && !text.isEmpty())fields.put("parent.id",text);
             fields.put("golmok.request.id",UUID.randomUUID().toString());
             fields.put("event.duration",Math.max(0,System.nanoTime()-started));fields.put("http.request.method",request.method());
+            String host=request.uri().getHost();
+            if(host!=null && !host.isEmpty())fields.put("server.address",host);
             if(status!=null)fields.put("http.response.status_code",status);
             String code=error instanceof java.util.concurrent.CancellationException ? "HTTP_CANCELLED"
                 : error instanceof HttpTimeoutException ? "HTTP_TIMEOUT" : error!=null ? "HTTP_IO_ERROR" : status!=null && status>=400 ? "HTTP_"+status : null;
