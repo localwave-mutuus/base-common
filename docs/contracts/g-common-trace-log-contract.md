@@ -1,6 +1,10 @@
 # G-COMMON 공통 추적·로그 계약 (C2-2)
 
-상태: C3 구현 제안 정본. REQ-261021-02 / A5 문서 범위. 기준 base-common `390c768`(0.5.0). 첨부 0528.a01 초안의 결정을 재사용하고 제공된 상위 필수 9항목에 대한 대응·누락만 보완한다. 아래 **현재**는 첨부 정적 조사 결과이며 **계약/제안**은 후속 구현 요구다. 구현·발행·배포·실측 완료를 뜻하지 않는다. 상위 `261021-0527-gcom-c2-contract`의 필수 9항목 전체는 이번 brief에 제공되었으므로 이전의 ‘상위 원문 미제공으로 번호별 대조 불가’ 선언을 철회한다. 상위 번호는 아래 대응표를 따른다. 본문 절 번호는 기존 초안 구조를 유지한다.
+상태: C2-2 보강안, A05 계약 검토 전·C2 전체 미완료. 정식 기준은 **0.6.1 / e64c545f4d5b**이며 아래 390c768·0.6.0 기술은 최초 설계 조사 이력이다. C1-1 판단 범위는 [바이트 대조표](../reports/g-common-c1-1-sha.md)를 따른다. 이번 보강은 기존 실측 재사용이며 성능 실행은 하지 않았다.
+
+최초 설계 이력: REQ-261021-02 / A5 문서 범위. 기준 base-common `390c768`(0.5.0). 첨부 0528.a01 초안의 결정을 재사용하고 제공된 상위 필수 9항목에 대한 대응·누락만 보완한다. 아래 **현재**는 첨부 정적 조사 결과이며 **계약/제안**은 후속 구현 요구다. 구현·발행·배포·실측 완료를 뜻하지 않는다. 상위 `261021-0527-gcom-c2-contract`의 필수 9항목 전체는 이번 brief에 제공되었으므로 이전의 ‘상위 원문 미제공으로 번호별 대조 불가’ 선언을 철회한다. 상위 번호는 아래 대응표를 따른다. 이번 보강에서 성능 절차는 §7로 분리하고 기존 비동기 절은 §7A로 표기한다.
+
+보조 조사표의 로컬 위치는 `/mnt/disk/00.workspaces/b04.mutuus-operation/teams/A13.공통모듈/build/c2-survey/{common,app,mem,batch}.md`다. 각 표의 고정 조사 리비전을 유지한다.
 
 근거 표기: [common], [app], [mem], [batch]는 이번 입력 attach-2-common.md, attach-3-app.md, attach-4-mem.md, attach-5-batch.md다(초안의 조사표 첨부 번호를 정정). 인용 파일:줄은 조사표가 확인한 고정 리비전 기준이다. C=base-common `lib/src/main/java/ai/mutuus/common/`, R=base-common `lib/src/main/resources/common-platform/log-fields.v2.json`. BO=`apps/backend/`. APP/MEM/BATCH의 경로 약어는 각 첨부 정의를 따른다. 원본 소스 재조사 없이 제공 조사표를 사용했다. APP 조사 입력은 `84afd39fa8fa`이며 결과 사본 `348108f3`와 구별한다. MEM=`e6bb1017e81897d0658c8bbf45d0cd4a124d8cd3`, BATCH=`fdcbfb0`, BO=제공 식별자 `612202e080ee`다. 미제공 정식 SHA를 보충하지 않는다.
 
@@ -13,10 +17,10 @@
 | 3 | 서비스 입력/출력 쌍·INTERNAL·선정·설정 | §3 annotation AND allowlist, INTERNAL enter/exit, 설정 키 | 반영 |
 | 4 | 안전 payload·허용 필드 등록 API·8KiB/32KiB | §4 기본 deny·필드 schema 등록 API·bounded capture | 기존 초안의 projector 등록에 필드 등록 계약 보완 |
 | 5 | v5 초안·v3/v4 차이·ui.event.id 의미 변경 | §5 비교표·신규 4필드·UI root span ID | 반영 |
-| 6 | OpenSearch 필드·mapping 영향 | §6 explicit template·rollover·소비 질의; A17 실측 대기 | 문서 반영, 실측은 허용된 대기 |
-| 7 | p95 지연 5% 이내 측정 방법 | §6 고정 조건·교대 3회·p95 중앙값 비교 | 반영; 측정 미실행 |
+| 6 | OpenSearch 필드·mapping 영향 | §6 매핑·채움·trace·요청짝 관측 및 C7 이관 | 관측 범위만 확정, C2 전체 미완료 |
+| 7 | p95 지연 5% 이내 측정 방법 | §7 dev 전후 고정 조건·명령・p95 비교 | 반영; 측정 미실행 |
 | 8 | 적용 순서·위험 상위 3개씩·깨지는 API·새 버전 | §8 순서·서비스별 위험표·깨지는 API/소비 계약 목록·0.6.0 | 초안의 위험 목록에 별도 API 목록 보완 |
-| 9 | 배치 단건 메일 원래 요청 trace 단절 | §7 afterCommit 캡처→수신 envelope 영속→CONSUMER 부모 복원 | 반영 |
+| 9 | 배치 단건 메일 원래 요청 trace 단절 | §7A afterCommit 캡처→수신 envelope 영속→CONSUMER 부모 복원 | 반영 |
 
 ‘반영’은 문서 요구 충족이며 실행 검증이나 배포 승인이 아니다.
 
@@ -102,15 +106,105 @@ parent.id는 기존 keyword를 재사용하고 출처를 실제 span parent로 �
 
 UI 계약: 모바일 action root span의 nonzero lowercase 16hex span.id만 `X-Event-Id`→golmok.ui.event.id로 전달한다. trace.id·CLIENT span.id·HTTP event.id·시간/random ID와 다르다. 하나의 UI 동작에서 발생한 여러 요청은 같은 UI root ID, 서로 다른 CLIENT span ID를 사용한다. override는 실제 root ID 일치가 확인될 때만 허용한다. 화면은 APP/MEM/BO system별 catalog resolver를 명시하고 catalog version과 screen.id가 함께 유효할 때만 UI metadata를 수용한다. 잘못된 힌트는 요청을 거절하지 않고 힌트만 생략한다. internal_id를 MDC로 복구하지 않는다. 현재 모바일 random event ID와 BO 전용 resolver는 수정 대상이다([app] `M/src/telemetry/transport.ts:271-305`, `M/src/api.ts:466-475,565-591`; [common] `C/core/ScreenMetadata.java:19-38`, `C/core/UiCodeResolver.java:16-22`).
 
-## 6. OpenSearch·성능 승인과 A17 실측 대기
+## 6. OpenSearch 현황·수신 계약·C7 경계
 
-OpenSearch 제안: 기존 trace.id/span.id/parent.id 및 신규 invocation/policy/reason은 keyword, truncated는 boolean, duration은 long(ns)으로 explicit template에 등록한다. message/text로 ID를 분석하지 않는다. 동적 payload 객체 mapping은 금지하고 승인 payload도 검색 필드가 필요하면 사전 schema 승인한다. 현재 인덱스·template·보존기간은 조사하지 않았으므로 운영 적용 사실로 주장하지 않는다. 새 template은 신규 rollover index에만 적용하며 과거 문서의 parent.id/완료 이벤트를 backfill로 추정하지 않는다. 대시보드는 HTTP pair count에서 complete count, duration/outcome 기반으로 전환한다. 구/신 action은 버전별 분리 질의하고 오류율 분모도 완료 요청 수로 통일한다. root parent 부재와 lineage 수집 실패를 같은 데이터로 보정하지 않는다. 신규 필드 mapping 추가 및 기존 필드 타입 충돌 여부는 A17이 현행 template과 대조해야 한다.
+### 6.1 고정 입력과 실측 범위
 
-p95 허용 기준: 동일 서비스·artifact·agent/샘플링 비율·JVM·CPU/메모리·DB 데이터·목적지 응답·동시성·요청 혼합을 고정하고, 기준 설정과 제안 설정의 로그 출력 차이만 바꾼다. 워밍업 5분 후 15분 고정 부하를 각 3회 교대 측정한다. 정상/오류/async 및 8KiB 경계 요청을 사전 고정 비율로 포함한다. load generator의 동일 end-to-end latency histogram에서 회차별 p95를 계산하고, 각 조건 3회 p95의 중앙값으로 `(후보 p95 / 기준 p95 - 1) × 100 <= 5%`를 판정한다. 기준 p95가 0이면 판정 불가다. 동일 요청량에서 완료율·오류율·CPU·heap/GC·로그 bytes/s·전송 drop도 함께 기록하여 누락으로 빨라진 결과를 거절한다. raw histogram, 부하 입력, 설정 diff와 artifact 식별자를 보관한다. 이 측정은 후속 C3/A17 계획이며 이번 문서 작업에서 실행하지 않는다.
+이 절의 근거 [I]는 **INFRA@e513fb02a156a1e90ae6722ec2e5f06bbaa92beb**의 [docs/gcom/gcom-c2-logs.md](../../../261021-1049-gcom-c2-contract.a01.read/INFRA/docs/gcom/gcom-c2-logs.md)다. 링크는 이번 read-repo 배치 기준이며 고정 리비전·문서 경로가 원본 식별자다. [I] 첫머리 1038.a01 「C2-1 실측 마감 보고」 및 그 아래 보존된 1031.a01 최종 요청짝·1013.a03 전체 매핑·1013.a01 익명 trace 순서·0927.a02 채움 표를 사용한다. 과거 실패를 소급 pass로 바꾸지 않는다. 모든 관측은 dev이며 운영·0.6.1 적용 결과로 일반화하지 않는다.
 
-**A17 실측 대기:** 측정값·OpenSearch 수집 지연/용량·필드 mapping 충돌·agent 오버헤드·정식 8산출물 SHA는 제공되지 않았다. 빈칸을 추정 수치나 임의 SHA로 채우지 않는다. 후속 운영 승인 전 실측 담당이 표본/환경/결과/artifact를 이 절에 제공해야 한다. 이는 상위가 허용한 대기이며 **이번 C2 문서 완료를 차단하지 않는다**.
+채움 범위 W는 UTC `[2026-10-19T23:18:39.175420Z,2026-10-20T23:18:39.175420Z)`, `logs-v2-dev*`. 분모는 서비스 조건에 맞는 전체 문서, 분자는 indexed exists 문서다. 빈 문자열 제거율·요청 성공률이 아니다([I] 0927.a02 ①).
 
-## 7. 비동기·job 및 단건 이메일 영속 연결
+| 서비스 조건 | 분모 | trace.id 및 span.id 각각 | parent.id | golmok.request.id |
+|---|---:|---:|---:|---:|
+| app, 과거 wildcard `*app*` | 1,029,843 | 1,028,122 / 99.8329% | 0 / 0% | 991,937 / 96.3192% |
+| member, 과거 wildcard `*member*` | 4,968 | 2,771 / 55.7770% | 0 / 0% | 2,732 / 54.9919% |
+| batch, 과거 wildcard `*batch*` | 43,866 | 36,093 / 82.2801% | 0 / 0% | 0 / 0% |
+| BO, 정확 일치 `golmok-bo` | 13,819 | 13,522 / 97.8508% | 0 / 0% | 13,522 / 97.8508% |
+
+서비스 조건·조회 스냅샷이 달라 행을 합산하지 않는다. `*backoffice*` 0건은 BO 부재 증거가 아니다. BO 97.8508%의 pass는 이 필드 존재 집계에만 한정한다.
+
+### 6.2 현재 매핑 대 v5 및 템플릿 영향
+
+[I] 1013.a03: 2026-10-21T01:21:23.152274Z 전체 dev 5인덱스 매핑 HTTP200, base-common@e64c545f4d5b 내부 v5/94필드·생성기 preview와 비교했다. preview는 배포 템플릿 정본이 아니다.
+
+| 인덱스 suffix | 등록 존재/94 | 존재 필드 타입차이 | 루트 dynamic |
+|---|---:|---:|---|
+| 000001 | 87/94 | 0 | strict |
+| 000002 | 86/94 | 0 | strict |
+| 000003 / 000004 / 000005 각각 | 89/94 | 0 | strict |
+
+매핑 합집합 90/94, 인덱스 간 타입충돌 0이다. 전체 공통 누락은 `golmok.service.invocation.id`, `golmok.payload.policy.id`, `golmok.payload.omitted.reason`(keyword), `golmok.payload.truncated`(boolean). 추가 scalar는 폐기된 `golmok.screen.internal_id: keyword`다. 인덱스별 나머지 누락은 [I] 1013.a03 원표를 따른다. 이 pass는 매핑 비교 범위만 뜻하며 개별 인덱스 90필드·과거 색인 실패 부재를 보장하지 않는다.
+
+**현재 적용 템플릿 내용은 미확보**다([I] viewer403·관리자 시뮬레이션401 기록). 따라서 현재 템플릿과 v5의 직접 diff는 확정하지 않는다. 위 매핑 차이가 확인된 영향이고, C7/A17이 배포 템플릿과 object별 dynamic/enabled를 별도 대조한다. strict 매핑에 신규 필드를 보내기 전에 explicit template에 위 타입을 추가하고 새 rollover index에서 수용한다. 기존 trace/span/parent는 keyword, duration은 long(ns)을 유지한다. 동적 payload 객체를 허용하거나 과거 parent를 추정 backfill하지 않는다. 대시보드는 완료 수·outcome·duration을 사용하며 수신짝 지표와 분리한다.
+
+### 6.3 01:17(KST) 흐름의 관측 단절과 원인 한계
+
+[I] 1013.a01 「익명 trace 순서」의 UTC `2026-10-20T16:17:48Z`부터 `16:17:53.000000000Z`까지(10-21 01:17 KST)는 **27건·14익명 trace 묶음**, app14/member2/batch6/bo5다. 원응답30건 중 끝 53초 소수부 app3건을 제외한 저장 집계이며 재조회하지 않았다. G3/G4/G8은 batch→BO→app 순서의 공통 trace(총14문서), G10의 member2문서는 별도 trace다. 시간 순서·같은 trace만으로 호출 방향이나 실제 parent를 증명하지 않는다. 과거30건 표의 parent 존재0은 엄격27건에도 적용되지만, 이것이 실제 span 부모 부재를 뜻하지 않는다.
+
+회원과 다른 묶음을 연결할 로그 증거가 없다는 **관측상 단절**이다. 비밀번호재설정→회원→배치이벤트→앱이라는 업무 단건의 인과 단절 확정은 아니다. [mem] §7은 afterCommit JDK 호출의 명시 W3C 주입 부재(런타임 agent 주입은 미확인), [batch] §⑦은 single 예약 INSERT의 envelope 부재를 정적 위험으로 제시한다. 이 둘은 해당 표본의 확정 원인이 아니다. A13은 §7A의 영속 부모 계약, 서비스 담당자는 업무 사건 표지와 agent 설정을 확인해야 한다. 14묶음 pass를 E2E 성공으로 바꾸지 않는다.
+
+### 6.4 수신 계약과 요청짝 관측
+
+[I] 1031.a01 최종 집계: W·정확 서비스 `golmok-app/member/batch/bo`·action prefix `http.server.`. 최종 조회 시작 2026-10-21T01:32:50.848595Z, HTTP200, timeout=false, shards5/5 성공·실패0. 첫 composite의 60,000버킷 상한 결과는 제외했다.
+
+| 서비스 | 수신 문서/고유 R | 완료 문서/고유 C | 교집합 | 수신만 / 완료만 | 중복 수신/완료 | 키누락 수신/완료 | 짝 비율 |
+|---|---:|---:|---:|---:|---:|---:|---|
+| app | 0/0 | 986134/986134 | 0 | 0/986134 | 0/0 | 0/0 | null |
+| member | 0/0 | 2624/2624 | 0 | 0/2624 | 0/0 | 0/0 | null |
+| batch | 0/0 | 0/0 | 0 | 0/0 | 0/0 | 0/0 | null |
+| BO | 0/0 | 13122/13122 | 0 | 0/13122 | 0/0 | 0/0 | null |
+
+총 1,001,880건의 관측 action은 `http.server.complete`뿐이다. R/C는 같은 서비스 내 고유 request.id 집합, 짝 비율은 `|R∩C|/|R|×100`, 분모0이면 null이다. 중복은 이벤트·키별 `max(n−1,0)` 합, 키누락은 해당 이벤트 문서 중 request.id 부재다. 수신 미관측은 이 prefix·시간창 안의 사실이며 다른 이벤트명·기간 밖 짝·수집 유실 원인은 미확정이다.
+
+**수신 계약 보강안(A05 검토 대상):** 부모 계획의 수신1·종료1 요구와 기존 §2 완료1건 결정은 불일치한다. 기존 완료 의미를 보존하되 신규 `http.server.received`를 요청당 1건, `http.server.complete`를 종료당 1건으로 하는 변경을 **0.6.2 후보**로 분리한다. 수신은 외곽 관측 scope가 request.id를 발급한 직후·보안 분기 전 기록하고, 동일 ID를 async 재진입에도 유지한다. 수신에는 action/dataset/request.id/발생UTC 및 유효 trace/span만, 완료에는 같은 ID와 실제 status/outcome/duration·안전 오류 코드를 기록한다. 기존 §2의 오류·CAS 마감·컨테이너 도달 전 제외 경계를 유지한다. JDK 자체 서버는 수락 어댑터 경계에 동일 계약을 적용한다. 서비스·이벤트·request.id로 중복 제거하고, 시간창 끝의 미완료는 합의한 최대 요청/async 수명만큼 닫힘을 기다린 뒤 판정한다(수명 값은 서비스별 실행 전 고정). key 누락·미완료·중복은 별도 건수로 남긴다.
+
+정적 0.5.0 로거가 완료1건이라는 [common]/[mem] 근거는 미관측의 가능한 설명이지만, 관측 서비스의 resolved 버전·로그 설정·수집 경로가 확정되지 않아 실측 원인으로 단정하지 않는다. A13/A05는 수신명·필터 경계 및 소비 지표를 합의하고 서비스 담당자는 실행 버전/설정을 확인한다. 이번 문서로 §2를 소급 구현하거나 수신 부재를 성공으로 바꾸지 않는다.
+
+### 6.5 적재 지연은 C7 이관
+
+[I] 1038 마감·1013.a03·0927.a02: W 내 최신100건에서 @timestamp 100/100, 적재 후보10필드 각각0/100, 검증된 동일문서 시각쌍0이다. 후보 목록은 event.created/event.ingested/ingest.timestamp/_ingest.timestamp/timestamp/observed_timestamp/observedTimestamp/time/time_unix_nano/observed_time_unix_nano다. 전체5개 매핑의 date/date_nanos는 발생UTC인 @timestamp뿐이다. **지연 수치 계산 불가(delay_ms=null)**이며 0ms나 전체 저장 경로의 미저장을 뜻하지 않는다.
+
+C7/A17은 ingest pipeline에서 동일문서의 `event.ingested`(UTC date 또는 date_nanos, 실제 수집 저장 경계 의미 명시)를 보존하고 원 발생시각 `@timestamp`와 연결한다. 파일→S3→OpenSearch 구간별 지연도 요구하면 파일 기록UTC·S3 도착UTC·색인 경계UTC 및 동일 이벤트 식별자가 추가로 필요하다. 시계 동기·재전송·음수 지연 처리도 기록한다. 산식은 `(검증된 적재UTC−발생UTC)×1000 ms`; 조회시각·인덱스 생성시각·event.duration으로 대체하지 않는다. 표본수·시간범위·누락수·p50/p95/max는 필드 확보 후 C7에서 산출한다.
+
+## 7. 0.6.1 적용 전/후 dev 성능 관문 (이번 실행 없음)
+
+아래 수치(동시성·기간·오류 한도)는 **측정 설계값**이며 기존 실측값이 아니다. 기존 근거로 확정되는 경로는 [mem] §7 `EmailDeliveryEvents.java:69`의 `/internal/jobs/v1/batch/email-delivery/events`뿐이다. 이는 부작용 있는 이메일 예약 경로로, 반복 성능 대상으로 승인되었다는 근거가 없다. BO/APP/MEM의 부하용 method·route·dev base URL, 인증 헤더/환경 키의 실제 이름, 요청 fixture·예상 status는 지정 입력에 없다. 인증이 있다는 사실([mem] §7)만으로 Authorization/Bearer 등의 방식을 추정하지 않는다. **실행 전 서비스 담당자가 안전한 대상과 인증 키 이름·주입 방식을 확정하기 전에는 실행 불가**다. 아래 `PERF_*`는 이 절차의 신규 로컬 변수이며 기존 서비스 키 이름을 주장하지 않는다.
+
+1. 서비스 담당자가 service revision·image digest·적용 전 resolved 공통 버전/8산출물 SHA와 적용 후 **0.6.1 e64c545f** SHA, dev 환경 식별자·실행기 위치를 manifest에 고정한다. C1-1의 16d59fa 내용 대조는 실행 중 이미지 증명이 아니므로 baseline으로 대용하지 않는다. 동일 서비스 revision으로 공통 의존성만 전/후 비교하고, 그 외 차이가 있으면 원인을 분리할 때까지 판정 보류한다. agent 버전/propagator/sampling, JVM/CPU/메모리/replica, DB fixture·캐시 초기화, downstream 응답, 로그 수준/전송기·payload opt-in을 동일하게 고정한다.
+2. 담당자는 `PERF_URL`(확정 method/route의 dev URL), `PERF_METHOD`, `PERF_EXPECTED_STATUS`, 필요한 경우 `PERF_BODY_FILE`, `PERF_AUTH_HEADER_NAME`을 manifest에 키 이름만 기록한다. 실제 인증값은 승인된 개발 로그인/비밀 주입 경로에서 `PERF_AUTH_HEADER_VALUE`로 메모리에 주입한다. 로그인 자체는 측정 구간 밖이며 양쪽 동일 권한·유효기간이어야 한다. 출력·명령 인자·원자료에는 값을 남기지 않는다. 인증이 복수 헤더/쿠키이면 아래 단일 헤더 예제를 그대로 실행하지 말고 담당자가 동일 방식으로 fixture를 확정한다.
+3. 제안 도구는 **k6**이며 설치 여부·버전·실행 네트워크·스크립트 경로는 미확인이다. 설치하지 말고 실행 전 `command -v k6`와 승인 버전 확인, URL/TLS·인증·비파괴 fixture 확인을 완료한다. 후속 실행자는 아래 스크립트를 승인 출력 디렉터리의 `perf.js`로 저장한다. 정상·예상 오류·async·8KiB 경계 fixture는 지원 엔드포인트와 안전 정책을 먼저 확인해 각각 별도 동일 조건으로 실행한다. 미지원 시나리오를 임의 생성하거나 서로 다른 혼합비를 합산하지 않는다.
+
+```javascript
+import http from 'k6/http';
+import { check } from 'k6';
+export const options = { vus: 10, duration: __ENV.PERF_DURATION || '15m',
+  discardResponseBodies: true, summaryTrendStats: ['count','p(95)'],
+  thresholds: { checks: ['rate>=0.99'] } };
+const body = __ENV.PERF_BODY_FILE ? open(__ENV.PERF_BODY_FILE) : null;
+export default function () {
+  const headers = {};
+  if (__ENV.PERF_AUTH_HEADER_NAME)
+    headers[__ENV.PERF_AUTH_HEADER_NAME] = __ENV.PERF_AUTH_HEADER_VALUE;
+  if (__ENV.PERF_CONTENT_TYPE) headers['Content-Type'] = __ENV.PERF_CONTENT_TYPE;
+  const r = http.request(__ENV.PERF_METHOD, __ENV.PERF_URL, body,
+    { headers, redirects: 0, timeout: '30s', tags: { name: 'contract-perf' } });
+  check(r, { expected_status: x => x.status === Number(__ENV.PERF_EXPECTED_STATUS) });
+}
+```
+
+후속 실행 명령(이번 미실행, 환경 변수는 위 선행조건 완료 후 주입):
+
+```sh
+PERF_DURATION=5m k6 run "$PERF_SCRIPT" --summary-export "$PERF_RUN_DIR/warmup.json"
+PERF_DURATION=15m k6 run "$PERF_SCRIPT" --summary-export "$PERF_RUN_DIR/summary.json" --out "json=$PERF_RUN_DIR/samples.jsonl"
+```
+
+`PERF_SCRIPT`는 위 perf.js의 확정 절대경로, `PERF_RUN_DIR`는 새 회차 디렉터리다. 각 회차 10 VU·5분 워밍업을 제외하고 15분 측정, A(전)→B(후)를 3회 교대한다. 각각 같은 fixture byte/hash·method·route·상태 기대값·동시성·기간·timeout·데이터 초기 상태를 사용한다. 도구 자체 오류/출력 손실/환경 변경 시 해당 회차는 무효로 남기고 자동 재실행하지 않는다.
+
+4. 각 회차 표본 n=측정 구간의 전체 HTTP 시도 수, 완료 수·timeout 수·status별 건수·예상 밖 응답률을 남긴다. 예상 밖 응답률=(예상 status 불일치 시도)/n, n=0은 판정 불가다. 정상 fixture는 예상 밖 응답률 ≤1%를 설계 기준으로 사용하고 오류 fixture의 예상4xx/5xx는 별도 분류한다. 양쪽 오류율·처리량·CPU·heap/GC·로그 bytes/s·drop을 함께 검토해 오류/누락 증가로 빨라진 결과를 승인하지 않는다. `http_req_duration`(전송+대기+수신 ms, 연결 단계 제외)을 양쪽 동일 지표로 쓰며 전체 응답시간과 혼동하지 않는다. 측정 표본 전체(실패 포함)의 p95를 각각 구하고 A 3회 p95의 중앙값 PA, B 중앙값 PB로 `((PB/PA)−1)×100 ≤5%`면 지연 관문 통과다. PA≤0·표본/원자료 누락·조건 불일치·오류 기준 초과면 pass 불가다. 처리량 차이도 병기하며 고정 VU 결과를 고정 RPS 결과로 주장하지 않는다.
+5. 원자료는 후속 실행의 승인 `TEAM_OUT_DIR/perf/<service>/<A|B>/<round>/<scenario>/`에 manifest(리비전·SHA·환경·도구 버전·fixture hash·UTC), fixture의 비밀 없는 버전, summary.json, samples.jsonl, 자원/로그 계측, 계산표를 보존한다. URL query·비밀/개인 식별자를 fixture에 넣지 않고 HTTP debug를 켜지 않는다. 원자료가 민감 정보를 포함하면 공유 전 비식별 처리하고 지표를 보존한다. 현재 이 경로에는 성능 자료가 생성되지 않았으며 실제 주소·인증 키·안전 엔드포인트·도구 확보는 확인하지 못했다. 실행·판정은 해당 서비스 담당 및 A13/A17 후속 범위다.
+
+## 7A. 비동기·job 및 단건 이메일 영속 연결
 
 현재 JobPairLogger는 job.start/end CAS 마감, 소유 span만 종료하며 beginInCurrentSpan에는 execution.id가 필요하다. 저장 envelope는 owner 검증 뒤 CONSUMER setParent로 복원한다([common] `C/logging/JobPairLogger.java:21-119`, `C/core/TelemetryEnvelope.java:52-92`). 신규 `TelemetryTaskDecorator`는 opt-in executor 및 명시 wrap 경계에서 OTel Context와 불변 로그 snapshot을 캡처/복원/finally 해제한다. MDC만 복사하지 않으며 중복 span을 만들지 않는다. 새 비동기 업무는 CONSUMER/INTERNAL span을 명시 생성한다. 독립 scheduler는 root, 원인이 있는 독립 root는 link로 연결한다. OFF/NO_CLAIM은 실행 pair를 만들지 않고 고정 상태의 admission 결과만 기록하며, claim 실패도 실패 admission으로 분리한다.
 
@@ -126,7 +220,7 @@ C3 종단 확인은 MEM 원 SERVER부터 BATCH ingress/CONSUMER/owner까지 동�
 
 ## 8. 새 버전·서비스 적용 순서·위험 및 깨지는 API
 
-신규 제안 버전은 BOM/lib/starter 모두 **0.6.0**이다. agent 의존 및 이벤트 의미 변경 때문에 0.5.x patch로 숨기지 않는다. 현재 발행된 버전이 아니며 실제 좌표 충돌/발행 가능 여부는 미확인이다. 서비스별 현재 선언은 BO=0.5.0, APP/MEM=0.4.1, BATCH app=0.3.0/runtime=0.4.1이고 resolved 배포 버전은 미확인이다.
+이 절은 최초 0.6.0 설계 이력이다. 현재 정식 기준은 **0.6.1 e64c545f**이며 수신 계약 등 추가 불일치 수정은 §6.4의 **0.6.2 후보**로 검토한다. 이하 최초 제안 버전은 BOM/lib/starter 모두 **0.6.0**이다. agent 의존 및 이벤트 의미 변경 때문에 0.5.x patch로 숨기지 않는다. 현재 발행된 버전이 아니며 실제 좌표 충돌/발행 가능 여부는 미확인이다. 서비스별 현재 선언은 BO=0.5.0, APP/MEM=0.4.1, BATCH app=0.3.0/runtime=0.4.1이고 resolved 배포 버전은 미확인이다.
 
 순서: (1) 공통 0.6.0 후보 및 agent extension·registry/template 소비 준비 → (2) GS-BO 제한 적용 → (3) GS-BATCH app/runtime 함께 정렬 → (4) GS-MEM → (5) GS-APP backend/mobile 함께 전환. 메일 trace 연결은 BATCH 수신·저장 지원 이후 MEM 송신을 켜는 두 단계 전환이다. TODO는 등록·고정 입력을 PM이 제공하기 전 적용 대상에서 보류한다. 각 단계는 오류/async 완료 건수·부모 연결·payload 차단·성능 승인 이후 다음으로 진행한다. rollback은 이전 BOM/agent 설정/template 질의를 묶어서 되돌리고 저장 envelope의 이전 reader 호환성을 먼저 확보한다.
 
@@ -152,13 +246,13 @@ C3 종단 확인은 MEM 원 SERVER부터 BATCH ingress/CONSUMER/owner까지 동�
 | `golmok.screen.internal_id`, `ScreenMetadata`/`UiCodeResolver` 입력 | v3→v4 필드 제거 및 정본 코드/version 검증으로 의미 단절. MEM 직접 MDC 소비와 APP 헤더 영향. [common] `af7bb9d22:R:762-779`, `C/core/ScreenMetadata.java:19-38`; [mem] `M/shared/ScreenIdentityTraceFilter.java:34`; [app] `M/src/api.ts:466-475` | screen.id+catalog version 및 서비스별 resolver로 전환; internal_id 복구 금지 |
 | `X-Event-Id`/`golmok.ui.event.id`, 모바일 eventId override | 임의 ID→실제 UI root span ID 의미 단절. [common] `af7bb9d22:R:1000-1003`→`R:982-985`; [app] `M/src/telemetry/transport.ts:271-305`, `M/src/api.ts:565-591` | 실제 root span ID 사용·override 일치 검증 |
 | MEM의 공통 Security 자동구성 직접 호출, `IdempotencyFilter` 상속·빈 교체 | 조건부 소스 결합점; 시그니처/생성자/빈 이름 변경 시 깨질 수 있으나 실제 파손은 미확인. [mem] `M/adminoperation/internal/security/AdminOperationSecurityConfiguration.java:150-157`, `M/shared/WithdrawalIdempotencyConfiguration.java:23-26`, `M/shared/WithdrawalIdempotencyFilter.java:3,25` | 이 계약은 해당 API 변경을 요구하지 않음. C3에서 유지 여부를 대조하고 변경 시 소비자를 함께 수정 |
-| `JobPairLogger.beginInCurrentSpan`, `TelemetryEnvelope` 복원 | execution.id metadata 및 owner 검증 요구. 구 저장 데이터/바이너리 전체 호환은 미확인. [common] `C/logging/JobPairLogger.java:34-53`, `C/core/TelemetryEnvelope.java:52-92`; [batch] `R/BatchTelemetry.java:37-55` | §7 execution.id 설정·owner 검증·single envelope 영속; invalid는 새 root 처리, 기존 reader 호환 확보 |
+| `JobPairLogger.beginInCurrentSpan`, `TelemetryEnvelope` 복원 | execution.id metadata 및 owner 검증 요구. 구 저장 데이터/바이너리 전체 호환은 미확인. [common] `C/logging/JobPairLogger.java:34-53`, `C/core/TelemetryEnvelope.java:52-92`; [batch] `R/BatchTelemetry.java:37-55` | §7A execution.id 설정·owner 검증·single envelope 영속; invalid는 새 root 처리, 기존 reader 호환 확보 |
 
 ## 9. C3 인수 기준·근거 한계
 
-C3 구현 위치는 이 문서에서 제안한 클래스의 해당 lib 패키지와 agent extension이며 이번 쓰기 승인은 문서 한 파일뿐이다. 설정은 기존 logging/method/payload 설정과 신규 키를 명확히 분리하고 기존 raw writer의 신규 안전 경로 우회를 차단한다. 샘플은 시작·완료 수가 아니라 실제 exporter 부모·정본 로그 의미를 증명해야 한다.
+C3 구현 위치는 이 문서에서 제안한 클래스의 해당 lib 패키지와 agent extension이며 이번 쓰기 승인은 계약서와 C2 현황 문서뿐이다. 설정은 기존 logging/method/payload 설정과 신규 키를 명확히 분리하고 기존 raw writer의 신규 안전 경로 우회를 차단한다. 샘플은 시작·완료 수가 아니라 실제 exporter 부모·정본 로그 의미를 증명해야 한다.
 
-후속 인수 항목은 유효/무효 W3C와 root/remote/async parent, agent 부재 시 생략, HTTP 정상·모든 표의 오류·비동기·자체 서버·JDK outbound 1회 완료, INTERNAL enter/exit의 예외·취소·비동기 1쌍, payload deny 및 UTF-8 8KiB/32KiB 경계, v5/UI ID 분리, OpenSearch mapping/질의, §6 p95, §7 단건 메일 영속 chain이다. 이는 후속 구현의 인수 요구이며 이번 작업의 시험 실행 허가가 아니다.
+후속 인수 항목은 유효/무효 W3C와 root/remote/async parent, agent 부재 시 생략, HTTP 정상·모든 표의 오류·비동기·자체 서버·JDK outbound 1회 완료, INTERNAL enter/exit의 예외·취소·비동기 1쌍, payload deny 및 UTF-8 8KiB/32KiB 경계, v5/UI ID 분리, OpenSearch mapping/질의, §7 p95, §7A 단건 메일 영속 chain이다. 이는 후속 구현의 인수 요구이며 이번 작업의 시험 실행 허가가 아니다.
 
 추가 자료는 PM 경유가 필요하다: 서비스별 정확한 opt-in 메서드/API 시그니처 목록, 승인된 payload field schema, agent 고정 버전/계측 지원, OpenSearch 현행 template, A17 실측 및 정식 8산출물 SHA, TODO 등록·고정 입력. 상위 필수 9항목은 더 이상 미제공 자료가 아니다. 미등록 저장소 우회·운영 접근은 하지 않았다.
 
@@ -173,6 +267,6 @@ C3 구현 위치는 이 문서에서 제안한 클래스의 해당 lib 패키지
 5. INTERNAL 서비스 쌍·대상 선정·설정 키를 구체화했다.
 6. 안전 payload 필드 schema 등록 API와 8KiB/32KiB 상한을 보완했다.
 7. v3/v4 차이·v5 필드 타입/의미·UI root span ID 계약을 명시했다.
-8. OpenSearch 영향·p95 측정 방법 및 문서 완료를 막지 않는 A17 실측 대기를 구분했다.
+8. §6은 기존 실측·범위·C7 이관으로, §7은 미실행 성능 절차로 보강했다. C2 전체 완료 판정은 보류한다.
 9. 0.6.0 적용 순서·서비스별 위험 3개와 별도 깨지는 API 목록을 명시했다.
 10. 단건 메일 envelope 영속 연결을 유지했으며 구현·실측·정식 SHA·미등록 TODO 사실은 추정하지 않았다.
