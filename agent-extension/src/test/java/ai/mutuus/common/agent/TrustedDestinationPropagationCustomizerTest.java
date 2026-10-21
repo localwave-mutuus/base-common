@@ -4,13 +4,43 @@ import org.junit.jupiter.api.Test;
 import io.opentelemetry.context.*;
 import io.opentelemetry.context.propagation.*;
 import io.opentelemetry.api.trace.*;
-import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.baggage.Baggage;
+import ai.mutuus.common.core.TelemetryEnvelope;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import java.util.*;
 import static org.assertj.core.api.Assertions.*;
 
 class TrustedDestinationPropagationCustomizerTest {
+    @Test void storageEnvelopePreservesW3cParentWithoutOpeningMapInjection() {
+        var policy=new TrustedDestinationPropagationCustomizer.DestinationPropagator(
+                W3CTraceContextPropagator.getInstance(),List.of());
+        GlobalOpenTelemetry.resetForTest();
+        GlobalOpenTelemetry.set(OpenTelemetry.propagating(ContextPropagators.create(policy)));
+        try(var sdk=SdkTracerProvider.builder().build()) {
+            var parent=sdk.get("fixture").spanBuilder("ingress").setSpanKind(SpanKind.SERVER).startSpan();
+            try(var scope=parent.makeCurrent();
+                var baggage=Baggage.builder().put("secret","excluded").build().makeCurrent()) {
+                long before=TrustedDestinationPropagationCustomizer.blockedInjectionCount();
+                var envelope=TelemetryEnvelope.captureCurrentVerified("operation","attempt-1");
+                assertThat(TrustedDestinationPropagationCustomizer.blockedInjectionCount()).isEqualTo(before);
+                var restored=Span.fromContext(envelope.extractFromOwnerValidatedStorage()).getSpanContext();
+                assertThat(restored.isRemote()).isTrue();
+                assertThat(restored.getTraceId()).isEqualTo(parent.getSpanContext().getTraceId());
+                assertThat(restored.getSpanId()).isEqualTo(parent.getSpanContext().getSpanId());
+                assertThat(restored.getTraceFlags()).isEqualTo(parent.getSpanContext().getTraceFlags());
+                assertThat(restored.getTraceState()).isEqualTo(parent.getSpanContext().getTraceState());
+                assertThat(envelope.toStorageString()).doesNotContain("secret","excluded");
+                var headers=new LinkedHashMap<String,String>();
+                policy.inject(Context.current(),headers,Map::put);
+                assertThat(headers).isEmpty();
+                assertThat(TrustedDestinationPropagationCustomizer.blockedInjectionCount()).isEqualTo(before+1);
+            } finally { parent.end(); }
+        } finally { GlobalOpenTelemetry.resetForTest(); }
+    }
+
     @Test void exactHostsUnknownDestinationsCallerAndWildcardFailClosed() {
         var original=W3CTraceContextPropagator.getInstance();
         assertThatThrownBy(()->new TrustedDestinationPropagationCustomizer.DestinationPropagator(original,List.of("*.local"))).isInstanceOf(IllegalArgumentException.class);
