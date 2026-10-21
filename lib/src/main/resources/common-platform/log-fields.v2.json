@@ -1452,6 +1452,24 @@
                        "mdcInput":  false
                    },
                    {
+                       "name":  "server.address",
+                       "type":  "keyword",
+                       "tier":  "conditional",
+                       "meaning":  "HTTP 클라이언트 목적지 host (전체 URL·userinfo·포트·경로·query 제외)",
+                       "scope":  [
+                                     "request",
+                                     "job"
+                                 ],
+                       "sensitivity":  "none",
+                       "owner":  "common",
+                       "structuredInput":  true,
+                       "protected":  false,
+                       "metadata":  false,
+                       "array":  false,
+                       "when":  "http",
+                       "mdcInput":  false
+                   },
+                   {
                        "name":  "service.name",
                        "type":  "keyword",
                        "tier":  "required",

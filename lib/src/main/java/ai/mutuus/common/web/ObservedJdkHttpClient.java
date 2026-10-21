@@ -28,7 +28,7 @@ public final class ObservedJdkHttpClient extends HttpClient {
                 var event=LoggerFactory.getLogger(HttpClientLoggingInterceptor.LOGGER_NAME).atInfo()
                     .addKeyValue("event.dataset",EcsFields.DATASET_HTTP_CLIENT).addKeyValue("event.action","http.client.completed")
                     .addKeyValue("url.path","/{unmatched}").addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY,Map.copyOf(snapshot));
-                for(String key:List.of("event.duration","event.outcome","http.request.method","http.response.status_code","error.code"))
+                for(String key:List.of("event.duration","event.outcome","http.request.method","http.response.status_code","error.code","server.address"))
                     if(fields.containsKey(key))event.addKeyValue(key,fields.get(key));
                 event.log("http.client.completed");
             },null,null);
@@ -47,6 +47,8 @@ public final class ObservedJdkHttpClient extends HttpClient {
                 .addKeyValue("event.outcome", done.outcome()).addKeyValue("event.duration", done.durationNanos())
                 .addKeyValue("http.request.method", request.method()).addKeyValue("url.path", "/{unmatched}")
                 .addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, done.snapshot());
+            String host = request.uri().getHost();
+            if (host != null && !host.isEmpty()) ev.addKeyValue("server.address", host);
             if (done.status() != null) ev.addKeyValue("http.response.status_code", done.status());
             if (done.errorCode() != null) ev.addKeyValue("error.code", done.errorCode());
             ev.log("http.client.completed");
