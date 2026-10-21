@@ -36,6 +36,8 @@ agent 설정은 `OTEL_PROPAGATORS=tracecontext,baggage`, 서비스별 고정 `OT
 
 ## 2. HTTP 이벤트·오류·비동기와 자체 서버
 
+`http.client.completed`의 `server.address`는 목적지 URI/URL의 host가 있을 때만 기록하며 전체 URL·userinfo·포트·실제 path·query는 허용하지 않고, `url.path`는 `/{unmatched}`를 유지한다.
+
 **결정:** HTTP 정본은 요청당 완료 **한 건**이다. 서버 `http.server.complete`, 클라이언트 `http.client.completed`를 유지한다. HTTP 시작/종료 쌍을 신규 생성하지 않는다. 서비스·job 쌍과 혼동하지 않는다. 현재 필터가 이미 완료 한 건이며 과거 BO 쌍 테스트는 현재 pass 증거가 아니다([common] `C/logging/AccessLogFilter.java:35-132`, `C/logging/AccessLogger.java:23-80`, `BO/src/test/java/ai/mutuus/backoffice/shared/LoggingConfigurationTest.java:110-140`).
 
 새 `HttpCompletionScope`가 시작 monotonic clock, UUID `golmok.request.id`, 실제 span snapshot을 보관하고 CAS로 마감한다. 필수 출력은 event.action/dataset/outcome/duration, trace.id/span.id(유효할 때), parent.id(실제 부모를 확보한 때), HTTP method/status, query 없는 route, error.code(실패)다. duration 단위는 ns. 미매칭 route는 `/{unmatched}`, 원시 URI/query를 메시지로 우회 출력하지 않는다.

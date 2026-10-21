@@ -41,6 +41,32 @@ class ObservedJdkHttpClientTest {
             assertThat(appender.list.getLast().getKeyValuePairs().toString()).contains("HTTP_CANCELLED").doesNotContain("status_code");
         } finally { release.countDown();server.stop(0);executor.shutdownNow();log.detachAppender(appender);appender.stop(); }
     }
+    @Test void nonTransportCompletionLogsOnlyDestinationHost() throws Exception {
+        assertThat(ObservedJdkHttpClient.transportLoggingEnabled()).isFalse();
+        var delegate=org.mockito.Mockito.mock(HttpClient.class);
+        var request=HttpRequest.newBuilder(URI.create("https://user:password@destination.example:8443/private-path?token=SECRET_QUERY")).build();
+        var handler=HttpResponse.BodyHandlers.discarding();
+        var response=org.mockito.Mockito.mock(HttpResponse.class);
+        org.mockito.Mockito.when(response.statusCode()).thenReturn(204);
+        org.mockito.Mockito.doReturn(response).when(delegate).send(request,handler);
+        org.mockito.Mockito.doReturn(CompletableFuture.completedFuture(response)).when(delegate).sendAsync(request,handler);
+        var logger=(Logger)LoggerFactory.getLogger(HttpClientLoggingInterceptor.LOGGER_NAME);
+        var appender=new ListAppender<ILoggingEvent>();appender.start();logger.addAppender(appender);
+        try {
+            var client=new ObservedJdkHttpClient(delegate);
+            assertThat(client.send(request,handler).statusCode()).isEqualTo(204);
+            assertThat(client.sendAsync(request,handler).get().statusCode()).isEqualTo(204);
+            assertThat(appender.list).hasSize(2);
+            for(var event:appender.list) {
+                assertThat(event.getKeyValuePairs()).filteredOn(pair->pair.key.equals("server.address"))
+                    .extracting(pair->pair.value).containsExactly("destination.example");
+                assertThat(event.getKeyValuePairs()).filteredOn(pair->pair.key.equals("url.path"))
+                    .extracting(pair->pair.value).containsExactly("/{unmatched}");
+                assertThat(event.getFormattedMessage()+event.getKeyValuePairs())
+                    .doesNotContain("https://","user","password","8443","private-path","token","SECRET_QUERY");
+            }
+        } finally {logger.detachAppender(appender);appender.stop();}
+    }
     @Test void writerFailureDoesNotChangeApplicationOutcomeOrRetryCompletion() {
         var scope=new HttpCompletionScope();long before=HttpCompletionScope.writeFailureCount();
         assertThat(scope.finish(200,null,done->{throw new IllegalStateException("private");})).isTrue();
