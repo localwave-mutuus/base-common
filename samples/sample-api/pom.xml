@@ -13,7 +13,7 @@
 
     <groupId>ai.mutuus.sample</groupId>
     <artifactId>sample-api</artifactId>
-    <version>0.6.5</version>
+    <version>0.6.6</version>
     <packaging>jar</packaging>
     <name>sample-api</name>
     <description>common-platform 소비 검증용 샘플 API (통합 테스트)</description>
@@ -33,7 +33,7 @@
             <dependency>
                 <groupId>ai.mutuus.common</groupId>
                 <artifactId>common-platform-bom</artifactId>
-                <version>0.6.5</version>
+                <version>0.6.6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>ai.mutuus.common</groupId>
             <artifactId>common-platform-starter-web</artifactId>
-            <version>0.6.5</version>
+            <version>0.6.6</version>
         </dependency>
 
         <!-- OpenAPI 3.x(3.1) 스펙 + Swagger UI. 버전은 common-platform-bom 관리. -->
