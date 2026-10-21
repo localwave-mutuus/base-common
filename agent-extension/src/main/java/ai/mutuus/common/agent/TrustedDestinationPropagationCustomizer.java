@@ -1,6 +1,7 @@
 package ai.mutuus.common.agent;
 
 import io.opentelemetry.context.Context;
+import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.propagation.*;
 import io.opentelemetry.sdk.autoconfigure.spi.*;
 import java.util.*;
@@ -36,6 +37,15 @@ public final class TrustedDestinationPropagationCustomizer implements AutoConfig
             return extraction.extract(context, carrier, getter);
         }
         @Override public <C> void inject(Context context, C carrier, TextMapSetter<C> setter) {
+            // Only the storage envelope's private setter identifies an internal capture.
+            // A Map or a missing CLIENT URL alone is also possible at an HTTP boundary.
+            // Match by nest host name: the application class is outside the agent class loader.
+            if (carrier != null && carrier.getClass() == LinkedHashMap.class
+                    && setter.getClass().getNestHost().getName()
+                        .equals("ai.mutuus.common.core.TelemetryEnvelope")) {
+                W3CTraceContextPropagator.getInstance().inject(context, carrier, setter);
+                return;
+            }
             // Even an exact allowlist match against initial CLIENT URL cannot authorize a redirect.
             blocked.updateAndGet(value -> value == Long.MAX_VALUE ? value : value + 1);
         }
