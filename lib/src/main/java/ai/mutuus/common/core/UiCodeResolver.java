@@ -23,6 +23,7 @@ public final class UiCodeResolver {
                         && value.equals(a.target()))) return Optional.of(value);
         String kind = value.startsWith("/") ? "ROUTE" : value.matches("[A-Z]-[0-9]{2}") ? "BO_ID" : "INTERNAL_ID";
         return resolve(system, kind, value, version)
+                .or(() -> "APP".equals(system) ? resolve(system, "LEGACY", value, version) : Optional.empty())
                 .or(() -> safeIdentifier(value) ? Optional.of(value) : Optional.empty());
     }
     static boolean safeIdentifier(String value) {

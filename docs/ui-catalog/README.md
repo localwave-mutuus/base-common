@@ -1,4 +1,4 @@
-# BO 코드 정본과 생성기
+# BO·APP 코드 정본과 생성기
 
 정본은 `ui-catalog/catalog.json` 한 벌이다. JSON은 Python 3 표준 라이브러리로 읽는다. Maven 의존성·빌드 설정·registry v4·제품 런타임은 바꾸지 않는다. 이 목록과 `review.md`는 사용자 검토 전 제안이다. GS-BO 반입과 계측은 B2, DB 계약 검토·실행은 B3다.
 
@@ -24,7 +24,7 @@ SQL 계약만 변경할 때는 `python3 tools/ui-catalog/generate.py --sql-only`
 
 ## 정본 필드와 상태
 
-- `systems`: BO만 ACTIVE. APP(회원 포함), BAT는 RESERVED이며 화면·메뉴·별칭을 채우지 않는다. `systemMapping`은 이슈 DB의 기존 시스템 값을 유지하는 대응표다.
+- `systems`: BO와 APP(회원 포함)는 ACTIVE. BAT는 RESERVED다. `systemMapping`은 이슈 DB의 기존 시스템 값을 유지하는 대응표다.
 - `domains`: system, code, name, legacyMenuKey. 12개 메뉴 영역과 SHL 공용 영역. 별도 `{system}-SHELL` 공용 컨테이너 개념과 실제 SHL 화면번호를 구분한다.
 - `screens`: code/system/domain/name/kind/route/businessNumber/implementation/owner/status/replacement/introducedVersion/retiredVersion. null은 주소 없음·미구현·대체 없음 등을 표현하며 근거 없는 경로를 만들지 않는다. IMPLEMENTED는 registry 등록 또는 App/SetupGate 구현 확인을 의미하며 E2E 성공을 뜻하지 않는다.
 - `menus`: code/system/domain/parent/name/order/target/status. 현행 menu.ts는 평면 영역 목록이므로 parent=null, 영역은 domain FK로 표현한다. guide는 App.tsx의 별도 주소에 대응하는 보조 메뉴 제안이다. 메뉴 코드는 `BO-MENU-{영역}-{의미 항목}`이며 설계의 `BO-MENU-ISS-STATUS` 패턴을 따른다. 다른 항목 영문은 신규 정본 제안이므로 사용자 검토가 필요하다.
@@ -70,3 +70,9 @@ DSH/SUP 분모36 중 locator 확인18 등록, 혼합/미확정18 미등록. SYS1
 ## 이슈 현황 확정 추가 (bo.7)
 
 BO-ISS-010의 단계선택·시스템선택 2역할을 등록해 누적330개다. 기존328개는 유지한다. view와 미구현 검색 submit은 요소에서 제외한다. [역할 대조표](iss-role-map.md)에 소유팀 원문/hash와 native button Enter press·AntD portal change 미지원 경계를 보존한다.
+
+## APP 통합 (1.0.0-ui.9 / v0.6.9)
+
+`ui-catalog/inputs/app-input.json` 원문을 BO와 같은 정본에 병합했다. APP 화면 156개(라우트 138·미연결 15·특수 3), 메뉴 33개다. 기존 BO 정체성과 요소는 보존한다. APP 별칭 651개 중 명확한 598개만 Java 런타임에 등록한다. 모호한 53개는 target=null과 후보를 정본·TS·SQL·[후보 문서](app-alias-candidates.md)에 보존하며 Java 등록에서 제외한다. SQL은 실행하지 않는다.
+
+APP LEGACY 업무번호(예: HOM-010)도 정확한 별칭으로 해석한다. 미등록/모호한 입력은 기존 safeIdentifier 원문 보존 경로를 유지하며 후보로 추측하지 않는다. 원문 입력의 도입·별칭 버전은 통합 정본에서 1.0.0-ui.9로 맞춘다. 기존 bo-catalog.ts 파일명은 소비 경로 호환을 위해 유지하며 내용에는 두 시스템이 포함된다.
