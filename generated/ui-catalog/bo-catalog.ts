@@ -1,7 +1,2347 @@
-// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-bo.8; catalogDigest=sha256:5a86338c011c0c2baeb482752354dcfaf3008de7a28128dd170594fb28c3ea1e
-export const CATALOG_VERSION = "1.0.0-bo.8" as const;
-export const CATALOG_DIGEST = "5a86338c011c0c2baeb482752354dcfaf3008de7a28128dd170594fb28c3ea1e" as const;
+// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4
+export const CATALOG_VERSION = "1.0.0-ui.9" as const;
+export const CATALOG_DIGEST = "57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4" as const;
 export const SCREENS = [
+  {
+    "businessNumber": "ADM-010",
+    "code": "APP-ADM-010",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "운영 대시보드",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-020",
+    "code": "APP-ADM-020",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "공지 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/notices",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-020",
+    "code": "APP-ADM-030",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "공지 편집",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/notices/edit",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-030",
+    "code": "APP-ADM-040",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이벤트 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/events",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-030",
+    "code": "APP-ADM-050",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이벤트 편집",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/events/edit",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-040",
+    "code": "APP-ADM-060",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "매거진 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/magazine",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-040",
+    "code": "APP-ADM-070",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "매거진 편집",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/magazine/edit",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-050",
+    "code": "APP-ADM-080",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "FAQ 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/faq",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-050",
+    "code": "APP-ADM-090",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "FAQ 편집",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/faq/edit",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-060",
+    "code": "APP-ADM-100",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "1:1 문의함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/inquiries",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-060",
+    "code": "APP-ADM-110",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "문의 답변",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/inquiries/answer",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-070",
+    "code": "APP-ADM-120",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "제품 기능 정책",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/product-policy",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-080",
+    "code": "APP-ADM-130",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "가입 신청 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/merchant-applications",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-090",
+    "code": "APP-ADM-140",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이의제기 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/disputes",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ADM-110",
+    "code": "APP-ADM-150",
+    "domain": "ADM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "LOCAL 상호작용 데이터 정리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/admin/local-interaction-cleanup",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-010",
+    "code": "APP-AUT-010",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "스플래시",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/splash",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-010",
+    "code": "APP-AUT-020",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "로그인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/login",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-010",
+    "code": "APP-AUT-030",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "DEV 자동 로그인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/dev-login",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-030",
+    "code": "APP-AUT-040",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "아이디 찾기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/login-id-recovery",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-020",
+    "code": "APP-AUT-050",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "비밀번호 찾기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/password-reset",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-020",
+    "code": "APP-AUT-060",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이메일 코드 확인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/password-reset/code",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-020",
+    "code": "APP-AUT-070",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "새 비밀번호",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/password-reset/new",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-020",
+    "code": "APP-AUT-080",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "변경 완료",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/password-reset/done",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-010",
+    "code": "APP-AUT-090",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "SNS 인증 콜백",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/oauth/kakao/callback",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "AUT-010",
+    "code": "APP-AUT-100",
+    "domain": "AUT",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "SNS 로그아웃 콜백",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/oauth/kakao/logout/callback",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-020",
+    "code": "APP-CHT-010",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "거래처 대화방 (보조)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-030",
+    "code": "APP-CHT-020",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "거래처 대화방",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-010",
+    "code": "APP-CHT-030",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "거래처 대화",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-010",
+    "code": "APP-CHT-040",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "거래처 대화방",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-010",
+    "code": "APP-CHT-050",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "제안서 전송",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms/[id]/proposal",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "CHT-010",
+    "code": "APP-CHT-060",
+    "domain": "CHT",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "일정 조율",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/chat-rooms/[id]/schedule",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-110",
+    "code": "APP-EXC-010",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "지정 교환",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-110",
+    "code": "APP-EXC-020",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "지정 교환 시작",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/explore",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-110",
+    "code": "APP-EXC-030",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 가입 초대",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/explore/invitations",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-110",
+    "code": "APP-EXC-040",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "업체 마이크로홈 · 상대 확인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/explore/shop",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-120",
+    "code": "APP-EXC-050",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환 제안서 작성",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-120",
+    "code": "APP-EXC-060",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "제안 발송 · 수락 대기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-120",
+    "code": "APP-EXC-070",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "제안 수락 · 핵심조항 동의 · 수락자",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/[id]/consent-receiver",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-130",
+    "code": "APP-EXC-080",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환계약 승인 · 쌍방 확정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-contracts/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-120",
+    "code": "APP-EXC-090",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02j/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "제안 거절 · 무산 (예외)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-proposals/[id]/declined",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-210",
+    "code": "APP-EXC-100",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 모집·참여",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-210",
+    "code": "APP-EXC-110",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환 모집 보기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/board",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-120",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환 모집 등록",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-130",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환 모집 조회·참여",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-140",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "참여자 모집중",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/waiting",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-150",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "의향 접수 완료",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/close",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-160",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환 모집 참여자 선정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/select",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-170",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "선정 결과 통보",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/result",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-220",
+    "code": "APP-EXC-180",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "요청자 동의",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/consent",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-230",
+    "code": "APP-EXC-190",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환계약 일괄수행 및 통지",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/contracts",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-230",
+    "code": "APP-EXC-200",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환계약하기(제안자)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/contracts/sign",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-230",
+    "code": "APP-EXC-210",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "교환계약하기(참여자)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/contracts/countersign",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-240",
+    "code": "APP-EXC-220",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "다시 모집",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/repost",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "EXC-240",
+    "code": "APP-EXC-230",
+    "domain": "EXC",
+    "implementation": "src/golmok/apps/mobile/src/screens/c02n/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "미선정 안내",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/exchange-notices/[id]/not-selected",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "HOM-010",
+    "code": "APP-HOM-010",
+    "domain": "HOM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "메인 홈",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/home",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "HOM-020",
+    "code": "APP-HOM-020",
+    "domain": "HOM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이용 가이드",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/home/guide",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "HOM-030",
+    "code": "APP-HOM-030",
+    "domain": "HOM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "메뉴 허브",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/menu",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-010",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "계정 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-020",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "프로필 수정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/edit",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-030",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "계정 관리 · 임직원",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-040",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "배송지 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/delivery-addresses",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-050",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "아이디·비밀번호 만들기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/local-credential",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-060",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "아이디 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/login-id",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-020",
+    "code": "APP-MEM-070",
+    "domain": "MEM",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "회원 탈퇴",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/leave",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MEM-010",
+    "code": "APP-MEM-080",
+    "domain": "MEM",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "아이디 변경",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/login-id/change",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-010",
+    "code": "APP-MHM-010",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "마이크로홈",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/me",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-010",
+    "code": "APP-MHM-020",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 가게 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/me/edit",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-010",
+    "code": "APP-MHM-030",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "가게 정보 가져오기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/me/business-information",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-010",
+    "code": "APP-MHM-040",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "메뉴판 사진 등록",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/me/menu",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-020",
+    "code": "APP-MHM-050",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "방문자 마이크로홈 (조회·주문)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "MHM-020",
+    "code": "APP-MHM-060",
+    "domain": "MHM",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01m/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "리뷰 전체 보기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/microhomes/[id]/reviews",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "NTF-010",
+    "code": "APP-NTF-010",
+    "domain": "NTF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "알림함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/notifications",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "NTF-010",
+    "code": "APP-NTF-020",
+    "domain": "NTF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "알림 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/notifications/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "NTF-020",
+    "code": "APP-NTF-030",
+    "domain": "NTF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "알림 설정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/notification-settings",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-010",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "업체 등록",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/business",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-020",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "약관 동의",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/terms",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-030",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "발급대행 위임",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/delegation",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-040",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "접수 완료",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/submitted",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-050",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "정보 불일치",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/mismatch",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-060",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "환영",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/welcome",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-010",
+    "code": "APP-ONB-070",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "기가입 안내",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/merchant-applications/duplicate",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ONB-020",
+    "code": "APP-ONB-080",
+    "domain": "ONB",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "온보딩 홈",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/home",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-100",
+    "code": "APP-ORD-010",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "주문함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-100",
+    "code": "APP-ORD-020",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "주문 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-030",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "온라인 주문함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-040",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "온라인 주문하기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-050",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "배달 정보",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/compose/delivery",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-060",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "받은 주문 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/manage",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-070",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "사용요청 확인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/accept",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-080",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "배달 진행",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/progress",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-090",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "실시간 추적",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/tracking",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-100",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "수령 완료 확인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/confirm",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-110",
+    "code": "APP-ORD-110",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "주문 취소",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/canceled",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-120",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/ohist",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-130",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f2",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-140",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f4",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/compose/delivery",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-150",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/ohub",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/manage",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-160",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f5",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/accept",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-170",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f6",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/progress",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-180",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f9",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/tracking",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-190",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f7",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/confirm",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-200",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/f8",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/canceled",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-210",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/cancelForm",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/cancel",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "ORD-120",
+    "code": "APP-ORD-220",
+    "domain": "ORD",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/rejected",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/rejected",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-010",
+    "code": "APP-REG-010",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "가입방식 선택",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-010",
+    "code": "APP-REG-020",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "SNS 로그인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup/oauth",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-010",
+    "code": "APP-REG-030",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "SNS 가입 완료",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup/oauth/complete",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-010",
+    "code": "APP-REG-040",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "계정 생성",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup/account",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-020",
+    "code": "APP-REG-050",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "실명 인증",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup/identity",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "REG-020",
+    "code": "APP-REG-060",
+    "domain": "REG",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "실명인증 약관동의",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/auth/signup/identity/terms",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SEC-010",
+    "code": "APP-SEC-010",
+    "domain": "SEC",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "비밀번호 변경",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/password",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SEC-010",
+    "code": "APP-SEC-020",
+    "domain": "SEC",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "로그인 기기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/devices",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SEC-010",
+    "code": "APP-SEC-030",
+    "domain": "SEC",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "로그인 설정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/members/me/login-settings",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SET-010",
+    "code": "APP-SET-010",
+    "domain": "SET",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "앱 설정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/settings",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-020",
+    "code": "APP-STF-010",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "초대 링크",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/invite",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-020",
+    "code": "APP-STF-020",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "첫 로그인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/invite/login",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-020",
+    "code": "APP-STF-030",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "비밀번호 설정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/invite/password",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-030",
+    "code": "APP-STF-040",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/a01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "직원 홈",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/home",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-010",
+    "code": "APP-STF-050",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "임직원 계정",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-010",
+    "code": "APP-STF-060",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "서브계정 만들기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/create",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-010",
+    "code": "APP-STF-070",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "계정 발급·전달",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/issue",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "STF-010",
+    "code": "APP-STF-080",
+    "domain": "STF",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "서브계정 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/staff-accounts/manage",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUB-010",
+    "code": "APP-SUB-010",
+    "domain": "SUB",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 멤버십",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/subscriptions",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUB-010",
+    "code": "APP-SUB-020",
+    "domain": "SUB",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "멤버십 결제",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/subscriptions/pay",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUB-010",
+    "code": "APP-SUB-030",
+    "domain": "SUB",
+    "implementation": "src/golmok/apps/mobile/src/screens/b01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "멤버십 해지",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/subscriptions/cancel",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-010",
+    "code": "APP-SUP-010",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "고객센터",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-020",
+    "code": "APP-SUP-020",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "공지사항",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/notices",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-020",
+    "code": "APP-SUP-030",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "공지 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/notices/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-030",
+    "code": "APP-SUP-040",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "자주 묻는 질문",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/faq",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-040",
+    "code": "APP-SUP-050",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "1:1 문의",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/inquiries",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-040",
+    "code": "APP-SUP-060",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "문의하기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/inquiries/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-040",
+    "code": "APP-SUP-070",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "문의 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/inquiries/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-050",
+    "code": "APP-SUP-080",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "골목 매거진",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/magazine",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-050",
+    "code": "APP-SUP-090",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "매거진 글",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/magazine/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-070",
+    "code": "APP-SUP-100",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 신고함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/reports",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-070",
+    "code": "APP-SUP-110",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "신고하기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/reports/compose",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-060",
+    "code": "APP-SUP-120",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이벤트",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/events",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SUP-060",
+    "code": "APP-SUP-130",
+    "domain": "SUP",
+    "implementation": "src/golmok/apps/mobile/src/screens/i01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이벤트 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/support/events/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SYS-010",
+    "code": "APP-SYS-010",
+    "domain": "SYS",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "로딩 상태 전시",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/loading-showcase",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "SYS-020",
+    "code": "APP-SYS-020",
+    "domain": "SYS",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "골목사장 화면 허브",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/",
+    "status": "PLANNED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TAX-010",
+    "code": "APP-TAX-010",
+    "domain": "TAX",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01t/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "세금계산서함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/tax-invoices",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TAX-010",
+    "code": "APP-TAX-020",
+    "domain": "TAX",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01t/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "계산서 상세",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/tax-invoices/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TAX-020",
+    "code": "APP-TAX-030",
+    "domain": "TAX",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01t/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "수정 발행",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/tax-invoices/[id]/amend",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TAX-020",
+    "code": "APP-TAX-040",
+    "domain": "TAX",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01t/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "수정·취소 발행",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/tax-invoices/[id]/cancel",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TAX-030",
+    "code": "APP-TAX-050",
+    "domain": "TAX",
+    "implementation": "src/golmok/apps/mobile/src/screens/f01t/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "신고지원",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/tax-reports",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-020",
+    "code": "APP-TRX-010",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "매장결제",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/transactions",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-020",
+    "code": "APP-TRX-020",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "수령 관리함",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/transactions/manage",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-090",
+    "code": "APP-TRX-030",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "이의제기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/disputes/file",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-020",
+    "code": "APP-TRX-040",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "매장결제 요청하기",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/transactions/new",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-020",
+    "code": "APP-TRX-050",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "결제요청 확인",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/transactions/payment-requests/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-030",
+    "code": "APP-TRX-060",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/ecomplete",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/orders/[id]/completed",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "TRX-090",
+    "code": "APP-TRX-070",
+    "domain": "TRX",
+    "implementation": "src/golmok/apps/mobile/src/screens/e02/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "e02/dispute",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/disputes/file",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "VCH-010",
+    "code": "APP-VCH-010",
+    "domain": "VCH",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 바우처",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/vouchers",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "VCH-010",
+    "code": "APP-VCH-020",
+    "domain": "VCH",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "바우처 상세·결제",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/vouchers/[id]",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "VCH-020",
+    "code": "APP-VCH-030",
+    "domain": "VCH",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "사용권한 관리",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/vouchers/[id]/permissions",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
+  {
+    "businessNumber": "VCH-010",
+    "code": "APP-VCH-040",
+    "domain": "VCH",
+    "implementation": "src/golmok/apps/mobile/src/screens/d01/index.ts",
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "내 바우처 (직원)",
+    "owner": "A14",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/vouchers/assigned",
+    "status": "IMPLEMENTED",
+    "system": "APP"
+  },
   {
     "businessNumber": "S-01",
     "code": "BO-CNT-010",
@@ -1130,6 +3470,336 @@ export const SCREENS = [
 ] as const;
 export const MENUS = [
   {
+    "code": "APP-MENU-ACCOUNT-ACCOUNT",
+    "domain": "MEM",
+    "name": "계정 관리",
+    "order": 40,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-MEM-010"
+  },
+  {
+    "code": "APP-MENU-ACCOUNT-LEAVE",
+    "domain": "MEM",
+    "name": "회원 탈퇴",
+    "order": 60,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-MEM-070"
+  },
+  {
+    "code": "APP-MENU-ACCOUNT-MEMBERSHIP",
+    "domain": "SUB",
+    "name": "멤버십",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUB-010"
+  },
+  {
+    "code": "APP-MENU-ACCOUNT-NOTIS",
+    "domain": "NTF",
+    "name": "알림함",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-NTF-010"
+  },
+  {
+    "code": "APP-MENU-ACCOUNT-NOTISETTINGS",
+    "domain": "NTF",
+    "name": "알림 설정",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-NTF-030"
+  },
+  {
+    "code": "APP-MENU-ACCOUNT-SETTINGS",
+    "domain": "SET",
+    "name": "앱 설정",
+    "order": 50,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SET-010"
+  },
+  {
+    "code": "APP-MENU-ASSET-TAX",
+    "domain": "TAX",
+    "name": "세금계산서함",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-TAX-010"
+  },
+  {
+    "code": "APP-MENU-ASSET-VOUCHERS",
+    "domain": "VCH",
+    "name": "내 바우처",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-VCH-010"
+  },
+  {
+    "code": "APP-MENU-EXCHANGE-C1",
+    "domain": "EXC",
+    "name": "지정 교환 시작",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-020"
+  },
+  {
+    "code": "APP-MENU-EXCHANGE-HUB",
+    "domain": "EXC",
+    "name": "내 지정 교환",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-010"
+  },
+  {
+    "code": "APP-MENU-EXCHANGE-RECRUITMENT",
+    "domain": "EXC",
+    "name": "내 초대",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-030"
+  },
+  {
+    "code": "APP-MENU-MARKET-D1",
+    "domain": "EXC",
+    "name": "교환 모집 등록",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-120"
+  },
+  {
+    "code": "APP-MENU-MARKET-DBOARD",
+    "domain": "EXC",
+    "name": "교환 모집 보기",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-110"
+  },
+  {
+    "code": "APP-MENU-MARKET-HUB",
+    "domain": "EXC",
+    "name": "내 모집·참여",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-100"
+  },
+  {
+    "code": "APP-MENU-ORDERS-HOME",
+    "domain": "HOM",
+    "name": "온라인 주문하기",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-HOM-010"
+  },
+  {
+    "code": "APP-MENU-ORDERS-OHUB",
+    "domain": "ORD",
+    "name": "받은 주문 관리",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-ORD-150"
+  },
+  {
+    "code": "APP-MENU-ORDERS-ORDERS",
+    "domain": "ORD",
+    "name": "주문함",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-ORD-010"
+  },
+  {
+    "code": "APP-MENU-PAYMENT-EHUB",
+    "domain": "TRX",
+    "name": "매장결제 내역",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-TRX-010"
+  },
+  {
+    "code": "APP-MENU-PAYMENT-PAYMENTREQUEST",
+    "domain": "TRX",
+    "name": "매장결제 요청하기",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-TRX-040"
+  },
+  {
+    "code": "APP-MENU-STORE-CHATLIST",
+    "domain": "CHT",
+    "name": "거래처 대화",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-CHT-030"
+  },
+  {
+    "code": "APP-MENU-STORE-MICRO",
+    "domain": "MHM",
+    "name": "내 가게 정보",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-MHM-010"
+  },
+  {
+    "code": "APP-MENU-STORE-MICROEDIT",
+    "domain": "MHM",
+    "name": "내 가게 관리",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-MHM-020"
+  },
+  {
+    "code": "APP-MENU-STORE-STAFF",
+    "domain": "STF",
+    "name": "임직원 계정",
+    "order": 40,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-STF-050"
+  },
+  {
+    "code": "APP-MENU-SUPPORT-BLOG",
+    "domain": "SUP",
+    "name": "골목 매거진",
+    "order": 50,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUP-080"
+  },
+  {
+    "code": "APP-MENU-SUPPORT-EVENTS",
+    "domain": "SUP",
+    "name": "이벤트",
+    "order": 40,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUP-120"
+  },
+  {
+    "code": "APP-MENU-SUPPORT-FAQ",
+    "domain": "SUP",
+    "name": "자주 묻는 질문",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUP-040"
+  },
+  {
+    "code": "APP-MENU-SUPPORT-NOTICES",
+    "domain": "SUP",
+    "name": "공지사항",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUP-020"
+  },
+  {
+    "code": "APP-MENU-SUPPORT-QNALIST",
+    "domain": "SUP",
+    "name": "1:1 문의",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-SUP-050"
+  },
+  {
+    "code": "APP-MENU-TAB-ACCOUNT",
+    "domain": "MEM",
+    "name": "내 정보",
+    "order": 50,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-MEM-010"
+  },
+  {
+    "code": "APP-MENU-TAB-ACTIVITY",
+    "domain": "ORD",
+    "name": "활동",
+    "order": 40,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-ORD-010"
+  },
+  {
+    "code": "APP-MENU-TAB-HOME",
+    "domain": "HOM",
+    "name": "홈",
+    "order": 10,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-HOM-010"
+  },
+  {
+    "code": "APP-MENU-TAB-MATCH",
+    "domain": "EXC",
+    "name": "교환",
+    "order": 20,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-EXC-010"
+  },
+  {
+    "code": "APP-MENU-TAB-TICKET",
+    "domain": "VCH",
+    "name": "바우처",
+    "order": 30,
+    "parent": null,
+    "status": "IMPLEMENTED",
+    "system": "APP",
+    "target": "APP-VCH-010"
+  },
+  {
     "code": "BO-MENU-CNT-FAQ",
     "domain": "CNT",
     "name": "FAQ 관리",
@@ -1863,12 +4533,6142 @@ export const MENUS = [
 export const ALIASES = [
   {
     "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-010",
+    "value": "GM-SCR-000001",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-020",
+    "value": "GM-SCR-000002",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-050",
+    "value": "GM-SCR-000003",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-060",
+    "value": "GM-SCR-000004",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-070",
+    "value": "GM-SCR-000005",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-080",
+    "value": "GM-SCR-000006",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-010",
+    "value": "GM-SCR-000007",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-020",
+    "value": "GM-SCR-000008",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-040",
+    "value": "GM-SCR-000009",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-050",
+    "value": "GM-SCR-000010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-060",
+    "value": "GM-SCR-000011",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-010",
+    "value": "GM-SCR-000012",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-020",
+    "value": "GM-SCR-000013",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-030",
+    "value": "GM-SCR-000014",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-040",
+    "value": "GM-SCR-000015",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-050",
+    "value": "GM-SCR-000016",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-060",
+    "value": "GM-SCR-000017",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-070",
+    "value": "GM-SCR-000018",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-080",
+    "value": "GM-SCR-000019",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-010",
+    "value": "GM-SCR-000020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-020",
+    "value": "GM-SCR-000021",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-030",
+    "value": "GM-SCR-000022",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-040",
+    "value": "GM-SCR-000023",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-010",
+    "value": "GM-SCR-000024",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-020",
+    "value": "GM-SCR-000025",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-030",
+    "value": "GM-SCR-000026",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-010",
+    "value": "GM-SCR-000027",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-020",
+    "value": "GM-SCR-000028",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-030",
+    "value": "GM-SCR-000029",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-010",
+    "value": "GM-SCR-000030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-020",
+    "value": "GM-SCR-000031",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-030",
+    "value": "GM-SCR-000032",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-010",
+    "value": "GM-SCR-000033",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-020",
+    "value": "GM-SCR-000034",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-030",
+    "value": "GM-SCR-000035",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-010",
+    "value": "GM-SCR-000036",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-020",
+    "value": "GM-SCR-000037",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SET-010",
+    "value": "GM-SCR-000038",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-070",
+    "value": "GM-SCR-000039",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-050",
+    "value": "GM-SCR-000040",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-060",
+    "value": "GM-SCR-000041",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-070",
+    "value": "GM-SCR-000042",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-080",
+    "value": "GM-SCR-000043",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-010",
+    "value": "GM-SCR-000044",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-020",
+    "value": "GM-SCR-000045",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-040",
+    "value": "GM-SCR-000046",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-050",
+    "value": "GM-SCR-000047",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-060",
+    "value": "GM-SCR-000048",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-070",
+    "value": "GM-SCR-000049",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-080",
+    "value": "GM-SCR-000051",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-090",
+    "value": "GM-SCR-000052",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-010",
+    "value": "GM-SCR-000053",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-100",
+    "value": "GM-SCR-000054",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-110",
+    "value": "GM-SCR-000055",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-120",
+    "value": "GM-SCR-000056",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-130",
+    "value": "GM-SCR-000057",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-140",
+    "value": "GM-SCR-000058",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-150",
+    "value": "GM-SCR-000059",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-160",
+    "value": "GM-SCR-000060",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-170",
+    "value": "GM-SCR-000061",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-180",
+    "value": "GM-SCR-000062",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-190",
+    "value": "GM-SCR-000063",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-200",
+    "value": "GM-SCR-000064",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-210",
+    "value": "GM-SCR-000065",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-220",
+    "value": "GM-SCR-000066",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-230",
+    "value": "GM-SCR-000067",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-020",
+    "value": "GM-SCR-000068",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-010",
+    "value": "GM-SCR-000069",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-020",
+    "value": "GM-SCR-000070",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-030",
+    "value": "GM-SCR-000071",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-040",
+    "value": "GM-SCR-000072",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-010",
+    "value": "GM-SCR-000073",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-020",
+    "value": "GM-SCR-000074",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-010",
+    "value": "GM-SCR-000075",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-020",
+    "value": "GM-SCR-000076",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-030",
+    "value": "GM-SCR-000082",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-030",
+    "value": "GM-SCR-000083",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-040",
+    "value": "GM-SCR-000084",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-050",
+    "value": "GM-SCR-000085",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-060",
+    "value": "GM-SCR-000086",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-070",
+    "value": "GM-SCR-000087",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-080",
+    "value": "GM-SCR-000088",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-090",
+    "value": "GM-SCR-000089",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-100",
+    "value": "GM-SCR-000090",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-110",
+    "value": "GM-SCR-000091",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-060",
+    "value": "GM-SCR-000098",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-070",
+    "value": "GM-SCR-000101",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-120",
+    "value": "GM-SCR-000102",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-130",
+    "value": "GM-SCR-000103",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-140",
+    "value": "GM-SCR-000104",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-150",
+    "value": "GM-SCR-000105",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-160",
+    "value": "GM-SCR-000106",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-170",
+    "value": "GM-SCR-000107",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-180",
+    "value": "GM-SCR-000108",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-190",
+    "value": "GM-SCR-000109",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-200",
+    "value": "GM-SCR-000110",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-210",
+    "value": "GM-SCR-000111",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-220",
+    "value": "GM-SCR-000112",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-010",
+    "value": "GM-SCR-000113",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-020",
+    "value": "GM-SCR-000114",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-040",
+    "value": "GM-SCR-000115",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-050",
+    "value": "GM-SCR-000116",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-060",
+    "value": "GM-SCR-000117",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-030",
+    "value": "GM-SCR-000118",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-040",
+    "value": "GM-SCR-000119",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-050",
+    "value": "GM-SCR-000120",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-060",
+    "value": "GM-SCR-000121",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-010",
+    "value": "GM-SCR-000122",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-020",
+    "value": "GM-SCR-000123",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-030",
+    "value": "GM-SCR-000124",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-040",
+    "value": "GM-SCR-000125",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-050",
+    "value": "GM-SCR-000126",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-010",
+    "value": "GM-SCR-000127",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-020",
+    "value": "GM-SCR-000128",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-030",
+    "value": "GM-SCR-000129",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-040",
+    "value": "GM-SCR-000130",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-050",
+    "value": "GM-SCR-000131",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-060",
+    "value": "GM-SCR-000132",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-070",
+    "value": "GM-SCR-000133",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-080",
+    "value": "GM-SCR-000134",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-090",
+    "value": "GM-SCR-000135",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-120",
+    "value": "GM-SCR-000136",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-130",
+    "value": "GM-SCR-000137",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-010",
+    "value": "GM-SCR-000138",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-020",
+    "value": "GM-SCR-000139",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-030",
+    "value": "GM-SCR-000140",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-040",
+    "value": "GM-SCR-000141",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-050",
+    "value": "GM-SCR-000142",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-060",
+    "value": "GM-SCR-000143",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-070",
+    "value": "GM-SCR-000144",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-080",
+    "value": "GM-SCR-000145",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-090",
+    "value": "GM-SCR-000146",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-100",
+    "value": "GM-SCR-000147",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-110",
+    "value": "GM-SCR-000148",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-120",
+    "value": "GM-SCR-000149",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-130",
+    "value": "GM-SCR-000150",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-140",
+    "value": "GM-SCR-000151",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-010",
+    "value": "GM-SCR-000152",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-020",
+    "value": "GM-SCR-000154",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-150",
+    "value": "GM-SCR-000155",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-090",
+    "value": "GM-SCR-000156",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-030",
+    "value": "GM-SCR-000157",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-100",
+    "value": "GM-SCR-000158",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-100",
+    "value": "GM-SCR-000159",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-110",
+    "value": "GM-SCR-000160",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-040",
+    "value": "GM-SCR-000161",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-040",
+    "value": "GM-SCR-000162",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-050",
+    "value": "GM-SCR-000163",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-050",
+    "value": "GM-SCR-000164",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-040",
+    "value": "GM-SCR-000165",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-060",
+    "value": "GM-SCR-000166",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-080",
+    "value": "GM-SCR-000167",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-030",
+    "value": "GM-SCR-000168",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-030",
+    "value": "GM-SCR-000169",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-030",
+    "value": "GM-SCR-000170",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "INTERNAL_ID",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-030",
+    "value": "GM-SCR-000171",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-010",
+    "value": "A.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-010",
+    "value": "A.1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-020",
+    "value": "A.1.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-040",
+    "value": "A.1.c-1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-050",
+    "value": "A.1.d-1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-060",
+    "value": "A.1.d-2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-070",
+    "value": "A.1.d-3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-080",
+    "value": "A.1.d-4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-020",
+    "value": "A.2-1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-090",
+    "value": "A.2-1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-030",
+    "value": "A.2-1.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-100",
+    "value": "A.2-1.d",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-040",
+    "value": "A.2-2.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-050",
+    "value": "A.3.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-060",
+    "value": "A.3.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-010",
+    "value": "A.3.d",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-020",
+    "value": "A.3.d-2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-040",
+    "value": "A.3.e-1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-050",
+    "value": "A.3.e-2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-070",
+    "value": "A.3.f-1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-060",
+    "value": "A.3.f-2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-030",
+    "value": "A.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-010",
+    "value": "ADM-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ADM-020",
+      "APP-ADM-030"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ADM-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ADM-040",
+      "APP-ADM-050"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ADM-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ADM-060",
+      "APP-ADM-070"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ADM-040",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ADM-080",
+      "APP-ADM-090"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ADM-050",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ADM-100",
+      "APP-ADM-110"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ADM-060",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-120",
+    "value": "ADM-070",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-130",
+    "value": "ADM-080",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-140",
+    "value": "ADM-090",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-150",
+    "value": "ADM-110",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-AUT-010",
+      "APP-AUT-020",
+      "APP-AUT-030",
+      "APP-AUT-090",
+      "APP-AUT-100"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "AUT-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-AUT-050",
+      "APP-AUT-060",
+      "APP-AUT-070",
+      "APP-AUT-080"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "AUT-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-040",
+    "value": "AUT-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-HOM-010",
+      "APP-ONB-080"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "B.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-020",
+    "value": "B.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-030",
+    "value": "B.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-010",
+    "value": "C.0",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-020",
+    "value": "C.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-030",
+    "value": "C.1.R",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-040",
+    "value": "C.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-050",
+    "value": "C.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-060",
+    "value": "C.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-070",
+    "value": "C.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-080",
+    "value": "C.7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-010",
+    "value": "C.8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-090",
+    "value": "C.R",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-CHT-030",
+      "APP-CHT-040",
+      "APP-CHT-050",
+      "APP-CHT-060"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "CHT-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-010",
+    "value": "CHT-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-020",
+    "value": "CHT-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-010",
+    "value": "D.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-020",
+    "value": "D.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-030",
+    "value": "D.1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-040",
+    "value": "D.1.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-010",
+    "value": "D.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-020",
+    "value": "D.2.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-010",
+    "value": "E.00",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-020",
+    "value": "E.0P",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-040",
+    "value": "E.V2.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-050",
+    "value": "E.V2.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-030",
+    "value": "E.X3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-010",
+      "APP-EXC-020",
+      "APP-EXC-030",
+      "APP-EXC-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-110",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-050",
+      "APP-EXC-060",
+      "APP-EXC-070",
+      "APP-EXC-090"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-120",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-080",
+    "value": "EXC-130",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-100",
+      "APP-EXC-110"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-210",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-120",
+      "APP-EXC-130",
+      "APP-EXC-140",
+      "APP-EXC-150",
+      "APP-EXC-160",
+      "APP-EXC-170",
+      "APP-EXC-180"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-220",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-190",
+      "APP-EXC-200",
+      "APP-EXC-210"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-230",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-EXC-220",
+      "APP-EXC-230"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "EXC-240",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-030",
+    "value": "F.01",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-040",
+    "value": "F.02",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-050",
+    "value": "F.03",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-060",
+    "value": "F.04",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-070",
+    "value": "F.05",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-080",
+    "value": "F.06",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-090",
+    "value": "F.07",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-100",
+    "value": "F.08",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-010",
+    "value": "F.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-030",
+    "value": "F.10",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-020",
+    "value": "F.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-040",
+    "value": "F.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-050",
+    "value": "F.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-060",
+    "value": "F.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-030",
+    "value": "F.6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-040",
+    "value": "F.7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-050",
+    "value": "F.8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-060",
+    "value": "F.9",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-110",
+    "value": "F.X1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-010",
+    "value": "G.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-020",
+    "value": "G.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-010",
+    "value": "G.1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-020",
+    "value": "G.1.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-040",
+    "value": "G.1.d",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-050",
+    "value": "G.1.e",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-060",
+    "value": "G.1.f",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-080",
+    "value": "G.1.g",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-030",
+    "value": "G.1.h",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-030",
+    "value": "G.1.s",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SET-010",
+    "value": "G.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-070",
+    "value": "G.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-010",
+    "value": "H.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-020",
+    "value": "H.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-030",
+    "value": "H.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-010",
+    "value": "H.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-020",
+    "value": "H.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-030",
+    "value": "H.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-010",
+    "value": "HOM-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-020",
+    "value": "HOM-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-030",
+    "value": "HOM-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-010",
+    "value": "I.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-020",
+    "value": "I.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-030",
+    "value": "I.2.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-040",
+    "value": "I.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-050",
+    "value": "I.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-060",
+    "value": "I.4.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-070",
+    "value": "I.4.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-080",
+    "value": "I.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-090",
+    "value": "I.5.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-120",
+    "value": "I.6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-130",
+    "value": "I.6.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-100",
+    "value": "I.7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-110",
+    "value": "I.7.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-100",
+    "value": "J.0",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-110",
+    "value": "J.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-220",
+    "value": "J.10",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-230",
+    "value": "J.11",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-020",
+    "value": "J.12",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-120",
+    "value": "J.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-130",
+    "value": "J.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-160",
+    "value": "J.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-190",
+    "value": "J.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-200",
+    "value": "J.5.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-210",
+    "value": "J.5.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-140",
+    "value": "J.6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-150",
+    "value": "J.7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-170",
+    "value": "J.8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-180",
+    "value": "J.9",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-MEM-010",
+      "APP-MEM-020",
+      "APP-MEM-030",
+      "APP-MEM-040",
+      "APP-MEM-050",
+      "APP-MEM-060",
+      "APP-MEM-080"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "MEM-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-070",
+    "value": "MEM-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-MHM-010",
+      "APP-MHM-020",
+      "APP-MHM-030",
+      "APP-MHM-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "MHM-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-MHM-050",
+      "APP-MHM-060"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "MHM-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-NTF-010",
+      "APP-NTF-020"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "NTF-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-030",
+    "value": "NTF-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-010",
+    "value": "O.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-020",
+    "value": "O.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-030",
+    "value": "O.2.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-040",
+    "value": "O.3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-050",
+    "value": "O.3.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-060",
+    "value": "O.4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-070",
+    "value": "O.4.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-080",
+    "value": "O.5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-090",
+    "value": "O.5.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-100",
+    "value": "O.6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-110",
+    "value": "O.6.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-120",
+    "value": "O.7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-130",
+    "value": "O.8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-140",
+    "value": "O.9",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ONB-010",
+      "APP-ONB-020",
+      "APP-ONB-030",
+      "APP-ONB-040",
+      "APP-ONB-050",
+      "APP-ONB-060",
+      "APP-ONB-070"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ONB-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-080",
+    "value": "ONB-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-010",
+      "APP-ORD-020"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ORD-100",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-030",
+      "APP-ORD-040",
+      "APP-ORD-050",
+      "APP-ORD-060",
+      "APP-ORD-070",
+      "APP-ORD-080",
+      "APP-ORD-090",
+      "APP-ORD-100",
+      "APP-ORD-110"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ORD-110",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-120",
+      "APP-ORD-130",
+      "APP-ORD-140",
+      "APP-ORD-150",
+      "APP-ORD-160",
+      "APP-ORD-170",
+      "APP-ORD-180",
+      "APP-ORD-190",
+      "APP-ORD-200",
+      "APP-ORD-210",
+      "APP-ORD-220"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "ORD-120",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-050",
+    "value": "Q.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-060",
+    "value": "Q.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-070",
+    "value": "Q.1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-080",
+    "value": "Q.1.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-010",
+    "value": "Q.2.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-020",
+    "value": "Q.2.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-030",
+    "value": "Q.2.c",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-040",
+    "value": "Q.2.d",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-REG-010",
+      "APP-REG-020",
+      "APP-REG-030",
+      "APP-REG-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "REG-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-REG-050",
+      "APP-REG-060"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "REG-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-010",
+    "value": "S.1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-020",
+    "value": "S.1.a",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TAX-030",
+      "APP-TAX-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "S.1.b",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-050",
+    "value": "S.2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SEC-010",
+      "APP-SEC-020",
+      "APP-SEC-030"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SEC-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SET-010",
+    "value": "SET-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-STF-050",
+      "APP-STF-060",
+      "APP-STF-070",
+      "APP-STF-080"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "STF-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-STF-010",
+      "APP-STF-020",
+      "APP-STF-030"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "STF-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-040",
+    "value": "STF-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUB-010",
+      "APP-SUB-020",
+      "APP-SUB-030"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUB-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-010",
+    "value": "SUP-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUP-020",
+      "APP-SUP-030"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUP-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-040",
+    "value": "SUP-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUP-050",
+      "APP-SUP-060",
+      "APP-SUP-070"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUP-040",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUP-080",
+      "APP-SUP-090"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUP-050",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUP-120",
+      "APP-SUP-130"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUP-060",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-SUP-100",
+      "APP-SUP-110"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "SUP-070",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-010",
+    "value": "SYS-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-020",
+    "value": "SYS-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TAX-010",
+      "APP-TAX-020"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "TAX-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TAX-030",
+      "APP-TAX-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "TAX-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-050",
+    "value": "TAX-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TRX-010",
+      "APP-TRX-020",
+      "APP-TRX-040",
+      "APP-TRX-050"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "TRX-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-060",
+    "value": "TRX-030",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TRX-030",
+      "APP-TRX-070"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "TRX-090",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-VCH-010",
+      "APP-VCH-020",
+      "APP-VCH-040"
+    ],
+    "kind": "LEGACY",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "VCH-010",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "LEGACY",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-030",
+    "value": "VCH-020",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-020",
+    "value": "/",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-010",
+    "value": "/admin",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-140",
+    "value": "/admin/disputes",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-040",
+    "value": "/admin/events",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-050",
+    "value": "/admin/events/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-080",
+    "value": "/admin/faq",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-090",
+    "value": "/admin/faq/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-100",
+    "value": "/admin/inquiries",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-110",
+    "value": "/admin/inquiries/answer",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-150",
+    "value": "/admin/local-interaction-cleanup",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-060",
+    "value": "/admin/magazine",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-070",
+    "value": "/admin/magazine/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-130",
+    "value": "/admin/merchant-applications",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-020",
+    "value": "/admin/notices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-030",
+    "value": "/admin/notices/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-120",
+    "value": "/admin/product-policy",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-030",
+    "value": "/auth/dev-login",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-020",
+    "value": "/auth/login",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-040",
+    "value": "/auth/login-id-recovery",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-090",
+    "value": "/auth/oauth/kakao/callback",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-100",
+    "value": "/auth/oauth/kakao/logout/callback",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-050",
+    "value": "/auth/password-reset",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-060",
+    "value": "/auth/password-reset/code",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-080",
+    "value": "/auth/password-reset/done",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-070",
+    "value": "/auth/password-reset/new",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-010",
+    "value": "/auth/signup",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-040",
+    "value": "/auth/signup/account",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-050",
+    "value": "/auth/signup/identity",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-060",
+    "value": "/auth/signup/identity/terms",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-020",
+    "value": "/auth/signup/oauth",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-030",
+    "value": "/auth/signup/oauth/complete",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-010",
+    "value": "/auth/splash",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-030",
+    "value": "/chat-rooms",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-CHT-010",
+      "APP-CHT-020",
+      "APP-CHT-040"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/chat-rooms/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-050",
+    "value": "/chat-rooms/[id]/proposal",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-060",
+    "value": "/chat-rooms/[id]/schedule",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-TRX-030",
+      "APP-TRX-070"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/disputes/file",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-080",
+    "value": "/exchange-contracts/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-100",
+    "value": "/exchange-notices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-130",
+    "value": "/exchange-notices/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-150",
+    "value": "/exchange-notices/[id]/close",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-180",
+    "value": "/exchange-notices/[id]/consent",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-190",
+    "value": "/exchange-notices/[id]/contracts",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-210",
+    "value": "/exchange-notices/[id]/contracts/countersign",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-200",
+    "value": "/exchange-notices/[id]/contracts/sign",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-230",
+    "value": "/exchange-notices/[id]/not-selected",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-220",
+    "value": "/exchange-notices/[id]/repost",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-170",
+    "value": "/exchange-notices/[id]/result",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-160",
+    "value": "/exchange-notices/[id]/select",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-140",
+    "value": "/exchange-notices/[id]/waiting",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-110",
+    "value": "/exchange-notices/board",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-120",
+    "value": "/exchange-notices/compose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-010",
+    "value": "/exchange-proposals",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-060",
+    "value": "/exchange-proposals/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-070",
+    "value": "/exchange-proposals/[id]/consent-receiver",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-090",
+    "value": "/exchange-proposals/[id]/declined",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-050",
+    "value": "/exchange-proposals/compose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-020",
+    "value": "/exchange-proposals/explore",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-030",
+    "value": "/exchange-proposals/explore/invitations",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-040",
+    "value": "/exchange-proposals/explore/shop",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-HOM-010",
+      "APP-ONB-080",
+      "APP-STF-040"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/home",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-020",
+    "value": "/home/guide",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-050",
+    "value": "/inquiries",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-070",
+    "value": "/inquiries/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-060",
+    "value": "/inquiries/compose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-010",
+    "value": "/loading-showcase",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-MEM-010",
+      "APP-MEM-030"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/members/me",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-040",
+    "value": "/members/me/delivery-addresses",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-020",
+    "value": "/members/me/devices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-020",
+    "value": "/members/me/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-070",
+    "value": "/members/me/leave",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-050",
+    "value": "/members/me/local-credential",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-060",
+    "value": "/members/me/login-id",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-080",
+    "value": "/members/me/login-id/change",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-030",
+    "value": "/members/me/login-settings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-010",
+    "value": "/members/me/password",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-030",
+    "value": "/menu",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-010",
+    "value": "/merchant-applications/business",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-030",
+    "value": "/merchant-applications/delegation",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-070",
+    "value": "/merchant-applications/duplicate",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-050",
+    "value": "/merchant-applications/mismatch",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-040",
+    "value": "/merchant-applications/submitted",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-020",
+    "value": "/merchant-applications/terms",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-060",
+    "value": "/merchant-applications/welcome",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-050",
+    "value": "/microhomes/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-060",
+    "value": "/microhomes/[id]/reviews",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-010",
+    "value": "/microhomes/me",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-030",
+    "value": "/microhomes/me/business-information",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-020",
+    "value": "/microhomes/me/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-040",
+    "value": "/microhomes/me/menu",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-030",
+    "value": "/notification-settings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-010",
+    "value": "/notifications",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-020",
+    "value": "/notifications/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-010",
+      "APP-ORD-030",
+      "APP-ORD-120"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-020",
+    "value": "/orders/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-070",
+      "APP-ORD-160"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/[id]/accept",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-210",
+    "value": "/orders/[id]/cancel",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-110",
+      "APP-ORD-200"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/[id]/canceled",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-060",
+    "value": "/orders/[id]/completed",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-100",
+      "APP-ORD-190"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/[id]/confirm",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-080",
+      "APP-ORD-170"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/[id]/progress",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-220",
+    "value": "/orders/[id]/rejected",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-090",
+      "APP-ORD-180"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/[id]/tracking",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-040",
+      "APP-ORD-130"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/compose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-050",
+      "APP-ORD-140"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/compose/delivery",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "APP-ORD-060",
+      "APP-ORD-150"
+    ],
+    "kind": "ROUTE",
+    "reason": "원본에서 여러 화면이 공유하는 값. internal_id 또는 binding으로 식별한다.",
+    "status": "AMBIGUOUS",
+    "system": "APP",
+    "target": null,
+    "value": "/orders/manage",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-100",
+    "value": "/reports",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-110",
+    "value": "/reports/compose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SET-010",
+    "value": "/settings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-050",
+    "value": "/staff-accounts",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-060",
+    "value": "/staff-accounts/create",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-010",
+    "value": "/staff-accounts/invite",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-020",
+    "value": "/staff-accounts/invite/login",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-030",
+    "value": "/staff-accounts/invite/password",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-070",
+    "value": "/staff-accounts/issue",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-080",
+    "value": "/staff-accounts/manage",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-010",
+    "value": "/subscriptions",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-030",
+    "value": "/subscriptions/cancel",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-020",
+    "value": "/subscriptions/pay",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-010",
+    "value": "/support",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-120",
+    "value": "/support/events",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-130",
+    "value": "/support/events/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-040",
+    "value": "/support/faq",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-080",
+    "value": "/support/magazine",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-090",
+    "value": "/support/magazine/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-020",
+    "value": "/support/notices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-030",
+    "value": "/support/notices/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-010",
+    "value": "/tax-invoices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-020",
+    "value": "/tax-invoices/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-030",
+    "value": "/tax-invoices/[id]/amend",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-040",
+    "value": "/tax-invoices/[id]/cancel",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-050",
+    "value": "/tax-reports",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-010",
+    "value": "/transactions",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-020",
+    "value": "/transactions/manage",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-040",
+    "value": "/transactions/new",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-050",
+    "value": "/transactions/payment-requests/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-010",
+    "value": "/vouchers",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-020",
+    "value": "/vouchers/[id]",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-030",
+    "value": "/vouchers/[id]/permissions",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-040",
+    "value": "/vouchers/assigned",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-040",
+    "value": "a01/account",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-030",
+    "value": "a01/delegation",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-030",
+    "value": "a01/devlogin",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-070",
+    "value": "a01/duplicate",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-080",
+    "value": "a01/home",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-020",
+    "value": "a01/login",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-040",
+    "value": "a01/loginidrecover",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-050",
+    "value": "a01/mismatch",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-020",
+    "value": "a01/oauth",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-090",
+    "value": "a01/oauthcb",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-030",
+    "value": "a01/oauthdone",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-100",
+    "value": "a01/oauthout",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-050",
+    "value": "a01/phone",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-010",
+    "value": "a01/provider",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-060",
+    "value": "a01/pwcode",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-080",
+    "value": "a01/pwdone",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-050",
+    "value": "a01/pwemail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-070",
+    "value": "a01/pwnew",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-AUT-010",
+    "value": "a01/splash",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-040",
+    "value": "a01/staffhome",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-010",
+    "value": "a01/staffland",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-020",
+    "value": "a01/stafflogin",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-030",
+    "value": "a01/staffpw",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-040",
+    "value": "a01/success",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-REG-060",
+    "value": "a01/terms",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-020",
+    "value": "a01/terms2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-010",
+    "value": "a01/upload",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ONB-060",
+    "value": "a01/welcome",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-010",
+    "value": "b01/account",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-040",
+    "value": "b01/addresses",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-030",
+    "value": "b01/cancel",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-020",
+    "value": "b01/devices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-020",
+    "value": "b01/edit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-010",
+    "value": "b01/home",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-070",
+    "value": "b01/leave",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-050",
+    "value": "b01/localcredential",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-060",
+    "value": "b01/loginid",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-080",
+    "value": "b01/loginidchange",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-030",
+    "value": "b01/loginsettings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-020",
+    "value": "b01/manual",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-010",
+    "value": "b01/membership",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-HOM-030",
+    "value": "b01/menu",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-020",
+    "value": "b01/notidetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-010",
+    "value": "b01/notis",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-NTF-030",
+    "value": "b01/notisettings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUB-020",
+    "value": "b01/pay",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SEC-010",
+    "value": "b01/pwchange",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SET-010",
+    "value": "b01/settings",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-050",
+    "value": "b01/staff",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MEM-030",
+    "value": "b01/staffaccount",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-060",
+    "value": "b01/staffcreate",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-070",
+    "value": "b01/staffinvite",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-STF-080",
+    "value": "b01/staffperm",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-020",
+    "value": "c02j/c1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-060",
+    "value": "c02j/c2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-070",
+    "value": "c02j/c3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-080",
+    "value": "c02j/c6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-090",
+    "value": "c02j/c7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-010",
+    "value": "c02j/chat",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-040",
+    "value": "c02j/cmh",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-050",
+    "value": "c02j/cprop",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-010",
+    "value": "c02j/hub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-030",
+    "value": "c02j/recruitment",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-020",
+    "value": "c02n/chat",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-120",
+    "value": "c02n/d1",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-130",
+    "value": "c02n/d2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-140",
+    "value": "c02n/d2wait",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-160",
+    "value": "c02n/d3",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-150",
+    "value": "c02n/d4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-170",
+    "value": "c02n/d5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-180",
+    "value": "c02n/d5r",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-190",
+    "value": "c02n/d6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-200",
+    "value": "c02n/d6one",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-210",
+    "value": "c02n/d6p",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-220",
+    "value": "c02n/d7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-230",
+    "value": "c02n/d8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-110",
+    "value": "c02n/dboard",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-EXC-100",
+    "value": "c02n/hub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-020",
+    "value": "d01/detail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-030",
+    "value": "d01/manage",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-040",
+    "value": "d01/myvouchers",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-020",
+    "value": "d01/orderdetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-010",
+    "value": "d01/orders",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-VCH-010",
+    "value": "d01/vouchers",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-030",
+    "value": "e01/dispute",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-010",
+    "value": "e01/ehub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-040",
+    "value": "e01/f2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-050",
+    "value": "e01/f4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-070",
+    "value": "e01/f5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-080",
+    "value": "e01/f6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-100",
+    "value": "e01/f7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-110",
+    "value": "e01/f8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-090",
+    "value": "e01/f9",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-030",
+    "value": "e01/ohist",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-060",
+    "value": "e01/ohub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-050",
+    "value": "e01/paymentdetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-040",
+    "value": "e01/paymentrequest",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-020",
+    "value": "e01/phub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-210",
+    "value": "e02/cancelForm",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-070",
+    "value": "e02/dispute",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TRX-060",
+    "value": "e02/ecomplete",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-130",
+    "value": "e02/f2",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-140",
+    "value": "e02/f4",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-160",
+    "value": "e02/f5",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-170",
+    "value": "e02/f6",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-190",
+    "value": "e02/f7",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-200",
+    "value": "e02/f8",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-180",
+    "value": "e02/f9",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-120",
+    "value": "e02/ohist",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-150",
+    "value": "e02/ohub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ORD-220",
+    "value": "e02/rejected",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-030",
+    "value": "f01m/businesscollection",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-030",
+    "value": "f01m/chatlist",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-040",
+    "value": "f01m/chatroom",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-010",
+    "value": "f01m/micro",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-020",
+    "value": "f01m/microedit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-040",
+    "value": "f01m/microphoto",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-050",
+    "value": "f01m/proposal",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-060",
+    "value": "f01m/reviews",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-CHT-060",
+    "value": "f01m/schedule",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-MHM-050",
+    "value": "f01m/visit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-050",
+    "value": "f01t/report",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-010",
+    "value": "f01t/tax",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-030",
+    "value": "f01t/taxamend",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-040",
+    "value": "f01t/taxcancel",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-TAX-020",
+    "value": "f01t/taxdetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-080",
+    "value": "i01/blog",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-090",
+    "value": "i01/blogpost",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-130",
+    "value": "i01/eventdetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-120",
+    "value": "i01/events",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-040",
+    "value": "i01/faq",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-010",
+    "value": "i01/hub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-030",
+    "value": "i01/noticedetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-020",
+    "value": "i01/notices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-060",
+    "value": "i01/qnacompose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-070",
+    "value": "i01/qnadetail",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-050",
+    "value": "i01/qnalist",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-110",
+    "value": "i01/reportcompose",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SUP-100",
+    "value": "i01/reports",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-130",
+    "value": "i02/applications",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-010",
+    "value": "i02/dash",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-140",
+    "value": "i02/disputes",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-050",
+    "value": "i02/eEdit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-040",
+    "value": "i02/events",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-090",
+    "value": "i02/fEdit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-080",
+    "value": "i02/faqs",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-100",
+    "value": "i02/inbox",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-110",
+    "value": "i02/inboxAns",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-030",
+    "value": "i02/nEdit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-020",
+    "value": "i02/notices",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-070",
+    "value": "i02/pEdit",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-120",
+    "value": "i02/policy",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-060",
+    "value": "i02/posts",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-010",
+    "value": "special/loading-showcase",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-ADM-150",
+    "value": "special/local-interaction-cleanup",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "APP",
+    "target": "APP-SYS-020",
+    "value": "special/screen-hub",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [],
     "kind": "BO_ID",
     "status": "RESOLVED",
     "system": "BO",
     "target": "BO-STA-010",
     "value": "A-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1877,7 +10677,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "A-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1886,7 +10686,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "A-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1895,7 +10695,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "A-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1904,7 +10704,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "A-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1913,7 +10713,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "A-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1922,7 +10722,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "A-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1931,7 +10731,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "C-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1940,7 +10740,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "C-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1949,7 +10749,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "C-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1958,7 +10758,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "C-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1967,7 +10767,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "C-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1976,7 +10776,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "C-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1985,7 +10785,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "C-31",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -1994,7 +10794,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "C-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2003,7 +10803,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "D-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2012,7 +10812,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "I-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2021,7 +10821,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "I-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2030,7 +10830,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "I-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2039,7 +10839,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "K-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2048,7 +10848,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "K-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2057,7 +10857,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "K-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2066,7 +10866,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "K-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2075,7 +10875,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "K-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2084,7 +10884,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "K-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2093,7 +10893,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "K-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2102,7 +10902,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "M-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2111,7 +10911,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "M-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2120,7 +10920,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "M-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2129,7 +10929,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "M-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2138,7 +10938,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "M-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2147,7 +10947,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "M-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2156,7 +10956,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "M-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2165,7 +10965,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "M-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2174,7 +10974,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "R-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2183,7 +10983,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "S-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2192,7 +10992,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "S-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2201,7 +11001,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "T-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2210,7 +11010,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "T-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2219,7 +11019,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "T-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2228,7 +11028,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "T-12",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2237,7 +11037,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "T-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2246,7 +11046,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "T-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2255,7 +11055,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "T-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2264,7 +11064,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "T-31",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2273,7 +11073,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "T-90",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2282,7 +11082,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "W-00",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2291,7 +11091,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "W-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2300,7 +11100,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "W-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2309,7 +11109,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "W-03",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2318,7 +11118,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "W-04",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2327,7 +11127,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "W-05",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2336,7 +11136,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "X-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2345,7 +11145,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "X-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2354,7 +11154,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "X-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2363,7 +11163,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "X-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2372,7 +11172,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "X-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2381,7 +11181,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "X-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2390,7 +11190,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "Y-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2399,7 +11199,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "Y-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2408,7 +11208,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "Y-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2417,7 +11217,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "Y-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2426,7 +11226,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "Y-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2435,7 +11235,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "Y-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2444,7 +11244,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "Y-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2453,7 +11253,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "Y-70",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2462,7 +11262,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "Y-80",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2471,7 +11271,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "Z-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2480,7 +11280,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "Z-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2489,7 +11289,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "Z-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2498,7 +11298,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "Z-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2507,7 +11307,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "Z-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2516,7 +11316,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-030",
     "value": "SetupGate",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2525,7 +11325,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "guide",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2534,7 +11334,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "login",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [
@@ -2547,7 +11347,7 @@ export const ALIASES = [
     "system": "BO",
     "target": null,
     "value": "I-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2556,7 +11356,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-010",
     "value": "/a-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2565,7 +11365,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-020",
     "value": "/a-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2574,7 +11374,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-030",
     "value": "/a-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2583,7 +11383,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-040",
     "value": "/a-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2592,7 +11392,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-050",
     "value": "/a-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2601,7 +11401,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-060",
     "value": "/a-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2610,7 +11410,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-STA-070",
     "value": "/a-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2619,7 +11419,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-010",
     "value": "/c-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2628,7 +11428,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-020",
     "value": "/c-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2637,7 +11437,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-030",
     "value": "/c-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2646,7 +11446,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-040",
     "value": "/c-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2655,7 +11455,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-050",
     "value": "/c-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2664,7 +11464,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-060",
     "value": "/c-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2673,7 +11473,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-070",
     "value": "/c-31",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2682,7 +11482,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CUS-080",
     "value": "/c-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2691,7 +11491,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-DSH-010",
     "value": "/d-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2700,7 +11500,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-020",
     "value": "/guide",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2709,7 +11509,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-010",
     "value": "/i-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2718,7 +11518,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-020",
     "value": "/i-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2727,7 +11527,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-ISS-030",
     "value": "/i-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2736,7 +11536,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-010",
     "value": "/k-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2745,7 +11545,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-020",
     "value": "/k-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2754,7 +11554,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-030",
     "value": "/k-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2763,7 +11563,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-040",
     "value": "/k-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2772,7 +11572,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-050",
     "value": "/k-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2781,7 +11581,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-060",
     "value": "/k-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2790,7 +11590,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-POL-070",
     "value": "/k-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2799,7 +11599,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SHL-010",
     "value": "/login",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2808,7 +11608,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-010",
     "value": "/m-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2817,7 +11617,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-020",
     "value": "/m-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2826,7 +11626,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-030",
     "value": "/m-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2835,7 +11635,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-040",
     "value": "/m-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2844,7 +11644,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-050",
     "value": "/m-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2853,7 +11653,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-070",
     "value": "/m-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2862,7 +11662,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-060",
     "value": "/m-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2871,7 +11671,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-MBR-080",
     "value": "/m-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2880,7 +11680,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-100",
     "value": "/r-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2889,7 +11689,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-010",
     "value": "/s-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2898,7 +11698,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-CNT-020",
     "value": "/s-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2907,7 +11707,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-010",
     "value": "/t-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2916,7 +11716,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-020",
     "value": "/t-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2925,7 +11725,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-030",
     "value": "/t-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2934,7 +11734,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-040",
     "value": "/t-12",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2943,7 +11743,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-050",
     "value": "/t-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2952,7 +11752,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-060",
     "value": "/t-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2961,7 +11761,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-070",
     "value": "/t-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2970,7 +11770,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-080",
     "value": "/t-31",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2979,7 +11779,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TRD-090",
     "value": "/t-90",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2988,7 +11788,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-010",
     "value": "/w-00",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -2997,7 +11797,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-020",
     "value": "/w-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3006,7 +11806,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-030",
     "value": "/w-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3015,7 +11815,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-040",
     "value": "/w-03",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3024,7 +11824,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-050",
     "value": "/w-04",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3033,7 +11833,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-WRK-060",
     "value": "/w-05",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3042,7 +11842,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-010",
     "value": "/x-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3051,7 +11851,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-020",
     "value": "/x-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3060,7 +11860,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-030",
     "value": "/x-11",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3069,7 +11869,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-040",
     "value": "/x-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3078,7 +11878,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-050",
     "value": "/x-21",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3087,7 +11887,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-TAX-060",
     "value": "/x-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3096,7 +11896,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-010",
     "value": "/y-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3105,7 +11905,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-020",
     "value": "/y-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3114,7 +11914,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-030",
     "value": "/y-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3123,7 +11923,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-040",
     "value": "/y-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3132,7 +11932,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-050",
     "value": "/y-40",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3141,7 +11941,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-060",
     "value": "/y-50",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3150,7 +11950,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-070",
     "value": "/y-60",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3159,7 +11959,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-080",
     "value": "/y-70",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3168,7 +11968,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "/y-80",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3177,7 +11977,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-010",
     "value": "/z-01",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3186,7 +11986,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-020",
     "value": "/z-02",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3195,7 +11995,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-030",
     "value": "/z-10",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3204,7 +12004,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-040",
     "value": "/z-20",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   },
   {
     "candidates": [],
@@ -3213,7 +12013,7 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SEC-050",
     "value": "/z-30",
-    "version": "1.0.0-bo.8"
+    "version": "1.0.0-ui.9"
   }
 ] as const;
 export const ELEMENTS = [
@@ -11445,6 +20245,162 @@ export const ELEMENTS = [
   }
 ] as const;
 export const SCREEN_CODES = {
+  "APP-ADM-010": "APP-ADM-010",
+  "APP-ADM-020": "APP-ADM-020",
+  "APP-ADM-030": "APP-ADM-030",
+  "APP-ADM-040": "APP-ADM-040",
+  "APP-ADM-050": "APP-ADM-050",
+  "APP-ADM-060": "APP-ADM-060",
+  "APP-ADM-070": "APP-ADM-070",
+  "APP-ADM-080": "APP-ADM-080",
+  "APP-ADM-090": "APP-ADM-090",
+  "APP-ADM-100": "APP-ADM-100",
+  "APP-ADM-110": "APP-ADM-110",
+  "APP-ADM-120": "APP-ADM-120",
+  "APP-ADM-130": "APP-ADM-130",
+  "APP-ADM-140": "APP-ADM-140",
+  "APP-ADM-150": "APP-ADM-150",
+  "APP-AUT-010": "APP-AUT-010",
+  "APP-AUT-020": "APP-AUT-020",
+  "APP-AUT-030": "APP-AUT-030",
+  "APP-AUT-040": "APP-AUT-040",
+  "APP-AUT-050": "APP-AUT-050",
+  "APP-AUT-060": "APP-AUT-060",
+  "APP-AUT-070": "APP-AUT-070",
+  "APP-AUT-080": "APP-AUT-080",
+  "APP-AUT-090": "APP-AUT-090",
+  "APP-AUT-100": "APP-AUT-100",
+  "APP-CHT-010": "APP-CHT-010",
+  "APP-CHT-020": "APP-CHT-020",
+  "APP-CHT-030": "APP-CHT-030",
+  "APP-CHT-040": "APP-CHT-040",
+  "APP-CHT-050": "APP-CHT-050",
+  "APP-CHT-060": "APP-CHT-060",
+  "APP-EXC-010": "APP-EXC-010",
+  "APP-EXC-020": "APP-EXC-020",
+  "APP-EXC-030": "APP-EXC-030",
+  "APP-EXC-040": "APP-EXC-040",
+  "APP-EXC-050": "APP-EXC-050",
+  "APP-EXC-060": "APP-EXC-060",
+  "APP-EXC-070": "APP-EXC-070",
+  "APP-EXC-080": "APP-EXC-080",
+  "APP-EXC-090": "APP-EXC-090",
+  "APP-EXC-100": "APP-EXC-100",
+  "APP-EXC-110": "APP-EXC-110",
+  "APP-EXC-120": "APP-EXC-120",
+  "APP-EXC-130": "APP-EXC-130",
+  "APP-EXC-140": "APP-EXC-140",
+  "APP-EXC-150": "APP-EXC-150",
+  "APP-EXC-160": "APP-EXC-160",
+  "APP-EXC-170": "APP-EXC-170",
+  "APP-EXC-180": "APP-EXC-180",
+  "APP-EXC-190": "APP-EXC-190",
+  "APP-EXC-200": "APP-EXC-200",
+  "APP-EXC-210": "APP-EXC-210",
+  "APP-EXC-220": "APP-EXC-220",
+  "APP-EXC-230": "APP-EXC-230",
+  "APP-HOM-010": "APP-HOM-010",
+  "APP-HOM-020": "APP-HOM-020",
+  "APP-HOM-030": "APP-HOM-030",
+  "APP-MEM-010": "APP-MEM-010",
+  "APP-MEM-020": "APP-MEM-020",
+  "APP-MEM-030": "APP-MEM-030",
+  "APP-MEM-040": "APP-MEM-040",
+  "APP-MEM-050": "APP-MEM-050",
+  "APP-MEM-060": "APP-MEM-060",
+  "APP-MEM-070": "APP-MEM-070",
+  "APP-MEM-080": "APP-MEM-080",
+  "APP-MHM-010": "APP-MHM-010",
+  "APP-MHM-020": "APP-MHM-020",
+  "APP-MHM-030": "APP-MHM-030",
+  "APP-MHM-040": "APP-MHM-040",
+  "APP-MHM-050": "APP-MHM-050",
+  "APP-MHM-060": "APP-MHM-060",
+  "APP-NTF-010": "APP-NTF-010",
+  "APP-NTF-020": "APP-NTF-020",
+  "APP-NTF-030": "APP-NTF-030",
+  "APP-ONB-010": "APP-ONB-010",
+  "APP-ONB-020": "APP-ONB-020",
+  "APP-ONB-030": "APP-ONB-030",
+  "APP-ONB-040": "APP-ONB-040",
+  "APP-ONB-050": "APP-ONB-050",
+  "APP-ONB-060": "APP-ONB-060",
+  "APP-ONB-070": "APP-ONB-070",
+  "APP-ONB-080": "APP-ONB-080",
+  "APP-ORD-010": "APP-ORD-010",
+  "APP-ORD-020": "APP-ORD-020",
+  "APP-ORD-030": "APP-ORD-030",
+  "APP-ORD-040": "APP-ORD-040",
+  "APP-ORD-050": "APP-ORD-050",
+  "APP-ORD-060": "APP-ORD-060",
+  "APP-ORD-070": "APP-ORD-070",
+  "APP-ORD-080": "APP-ORD-080",
+  "APP-ORD-090": "APP-ORD-090",
+  "APP-ORD-100": "APP-ORD-100",
+  "APP-ORD-110": "APP-ORD-110",
+  "APP-ORD-120": "APP-ORD-120",
+  "APP-ORD-130": "APP-ORD-130",
+  "APP-ORD-140": "APP-ORD-140",
+  "APP-ORD-150": "APP-ORD-150",
+  "APP-ORD-160": "APP-ORD-160",
+  "APP-ORD-170": "APP-ORD-170",
+  "APP-ORD-180": "APP-ORD-180",
+  "APP-ORD-190": "APP-ORD-190",
+  "APP-ORD-200": "APP-ORD-200",
+  "APP-ORD-210": "APP-ORD-210",
+  "APP-ORD-220": "APP-ORD-220",
+  "APP-REG-010": "APP-REG-010",
+  "APP-REG-020": "APP-REG-020",
+  "APP-REG-030": "APP-REG-030",
+  "APP-REG-040": "APP-REG-040",
+  "APP-REG-050": "APP-REG-050",
+  "APP-REG-060": "APP-REG-060",
+  "APP-SEC-010": "APP-SEC-010",
+  "APP-SEC-020": "APP-SEC-020",
+  "APP-SEC-030": "APP-SEC-030",
+  "APP-SET-010": "APP-SET-010",
+  "APP-STF-010": "APP-STF-010",
+  "APP-STF-020": "APP-STF-020",
+  "APP-STF-030": "APP-STF-030",
+  "APP-STF-040": "APP-STF-040",
+  "APP-STF-050": "APP-STF-050",
+  "APP-STF-060": "APP-STF-060",
+  "APP-STF-070": "APP-STF-070",
+  "APP-STF-080": "APP-STF-080",
+  "APP-SUB-010": "APP-SUB-010",
+  "APP-SUB-020": "APP-SUB-020",
+  "APP-SUB-030": "APP-SUB-030",
+  "APP-SUP-010": "APP-SUP-010",
+  "APP-SUP-020": "APP-SUP-020",
+  "APP-SUP-030": "APP-SUP-030",
+  "APP-SUP-040": "APP-SUP-040",
+  "APP-SUP-050": "APP-SUP-050",
+  "APP-SUP-060": "APP-SUP-060",
+  "APP-SUP-070": "APP-SUP-070",
+  "APP-SUP-080": "APP-SUP-080",
+  "APP-SUP-090": "APP-SUP-090",
+  "APP-SUP-100": "APP-SUP-100",
+  "APP-SUP-110": "APP-SUP-110",
+  "APP-SUP-120": "APP-SUP-120",
+  "APP-SUP-130": "APP-SUP-130",
+  "APP-SYS-010": "APP-SYS-010",
+  "APP-SYS-020": "APP-SYS-020",
+  "APP-TAX-010": "APP-TAX-010",
+  "APP-TAX-020": "APP-TAX-020",
+  "APP-TAX-030": "APP-TAX-030",
+  "APP-TAX-040": "APP-TAX-040",
+  "APP-TAX-050": "APP-TAX-050",
+  "APP-TRX-010": "APP-TRX-010",
+  "APP-TRX-020": "APP-TRX-020",
+  "APP-TRX-030": "APP-TRX-030",
+  "APP-TRX-040": "APP-TRX-040",
+  "APP-TRX-050": "APP-TRX-050",
+  "APP-TRX-060": "APP-TRX-060",
+  "APP-TRX-070": "APP-TRX-070",
+  "APP-VCH-010": "APP-VCH-010",
+  "APP-VCH-020": "APP-VCH-020",
+  "APP-VCH-030": "APP-VCH-030",
+  "APP-VCH-040": "APP-VCH-040",
   "BO-CNT-010": "BO-CNT-010",
   "BO-CNT-020": "BO-CNT-020",
   "BO-CUS-010": "BO-CUS-010",
@@ -11522,6 +20478,39 @@ export const SCREEN_CODES = {
   "BO-WRK-060": "BO-WRK-060"
 } as const;
 export const MENU_CODES = {
+  "APP-MENU-ACCOUNT-ACCOUNT": "APP-MENU-ACCOUNT-ACCOUNT",
+  "APP-MENU-ACCOUNT-LEAVE": "APP-MENU-ACCOUNT-LEAVE",
+  "APP-MENU-ACCOUNT-MEMBERSHIP": "APP-MENU-ACCOUNT-MEMBERSHIP",
+  "APP-MENU-ACCOUNT-NOTIS": "APP-MENU-ACCOUNT-NOTIS",
+  "APP-MENU-ACCOUNT-NOTISETTINGS": "APP-MENU-ACCOUNT-NOTISETTINGS",
+  "APP-MENU-ACCOUNT-SETTINGS": "APP-MENU-ACCOUNT-SETTINGS",
+  "APP-MENU-ASSET-TAX": "APP-MENU-ASSET-TAX",
+  "APP-MENU-ASSET-VOUCHERS": "APP-MENU-ASSET-VOUCHERS",
+  "APP-MENU-EXCHANGE-C1": "APP-MENU-EXCHANGE-C1",
+  "APP-MENU-EXCHANGE-HUB": "APP-MENU-EXCHANGE-HUB",
+  "APP-MENU-EXCHANGE-RECRUITMENT": "APP-MENU-EXCHANGE-RECRUITMENT",
+  "APP-MENU-MARKET-D1": "APP-MENU-MARKET-D1",
+  "APP-MENU-MARKET-DBOARD": "APP-MENU-MARKET-DBOARD",
+  "APP-MENU-MARKET-HUB": "APP-MENU-MARKET-HUB",
+  "APP-MENU-ORDERS-HOME": "APP-MENU-ORDERS-HOME",
+  "APP-MENU-ORDERS-OHUB": "APP-MENU-ORDERS-OHUB",
+  "APP-MENU-ORDERS-ORDERS": "APP-MENU-ORDERS-ORDERS",
+  "APP-MENU-PAYMENT-EHUB": "APP-MENU-PAYMENT-EHUB",
+  "APP-MENU-PAYMENT-PAYMENTREQUEST": "APP-MENU-PAYMENT-PAYMENTREQUEST",
+  "APP-MENU-STORE-CHATLIST": "APP-MENU-STORE-CHATLIST",
+  "APP-MENU-STORE-MICRO": "APP-MENU-STORE-MICRO",
+  "APP-MENU-STORE-MICROEDIT": "APP-MENU-STORE-MICROEDIT",
+  "APP-MENU-STORE-STAFF": "APP-MENU-STORE-STAFF",
+  "APP-MENU-SUPPORT-BLOG": "APP-MENU-SUPPORT-BLOG",
+  "APP-MENU-SUPPORT-EVENTS": "APP-MENU-SUPPORT-EVENTS",
+  "APP-MENU-SUPPORT-FAQ": "APP-MENU-SUPPORT-FAQ",
+  "APP-MENU-SUPPORT-NOTICES": "APP-MENU-SUPPORT-NOTICES",
+  "APP-MENU-SUPPORT-QNALIST": "APP-MENU-SUPPORT-QNALIST",
+  "APP-MENU-TAB-ACCOUNT": "APP-MENU-TAB-ACCOUNT",
+  "APP-MENU-TAB-ACTIVITY": "APP-MENU-TAB-ACTIVITY",
+  "APP-MENU-TAB-HOME": "APP-MENU-TAB-HOME",
+  "APP-MENU-TAB-MATCH": "APP-MENU-TAB-MATCH",
+  "APP-MENU-TAB-TICKET": "APP-MENU-TAB-TICKET",
   "BO-MENU-CNT-FAQ": "BO-MENU-CNT-FAQ",
   "BO-MENU-CNT-NOTICE": "BO-MENU-CNT-NOTICE",
   "BO-MENU-CUS-ANSWER": "BO-MENU-CUS-ANSWER",
@@ -11940,6 +20929,162 @@ export const ELEMENT_CODES = {
   "BO-TAX-050-TOGGLE-SCOPE-HELP": "BO-TAX-050-TOGGLE-SCOPE-HELP"
 } as const;
 export const SCREEN_ELEMENTS = {
+  "APP-ADM-010": [],
+  "APP-ADM-020": [],
+  "APP-ADM-030": [],
+  "APP-ADM-040": [],
+  "APP-ADM-050": [],
+  "APP-ADM-060": [],
+  "APP-ADM-070": [],
+  "APP-ADM-080": [],
+  "APP-ADM-090": [],
+  "APP-ADM-100": [],
+  "APP-ADM-110": [],
+  "APP-ADM-120": [],
+  "APP-ADM-130": [],
+  "APP-ADM-140": [],
+  "APP-ADM-150": [],
+  "APP-AUT-010": [],
+  "APP-AUT-020": [],
+  "APP-AUT-030": [],
+  "APP-AUT-040": [],
+  "APP-AUT-050": [],
+  "APP-AUT-060": [],
+  "APP-AUT-070": [],
+  "APP-AUT-080": [],
+  "APP-AUT-090": [],
+  "APP-AUT-100": [],
+  "APP-CHT-010": [],
+  "APP-CHT-020": [],
+  "APP-CHT-030": [],
+  "APP-CHT-040": [],
+  "APP-CHT-050": [],
+  "APP-CHT-060": [],
+  "APP-EXC-010": [],
+  "APP-EXC-020": [],
+  "APP-EXC-030": [],
+  "APP-EXC-040": [],
+  "APP-EXC-050": [],
+  "APP-EXC-060": [],
+  "APP-EXC-070": [],
+  "APP-EXC-080": [],
+  "APP-EXC-090": [],
+  "APP-EXC-100": [],
+  "APP-EXC-110": [],
+  "APP-EXC-120": [],
+  "APP-EXC-130": [],
+  "APP-EXC-140": [],
+  "APP-EXC-150": [],
+  "APP-EXC-160": [],
+  "APP-EXC-170": [],
+  "APP-EXC-180": [],
+  "APP-EXC-190": [],
+  "APP-EXC-200": [],
+  "APP-EXC-210": [],
+  "APP-EXC-220": [],
+  "APP-EXC-230": [],
+  "APP-HOM-010": [],
+  "APP-HOM-020": [],
+  "APP-HOM-030": [],
+  "APP-MEM-010": [],
+  "APP-MEM-020": [],
+  "APP-MEM-030": [],
+  "APP-MEM-040": [],
+  "APP-MEM-050": [],
+  "APP-MEM-060": [],
+  "APP-MEM-070": [],
+  "APP-MEM-080": [],
+  "APP-MHM-010": [],
+  "APP-MHM-020": [],
+  "APP-MHM-030": [],
+  "APP-MHM-040": [],
+  "APP-MHM-050": [],
+  "APP-MHM-060": [],
+  "APP-NTF-010": [],
+  "APP-NTF-020": [],
+  "APP-NTF-030": [],
+  "APP-ONB-010": [],
+  "APP-ONB-020": [],
+  "APP-ONB-030": [],
+  "APP-ONB-040": [],
+  "APP-ONB-050": [],
+  "APP-ONB-060": [],
+  "APP-ONB-070": [],
+  "APP-ONB-080": [],
+  "APP-ORD-010": [],
+  "APP-ORD-020": [],
+  "APP-ORD-030": [],
+  "APP-ORD-040": [],
+  "APP-ORD-050": [],
+  "APP-ORD-060": [],
+  "APP-ORD-070": [],
+  "APP-ORD-080": [],
+  "APP-ORD-090": [],
+  "APP-ORD-100": [],
+  "APP-ORD-110": [],
+  "APP-ORD-120": [],
+  "APP-ORD-130": [],
+  "APP-ORD-140": [],
+  "APP-ORD-150": [],
+  "APP-ORD-160": [],
+  "APP-ORD-170": [],
+  "APP-ORD-180": [],
+  "APP-ORD-190": [],
+  "APP-ORD-200": [],
+  "APP-ORD-210": [],
+  "APP-ORD-220": [],
+  "APP-REG-010": [],
+  "APP-REG-020": [],
+  "APP-REG-030": [],
+  "APP-REG-040": [],
+  "APP-REG-050": [],
+  "APP-REG-060": [],
+  "APP-SEC-010": [],
+  "APP-SEC-020": [],
+  "APP-SEC-030": [],
+  "APP-SET-010": [],
+  "APP-STF-010": [],
+  "APP-STF-020": [],
+  "APP-STF-030": [],
+  "APP-STF-040": [],
+  "APP-STF-050": [],
+  "APP-STF-060": [],
+  "APP-STF-070": [],
+  "APP-STF-080": [],
+  "APP-SUB-010": [],
+  "APP-SUB-020": [],
+  "APP-SUB-030": [],
+  "APP-SUP-010": [],
+  "APP-SUP-020": [],
+  "APP-SUP-030": [],
+  "APP-SUP-040": [],
+  "APP-SUP-050": [],
+  "APP-SUP-060": [],
+  "APP-SUP-070": [],
+  "APP-SUP-080": [],
+  "APP-SUP-090": [],
+  "APP-SUP-100": [],
+  "APP-SUP-110": [],
+  "APP-SUP-120": [],
+  "APP-SUP-130": [],
+  "APP-SYS-010": [],
+  "APP-SYS-020": [],
+  "APP-TAX-010": [],
+  "APP-TAX-020": [],
+  "APP-TAX-030": [],
+  "APP-TAX-040": [],
+  "APP-TAX-050": [],
+  "APP-TRX-010": [],
+  "APP-TRX-020": [],
+  "APP-TRX-030": [],
+  "APP-TRX-040": [],
+  "APP-TRX-050": [],
+  "APP-TRX-060": [],
+  "APP-TRX-070": [],
+  "APP-VCH-010": [],
+  "APP-VCH-020": [],
+  "APP-VCH-030": [],
+  "APP-VCH-040": [],
   "BO-CNT-010": [
     "BO-CNT-010-ARCHIVE-CONTENT",
     "BO-CNT-010-CHANGE-BODY",

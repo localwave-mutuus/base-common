@@ -50,7 +50,7 @@ def diagnose(c):
         if (s['system'],s['domain']) not in domains: errors.append('missing screen domain: '+s['code'])
         if s['replacement'] and s['replacement'] not in screens: errors.append('missing replacement: '+s['code'])
         if s['status'] not in ('IMPLEMENTED','PLANNED','RETIRED'): errors.append('invalid screen status: '+s['code'])
-        if s['system'] != 'BO': errors.append('reserved system has active screen: '+s['code'])
+        if s['system'] not in ('BO', 'APP'): errors.append('reserved system has active screen: '+s['code'])
     for m in c['menus']:
         if m['target'] not in screens: errors.append('missing menu target: '+m['code'])
         elif screens[m['target']]['system'] != m['system']: errors.append('cross-system menu: '+m['code'])
@@ -77,6 +77,13 @@ def diagnose(c):
     required |= {('BO','ROUTE','/'+i.lower(),version) for i in inv['menuIds']}
     required |= {('BO','INTERNAL_ID',i,version) for i in inv['shellIds']}
     required |= {('BO','ROUTE',s['route'],version) for s in c['screens'] if s['kind']=='SHELL' and s['route']}
+    app = inv.get('app', {})
+    for mapping in app.get('screenMappings', []):
+        if mapping['code'] not in screens:
+            errors.append('missing APP inventory screen: '+mapping['code'])
+        required.add(('APP', 'INTERNAL_ID', mapping['internal_id'], version))
+    for binding in app.get('routeBindings', []):
+        required.add(('APP', 'ROUTE', binding, version))
     available={alias_key(a) for a in c['aliases']}
     missing=sorted(required-available)
     errors += ['missing source alias: '+str(k) for k in missing]
@@ -91,7 +98,7 @@ def diagnose(c):
                       preservedPercent=round(100*covered/len(required),4) if required else 100),
         planned=sum(s['status']=='PLANNED' for s in c['screens']),ambiguous=sorted(ambiguous,key=alias_key),
         measured=dict(registry=len(inv['registryIds']),menuAreas=len({d['legacyMenuKey'] for d in c['domains'] if d['legacyMenuKey']}),
-                      menuItems=len(inv['menuIds']),menuWithGuide=len(c['menus']),sourceUnionWithShell=len(set(inv['registryIds'])|set(inv['menuIds']))+len(inv['shellIds']),standardScreens=len(c['screens'])),
+                      menuItems=len(inv['menuIds']),menuWithGuide=len(c['menus']),sourceUnionWithShell=len(set(inv['registryIds'])|set(inv['menuIds']))+len(inv['shellIds']),standardScreens=len(c['screens']),appScreens=sum(s['system']=='APP' for s in c['screens']),appRoutes=len(app.get('routeBindings', [])),appMenus=sum(m['system']=='APP' for m in c['menus']),appRegisteredAliases=sum(a['system']=='APP' and a['status']=='RESOLVED' for a in c['aliases']),appExcludedAliases=sum(a['system']=='APP' and a['status']=='AMBIGUOUS' for a in c['aliases'])),
         expected=inv['expected'],unconfirmed=['I-10 unique target','menu semantic item identifiers require user review','environment active version and operational grants deferred to B3'])
 
 def js(value):
@@ -149,16 +156,17 @@ def render(c):
     j+='  public static final String CATALOG_VERSION = '+java(version)+';\n  public static final String CATALOG_DIGEST = '+java(dg)+';\n'
     j+='  public static final Map<String,String> SYSTEM_MAPPING = Map.ofEntries('+', '.join('Map.entry('+java(k)+','+java(v)+')' for k,v in sorted(c['systemMapping'].items()))+');\n'
     j+='  public record Alias(String system, String aliasKind, String aliasValue, String version, String target, String status, List<String> candidates) {}\n  public static final List<Alias> ALIASES = List.of(\n'
-    j+=',\n'.join('    new Alias('+', '.join(java(a[k]) for k in ['system','kind','value','version','target','status'])+', List.of('+', '.join(map(java,sorted(a['candidates'])))+'))' for a in c['aliases'])+');\n'
+    j+=',\n'.join('    new Alias('+', '.join(java(a[k]) for k in ['system','kind','value','version','target','status'])+', List.of('+', '.join(map(java,sorted(a['candidates'])))+'))' for a in c['aliases'] if a['system'] != 'APP' or a['status'] == 'RESOLVED')+');\n'
     j+='  public static Optional<String> resolve(String system, String kind, String value, String version) {\n    var matches = ALIASES.stream().filter(a -> a.system().equals(system) && a.aliasKind().equals(kind) && a.aliasValue().equals(value) && a.version().equals(version)).toList();\n    return matches.size() == 1 && matches.get(0).status().equals("RESOLVED") ? Optional.ofNullable(matches.get(0).target()) : Optional.empty();\n  }\n}\n'
     q=render_sql(c)
     diag=diagnose(c)
-    md='# BO 코드 검토 목록\n\n'+header+'\n\n사용자 승인 전 검토안. 메뉴 영문 항목은 설계의 STATUS 패턴을 따른 신규 식별자다.\n\n| 표준 코드 | 이름 | 기존 코드 / 주소 | 상태 | 소유 | 메뉴 |\n|---|---|---|---|---|---|\n'
+    md='# BO·APP 코드 검토 목록\n\n'+header+'\n\n사용자 승인 전 검토안. 메뉴 영문 항목은 설계의 STATUS 패턴을 따른 신규 식별자다.\n\n| 표준 코드 | 이름 | 기존 코드 / 주소 | 상태 | 소유 | 메뉴 |\n|---|---|---|---|---|---|\n'
     def cell(v): return str(v or '—').replace('|','\\|').replace('\n','<br>')
     for s in c['screens']:
         md+='| '+' | '.join(map(cell,[s['code'],s['name'],str(s['businessNumber'] or '—')+' / '+str(s['route'] or '주소 없음'),s['status'],s['owner'],', '.join(m['code'] for m in c['menus'] if m['target']==s['code'])]))+' |\n'
     md+='\n## 진단\n\n```json\n'+js(diag)+'\n```\n\n'+ '\n'.join('- '+note for note in c['inventory']['notes'])+'\n'
-    return {'bo-catalog.ts':ts,'UiCodeAliases.java':j,'catalog.sql':q,'review.md':md,'diagnostics.json':js(dict(catalogVersion=version,catalogDigest=dg,**diag))+'\n'}
+    candidates = '# APP 모호 별칭 후보 (런타임 미등록)\n\n```json\n'+js([a for a in c['aliases'] if a['system']=='APP' and a['status']=='AMBIGUOUS'])+'\n```\n'
+    return {'app-alias-candidates.md':candidates,'bo-catalog.ts':ts,'UiCodeAliases.java':j,'catalog.sql':q,'review.md':md,'diagnostics.json':js(dict(catalogVersion=version,catalogDigest=dg,**diag))+'\n'}
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--catalog',type=Path,default=ROOT/'ui-catalog/catalog.json'); parser.add_argument('--sql-only',action='store_true'); args=parser.parse_args()
@@ -171,7 +179,7 @@ def main():
         return 0
     outputs=render(c)
     for name,content in outputs.items():
-        dest=ROOT/('docs/ui-catalog' if name=='review.md' else 'generated/ui-catalog')/name
+        dest=ROOT/('docs/ui-catalog' if name in ('review.md', 'app-alias-candidates.md') else 'generated/ui-catalog')/name
         dest.write_text(content,encoding='utf-8')
     print(outputs['diagnostics.json'],end=''); return 0
 
