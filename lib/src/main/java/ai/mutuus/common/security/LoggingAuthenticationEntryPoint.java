@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -37,7 +38,12 @@ public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         HandledExceptionMetadata.record(request, authException);
-        accessLogger.authFailure(request.getRequestURI(), authException.getMessage(), authException);
+        String errorCode = SecurityAuditLogger.authenticationErrorCode(authException);
+        if (authException instanceof InsufficientAuthenticationException
+                && request.getHeader("Authorization") == null) {
+            errorCode = "AUTH_TOKEN_MISSING";
+        }
+        accessLogger.authFailure(request.getRequestURI(), authException.getMessage(), authException, errorCode);
         // 토큰 검증 실패(서명/만료/issuer/audience)는 security.jwt.rejected 로 사유를 분류, 그 외(토큰 없음 등)는 authn.failed
         if (authException instanceof OAuth2AuthenticationException oae) {
             OAuth2Error err = oae.getError();
@@ -45,7 +51,7 @@ public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint
                     err.getErrorCode(), err.getDescription(), authException);
         } else {
             securityAuditLogger.authnFailed(request.getRequestURI(), request.getRemoteAddr(),
-                    authException.getMessage(), authException);
+                    authException.getMessage(), authException, errorCode);
         }
         delegate.commence(request, response, authException);
     }

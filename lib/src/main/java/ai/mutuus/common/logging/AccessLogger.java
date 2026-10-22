@@ -6,12 +6,15 @@ import java.util.Set;
 import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.LogFormat;
+import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /** API 생명주기 로그의 canonical 단일 출력. 신원/trace는 실제 OTel Context snapshot에서 공급한다. */
 public class AccessLogger {
+    static final String BUSINESS_CODE_KEY = "__common_business_code";
+    static final Object BUSINESS_CODE = new Object();
     public static final String LOGGER_NAME = "ai.mutuus.common.access";
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
     private static final List<String> CAT_WEB = List.of("web");
@@ -31,7 +34,8 @@ public class AccessLogger {
                 .addKeyValue("url.path", path).addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, Map.copyOf(snapshot));
         if (route != null) event.addKeyValue("http.route", route);
         if (slow) event.addKeyValue("golmok.slow", true);
-        if (hasText(errorCode)) event.addKeyValue("error.code", errorCode);
+        if (hasText(errorCode)) event.addKeyValue("error.code", errorCode)
+                .addKeyValue(BUSINESS_CODE_KEY, BUSINESS_CODE);
         if (snapshot.get("error.type") instanceof String type) event.addKeyValue("error.type", type);
         event.log("http.server.complete");
     }
@@ -81,7 +85,11 @@ public class AccessLogger {
     }
     public void authFailure(String path, String reason) { authFailure(path, reason, null); }
     public void authFailure(String path, String reason, Throwable exception) {
-        var event = failure(EcsFields.DATASET_ACCESS, "auth.failure", path);
+        authFailure(path, reason, exception, SecurityAuditLogger.authenticationErrorCode(exception));
+    }
+    public void authFailure(String path, String reason, Throwable exception, String errorCode) {
+        var event = failure(EcsFields.DATASET_ACCESS, "auth.failure", path)
+                .addKeyValue(EcsFields.ERROR_CODE, errorCode);
         exceptionType(event, exception);
         if (hasText(reason)) event.addKeyValue("golmok.security.reason", reason);
         event.log("Authentication failed");
@@ -98,7 +106,8 @@ public class AccessLogger {
     public void businessError(String errorCode, String path, String detail, Throwable exception) {
         var event = failure(EcsFields.DATASET_ERROR, "error.business", path)
                 .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ERROR)
-                .addKeyValue("error.code", errorCode).addKeyValue("error.message", detail);
+                .addKeyValue("error.code", errorCode).addKeyValue("error.message", detail)
+                .addKeyValue(BUSINESS_CODE_KEY, BUSINESS_CODE);
         exceptionType(event, exception); event.log("Business error");
     }
     public void serverError(String path, Throwable ex) { serverError(path, null, ex); }
