@@ -108,6 +108,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
                 } else { error = "HTTP_500"; forcedStatus = 500; }
             }
             if (forcedStatus != 0) status = forcedStatus;
+            if (error == null && failure == null) error = HandledExceptionMetadata.errorCode(request);
             if (error == null) error = status >= 400 ? "HTTP_" + status : "";
             String exceptionType = failure != null ? failure.getClass().getName() : HandledExceptionMetadata.errorType(request);
             if (exceptionType != null) {
