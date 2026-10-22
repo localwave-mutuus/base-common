@@ -6,6 +6,7 @@ import java.util.Set;
 import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.HeaderNames;
 import ai.mutuus.common.core.LogFormat;
+import ai.mutuus.common.security.audit.SecurityAuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -81,7 +82,11 @@ public class AccessLogger {
     }
     public void authFailure(String path, String reason) { authFailure(path, reason, null); }
     public void authFailure(String path, String reason, Throwable exception) {
-        var event = failure(EcsFields.DATASET_ACCESS, "auth.failure", path);
+        authFailure(path, reason, exception, SecurityAuditLogger.authenticationErrorCode(exception));
+    }
+    public void authFailure(String path, String reason, Throwable exception, String errorCode) {
+        var event = failure(EcsFields.DATASET_ACCESS, "auth.failure", path)
+                .addKeyValue(EcsFields.ERROR_CODE, errorCode);
         exceptionType(event, exception);
         if (hasText(reason)) event.addKeyValue("golmok.security.reason", reason);
         event.log("Authentication failed");

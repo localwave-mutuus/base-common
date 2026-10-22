@@ -1,6 +1,9 @@
 package ai.mutuus.common.security.audit;
 
 import java.util.List;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.jwt.JwtValidationException;
 
 import ai.mutuus.common.core.EcsFields;
 import ai.mutuus.common.core.LogFormat;
@@ -40,8 +43,12 @@ import org.slf4j.spi.LoggingEventBuilder;
     }
     /** 실제 예외가 있는 보안 처리 경로에서 클래스만 추가한다. */
     public void authnFailed(String path, String clientIp, String reason, Throwable exception) {
+        authnFailed(path, clientIp, reason, exception, authenticationErrorCode(exception));
+    }
+    public void authnFailed(String path, String clientIp, String reason, Throwable exception, String errorCode) {
         exceptionType(base(log.atWarn(), "security.authn.failed", "denied", path, clientIp, CAT_AUTH), exception)
                 .addKeyValue("golmok.security.reason", nullToDash(reason))
+                .addKeyValue(EcsFields.ERROR_CODE, errorCode)
                 .log("Authentication failed");
     }
 
@@ -97,7 +104,8 @@ import org.slf4j.spi.LoggingEventBuilder;
      */
     public void propagationBlocked(String targetHost, String droppedHeaders) {
         LoggingEventBuilder ev = base(log.atWarn(), "security.propagation.blocked", "blocked", null, null, CAT_NETWORK);
-        ev.addKeyValue("golmok.security.target_host", nullToDash(targetHost))
+        ev.addKeyValue(EcsFields.ERROR_CODE, "AUTH_PROPAGATION_BLOCKED")
+                .addKeyValue("golmok.security.target_host", nullToDash(targetHost))
                 .addKeyValue("golmok.security.dropped_headers", nullToDash(droppedHeaders))
                 .log("Blocked identity header propagation to untrusted host");
     }
@@ -145,6 +153,21 @@ import org.slf4j.spi.LoggingEventBuilder;
             }
 
         return ev;
+    }
+
+    /** 로그 분류만 수행한다. 일반 메시지는 추측하지 않고 표준 JWT 검증 근거만 사용한다. */
+    public static String authenticationErrorCode(Throwable exception) {
+        if (exception instanceof AuthenticationCredentialsNotFoundException) return "AUTH_TOKEN_MISSING";
+        for (Throwable cause = exception; cause != null; cause = cause.getCause()) {
+            if (cause instanceof JwtValidationException jwt && jwt.getErrors().stream()
+                    .anyMatch(error -> error.getDescription() != null
+                            && error.getDescription().startsWith("Jwt expired at "))) {
+                return "AUTH_TOKEN_EXPIRED";
+            }
+        }
+        if (exception instanceof OAuth2AuthenticationException oauth
+                && "invalid_token".equals(oauth.getError().getErrorCode())) return "AUTH_TOKEN_INVALID";
+        return "AUTHN_FAILED";
     }
 
     private static String nullToDash(String s) {
