@@ -1,0 +1,5 @@
+{
+  "description": "정본 screens 첫 행의 복사본을 추가한다. diagnose는 화면 코드 중복을 거절해야 한다.",
+  "table": "screens",
+  "copyIndex": 0
+}

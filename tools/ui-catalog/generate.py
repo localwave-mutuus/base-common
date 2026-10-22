@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import xml.etree.ElementTree as ET
 from elements import validate as validate_elements
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -169,9 +170,30 @@ def render(c):
     return {'app-alias-candidates.md':candidates,'bo-catalog.ts':ts,'UiCodeAliases.java':j,'catalog.sql':q,'review.md':md,'diagnostics.json':js(dict(catalogVersion=version,catalogDigest=dg,**diag))+'\n'}
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--catalog',type=Path,default=ROOT/'ui-catalog/catalog.json'); parser.add_argument('--sql-only',action='store_true'); args=parser.parse_args()
+    parser=argparse.ArgumentParser(); parser.add_argument('--catalog',type=Path,default=ROOT/'ui-catalog/catalog.json'); parser.add_argument('--sql-only',action='store_true'); parser.add_argument('--check',action='store_true'); args=parser.parse_args()
+    if args.check and args.sql_only:
+        parser.error('--check and --sql-only are mutually exclusive')
     c=json.loads(args.catalog.read_text())
     d=diagnose(c)
+    if args.check:
+        pom=ET.parse(ROOT/'lib/pom.xml').getroot()
+        library_version=pom.findtext('{http://maven.apache.org/POM/4.0.0}version')
+        version_map=json.loads((ROOT/'ui-catalog/version-map.json').read_text())
+        if library_version not in version_map:
+            d['errors'].append(f"라이브러리 버전 대응 없음: {library_version}. 다음 발행 때 ui-catalog/version-map.json에 대응을 한 줄 추가하세요.")
+        elif version_map[library_version] != c['catalogVersion']:
+            d['errors'].append(f"카탈로그 버전 대응 불일치: {library_version} -> {version_map[library_version]} != {c['catalogVersion']}")
+        outputs=render(c)
+        for name,content in outputs.items():
+            dest=ROOT/('docs/ui-catalog' if name in ('review.md', 'app-alias-candidates.md') else 'generated/ui-catalog')/name
+            if not dest.is_file() or dest.read_bytes() != content.encode('utf-8'):
+                d['errors'].append('generated output differs: '+str(dest.relative_to(ROOT)))
+        runtime=ROOT/'lib/src/main/java/ai/mutuus/common/uicatalog/UiCodeAliases.java'
+        if not runtime.is_file() or runtime.read_bytes() != outputs['UiCodeAliases.java'].encode('utf-8'):
+            d['errors'].append('generated runtime Java differs: '+str(runtime.relative_to(ROOT)))
+        print(f"WARNING: {len(d['ambiguous'])} ambiguous/unused alias candidates retained; warning only")
+        print(js(d))
+        return 1 if d['errors'] else 0
     if d['errors']:
         print(js(d)); return 1
     if args.sql_only:
