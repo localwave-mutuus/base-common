@@ -17,11 +17,15 @@ public final class UiCodeResolver {
         return screen(System.getProperty("mutuus.ui.system"), value, version);
     }
     public static Optional<String> screen(String system, String value, String version) {
-        if (!java.util.Set.of("APP","MEM","BO").contains(system == null ? "" : system) || value == null || !UiCodeAliases.CATALOG_VERSION.equals(version)) return Optional.empty();
+        if (!java.util.Set.of("APP","MEM","BO").contains(system == null ? "" : system) || value == null) return Optional.empty();
         if (value.matches(system+"-[A-Z]{3}-[0-9]{3}") && UiCodeAliases.ALIASES.stream().anyMatch(a ->
                 a.system().equals(system) && a.version().equals(version) && a.status().equals("RESOLVED")
                         && value.equals(a.target()))) return Optional.of(value);
         String kind = value.startsWith("/") ? "ROUTE" : value.matches("[A-Z]-[0-9]{2}") ? "BO_ID" : "INTERNAL_ID";
-        return resolve(system, kind, value, version);
+        return resolve(system, kind, value, version)
+                .or(() -> safeIdentifier(value) ? Optional.of(value) : Optional.empty());
+    }
+    static boolean safeIdentifier(String value) {
+        return value != null && value.matches("[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}");
     }
 }
