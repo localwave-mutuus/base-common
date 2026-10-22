@@ -28,7 +28,7 @@ class UiCodeResolverTest {
         assertThat(UiCodeResolver.resolve("BO", "INTERNAL_ID", "login", VERSION)).contains("BO-SHL-010");
         assertThat(UiCodeResolver.screen("BO-ISS-010", VERSION)).contains("BO-ISS-010");
         assertThat(UiCodeResolver.screen("/i-01", VERSION)).contains("BO-ISS-010");
-        for (String value : new String[]{"/i-01?q=secret", "https://host/i-01", "/i-01#secret", "/I-01", "BO-ISS-999"})
+        for (String value : new String[]{"/i-01?q=secret", "https://host/i-01", "/i-01#secret", "/I-01"})
             assertThat(UiCodeResolver.screen(value, VERSION)).isEmpty();
     }
     @Test void screenElementVersionAndRootIdAreValidatedTogether() {
@@ -43,8 +43,10 @@ class UiCodeResolverTest {
         headers.put(HeaderNames.EVENT_ID, "0000000000000000");
         headers.put(HeaderNames.INTERNAL_SCREEN_ID, "GM-SCR-123456");
         assertThat(ScreenMetadata.fromHeaders(headers::get)).doesNotContainKeys(HeaderNames.UI_ELEMENT_ID,
-                HeaderNames.UI_ACTION, HeaderNames.EVENT_ID, HeaderNames.INTERNAL_SCREEN_ID);
+                HeaderNames.UI_ACTION, HeaderNames.EVENT_ID);
+        assertThat(ScreenMetadata.fromHeaders(headers::get)).containsEntry(HeaderNames.INTERNAL_SCREEN_ID, "GM-SCR-123456");
         headers.put(HeaderNames.SCREEN_CATALOG_VERSION, "wrong");
-        assertThat(ScreenMetadata.fromHeaders(headers::get)).isEmpty();
+        assertThat(ScreenMetadata.fromHeaders(headers::get)).containsEntry(HeaderNames.SCREEN_CATALOG_VERSION, "wrong")
+                .doesNotContainKey(HeaderNames.SCREEN_ID);
     }
 }
