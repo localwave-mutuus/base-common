@@ -7,6 +7,8 @@ import ai.mutuus.common.core.TraceContext;
 
 /** 업무 결과 전용 writer. 자동구성 빈은 현재 TX 완료까지 기다리며 순수 생성자는 no-TX 전용이다. */
 public final class ActionLogger {
+    static final String VALIDATED_ACTION_KEY = "__common_validated_action";
+    static final Object VALIDATED_ACTION = new Object();
     public static final String LOGGER_NAME = "ai.mutuus.common.action";
     private final ActionCompletionHandler completion;
 
@@ -113,7 +115,8 @@ public final class ActionLogger {
     private void write(ActionRecord record, java.util.Map<String, Object> snapshot) {
         var log = LoggerFactory.getLogger(LOGGER_NAME);
         var event = record.outcome() == ActionRecord.Outcome.SUCCESS ? log.atInfo() : log.atWarn();
-        event.addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, snapshot)
+        event.addKeyValue(VALIDATED_ACTION_KEY, VALIDATED_ACTION)
+                .addKeyValue(CanonicalLogSnapshot.CONTEXT_KEY, snapshot)
                 .addKeyValue("golmok.request.id", record.requestId())
                 .addKeyValue("golmok.actor.id", record.actorId())
                 .addKeyValue("golmok.related_member.ids", record.relatedMemberIds())
