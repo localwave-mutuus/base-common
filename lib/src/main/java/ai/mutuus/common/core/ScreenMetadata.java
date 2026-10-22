@@ -8,8 +8,11 @@ import java.util.function.Function;
 /** Log-only UI contract; invalid hints are omitted without rejecting the request. */
 public final class ScreenMetadata {
     private ScreenMetadata() {}
+    public static final String SCREEN_ALIAS = "X-Screen-Alias";
     public static final Map<String, String> FIELDS = Map.of(
             HeaderNames.SCREEN_ID, "golmok.screen.id",
+            HeaderNames.INTERNAL_SCREEN_ID, "golmok.screen.internal_id",
+            SCREEN_ALIAS, "golmok.screen.alias",
             HeaderNames.SCREEN_CATALOG_VERSION, "golmok.screen.catalog_version",
             HeaderNames.BUSINESS_SCREEN_NO, "golmok.screen.business_no",
             HeaderNames.UI_ELEMENT_ID, "golmok.ui.element.id",
@@ -24,14 +27,25 @@ public final class ScreenMetadata {
         Map<String, String> values = new LinkedHashMap<>();
         String version = reader.apply(HeaderNames.SCREEN_CATALOG_VERSION);
         String screen = UiCodeResolver.screen(system, reader.apply(HeaderNames.SCREEN_ID), version).orElse(null);
-        if (screen == null) return Map.of();
-        values.put(HeaderNames.SCREEN_ID, screen);
-        values.put(HeaderNames.SCREEN_CATALOG_VERSION, version);
+        if (screen != null) {
+            values.put(HeaderNames.SCREEN_ID, screen);
+            String original = reader.apply(HeaderNames.SCREEN_ID);
+            if (!screen.equals(original)) values.put(SCREEN_ALIAS, original);
+            else {
+                String alias = reader.apply(SCREEN_ALIAS);
+                if (alias != null && !alias.equals(screen)
+                        && UiCodeResolver.screen(system, alias, version).filter(screen::equals).isPresent())
+                    values.put(SCREEN_ALIAS, alias);
+            }
+        }
+        if (UiCodeResolver.safeIdentifier(version)) values.put(HeaderNames.SCREEN_CATALOG_VERSION, version);
+        String internal = reader.apply(HeaderNames.INTERNAL_SCREEN_ID);
+        if (UiCodeResolver.safeIdentifier(internal)) values.put(HeaderNames.INTERNAL_SCREEN_ID, internal);
         String business = reader.apply(HeaderNames.BUSINESS_SCREEN_NO);
         if (business != null && business.matches("[A-Z]{3}-[0-9]{3}"))
             values.put(HeaderNames.BUSINESS_SCREEN_NO, business);
         String element = reader.apply(HeaderNames.UI_ELEMENT_ID);
-        if (element != null && element.length() <= 64 && element.startsWith(screen + "-")
+        if (screen != null && element != null && element.length() <= 64 && element.startsWith(screen + "-")
                 && element.substring(screen.length() + 1).matches("[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*"))
             values.put(HeaderNames.UI_ELEMENT_ID, element);
         String action = reader.apply(HeaderNames.UI_ACTION);

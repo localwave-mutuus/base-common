@@ -1780,6 +1780,8 @@
     "metadata": false,
     "array": false,
     "mdcInput": false
-}
+},
+{"name": "golmok.screen.internal_id", "type": "keyword", "tier": "conditional", "meaning": "Original internal screen identifier", "scope": ["request", "job"], "sensitivity": "none", "owner": "common", "structuredInput": true, "protected": true, "metadata": false, "array": false, "when": "screen", "mdcInput": false},
+{"name": "golmok.screen.alias", "type": "keyword", "tier": "conditional", "meaning": "Original screen alias before exact catalog resolution", "scope": ["request", "job"], "sensitivity": "none", "owner": "common", "structuredInput": true, "protected": true, "metadata": false, "array": false, "when": "screen", "mdcInput": false}
 ]
 }

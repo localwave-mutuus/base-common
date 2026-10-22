@@ -27,7 +27,7 @@ class ScreenMetadataLoggingTest {
             assertThat(ScreenMetadata.fromHeaders(name -> invalid)).isEmpty();
         }
         assertThat(ScreenMetadata.fromHeaders(Map.of(HeaderNames.BUSINESS_SCREEN_NO, "aaa-123",
-                HeaderNames.INTERNAL_SCREEN_ID, "GM-SCR-12345", HeaderNames.SCREEN_CATALOG_VERSION, "2026-10-05.1 ")::get)).isEmpty();
+                HeaderNames.INTERNAL_SCREEN_ID, "GM-SCR-12345", HeaderNames.SCREEN_CATALOG_VERSION, "2026-10-05.1 ")::get)).containsOnlyKeys(HeaderNames.INTERNAL_SCREEN_ID);
     }
 
     @Test void trace_문맥은_구형_헤더와_신규_세개를_보존하고_종료후_정리한다() throws Exception {
