@@ -98,8 +98,11 @@ public final class CanonicalLogSnapshot {
         boolean validatedAction = event.getKeyValuePairs() != null && event.getKeyValuePairs().stream()
                 .anyMatch(pair -> ActionLogger.VALIDATED_ACTION_KEY.equals(pair.key)
                         && pair.value == ActionLogger.VALIDATED_ACTION);
+        boolean businessCode = event.getKeyValuePairs() != null && event.getKeyValuePairs().stream()
+                .anyMatch(pair -> AccessLogger.BUSINESS_CODE_KEY.equals(pair.key)
+                        && pair.value == AccessLogger.BUSINESS_CODE);
         Object code=flat.get("error.code");
-        if(code!=null && !(code instanceof String text && (text.isEmpty() || (validatedAction && text.matches("[A-Z][A-Z0-9_]{0,79}")) || text.matches("HTTP_[1-5][0-9]{2}|SERVICE_(FAILED|CANCELLED|SCOPE_UNFINISHED)|JOB_(FAILED|CANCELLED|SCOPE_UNFINISHED)|HTTP_(IO_ERROR|TIMEOUT|CANCELLED|CONNECT_ERROR)|CLIENT_DISCONNECTED|ENVELOPE_(INVALID|MISSING|OWNER_MISMATCH)|AUTH_TOKEN_MISSING|AUTH_TOKEN_INVALID|AUTH_TOKEN_EXPIRED|AUTHN_FAILED|AUTH_PROPAGATION_BLOCKED|OFF|NO_CLAIM|CLAIM_FAILED"))))
+        if(code!=null && !(code instanceof String text && (text.isEmpty() || (businessCode && text.matches("[A-Za-z0-9_.:-]{1,128}")) || (validatedAction && text.matches("[A-Z][A-Z0-9_]{0,79}")) || text.matches("HTTP_[1-5][0-9]{2}|SERVICE_(FAILED|CANCELLED|SCOPE_UNFINISHED)|JOB_(FAILED|CANCELLED|SCOPE_UNFINISHED)|HTTP_(IO_ERROR|TIMEOUT|CANCELLED|CONNECT_ERROR)|CLIENT_DISCONNECTED|ENVELOPE_(INVALID|MISSING|OWNER_MISMATCH)|AUTH_TOKEN_MISSING|AUTH_TOKEN_INVALID|AUTH_TOKEN_EXPIRED|AUTHN_FAILED|AUTH_PROPAGATION_BLOCKED|OFF|NO_CLAIM|CLAIM_FAILED"))))
             flat.put("error.code","OPERATION_FAILED");
         Object exceptionClass=flat.get("error.type");
         if(exceptionClass!=null && !(exceptionClass instanceof String text && text.length()<=256 && text.matches("(?:[A-Za-z_$][A-Za-z0-9_$]*\\.)+[A-Za-z_$][A-Za-z0-9_$]*")))flat.remove("error.type");
