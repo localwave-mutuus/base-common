@@ -9,6 +9,6 @@ class UiRootSpanContractTest {
   assertTrue(ScreenMetadata.fromHeaders((String)null,h::get).isEmpty());
   assertEquals("1234567890abcdef",ScreenMetadata.fromHeaders("BO",h::get).get(HeaderNames.EVENT_ID));
   for(String invalid:List.of("0000000000000000","ABCDEF1234567890","1234567890abcdef1234567890abcdef",UUID.randomUUID().toString())){h.put(HeaderNames.EVENT_ID,invalid);assertFalse(ScreenMetadata.fromHeaders("BO",h::get).containsKey(HeaderNames.EVENT_ID));}
-  h.put(HeaderNames.SCREEN_CATALOG_VERSION,"wrong");assertTrue(ScreenMetadata.fromHeaders("BO",h::get).isEmpty());
+  h.put(HeaderNames.SCREEN_CATALOG_VERSION,"wrong");assertEquals(alias.target(),ScreenMetadata.fromHeaders("BO",h::get).get(HeaderNames.SCREEN_ID));
  }
 }
