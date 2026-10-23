@@ -2,6 +2,10 @@
 
 이 디렉터리의 정본 문서 기준이다. 새 안내를 추가할 때는 아래 문서 중 하나를 갱신하거나, 새 문서를 추가한 뒤 이 색인에 연결한다.
 
+## 소비 개발자 시작
+
+[common-platform 0.6.9 온보딩 묶음](onboarding/README.md): 계정·settings·받기·적용·시험·업그레이드·문제 해결과 9개 주제별 요약, [전달 zip](onboarding/dist/common-platform-onboarding-0.6.9.zip).
+
 ## 현재 기준
 
 | 주제 | 정본 |
