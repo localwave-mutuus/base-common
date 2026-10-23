@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+  <servers>
+    <server>
+      <id>github-common-platform</id>
+      <username>${env.GS_MAVEN_READ_USER}</username>
+      <password>${env.GS_MAVEN_READ_TOKEN}</password>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <id>gs-common-read</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+          <id>github-common-platform</id>
+          <url>https://maven.pkg.github.com/localwave-mutuus/base-common</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <activeProfiles><activeProfile>gs-common-read</activeProfile></activeProfiles>
+</settings>
