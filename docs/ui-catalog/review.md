@@ -1,6 +1,6 @@
 # BO·APP 코드 검토 목록
 
-GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4
+GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d
 
 사용자 승인 전 검토안. 메뉴 영문 항목은 설계의 STATUS 패턴을 따른 신규 식별자다.
 
@@ -215,6 +215,7 @@ GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3d
 | BO-SYS-070 | 업체 정보 보완 | Y-60 / /y-60 | IMPLEMENTED | A10 | BO-MENU-SYS-BUSINESS-ENRICH |
 | BO-SYS-080 | 매장 메뉴 등록 | Y-70 / /y-70 | IMPLEMENTED | A10 | BO-MENU-SYS-STORE-MENU |
 | BO-SYS-090 | 서비스 기록 파일 | Y-80 / /y-80 | IMPLEMENTED | A10 | BO-MENU-SYS-LOGS |
+| BO-SYS-100 | 추적 대상 사용자 | Y-90 / /y-90 | PLANNED | A10 | BO-MENU-SYS-TRACE-USERS |
 | BO-TAX-010 | 정산·세금 현황 | X-01 / /x-01 | IMPLEMENTED | A09 | BO-MENU-TAX-STATUS |
 | BO-TAX-020 | 세금계산서 목록 | X-10 / /x-10 | IMPLEMENTED | A09 | BO-MENU-TAX-INVOICES |
 | BO-TAX-030 | 세금계산서 내역 | X-11 / /x-11 | IMPLEMENTED | A09 | BO-MENU-TAX-INVOICE |
@@ -1027,12 +1028,12 @@ GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3d
     "appScreens": 156,
     "menuAreas": 12,
     "menuItems": 72,
-    "menuWithGuide": 106,
+    "menuWithGuide": 107,
     "registry": 69,
     "sourceUnionWithShell": 76,
-    "standardScreens": 231
+    "standardScreens": 232
   },
-  "planned": 22,
+  "planned": 23,
   "unconfirmed": [
     "I-10 unique target",
     "menu semantic item identifiers require user review",

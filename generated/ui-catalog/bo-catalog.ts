@@ -1,6 +1,6 @@
-// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4
+// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d
 export const CATALOG_VERSION = "1.0.0-ui.9" as const;
-export const CATALOG_DIGEST = "57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4" as const;
+export const CATALOG_DIGEST = "816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d" as const;
 export const SCREENS = [
   {
     "businessNumber": "ADM-010",
@@ -3138,6 +3138,21 @@ export const SCREENS = [
     "system": "BO"
   },
   {
+    "businessNumber": "Y-90",
+    "code": "BO-SYS-100",
+    "domain": "SYS",
+    "implementation": null,
+    "introducedVersion": "1.0.0-ui.9",
+    "kind": "SCREEN",
+    "name": "추적 대상 사용자",
+    "owner": "A10",
+    "replacement": null,
+    "retiredVersion": null,
+    "route": "/y-90",
+    "status": "PLANNED",
+    "system": "BO"
+  },
+  {
     "businessNumber": "X-01",
     "code": "BO-TAX-010",
     "domain": "TAX",
@@ -4308,6 +4323,16 @@ export const MENUS = [
     "status": "IMPLEMENTED",
     "system": "BO",
     "target": "BO-SYS-080"
+  },
+  {
+    "code": "BO-MENU-SYS-TRACE-USERS",
+    "domain": "SYS",
+    "name": "추적 대상 사용자",
+    "order": 100,
+    "parent": null,
+    "status": "PLANNED",
+    "system": "BO",
+    "target": "BO-SYS-100"
   },
   {
     "code": "BO-MENU-TAX-ADJUSTMENT",
@@ -11265,6 +11290,17 @@ export const ALIASES = [
     "version": "1.0.0-ui.9"
   },
   {
+    "candidates": [
+      "BO-SYS-100"
+    ],
+    "kind": "BO_ID",
+    "status": "RESOLVED",
+    "system": "BO",
+    "target": "BO-SYS-100",
+    "value": "Y-90",
+    "version": "1.0.0-ui.9"
+  },
+  {
     "candidates": [],
     "kind": "BO_ID",
     "status": "RESOLVED",
@@ -11968,6 +12004,17 @@ export const ALIASES = [
     "system": "BO",
     "target": "BO-SYS-090",
     "value": "/y-80",
+    "version": "1.0.0-ui.9"
+  },
+  {
+    "candidates": [
+      "BO-SYS-100"
+    ],
+    "kind": "ROUTE",
+    "status": "RESOLVED",
+    "system": "BO",
+    "target": "BO-SYS-100",
+    "value": "/y-90",
     "version": "1.0.0-ui.9"
   },
   {
@@ -19768,6 +19815,121 @@ export const ELEMENTS = [
     "sourceScreen": "Y-80"
   },
   {
+    "actionToken": "add",
+    "behavior": {
+      "gate": "예약: J27 구현 시 확정",
+      "kind": "예약",
+      "label": "추가",
+      "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+      "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3",
+      "trigger": "예약: J27 구현 시 확정"
+    },
+    "code": "BO-SYS-100-ADD",
+    "evidence": {
+      "path": "ui-catalog/inputs/sys-confirmed.json",
+      "repository": "base-common",
+      "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352"
+    },
+    "introducedVersion": "1.0.0-ui.9",
+    "locator": "RESERVED: Y-90 추가; J27 구현 시 실제 locator 확정",
+    "rawRole": "Y-90.add",
+    "role": "ADD",
+    "screen": "BO-SYS-100",
+    "sourceScreen": "Y-90"
+  },
+  {
+    "actionToken": "change-history",
+    "behavior": {
+      "gate": "예약: J27 구현 시 확정",
+      "kind": "예약",
+      "label": "변경 이력",
+      "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+      "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3",
+      "trigger": "예약: J27 구현 시 확정"
+    },
+    "code": "BO-SYS-100-CHANGE-HISTORY",
+    "evidence": {
+      "path": "ui-catalog/inputs/sys-confirmed.json",
+      "repository": "base-common",
+      "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352"
+    },
+    "introducedVersion": "1.0.0-ui.9",
+    "locator": "RESERVED: Y-90 변경 이력; J27 구현 시 실제 locator 확정",
+    "rawRole": "Y-90.change-history",
+    "role": "CHANGE-HISTORY",
+    "screen": "BO-SYS-100",
+    "sourceScreen": "Y-90"
+  },
+  {
+    "actionToken": "extend",
+    "behavior": {
+      "gate": "예약: J27 구현 시 확정",
+      "kind": "예약",
+      "label": "연장",
+      "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+      "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3",
+      "trigger": "예약: J27 구현 시 확정"
+    },
+    "code": "BO-SYS-100-EXTEND",
+    "evidence": {
+      "path": "ui-catalog/inputs/sys-confirmed.json",
+      "repository": "base-common",
+      "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352"
+    },
+    "introducedVersion": "1.0.0-ui.9",
+    "locator": "RESERVED: Y-90 연장; J27 구현 시 실제 locator 확정",
+    "rawRole": "Y-90.extend",
+    "role": "EXTEND",
+    "screen": "BO-SYS-100",
+    "sourceScreen": "Y-90"
+  },
+  {
+    "actionToken": "list",
+    "behavior": {
+      "gate": "예약: J27 구현 시 확정",
+      "kind": "예약",
+      "label": "목록",
+      "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+      "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3",
+      "trigger": "예약: J27 구현 시 확정"
+    },
+    "code": "BO-SYS-100-LIST",
+    "evidence": {
+      "path": "ui-catalog/inputs/sys-confirmed.json",
+      "repository": "base-common",
+      "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352"
+    },
+    "introducedVersion": "1.0.0-ui.9",
+    "locator": "RESERVED: Y-90 목록; J27 구현 시 실제 locator 확정",
+    "rawRole": "Y-90.list",
+    "role": "LIST",
+    "screen": "BO-SYS-100",
+    "sourceScreen": "Y-90"
+  },
+  {
+    "actionToken": "release",
+    "behavior": {
+      "gate": "예약: J27 구현 시 확정",
+      "kind": "예약",
+      "label": "해제",
+      "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+      "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3",
+      "trigger": "예약: J27 구현 시 확정"
+    },
+    "code": "BO-SYS-100-RELEASE",
+    "evidence": {
+      "path": "ui-catalog/inputs/sys-confirmed.json",
+      "repository": "base-common",
+      "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352"
+    },
+    "introducedVersion": "1.0.0-ui.9",
+    "locator": "RESERVED: Y-90 해제; J27 구현 시 실제 locator 확정",
+    "rawRole": "Y-90.release",
+    "role": "RELEASE",
+    "screen": "BO-SYS-100",
+    "sourceScreen": "Y-90"
+  },
+  {
     "actionToken": "open-account-comparison",
     "code": "BO-TAX-010-OPEN-ACCOUNT-COMPARISON",
     "evidence": {
@@ -20454,6 +20616,7 @@ export const SCREEN_CODES = {
   "BO-SYS-070": "BO-SYS-070",
   "BO-SYS-080": "BO-SYS-080",
   "BO-SYS-090": "BO-SYS-090",
+  "BO-SYS-100": "BO-SYS-100",
   "BO-TAX-010": "BO-TAX-010",
   "BO-TAX-020": "BO-TAX-020",
   "BO-TAX-030": "BO-TAX-030",
@@ -20562,6 +20725,7 @@ export const MENU_CODES = {
   "BO-MENU-SYS-STATUS": "BO-MENU-SYS-STATUS",
   "BO-MENU-SYS-STORAGE": "BO-MENU-SYS-STORAGE",
   "BO-MENU-SYS-STORE-MENU": "BO-MENU-SYS-STORE-MENU",
+  "BO-MENU-SYS-TRACE-USERS": "BO-MENU-SYS-TRACE-USERS",
   "BO-MENU-TAX-ADJUSTMENT": "BO-MENU-TAX-ADJUSTMENT",
   "BO-MENU-TAX-BALANCE": "BO-MENU-TAX-BALANCE",
   "BO-MENU-TAX-INVOICE": "BO-MENU-TAX-INVOICE",
@@ -20899,6 +21063,11 @@ export const ELEMENT_CODES = {
   "BO-SYS-090-SELECT-USER-TYPE": "BO-SYS-090-SELECT-USER-TYPE",
   "BO-SYS-090-SET-TRACE-WINDOW": "BO-SYS-090-SET-TRACE-WINDOW",
   "BO-SYS-090-TOGGLE-HIT-IDENTIFIERS": "BO-SYS-090-TOGGLE-HIT-IDENTIFIERS",
+  "BO-SYS-100-ADD": "BO-SYS-100-ADD",
+  "BO-SYS-100-CHANGE-HISTORY": "BO-SYS-100-CHANGE-HISTORY",
+  "BO-SYS-100-EXTEND": "BO-SYS-100-EXTEND",
+  "BO-SYS-100-LIST": "BO-SYS-100-LIST",
+  "BO-SYS-100-RELEASE": "BO-SYS-100-RELEASE",
   "BO-TAX-010-OPEN-ACCOUNT-COMPARISON": "BO-TAX-010-OPEN-ACCOUNT-COMPARISON",
   "BO-TAX-010-OPEN-CROSS-COMPARISON": "BO-TAX-010-OPEN-CROSS-COMPARISON",
   "BO-TAX-010-OPEN-TAX-LIST": "BO-TAX-010-OPEN-TAX-LIST",
@@ -21467,6 +21636,13 @@ export const SCREEN_ELEMENTS = {
     "BO-SYS-090-SELECT-USER-TYPE",
     "BO-SYS-090-SET-TRACE-WINDOW",
     "BO-SYS-090-TOGGLE-HIT-IDENTIFIERS"
+  ],
+  "BO-SYS-100": [
+    "BO-SYS-100-ADD",
+    "BO-SYS-100-CHANGE-HISTORY",
+    "BO-SYS-100-EXTEND",
+    "BO-SYS-100-LIST",
+    "BO-SYS-100-RELEASE"
   ],
   "BO-TAX-010": [
     "BO-TAX-010-OPEN-ACCOUNT-COMPARISON",
