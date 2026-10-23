@@ -1,7 +1,33 @@
 # 개발자 PC common-platform 0.6.9 온보딩
 
 REQ-261023-02 · AC-23-T1-J1 · 기준 base-common `7325911`.
-이 묶음은 패키지 받기·로컬 빌드/시험·업그레이드 안내다. GitLab 시험과 권한·결과 경로는 A06 회신을 반영한 [gitlab-ci-server-test.md](gitlab-ci-server-test.md)를 따른다. 배포용 zip은 이 디렉터리와 같은 파일을 포함한다.
+이 묶음은 패키지 받기·로컬 빌드/시험·업그레이드 안내다. GitLab 시험과 권한·결과 경로는 A06 회신을 반영한 [gitlab-ci-server-test.md](gitlab-ci-server-test.md)를 따른다. 현재 전달본은 [common-platform-onboarding-0.6.9.zip](dist/common-platform-onboarding-0.6.9.zip)이다. dist를 제외한 onboarding 전체를 포함한다.
+
+## 시작 순서
+
+1. 계정·토큰: 아래 준비와 권한을 확인한다.
+2. settings: PC별 설정의 환경변수와 [템플릿](settings.xml.template)을 준비한다.
+3. 0.6.9 받기 확인: 아래 OS별 스크립트로 POM 수신을 확인한다.
+4. 공통모듈 적용: [스타터·BOM](usage/02-starters-bom.md)부터 적용한다.
+5. 로컬·GitLab 서버 시험: 아래 제품 빌드와 [서버 시험 안내](gitlab-ci-server-test.md)를 따른다.
+6. 이후 업그레이드: [판 변경·캐시·되돌리기](upgrade.md)를 따른다.
+7. 문제 해결: [오류 대처](troubleshooting.md)를 따른다.
+
+## 사용법 요약
+
+각 문서는 언제 쓰나·의존 아티팩트·설정 키·최소 예제·확인 방법과 정본 링크를 담는다.
+
+- [전체 개요·기존 온보딩](usage/01-overview.md)
+- [스타터·BOM](usage/02-starters-bom.md)
+- [API 응답](usage/03-api-response.md)
+- [로그 형식·로깅](usage/04-logging.md)
+- [추적 상관키](usage/05-tracing.md)
+- [오류 코드·업무 error.code](usage/06-error-codes.md)
+- [화면·요소 코드·ui-catalog](usage/07-ui-catalog.md)
+- [멱등성](usage/08-idempotency.md)
+- [GitHub Packages 소비](usage/09-github-packages.md)
+
+요약의 정본 링크는 저장소의 docs 기준 상대 경로다. zip 단독으로 받기·설정·시험 안내와 요약을 읽을 수 있으나 정본 전문은 같은 revision의 저장소를 함께 받아 docs/onboarding 위치에서 열어야 한다. 정본의 과거 판·게시처·로그 예시는 당시 기록이며 이번 받기 기준은 0.6.9와 GitHub Packages다. [J1 확인 기록](verification.md)은 과거 결과이며 이번 재실행 결과가 아니다.
 
 ## 준비와 권한
 
@@ -38,6 +64,10 @@ finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr) }
 PowerShell 스크립트 실행 정책이 제한되면 조직 승인 방법을 사용한다. 시스템 정책을 변경하지 않는다. 환경변수는 현재 프로세스와 자식 Maven에만 전달하며 세션 종료 시 제거한다. Bash는 `unset GS_MAVEN_READ_USER GS_MAVEN_READ_TOKEN`, PowerShell은 `Remove-Item Env:GS_MAVEN_READ_USER, Env:GS_MAVEN_READ_TOKEN`을 사용한다.
 
 두 확인 스크립트는 동일한 Maven 좌표 `ai.mutuus.common:common-platform:0.6.9:pom`을 새 임시 저장소에 받는다. 기존 캐시가 성공처럼 보이는 것을 방지하며 종료 시 임시 저장소와 비출력 로그를 삭제한다. Maven 플러그인 받기를 위해 Maven Central 접속도 필요하다. PASS는 POM 수신만 뜻하며 JAR·전이 의존성·빌드·서버 동작을 보장하지 않는다.
+
+## 공통모듈 적용
+
+[스타터·BOM 요약](usage/02-starters-bom.md)의 BOM import와 용도에 맞는 스타터를 소비 서비스에 추가한다. 적용 후 API·로그·추적 등 필요한 주제 요약을 순서대로 확인한다.
 
 ## 제품 빌드와 로컬 시험
 
