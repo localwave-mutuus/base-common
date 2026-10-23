@@ -1,4 +1,4 @@
-// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4
+// GENERATED — DO NOT EDIT. catalogVersion=1.0.0-ui.9; catalogDigest=sha256:816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d
 package ai.mutuus.common.uicatalog;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Optional;
 public final class UiCodeAliases {
   private UiCodeAliases() {}
   public static final String CATALOG_VERSION = "1.0.0-ui.9";
-  public static final String CATALOG_DIGEST = "57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4";
+  public static final String CATALOG_DIGEST = "816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d";
   public static final Map<String,String> SYSTEM_MAPPING = Map.ofEntries(Map.entry("APP","APP"), Map.entry("BACKOFFICE","BO"), Map.entry("BATCH","BAT"), Map.entry("MEMBER","APP"));
   public record Alias(String system, String aliasKind, String aliasValue, String version, String target, String status, List<String> candidates) {}
   public static final List<Alias> ALIASES = List.of(
@@ -677,6 +677,7 @@ public final class UiCodeAliases {
     new Alias("BO", "BO_ID", "Y-60", "1.0.0-ui.9", "BO-SYS-070", "RESOLVED", List.of()),
     new Alias("BO", "BO_ID", "Y-70", "1.0.0-ui.9", "BO-SYS-080", "RESOLVED", List.of()),
     new Alias("BO", "BO_ID", "Y-80", "1.0.0-ui.9", "BO-SYS-090", "RESOLVED", List.of()),
+    new Alias("BO", "BO_ID", "Y-90", "1.0.0-ui.9", "BO-SYS-100", "RESOLVED", List.of("BO-SYS-100")),
     new Alias("BO", "BO_ID", "Z-01", "1.0.0-ui.9", "BO-SEC-010", "RESOLVED", List.of()),
     new Alias("BO", "BO_ID", "Z-02", "1.0.0-ui.9", "BO-SEC-020", "RESOLVED", List.of()),
     new Alias("BO", "BO_ID", "Z-10", "1.0.0-ui.9", "BO-SEC-030", "RESOLVED", List.of()),
@@ -755,6 +756,7 @@ public final class UiCodeAliases {
     new Alias("BO", "ROUTE", "/y-60", "1.0.0-ui.9", "BO-SYS-070", "RESOLVED", List.of()),
     new Alias("BO", "ROUTE", "/y-70", "1.0.0-ui.9", "BO-SYS-080", "RESOLVED", List.of()),
     new Alias("BO", "ROUTE", "/y-80", "1.0.0-ui.9", "BO-SYS-090", "RESOLVED", List.of()),
+    new Alias("BO", "ROUTE", "/y-90", "1.0.0-ui.9", "BO-SYS-100", "RESOLVED", List.of("BO-SYS-100")),
     new Alias("BO", "ROUTE", "/z-01", "1.0.0-ui.9", "BO-SEC-010", "RESOLVED", List.of()),
     new Alias("BO", "ROUTE", "/z-02", "1.0.0-ui.9", "BO-SEC-020", "RESOLVED", List.of()),
     new Alias("BO", "ROUTE", "/z-10", "1.0.0-ui.9", "BO-SEC-030", "RESOLVED", List.of()),

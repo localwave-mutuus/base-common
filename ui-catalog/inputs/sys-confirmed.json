@@ -2991,6 +2991,111 @@
         "notes": "전용",
         "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
       }
+    },
+    {
+      "screen": "BO-SYS-100",
+      "sourceScreen": "Y-90",
+      "rawRole": "Y-90.list",
+      "actionToken": "list",
+      "role": "LIST",
+      "locator": "RESERVED: Y-90 목록; J27 구현 시 실제 locator 확정",
+      "evidence": {
+        "repository": "base-common",
+        "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352",
+        "path": "ui-catalog/inputs/sys-confirmed.json"
+      },
+      "behavior": {
+        "label": "목록",
+        "trigger": "예약: J27 구현 시 확정",
+        "kind": "예약",
+        "gate": "예약: J27 구현 시 확정",
+        "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-100",
+      "sourceScreen": "Y-90",
+      "rawRole": "Y-90.add",
+      "actionToken": "add",
+      "role": "ADD",
+      "locator": "RESERVED: Y-90 추가; J27 구현 시 실제 locator 확정",
+      "evidence": {
+        "repository": "base-common",
+        "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352",
+        "path": "ui-catalog/inputs/sys-confirmed.json"
+      },
+      "behavior": {
+        "label": "추가",
+        "trigger": "예약: J27 구현 시 확정",
+        "kind": "예약",
+        "gate": "예약: J27 구현 시 확정",
+        "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-100",
+      "sourceScreen": "Y-90",
+      "rawRole": "Y-90.extend",
+      "actionToken": "extend",
+      "role": "EXTEND",
+      "locator": "RESERVED: Y-90 연장; J27 구현 시 실제 locator 확정",
+      "evidence": {
+        "repository": "base-common",
+        "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352",
+        "path": "ui-catalog/inputs/sys-confirmed.json"
+      },
+      "behavior": {
+        "label": "연장",
+        "trigger": "예약: J27 구현 시 확정",
+        "kind": "예약",
+        "gate": "예약: J27 구현 시 확정",
+        "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-100",
+      "sourceScreen": "Y-90",
+      "rawRole": "Y-90.release",
+      "actionToken": "release",
+      "role": "RELEASE",
+      "locator": "RESERVED: Y-90 해제; J27 구현 시 실제 locator 확정",
+      "evidence": {
+        "repository": "base-common",
+        "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352",
+        "path": "ui-catalog/inputs/sys-confirmed.json"
+      },
+      "behavior": {
+        "label": "해제",
+        "trigger": "예약: J27 구현 시 확정",
+        "kind": "예약",
+        "gate": "예약: J27 구현 시 확정",
+        "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
+    },
+    {
+      "screen": "BO-SYS-100",
+      "sourceScreen": "Y-90",
+      "rawRole": "Y-90.change-history",
+      "actionToken": "change-history",
+      "role": "CHANGE-HISTORY",
+      "locator": "RESERVED: Y-90 변경 이력; J27 구현 시 실제 locator 확정",
+      "evidence": {
+        "repository": "base-common",
+        "revision": "43205f9192bfbecb7f18c3f4140ffb5f384ec352",
+        "path": "ui-catalog/inputs/sys-confirmed.json"
+      },
+      "behavior": {
+        "label": "변경 이력",
+        "trigger": "예약: J27 구현 시 확정",
+        "kind": "예약",
+        "gate": "예약: J27 구현 시 확정",
+        "notes": "REQ-261022-10 코드 예약만 수행. 미구현; productRevision은 기존 SYS 입력 기준 리비전이며 Y-90 구현 증거가 아님.",
+        "productRevision": "ef89e424231bc36ce58fda10825573ed1d177ed3"
+      }
     }
   ]
 }

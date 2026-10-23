@@ -762,7 +762,7 @@
       "version": "1.0.0-ui.9"
     }
   ],
-  "catalogDigest": "57d3de2512f1eab902db683798eab9db8c83b6ad1abbf683dd029a123a80a8f4",
+  "catalogDigest": "816bebf925a58aa11e4df9c3b4aa104303852b551b5fad572115aab6ff5a2e9d",
   "catalogVersion": "1.0.0-ui.9",
   "coverage": {
     "denominator": 444,
@@ -786,12 +786,12 @@
     "appScreens": 156,
     "menuAreas": 12,
     "menuItems": 72,
-    "menuWithGuide": 106,
+    "menuWithGuide": 107,
     "registry": 69,
     "sourceUnionWithShell": 76,
-    "standardScreens": 231
+    "standardScreens": 232
   },
-  "planned": 22,
+  "planned": 23,
   "unconfirmed": [
     "I-10 unique target",
     "menu semantic item identifiers require user review",
