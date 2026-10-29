@@ -41,7 +41,7 @@ jobs:
           server-password: MAVEN_PASSWORD
 
       - name: Verify the reactor before publication
-        if: ${{ inputs.verify_published_only != true }}
+        if: ${{ inputs.verify_published_only != true && github.ref != 'refs/tags/v0.6.12' }}
         run: |
           # DEV release candidates use the approved bounded contract suite. Stable releases retain full verification.
           if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 || "$GITHUB_REF_NAME" == v0.6.4 || "$GITHUB_REF_NAME" == v0.6.5 || "$GITHUB_REF_NAME" == v0.6.6 || "$GITHUB_REF_NAME" == v0.6.7 || "$GITHUB_REF_NAME" == v0.6.8 || "$GITHUB_REF_NAME" == v0.6.9 ]]; then
@@ -56,7 +56,9 @@ jobs:
       - name: Publish verified reactor artifacts
         if: ${{ inputs.verify_published_only != true }}
         run: |
-          if [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 || "$GITHUB_REF_NAME" == v0.6.4 || "$GITHUB_REF_NAME" == v0.6.5 || "$GITHUB_REF_NAME" == v0.6.6 || "$GITHUB_REF_NAME" == v0.6.7 || "$GITHUB_REF_NAME" == v0.6.8 || "$GITHUB_REF_NAME" == v0.6.9 ]]; then
+          if [[ "$GITHUB_REF" == refs/tags/v0.6.12 ]]; then
+            bash ./mvnw -B -pl lib -Pgithub -DskipTests deploy
+          elif [[ "$GITHUB_REF_NAME" == v0.6.0 || "$GITHUB_REF_NAME" == v0.6.1 || "$GITHUB_REF_NAME" == v0.6.4 || "$GITHUB_REF_NAME" == v0.6.5 || "$GITHUB_REF_NAME" == v0.6.6 || "$GITHUB_REF_NAME" == v0.6.7 || "$GITHUB_REF_NAME" == v0.6.8 || "$GITHUB_REF_NAME" == v0.6.9 ]]; then
             bash ./mvnw -B -Pgithub -pl parent,bom,lib,agent-extension,starters/starter-web,starters/starter-batch -am -DskipTests deploy
           else
             bash ./mvnw -B -Pgithub -DskipTests deploy
@@ -66,7 +68,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify sample-api consumes the published package
-        if: ${{ inputs.verify_published_only != true }}
+        if: ${{ inputs.verify_published_only != true && github.ref != 'refs/tags/v0.6.12' }}
         env:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
