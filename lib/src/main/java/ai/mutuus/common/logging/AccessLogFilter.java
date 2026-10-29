@@ -122,7 +122,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
                 boolean slow = props.getSlowRequestThresholdMillis() > 0
                     && done.durationNanos() / 1_000_000 > props.getSlowRequestThresholdMillis();
                 accessLogger.serverComplete(request.getMethod(), route, route, done.status(),
-                    done.durationNanos(), done.errorCode(), slow, done.snapshot());
+                    done.durationNanos(), done.errorCode(), slow, done.snapshot(), failure);
             });
         }
         @Override public void onComplete(AsyncEvent event) { finish(null, 0); }

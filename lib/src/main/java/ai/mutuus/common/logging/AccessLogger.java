@@ -26,6 +26,11 @@ public class AccessLogger {
     /** 보안 scope 종료 전 고정한 문맥으로 요청 완료를 한 번 기록한다. */
     public void serverComplete(String method, String path, String route, int status, long nanos,
                                String errorCode, boolean slow, Map<String, Object> snapshot) {
+        serverComplete(method, path, route, status, nanos, errorCode, slow, snapshot, null);
+    }
+    /** Escaping servlet failures carry diagnostics only while the dev policy is active. */
+    public void serverComplete(String method, String path, String route, int status, long nanos,
+                               String errorCode, boolean slow, Map<String, Object> snapshot, Throwable failure) {
         var event = status >= 500 || slow ? log.atWarn() : log.atInfo();
         dataset(event, EcsFields.DATASET_ACCESS).addKeyValue("event.action", "http.server.complete")
                 .addKeyValue("event.category", CAT_WEB).addKeyValue("event.type", TYPE_ACCESS)
@@ -37,6 +42,7 @@ public class AccessLogger {
         if (hasText(errorCode)) event.addKeyValue("error.code", errorCode)
                 .addKeyValue(BUSINESS_CODE_KEY, BUSINESS_CODE);
         if (snapshot.get("error.type") instanceof String type) event.addKeyValue("error.type", type);
+        if (failure != null && DevExceptionDetailsAutoConfiguration.enabled()) event.setCause(failure);
         event.log("http.server.complete");
     }
     public void requestReceived(String method, String path, String query, String clientIp) {

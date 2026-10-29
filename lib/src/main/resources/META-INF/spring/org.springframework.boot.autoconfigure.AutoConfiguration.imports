@@ -25,3 +25,4 @@ ai.mutuus.common.web.CommonHttpClientObservationAutoConfiguration
 ai.mutuus.common.aop.CommonServiceMethodLoggingAutoConfiguration
 ai.mutuus.common.payload.CommonSafePayloadAutoConfiguration
 ai.mutuus.common.web.CommonTraceKeepAutoConfiguration
+ai.mutuus.common.logging.DevExceptionDetailsAutoConfiguration

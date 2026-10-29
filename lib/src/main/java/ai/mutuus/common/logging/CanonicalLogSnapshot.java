@@ -4,7 +4,6 @@ import ai.mutuus.common.core.VerifiedIdentityContext;
 import ai.mutuus.common.core.TraceContext;
 import ai.mutuus.common.core.HeaderNames;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.spi.ThrowableProxyUtil;
 import io.opentelemetry.api.trace.Span;
 import org.slf4j.event.KeyValuePair;
 
@@ -127,6 +126,7 @@ public final class CanonicalLogSnapshot {
             flat.remove("client.ip");
         }
         RAW_FIELDS.forEach(flat::remove);
+        DevExceptionDetailsAutoConfiguration.capture(event.getThrowableProxy(), flat);
         REGISTRY.validateNames(flat);
         return Collections.unmodifiableMap(flat);
     }
